@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html id="html" data-theme='dark'>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bolls</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/font_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
+  </head>
+
+  <body>
+    <script>
+      {% if text %}
+        window.preloaded_text = {{ text|safe }};
+      {% endif %}
+    </script>
+    <script src="{% static 'bolls/dist/client.js' %}"></script>
+  </body>
+</html>
