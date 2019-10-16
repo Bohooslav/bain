@@ -1,11 +1,11 @@
-import YLT, WLC, UBIO, UKRK, LXX, translations from "./translations_data.imba"
+import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTG, AB, translations from "./translations_data.imba"
 
 let settings = {
   theme: 'dark',
   translation: 'YLT',
-  book: 43,
-  chapter: 18,
-  font: 42,
+  book: 1,
+  chapter: 1,
+  font: 24,
 }
 
 let search = {
@@ -21,35 +21,36 @@ tag App
   prop books
   prop show_chapters_of
   prop show_list_of_translations
-
-
-
-  def setCookie tabs
-    browser.cookies.set({
-      url: tabs[0].url,
-      name: "theme",
-      value: settings:theme
-    })
-
-  def setCookies
-    # document.cookie = ''
-    # var getActive = browser.tabs.query({active: true, currentWindow: true})
-    # getActive.then(setCookie)
-    # console.log 'succsess'
+  prop highlighted_verse
 
   def build
     if window:preloaded_text
       @verses = window:preloaded_text
+      @highlighted_verse = window:highlighted_verse
+      console.log @highlighted_verse
       switch window:preloaded_text[0]:fields:translation
         when "YLT" then @books = YLT
         when "WLC" then @books = WLC
         when "UBIO" then @books = UBIO
         when "UKRK" then @books = UKRK
         when "LXX" then @books = LXX
+        when "SYNOD" then @books = SYNOD
+        when "CUV" then @books = CUV
+        when "NTG" then @books = NTG
+        when "AB" then @books = AB
       settings:translation = window:preloaded_text[0]:fields:translation
       settings:book = window:preloaded_text[0]:fields:book
       settings:chapter = window:preloaded_text[0]:fields:chapter
+      setCookie('translation', settings:translation)
+      setCookie('book', settings:book)
+      setCookie('chapter', settings:chapter)
     else
+      if getCookie('translation')
+        settings:translation = getCookie('translation')
+      if getCookie('book')
+        settings:book = getCookie('book')
+      if getCookie('chapter')
+        settings:chapter = getCookie('chapter')
       @verses = getText(settings:translation, settings:book, settings:chapter)
       switch settings:translation
         when "YLT" then @books = YLT
@@ -57,12 +58,26 @@ tag App
         when "UBIO" then @books = UBIO
         when "UKRK" then @books = UKRK
         when "LXX" then @books = LXX
+        when "SYNOD" then @books = SYNOD
+        when "CUV" then @books = CUV
+        when "NTG" then @books = NTG
+        when "AB" then @books = AB
     @show_chapters_of = 0
     @show_list_of_translations = 0
     @search_verses = {}
-    setCookies()
+    if getCookie('theme')
+      settings:theme = getCookie('theme')
+      let html = document.querySelector('#html')
+      html:dataset:theme = settings:theme
+    if getCookie('font')
+      settings:font = getCookie('font')
 
 
+  def getCookie c_name
+    return window:localStorage.getItem(c_name)
+
+  def setCookie c_name, value, expiredays
+    return window:localStorage.setItem(c_name, value)
 
   def load url
     var res = await window.fetch(url)
@@ -77,6 +92,8 @@ tag App
     @verses = JSON.parse(await load url)
     search:search_div = false
     Imba.commit
+    setCookie('book', book)
+    setCookie('chapter', chapter)
 
   def getSearchText
     let url = "http://127.0.0.1:8000/" + settings:translation + '/' + search:search_input + '/'
@@ -94,14 +111,19 @@ tag App
       when "UBIO" then @books = UBIO
       when "UKRK" then @books = UKRK
       when "LXX" then @books = LXX
+      when "SYNOD" then @books = SYNOD
+      when "CUV" then @books = CUV
+      when "NTG" then @books = NTG
+      when "AB" then @books = AB
 
     if books.find(do |element| return element:bookid == settings:book)
       getText(translation, settings:book, settings:chapter)
     else
-      getText(translation, 1, 1)
-      settings:book = 1
+      getText(translation, books[0]:bookid, 1)
+      settings:book = books[0]:bookid
       settings:chapter = 1
     settings:translation = translation
+    setCookie('translation', translation)
 
   def show_chapters bookid
     if bookid != @show_chapters_of
@@ -143,27 +165,31 @@ tag App
       when 'light'
         html:dataset:theme = 'dark'
         settings:theme = 'dark'
+        setCookie('theme', 'dark')
       when 'dark'
         html:dataset:theme = 'light'
         settings:theme = 'light'
+        setCookie('theme', 'light')
 
   def decreaceFontSize
     if settings:font > 16
-      settings:font-=3
+      settings:font -= 3
+      setCookie('font', settings:font)
 
   def increaceFontSize
     if settings:font < 82
-      settings:font+=3
+      settings:font = parseInt(settings:font) + 3
+      setCookie('font', settings:font)
 
   def closeSearch
     search:search_div = !search:search_div
+
   def more_search_verses
     search:counter += 50
 
 
-
   def render
-    <self :keydown.esc.closeSearch :keydown.right.nextChapter :keydown.left.prewChapter>
+    <self :keydown.esc.closeSearch>
       <div.bible-menu>
         <div.book_name :tap.showListOfTranslations> settings:translation
         <div.translations_list .show_list_of_chapters=@show_list_of_translations>
@@ -176,15 +202,15 @@ tag App
               <div.chapter_number :tap.getText(settings:translation, book:bookid, i+1)> i+1
         <div.freespace>
 
-      <div.text .right_align=(settings:translation=="WLC") style="font-size: {settings:font}px">
+      <div.text .right_align=(settings:translation=="WLC" || settings:translation=="AB") style="font-size: {settings:font}px">
         <h2> nameOfBook(settings:book), ' ', settings:chapter
         <p.text-ident> " "
-        if (settings:translation=="WLC")
+        if (settings:translation=="WLC" || settings:translation=="AB")
           for verse in verses
-            <span.verse> verse:fields:verse
+            <span.verse id=verse:fields:verse> verse:fields:verse
             <span> verse:fields:text
         else for verse in verses
-          <span.verse> verse:fields:verse
+          <span.verse id=verse:fields:verse> verse:fields:verse
           <span> verse:fields:text
       <div.arrows>
         <button.arrow :tap.prewChapter>
@@ -199,7 +225,7 @@ tag App
         <input[search:search_input].search_btn type='text' placeholder='Search' :keydown.enter.getSearchText> "Search"
         <div.nighttheme .theme_checkbox_light=(settings:theme=="light")>
           "Light theme"
-          <div.theme_checkbox :tap.changeTheme('')>
+          <div.theme_checkbox :tap.changeTheme>
             <p>
         <div.font_setting>
           "Font size: "
@@ -217,7 +243,7 @@ tag App
           if search_verses:length
             for verse, key in search_verses
               <span>
-              <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/" target="_blank">
+              <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
                 <div.search_res_verse_text>
                   <span> verse:fields:text
                 <div.search_res_verse_header>

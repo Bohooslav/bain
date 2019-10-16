@@ -1473,6 +1473,863 @@ export const LXX = [
     "chapters": 14
   }
 ]
+export const SYNOD = [
+  {
+      "bookid": 1,
+      "name": "Бытие",
+      "chapters": 50
+  },
+  {
+      "bookid": 2,
+      "name": "Исход",
+      "chapters": 40
+  },
+  {
+      "bookid": 3,
+      "name": "Левит",
+      "chapters": 27
+  },
+  {
+      "bookid": 4,
+      "name": "Числа",
+      "chapters": 36
+  },
+  {
+      "bookid": 5,
+      "name": "Второзаконие",
+      "chapters": 34
+  },
+  {
+      "bookid": 6,
+      "name": "Иисус Навин",
+      "chapters": 24
+  },
+  {
+      "bookid": 7,
+      "name": "Книга Судей",
+      "chapters": 21
+  },
+  {
+      "bookid": 8,
+      "name": "Руфь",
+      "chapters": 4
+  },
+  {
+      "bookid": 9,
+      "name": "1-я Царств",
+      "chapters": 31
+  },
+  {
+      "bookid": 10,
+      "name": "2-я Царств",
+      "chapters": 24
+  },
+  {
+      "bookid": 11,
+      "name": "3-я Царств",
+      "chapters": 22
+  },
+  {
+      "bookid": 12,
+      "name": "4-я Царств",
+      "chapters": 25
+  },
+  {
+      "bookid": 13,
+      "name": "1-я Паралипоменон",
+      "chapters": 29
+  },
+  {
+      "bookid": 14,
+      "name": "2-я Паралипоменон",
+      "chapters": 36
+  },
+  {
+      "bookid": 15,
+      "name": "Ездра",
+      "chapters": 10
+  },
+  {
+      "bookid": 16,
+      "name": "Неемия",
+      "chapters": 13
+  },
+  {
+      "bookid": 17,
+      "name": "Есфирь",
+      "chapters": 10
+  },
+  {
+      "bookid": 18,
+      "name": "Иов",
+      "chapters": 42
+  },
+  {
+      "bookid": 19,
+      "name": "Псалтирь",
+      "chapters": 151
+  },
+  {
+      "bookid": 20,
+      "name": "Притчи",
+      "chapters": 31
+  },
+  {
+      "bookid": 21,
+      "name": "Екклесиаст",
+      "chapters": 12
+  },
+  {
+      "bookid": 22,
+      "name": "Песни Песней",
+      "chapters": 8
+  },
+  {
+      "bookid": 23,
+      "name": "Исаия",
+      "chapters": 66
+  },
+  {
+      "bookid": 24,
+      "name": "Иеремия",
+      "chapters": 52
+  },
+  {
+      "bookid": 25,
+      "name": "Плач Иеремии",
+      "chapters": 5
+  },
+  {
+      "bookid": 26,
+      "name": "Иезекииль",
+      "chapters": 48
+  },
+  {
+      "bookid": 27,
+      "name": "Даниил",
+      "chapters": 14
+  },
+  {
+      "bookid": 28,
+      "name": "Осия",
+      "chapters": 14
+  },
+  {
+      "bookid": 29,
+      "name": "Иоиль",
+      "chapters": 3
+  },
+  {
+      "bookid": 30,
+      "name": "Амос",
+      "chapters": 9
+  },
+  {
+      "bookid": 31,
+      "name": "Авдий",
+      "chapters": 1
+  },
+  {
+      "bookid": 32,
+      "name": "Иона",
+      "chapters": 4
+  },
+  {
+      "bookid": 33,
+      "name": "Михей",
+      "chapters": 7
+  },
+  {
+      "bookid": 34,
+      "name": "Наум",
+      "chapters": 3
+  },
+  {
+      "bookid": 35,
+      "name": "Аввакум",
+      "chapters": 3
+  },
+  {
+      "bookid": 36,
+      "name": "Софония",
+      "chapters": 3
+  },
+  {
+      "bookid": 37,
+      "name": "Аггей",
+      "chapters": 2
+  },
+  {
+      "bookid": 38,
+      "name": "Захария",
+      "chapters": 14
+  },
+  {
+      "bookid": 39,
+      "name": "Малахия",
+      "chapters": 4
+  },
+  {
+      "bookid": 40,
+      "name": "От Матфея",
+      "chapters": 28
+  },
+  {
+      "bookid": 41,
+      "name": "От Марка",
+      "chapters": 16
+  },
+  {
+      "bookid": 42,
+      "name": "От Луки",
+      "chapters": 24
+  },
+  {
+      "bookid": 43,
+      "name": "От Иоанна",
+      "chapters": 21
+  },
+  {
+      "bookid": 44,
+      "name": "Деяния",
+      "chapters": 28
+  },
+  {
+      "bookid": 59,
+      "name": "Иакова",
+      "chapters": 5
+  },
+  {
+      "bookid": 60,
+      "name": "1-е Петра",
+      "chapters": 5
+  },
+  {
+      "bookid": 61,
+      "name": "2-е Петра",
+      "chapters": 3
+  },
+  {
+      "bookid": 62,
+      "name": "1-е Иоанна",
+      "chapters": 5
+  },
+  {
+      "bookid": 63,
+      "name": "2-е Иоанна",
+      "chapters": 1
+  },
+  {
+      "bookid": 64,
+      "name": "3-е Иоанна",
+      "chapters": 1
+  },
+  {
+      "bookid": 65,
+      "name": "Иуда",
+      "chapters": 1
+  },
+  {
+      "bookid": 45,
+      "name": "К Римлянам",
+      "chapters": 16
+  },
+  {
+      "bookid": 46,
+      "name": "1-е Коринфянам",
+      "chapters": 16
+  },
+  {
+      "bookid": 47,
+      "name": "2-е Коринфянам",
+      "chapters": 13
+  },
+  {
+      "bookid": 48,
+      "name": "К Галатам",
+      "chapters": 6
+  },
+  {
+      "bookid": 49,
+      "name": "К Ефесянам",
+      "chapters": 6
+  },
+  {
+      "bookid": 50,
+      "name": "К Филиппийцам",
+      "chapters": 4
+  },
+  {
+      "bookid": 51,
+      "name": "К Колоссянам",
+      "chapters": 4
+  },
+  {
+      "bookid": 52,
+      "name": "1-е Фессалоникийцам",
+      "chapters": 5
+  },
+  {
+      "bookid": 53,
+      "name": "2-е Фессалоникийцам",
+      "chapters": 3
+  },
+  {
+      "bookid": 54,
+      "name": "1-е Тимофею",
+      "chapters": 6
+  },
+  {
+      "bookid": 55,
+      "name": "2-е Тимофею",
+      "chapters": 4
+  },
+  {
+      "bookid": 56,
+      "name": "К Титу",
+      "chapters": 3
+  },
+  {
+      "bookid": 57,
+      "name": "К Филимону",
+      "chapters": 1
+  },
+  {
+      "bookid": 58,
+      "name": "К Евреям",
+      "chapters": 13
+  },
+  {
+      "bookid": 66,
+      "name": "Откровение",
+      "chapters": 22
+  },
+  {
+      "bookid": 67,
+      "name": "2 кн. Ездры",
+      "chapters": 9
+  },
+  {
+      "bookid": 68,
+      "name": "Товит",
+      "chapters": 14
+  },
+  {
+      "bookid": 69,
+      "name": "Иудифь",
+      "chapters": 16
+  },
+  {
+      "bookid": 70,
+      "name": "Премудрость Соломона",
+      "chapters": 19
+  },
+  {
+      "bookid": 71,
+      "name": "Сирах",
+      "chapters": 51
+  },
+  {
+      "bookid": 72,
+      "name": "Послание Иеремии",
+      "chapters": 1
+  },
+  {
+      "bookid": 73,
+      "name": "Варух",
+      "chapters": 5
+  },
+  {
+      "bookid": 74,
+      "name": "1 кн. Маккавейская",
+      "chapters": 16
+  },
+  {
+      "bookid": 75,
+      "name": "2 кн. Маккавейская",
+      "chapters": 15
+  },
+  {
+      "bookid": 76,
+      "name": "3 кн. Маккавейская",
+      "chapters": 7
+  },
+  {
+      "bookid": 77,
+      "name": "3 кн. Ездры",
+      "chapters": 16
+  }
+]
+export const CUV = [
+  {
+    "bookid": 1,
+    "name": "创世记	创",
+    "chapters": 50
+  }
+  {
+    "bookid": 2,
+    "name": "出埃及记",
+    "chapters": 40
+  }
+  {
+    "bookid": 3,
+    "name": "利未记",
+    "chapters": 27
+  }
+  {
+    "bookid": 4,
+    "name": "民数记",
+    "chapters": 36
+  }
+  {
+    "bookid": 5,
+    "name": "申命记",
+    "chapters": 34
+  }
+  {
+    "bookid": 6,
+    "name": "约书亚记",
+    "chapters": 24
+  }
+  {
+    "bookid": 7,
+    "name": "士师记",
+    "chapters": 21
+  }
+  {
+    "bookid": 8,
+    "name": "路得记",
+    "chapters": 4
+  }
+  {
+    "bookid": 9,
+    "name": "撒母耳记上",
+    "chapters": 31
+  }
+  {
+    "bookid": 10,
+    "name": "撒母耳记下",
+    "chapters": 24
+  }
+  {
+    "bookid": 11,
+    "name": "列王纪上",
+    "chapters": 22
+  }
+  {
+    "bookid": 12,
+    "name": "列王纪下",
+    "chapters": 25
+  }
+  {
+    "bookid": 13,
+    "name": "历代志上",
+    "chapters": 29
+  }
+  {
+    "bookid": 14,
+    "name": "历代志下",
+    "chapters": 36
+  }
+  {
+    "bookid": 15,
+    "name": "以斯拉记",
+    "chapters": 10
+  }
+  {
+    "bookid": 16,
+    "name": "尼希米记",
+    "chapters": 13
+  }
+  {
+    "bookid": 17,
+    "name": "以斯帖记",
+    "chapters": 10
+  }
+  {
+    "bookid": 18,
+    "name": "约伯记",
+    "chapters": 42
+  }
+  {
+    "bookid": 19,
+    "name": "诗篇",
+    "chapters": 150
+  }
+  {
+    "bookid": 20,
+    "name": "箴言",
+    "chapters": 31
+  }
+  {
+    "bookid": 21,
+    "name": "传道书",
+    "chapters": 12
+  }
+  {
+    "bookid": 22,
+    "name": "雅歌",
+    "chapters": 8
+  }
+  {
+    "bookid": 23,
+    "name": "以赛亚书",
+    "chapters": 66
+  }
+  {
+    "bookid": 24,
+    "name": "耶利米书",
+    "chapters": 52
+  }
+  {
+    "bookid": 25,
+    "name": "耶利米哀歌",
+    "chapters": 5
+  }
+  {
+    "bookid": 26,
+    "name": "以西结书",
+    "chapters": 48
+  }
+  {
+    "bookid": 27,
+    "name": "但以理书",
+    "chapters": 12
+  }
+  {
+    "bookid": 28,
+    "name": "何西阿书",
+    "chapters": 14
+  }
+  {
+    "bookid": 29,
+    "name": "约珥书",
+    "chapters": 3
+  }
+  {
+    "bookid": 30,
+    "name": "阿摩司书",
+    "chapters": 9
+  }
+  {
+    "bookid": 31,
+    "name": "俄巴底亚书",
+    "chapters": 1
+  }
+  {
+    "bookid": 32,
+    "name": "约拿书",
+    "chapters": 4
+  }
+  {
+    "bookid": 33,
+    "name": "弥迦书",
+    "chapters": 7
+  }
+  {
+    "bookid": 34,
+    "name": "那鸿书",
+    "chapters": 3
+  }
+  {
+    "bookid": 35,
+    "name": "哈巴谷书",
+    "chapters": 3
+  }
+  {
+    "bookid": 36,
+    "name": "西番雅书",
+    "chapters": 3
+  }
+  {
+    "bookid": 37,
+    "name": "哈该书",
+    "chapters": 2
+  }
+  {
+    "bookid": 38,
+    "name": "撒迦利亚书",
+    "chapters": 14
+  }
+  {
+    "bookid": 39,
+    "name": "玛拉基书",
+    "chapters": 4
+  }
+  {
+    "bookid": 40,
+    "name": "马太福音",
+    "chapters": 28
+  }
+  {
+    "bookid": 41,
+    "name": "马可福音",
+    "chapters": 16
+  }
+  {
+    "bookid": 42,
+    "name": "路加福音",
+    "chapters": 24
+  }
+  {
+    "bookid": 43,
+    "name": "约翰福音",
+    "chapters": 21
+  }
+  {
+    "bookid": 44,
+    "name": "使徒行传",
+    "chapters": 28
+  }
+  {
+    "bookid": 45,
+    "name": "罗马书",
+    "chapters": 16
+  }
+  {
+    "bookid": 46,
+    "name": "哥林多前书",
+    "chapters": 16
+  }
+  {
+    "bookid": 47,
+    "name": "哥林多后书",
+    "chapters": 13
+  }
+  {
+    "bookid": 48,
+    "name": "加拉太书",
+    "chapters": 6
+  }
+  {
+    "bookid": 49,
+    "name": "以弗所书",
+    "chapters": 6
+  }
+  {
+    "bookid": 50,
+    "name": "腓立比书",
+    "chapters": 4
+  }
+  {
+    "bookid": 51,
+    "name": "歌罗西书",
+    "chapters": 4
+  }
+  {
+    "bookid": 52,
+    "name": "帖撒罗尼迦前书",
+    "chapters": 5
+  }
+  {
+    "bookid": 53,
+    "name": "帖撒罗尼迦后书",
+    "chapters": 3
+  }
+  {
+    "bookid": 54,
+    "name": "提摩太前书",
+    "chapters": 6
+  }
+  {
+    "bookid": 55,
+    "name": "提摩太后书",
+    "chapters": 4
+  }
+  {
+    "bookid": 56,
+    "name": "提多书",
+    "chapters": 3
+  }
+  {
+    "bookid": 57,
+    "name": "腓利门书",
+    "chapters": 1
+  }
+  {
+    "bookid": 58,
+    "name": "希伯来书",
+    "chapters": 13
+  }
+  {
+    "bookid": 59,
+    "name": "雅各书",
+    "chapters": 5
+  }
+  {
+    "bookid": 60,
+    "name": "彼得前书",
+    "chapters": 5
+  }
+  {
+    "bookid": 61,
+    "name": "彼得后书",
+    "chapters": 3
+  }
+  {
+    "bookid": 62,
+    "name": "约翰一书",
+    "chapters": 5
+  }
+  {
+    "bookid": 63,
+    "name": "约翰二书",
+    "chapters": 1
+  }
+  {
+    "bookid": 64,
+    "name": "约翰三书",
+    "chapters": 1
+  }
+  {
+    "bookid": 65,
+    "name": "犹大书",
+    "chapters": 1
+  }
+  {
+    "bookid": 66,
+    "name": "启示录",
+    "chapters": 22
+  }
+]
+export const NTG = [
+  {
+    "bookid": 40,
+    "name": "ΚΑΤΑ ΜΑΘΘΑΙΟΝ",
+    "chapters": 28
+  }
+  {
+    "bookid": 41,
+    "name": "ΚΑΤΑ ΜΑΡΚΟΝ",
+    "chapters": 16
+  }
+  {
+    "bookid": 42,
+    "name": "ΚΑΤΑ ΛΟΥΚΑΝ",
+    "chapters": 24
+  }
+  {
+    "bookid": 43,
+    "name": "ΚΑΤΑ ΙΩΑΝΗΝ",
+    "chapters": 21
+  }
+  {
+    "bookid": 44,
+    "name": "ΠΡΑΞΕΙΣ ΑΠΟΣΤΟΛΩΝ",
+    "chapters": 28
+  }
+  {
+    "bookid": 45,
+    "name": "ΠΡΟΣ ΡΩΜΑΙΟΥΣ",
+    "chapters": 16
+  }
+  {
+    "bookid": 46,
+    "name": "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Α",
+    "chapters": 16
+  }
+  {
+    "bookid": 47,
+    "name": "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β",
+    "chapters": 13
+  }
+  {
+    "bookid": 48,
+    "name": "ΠΡΟΣ ΓΑΛΑΤΑΣ",
+    "chapters": 6
+  }
+  {
+    "bookid": 49,
+    "name": "ΠΡΟΣ ΕΦΕΣΙΟΥΣ",
+    "chapters": 6
+  }
+  {
+    "bookid": 50,
+    "name": "ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ",
+    "chapters": 4
+  }
+  {
+    "bookid": 51,
+    "name": "ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ",
+    "chapters": 4
+  }
+  {
+    "bookid": 52,
+    "name": "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Α",
+    "chapters": 5
+  }
+  {
+    "bookid": 53,
+    "name": "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β",
+    "chapters": 3
+  }
+  {
+    "bookid": 54,
+    "name": "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Α",
+    "chapters": 6
+  }
+  {
+    "bookid": 55,
+    "name": "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β",
+    "chapters": 4
+  }
+  {
+    "bookid": 56,
+    "name": "ΠΡΟΣ ΤΙΤΟΝ",
+    "chapters": 3
+  }
+  {
+    "bookid": 57,
+    "name": "ΠΡΟΣ ΦΙΛΗΜΟΝΑ",
+    "chapters": 1
+  }
+  {
+    "bookid": 58,
+    "name": "ΠΡΟΣ ΕΒΡΑΙΟΥΣ",
+    "chapters": 13
+  }
+  {
+    "bookid": 59,
+    "name": "ΙΑΚΩΒΟΥ",
+    "chapters": 5
+  }
+  {
+    "bookid": 60,
+    "name": "ΠΕΤΡΟΥ Α",
+    "chapters": 5
+  }
+  {
+    "bookid": 61,
+    "name": "ΠΕΤΡΟΥ Β",
+    "chapters": 3
+  }
+  {
+    "bookid": 62,
+    "name": "ΙΩΑΝΟΥ Α",
+    "chapters": 5
+  }
+  {
+    "bookid": 63,
+    "name": "ΙΩΑΝΟΥ Β",
+    "chapters": 1
+  }
+  {
+    "bookid": 64,
+    "name": "ΙΩΑΝΟΥ Γ",
+    "chapters": 1
+  }
+  {
+    "bookid": 65,
+    "name": "ΙΟΥΔΑ",
+    "chapters": 1
+  }
+  {
+    "bookid": 66,
+    "name": "ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΟΥ",
+    "chapters": 22
+  }
+]
+export const AB = YLT
 
 
 export const translations = [
@@ -1489,11 +2346,27 @@ export const translations = [
     "full_name": "LXX [A] Accentedq"
   }
   {
+    "short_name": "NTG",
+    "full_name": "Greek NT: Byzantine/Majority Text (2000)"
+  }
+  {
     "short_name": "UBIO",
-    "full_name": "Біблія, Іван Огієнко 1962"
+    "full_name": "Біблія, Іван Іванович Огієнко 1962"
   }
   {
     "short_name": "UKRK",
     "full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй, 1903"
+  }
+  {
+    "short_name": "SYNOD",
+    "full_name": "Русский Синодальный Перевод"
+  }
+  {
+    "short_name": "CUV",
+    "full_name": "Chinese: Union (Traditional)"
+  }
+  {
+    "short_name": "AB",
+    "full_name": "Arabic Bible"
   }
 ]

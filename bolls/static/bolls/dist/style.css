@@ -13,8 +13,29 @@ html[data-theme='light'] {
   scrollbar-width: thin;
   margin: 0px;
   padding: 0px;
-  transition: all 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  transition: all 0.3s ease;
+  scroll-behavior: smooth;
 }
+ /* width */
+ ::-webkit-scrollbar {
+  width: 8px;
+ }
+
+ /* Track */
+ ::-webkit-scrollbar-track {
+  background: #38383D6B;
+ }
+
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+  background: #545454;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #737373;
+ }
 
 *::selection {
   color: var(--background-color);
@@ -85,7 +106,7 @@ body {
   font-size: 24px;
   color: inherit;
   padding: 4px;
-  text-align: auto;
+  direction: unset;
   cursor: pointer;
 }
 
@@ -168,7 +189,6 @@ body {
 
 .text h2 {
   text-align: center;
-  width: 100%;
   margin: 24px;
   font-family: "Zilla Slab", "Open Sans", sans-serif;
   -webkit-animation: text-came 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -443,5 +463,6 @@ input[type='range'] {
   background: var(--background-color);
   color: var(--text-color);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 3px 8px 4px 8px;
+  border-radius: 4px;
 }
