@@ -4,9 +4,6 @@ from django.core import serializers
 
 from .models import Verses
 
-# import json
-# import requests
-
 
 def index(request):
     return render(request, 'bolls/index.html')

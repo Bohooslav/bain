@@ -2330,12 +2330,16 @@ export const NTG = [
   }
 ]
 export const AB = YLT
-
+export const NASB = YLT
 
 export const translations = [
   {
     "short_name": "YLT",
     "full_name": "Young's Literal Translation (1898)"
+  }
+  {
+    "short_name": "NASB",
+    "full_name": "New American Standard Bible (1995)"
   }
   {
     "short_name": "WLC",

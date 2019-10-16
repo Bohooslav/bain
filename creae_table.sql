@@ -24,9 +24,8 @@ COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bi
 
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/arabic.csv' DELIMITER ' ' CSV HEADER;
 
+COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/NASB.csv' DELIMITER ' ' CSV HEADER;
 
+UPDATE bolls_verses SET text = ('') where translation='' and book=66  and chapter=21 and verse=12
 
-
-UPDATE bolls_verses SET TEXT = ('') where translation='ABC' and book=1  and chapter=1 and verse=1
-
-Select * from bolls_verses where translation='UKRK' and book=2  and chapter=21 and verse=24
+Select * from bolls_verses where translation=''NASB'' and book=66  and chapter=21 and verse=12
