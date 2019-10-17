@@ -2335,42 +2335,52 @@ export const NASB = YLT
 export const translations = [
   {
     "short_name": "YLT",
-    "full_name": "Young's Literal Translation (1898)"
+    "full_name": "Young's Literal Translation (1898)",
+    "language": "English"
   }
   {
     "short_name": "NASB",
-    "full_name": "New American Standard Bible (1995)"
+    "full_name": "New American Standard Bible (1995)",
+    "language": "English"
   }
   {
     "short_name": "WLC",
-    "full_name": "Westminster Leningrad Codex"
+    "full_name": "Westminster Leningrad Codex",
+    "language": "Hebrew"
   }
   {
     "short_name": "LXX",
-    "full_name": "LXX [A] Accentedq"
+    "full_name": "LXX [A] Accentedq",
+    "language": "Greek"
   }
   {
     "short_name": "NTG",
-    "full_name": "Greek NT: Byzantine/Majority Text (2000)"
+    "full_name": "Greek NT: Byzantine/Majority Text (2000)",
+    "language": "Greek"
   }
   {
     "short_name": "UBIO",
-    "full_name": "Біблія, Іван Іванович Огієнко 1962"
+    "full_name": "Біблія, Іван Іванович Огієнко 1962",
+    "language": "Ukrainian"
   }
   {
     "short_name": "UKRK",
-    "full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй, 1903"
+    "full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй, 1903",
+    "language": "Ukrainian"
   }
   {
     "short_name": "SYNOD",
-    "full_name": "Русский Синодальный Перевод"
+    "full_name": "Русский Синодальный Перевод",
+    "language": "Russian"
   }
   {
     "short_name": "CUV",
-    "full_name": "Chinese: Union (Traditional)"
+    "full_name": "Chinese: Union (Traditional)",
+    "language": "Chinese"
   }
   {
     "short_name": "AB",
-    "full_name": "Arabic Bible"
+    "full_name": "Arabic Bible",
+    "language": "Arabic"
   }
 ]

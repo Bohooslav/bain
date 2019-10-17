@@ -1,21 +1,29 @@
 import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTG, AB, NASB, translations from "./translations_data.imba"
 
+import eng_leng, ukr_leng from "./lengdata.imba"
+
+
 let settings = {
   theme: 'dark',
   translation: 'YLT',
   book: 1,
   chapter: 1,
   font: 24,
+  language: 'ukr'
 }
 
 let search = {
   search_input: '',
   search_result_header: '',
+  search_result_translation: '',
   search_div: false,
-  counter: 50
+  counter: 50,
+  show_filters: false,
+  is_filter: false,
+  filter: 0
 }
 
-let paralel_text = {
+let parallel_text = {
   display: false,
   translation: 'YLT',
   book: 1,
@@ -26,29 +34,21 @@ let paralel_text = {
 tag App
   prop verses
   prop search_verses
-  prop paralel_verses
-  prop paralel_books
+  prop parallel_verses
+  prop parallel_books
   prop books
   prop show_chapters_of
   prop show_list_of_translations
   prop highlighted_verse
+  prop lengdata
+  prop show_languages
 
   def build
     if window:preloaded_text
       @verses = window:preloaded_text
       @highlighted_verse = window:highlighted_verse
       console.log @highlighted_verse
-      switch window:preloaded_text[0]:fields:translation
-        when "YLT" then @books = YLT
-        when "NASB" then @books = NASB
-        when "WLC" then @books = WLC
-        when "UBIO" then @books = UBIO
-        when "UKRK" then @books = UKRK
-        when "LXX" then @books = LXX
-        when "SYNOD" then @books = SYNOD
-        when "CUV" then @books = CUV
-        when "NTG" then @books = NTG
-        when "AB" then @books = AB
+      switchTranslation window:preloaded_text[0]:fields:translation, false
       settings:translation = window:preloaded_text[0]:fields:translation
       settings:book = window:preloaded_text[0]:fields:book
       settings:chapter = window:preloaded_text[0]:fields:chapter
@@ -63,29 +63,25 @@ tag App
       if getCookie('chapter')
         settings:chapter = parseInt(getCookie('chapter'))
       @verses = getText(settings:translation, settings:book, settings:chapter, false)
-      switch settings:translation
-        when "YLT" then @books = YLT
-        when "NASB" then @books = NASB
-        when "WLC" then @books = WLC
-        when "UBIO" then @books = UBIO
-        when "UKRK" then @books = UKRK
-        when "LXX" then @books = LXX
-        when "SYNOD" then @books = SYNOD
-        when "CUV" then @books = CUV
-        when "NTG" then @books = NTG
-        when "AB" then @books = AB
+      switchTranslation settings:translation, false
     if getCookie('theme')
       settings:theme = getCookie('theme')
       let html = document.querySelector('#html')
       html:dataset:theme = settings:theme
     if getCookie('font')
       settings:font = parseInt(getCookie('font'))
-    if getCookie('paralel_display')
-      if getCookie('paralel_display') == 'true'
-        toggleParalelMode
+    if getCookie('parallel_display')
+      if getCookie('parallel_display') == 'true'
+        toggleParallelMode
+    if getCookie('language')
+      settings:language = getCookie('language')
+    switch settings:language
+      when 'eng' then @lengdata = eng_leng
+      when 'ukr' then @lengdata = ukr_leng
     @search_verses = {}
     @show_chapters_of = 0
     @show_list_of_translations = 0
+    @show_languages = false
 
 
   def getCookie c_name
@@ -94,97 +90,19 @@ tag App
   def setCookie c_name, value, expiredays
     return window:localStorage.setItem(c_name, value)
 
-  def load url
-    var res = await window.fetch(url)
-    .then( do |result| result.json())
-    .then( do |json| return json)
-
-  def getText translation, book, chapter, paralel
-    if paralel_text:edited_version == paralel_text:translation && paralel_text:display && paralel
-      getParalelText translation, book, chapter
-    else
-      settings:book = book
-      settings:chapter = chapter
-      let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
-      @verses = {}
-      @verses = JSON.parse(await load url)
-      search:search_div = false
-      Imba.commit
-      setCookie('book', book)
-      setCookie('chapter', chapter)
-
-  def getParalelText translation, book, chapter
-    paralel_text:translation = translation
-    paralel_text:edited_version = translation
-    paralel_text:book = book
-    paralel_text:chapter = chapter
-    let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
-    @paralel_verses = {}
-    @paralel_verses = JSON.parse(await load url)
-    switch paralel_text:translation
-      when "YLT" then @paralel_books = YLT
-      when "NASB" then @paralel_books = NASB
-      when "WLC" then @paralel_books = WLC
-      when "UBIO" then @paralel_books = UBIO
-      when "UKRK" then @paralel_books = UKRK
-      when "LXX" then @paralel_books = LXX
-      when "SYNOD" then @paralel_books = SYNOD
-      when "CUV" then @paralel_books = CUV
-      when "NTG" then @paralel_books = NTG
-      when "AB" then @paralel_books = AB
-    Imba.commit
-    setCookie('translation', settings:translation)
-    setCookie('paralel_translation', translation)
-    setCookie('paralel_book', book)
-    setCookie('paralel_chapter', chapter)
-
-  def toggleParalelMode
-    if paralel_text:display
-      paralel_text:display = false
-    else
-      if getCookie('paralel_translation')
-        paralel_text:translation = getCookie('paralel_translation')
-      if getCookie('paralel_book')
-        paralel_text:book = parseInt(getCookie('paralel_book'))
-      if getCookie('paralel_chapter')
-        paralel_text:chapter = parseInt(getCookie('paralel_chapter'))
-      getParalelText(paralel_text:translation, paralel_text:book, paralel_text:chapter)
-      paralel_text:display = true
-    setCookie('paralel_display', paralel_text:display)
-
-  def changeEditedParalel translation
-    paralel_text:edited_version = translation
-
-  def getSearchText
-    let url = "http://127.0.0.1:8000/" + settings:translation + '/' + search:search_input + '/'
-    @search_verses = {}
-    @search_verses = JSON.parse(await load url)
-    search:search_result_header = search:search_input
-    search:search_div = true
-    search:counter = 50
-    Imba.commit
-
-  def changeTranslation translation
-    if paralel_text:edited_version == paralel_text:translation && paralel_text:display
+  def switchTranslation translation, parallel
+    if parallel
       switch translation
-        when "YLT" then @paralel_books = YLT
-        when "NASB" then @paralel_books = NASB
-        when "WLC" then @paralel_books = WLC
-        when "UBIO" then @paralel_books = UBIO
-        when "UKRK" then @paralel_books = UKRK
-        when "LXX" then @paralel_books = LXX
-        when "SYNOD" then @paralel_books = SYNOD
-        when "CUV" then @paralel_books = CUV
-        when "NTG" then @paralel_books = NTG
-        when "AB" then @paralel_books = AB
-      if paralel_books.find(do |element| return element:bookid == paralel_text:book)
-        getText(translation, paralel_text:book, paralel_text:chapter, true)
-      else
-        getText(translation, paralel_books[0]:bookid, 1, true)
-        paralel_text:book = paralel_books[0]:bookid
-        paralel_text:chapter = 1
-      paralel_text:translation = translation
-      setCookie('translation', translation)
+        when "YLT" then @parallel_books = YLT
+        when "NASB" then @parallel_books = NASB
+        when "WLC" then @parallel_books = WLC
+        when "UBIO" then @parallel_books = UBIO
+        when "UKRK" then @parallel_books = UKRK
+        when "LXX" then @parallel_books = LXX
+        when "SYNOD" then @parallel_books = SYNOD
+        when "CUV" then @parallel_books = CUV
+        when "NTG" then @parallel_books = NTG
+        when "AB" then @parallel_books = AB
     else
       switch translation
         when "YLT" then @books = YLT
@@ -197,74 +115,160 @@ tag App
         when "CUV" then @books = CUV
         when "NTG" then @books = NTG
         when "AB" then @books = AB
-      if books.find(do |element| return element:bookid == settings:book)
-        getText(translation, settings:book, settings:chapter, false)
+
+  def load url
+    var res = await window.fetch(url)
+    .then( do |result| result.json())
+    .then( do |json| return json)
+
+  def getText translation, book, chapter
+    settings:book = book
+    settings:chapter = chapter
+    let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
+    @verses = {}
+    @verses = JSON.parse(await load url)
+    search:search_div = false
+    dropFilter
+    Imba.commit
+    setCookie('book', book)
+    setCookie('chapter', chapter)
+
+  def getParallelText translation, book, chapter
+    parallel_text:translation = translation
+    parallel_text:edited_version = translation
+    parallel_text:book = book
+    parallel_text:chapter = chapter
+    let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
+    @parallel_verses = {}
+    @parallel_verses = JSON.parse(await load url)
+    switchTranslation parallel_text:translation, true
+    Imba.commit
+    setCookie('translation', settings:translation)
+    setCookie('parallel_translation', translation)
+    setCookie('parallel_book', book)
+    setCookie('parallel_chapter', chapter)
+
+  def toggleParallelMode
+    if parallel_text:display
+      parallel_text:display = false
+    else
+      if getCookie('parallel_translation')
+        parallel_text:translation = getCookie('parallel_translation')
+      if getCookie('parallel_book')
+        parallel_text:book = parseInt(getCookie('parallel_book'))
+      if getCookie('parallel_chapter')
+        parallel_text:chapter = parseInt(getCookie('parallel_chapter'))
+      getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter)
+      parallel_text:display = true
+    setCookie('parallel_display', parallel_text:display)
+
+  def changeEditedParallel translation
+    parallel_text:edited_version = translation
+
+  def getSearchText
+    let url
+    if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+      url = "http://127.0.0.1:8000/" + parallel_text:edited_version + '/' + search:search_input + '/'
+      search:search_result_translation = parallel_text:edited_version
+    else
+      url = "http://127.0.0.1:8000/" + settings:translation + '/' + search:search_input + '/'
+      search:search_result_translation = settings:translation
+    @search_verses = {}
+    @search_verses = JSON.parse(await load url)
+    search:search_result_header = search:search_input
+    search:search_div = true
+    search:counter = 50
+    Imba.commit
+
+  def addFilter book
+    search:is_filter = true
+    search:filter = book
+    search:show_filters = false
+
+  def dropFilter
+    search:is_filter = false
+    search:show_filters = false
+
+  def changeTranslation translation
+    if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+      switchTranslation translation, true
+      if parallel_books.find(do |element| return element:bookid == parallel_text:book)
+        getParallelText(translation, parallel_text:book, parallel_text:chapter)
       else
-        getText(translation, books[0]:bookid, 1, false)
+        getParallelText(translation, parallel_books[0]:bookid, 1)
+        parallel_text:book = parallel_books[0]:bookid
+        parallel_text:chapter = 1
+      parallel_text:translation = translation
+      setCookie('translation', translation)
+    else
+      switchTranslation translation, false
+      if books.find(do |element| return element:bookid == settings:book)
+        getText(translation, settings:book, settings:chapter)
+      else
+        getText(translation, books[0]:bookid, 1)
         settings:book = books[0]:bookid
         settings:chapter = 1
       settings:translation = translation
       setCookie('translation', translation)
+    @show_list_of_translations = false
 
   def show_chapters bookid
     if bookid != @show_chapters_of
       @show_chapters_of = bookid
     else @show_chapters_of = 0
 
-  def nameOfBook bookid, paralel
-    if paralel
-      for book in paralel_books
+  def nameOfBook bookid, parallel
+    if parallel
+      for book in parallel_books
         if book:bookid == bookid
           return book:name
     for book in books
       if book:bookid == bookid
         return book:name
 
-  def chaptersOfCurrentBook paralel
-    if paralel == 1
-      for book in paralel_books
-        if book:bookid == paralel_text:book
+  def chaptersOfCurrentBook parallel
+    if parallel == 1
+      for book in parallel_books
+        if book:bookid == parallel_text:book
           return book:chapters
     else
       for book in books
         if book:bookid == settings:book
           return book:chapters
 
-  def nextChapter paralel
-    if paralel == 'true'
-      if paralel_text:chapter + 1 <= chaptersOfCurrentBook paralel
-        console.log paralel_text:chapter + 1, paralel_text:chapter
-        getParalelText(paralel_text:translation, paralel_text:book, paralel_text:chapter + 1)
+  def nextChapter parallel
+    if parallel == 'true'
+      if parallel_text:chapter + 1 <= chaptersOfCurrentBook parallel
+        console.log parallel_text:chapter + 1, parallel_text:chapter
+        getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter + 1)
       else
-        let current_index = @paralel_books.indexOf(@paralel_books.find(do |element| return element:bookid == paralel_text:book))
-        if @paralel_books[current_index + 1]
-          getParalelText(paralel_text:translation, @paralel_books[current_index+1]:bookid, 1)
-
+        let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == parallel_text:book))
+        if @parallel_books[current_index + 1]
+          getParallelText(parallel_text:translation, @parallel_books[current_index+1]:bookid, 1)
     else
-      if settings:chapter + 1 <= chaptersOfCurrentBook paralel
+      if settings:chapter + 1 <= chaptersOfCurrentBook parallel
         console.log settings:chapter + 1, settings:chapter
-        getText(settings:translation, settings:book, settings:chapter + 1, false)
+        getText(settings:translation, settings:book, settings:chapter + 1)
       else
         let current_index = books.indexOf(books.find(do |element| return element:bookid == settings:book))
         if books[current_index + 1]
-          getText(settings:translation, books[current_index+1]:bookid, 1, false)
+          getText(settings:translation, books[current_index+1]:bookid, 1)
 
-  def prewChapter paralel
-    if paralel == 'true'
-      if paralel_text:chapter - 1 > 0
-        getParalelText(paralel_text:translation, paralel_text:book, paralel_text:chapter - 1)
+  def prewChapter parallel
+    if parallel == 'true'
+      if parallel_text:chapter - 1 > 0
+        getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter - 1)
       else
-        let current_index = @paralel_books.indexOf(@paralel_books.find(do |element| return element:bookid == paralel_text:book))
-        if @paralel_books[current_index - 1]
-          getParalelText(paralel_text:translation, @paralel_books[current_index - 1]:bookid, @paralel_books[current_index - 1]:chapters)
-
+        let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == parallel_text:book))
+        if @parallel_books[current_index - 1]
+          getParallelText(parallel_text:translation, @parallel_books[current_index - 1]:bookid, @parallel_books[current_index - 1]:chapters)
     else
       if settings:chapter - 1 > 0
-        getText(settings:translation, settings:book, settings:chapter - 1, false)
+        getText(settings:translation, settings:book, settings:chapter - 1)
       else
         let current_index = books.indexOf(books.find(do |element| return element:bookid == settings:book))
         if books[current_index - 1]
-          getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters, false)
+          getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
   def changeTheme
     let html = document.querySelector('#html')
@@ -288,45 +292,60 @@ tag App
       settings:font = settings:font + 3
       setCookie('font', settings:font)
 
+  def turnFilter
+    search:show_filters = !search:show_filters
+    search:counter = 50
+
+  def setLanguage language
+    settings:language = language
+    switch language
+      when 'eng' then @lengdata = eng_leng
+      when 'ukr' then @lengdata = ukr_leng
+    setCookie('language', language)
+    show_languages = !@show_languages
 
   def render
     <self>
       <div.bible-menu>
-        if paralel_text:display
-          <div.choose_paralel>
-            <div.translation_name .current_translation=(paralel_text:edited_version == settings:translation) :tap.changeEditedParalel(settings:translation)> settings:translation
-            <div.translation_name .current_translation=(paralel_text:edited_version == paralel_text:translation) :tap.changeEditedParalel(paralel_text:translation)> paralel_text:translation
-          if paralel_text:edited_version == paralel_text:translation
-            <div.book_name :tap=(do @show_list_of_translations = !@show_list_of_translations)> paralel_text:edited_version
+        if parallel_text:display
+          <div.choose_parallel>
+            <div.translation_name .current_translation=(parallel_text:edited_version == settings:translation) :tap.changeEditedParallel(settings:translation)> settings:translation
+            <div.translation_name .current_translation=(parallel_text:edited_version == parallel_text:translation) :tap.changeEditedParallel(parallel_text:translation)> parallel_text:translation
+          if parallel_text:edited_version == parallel_text:translation
+            <div.book_name :tap=(do @show_list_of_translations = !@show_list_of_translations)> parallel_text:edited_version
           else <div.book_name :tap=(do @show_list_of_translations = !@show_list_of_translations)> settings:translation
         else <div.book_name :tap=(do @show_list_of_translations = !@show_list_of_translations)> settings:translation
         <div.translations_list .show_list_of_chapters=@show_list_of_translations>
           for translation in translations
             <div.book_in_list style="font-size: 18px;" :tap.changeTranslation(translation:short_name)> translation:full_name
-        if paralel_text:edited_version == paralel_text:translation && paralel_text:display
-          for book in @paralel_books
+        if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+          for book in @parallel_books
             <div.book_in_list :tap.show_chapters(book:bookid)> book:name
             <div.list_of_chapters .show_list_of_chapters=(book:bookid==show_chapters_of)>
               for i in Array.from(Array(book:chapters).keys())
-                <div.chapter_number :tap.getText(paralel_text:translation, book:bookid, i+1, true)> i+1
+                <div.chapter_number :tap.getParallelText(parallel_text:translation, book:bookid, i+1)> i+1
         else
           for book in @books
             <div.book_in_list :tap.show_chapters(book:bookid)> book:name
             <div.list_of_chapters .show_list_of_chapters=(book:bookid==show_chapters_of)>
               for i in Array.from(Array(book:chapters).keys())
-                <div.chapter_number :tap.getText(settings:translation, book:bookid, i+1, false)> i+1
+                <div.chapter_number :tap.getText(settings:translation, book:bookid, i+1)> i+1
         <div.freespace>
 
-      <div.text .paralel_text=paralel_text:display style="font-size: {settings:font}px">
-        <div .first_paralel=paralel_text:display .right_align=(settings:translation=="WLC" || settings:translation=="AB")>
+      <div.text .parallel_text=parallel_text:display style="font-size: {settings:font}px">
+        <div .first_parallel=parallel_text:display .right_align=(settings:translation=="WLC" || settings:translation=="AB")>
           <h2> nameOfBook(settings:book, false), ' ', settings:chapter
           <p.text-ident> " "
           if (settings:translation=="WLC" || settings:translation=="AB")
             for verse in verses
-              <span.verse id=verse:fields:verse> verse:fields:verse
+              <span.verse id=verse:fields:verse>
+                ' '
+                verse:fields:verse
               <span> verse:fields:text
           else for verse in verses
-            <span.verse id=verse:fields:verse> verse:fields:verse
+            <span.verse id=verse:fields:verse>
+              ' '
+              verse:fields:verse
             <span> verse:fields:text
           <div.arrows>
             <button.arrow :tap.prewChapter()>
@@ -336,15 +355,19 @@ tag App
               <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                 <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 
-        <div.second_paralel .show_paralel=paralel_text:display .right_align=(paralel_text:translation=="WLC" || paralel_text:translation=="AB")>
-          <h2> nameOfBook(paralel_text:book, true), ' ', paralel_text:chapter
+        <div.second_parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC" || parallel_text:translation=="AB")>
+          <h2> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <p.text-ident> " "
-          if (paralel_text:translation=="WLC" || paralel_text:translation=="AB")
-            for verse in @paralel_verses
-              <span.verse id=verse:fields:verse> verse:fields:verse
+          if (parallel_text:translation=="WLC" || parallel_text:translation=="AB")
+            for verse in @parallel_verses
+              <span.verse id=verse:fields:verse>
+                ' '
+                verse:fields:verse
               <span> verse:fields:text
-          else for verse in @paralel_verses
-            <span.verse id=verse:fields:verse> verse:fields:verse
+          else for verse in @parallel_verses
+            <span.verse id=verse:fields:verse>
+              ' '
+              verse:fields:verse
             <span> verse:fields:text
           <div.arrows>
             <button.arrow :tap.prewChapter('true')>
@@ -355,10 +378,10 @@ tag App
                 <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 
       <div.settings-menu>
-        <p.settings_header> "Other"
+        <p.settings_header> lengdata:other
         <input[search:search_input].search_btn type='text' placeholder='Search' :keydown.enter.getSearchText :keydown.esc=(do search:search_div = false)> "Search"
         <div.nighttheme .theme_checkbox_light=(settings:theme=="light")>
-          "Light theme"
+          lengdata:theme
           <div.theme_checkbox :tap.changeTheme>
             <span>
               if settings:theme == "dark"
@@ -369,38 +392,77 @@ tag App
                 <svg:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <svg:path d="M10 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM9 1a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0V1zm6.65 1.94a1 1 0 1 1 1.41 1.41l-1.4 1.4a1 1 0 1 1-1.41-1.41l1.4-1.4zM18.99 9a1 1 0 1 1 0 2h-1.98a1 1 0 1 1 0-2h1.98zm-1.93 6.65a1 1 0 1 1-1.41 1.41l-1.4-1.4a1 1 0 1 1 1.41-1.41l1.4 1.4zM11 18.99a1 1 0 1 1-2 0v-1.98a1 1 0 1 1 2 0v1.98zm-6.65-1.93a1 1 0 1 1-1.41-1.41l1.4-1.4a1 1 0 1 1 1.41 1.41l-1.4 1.4zM1.01 11a1 1 0 1 1 0-2h1.98a1 1 0 1 1 0 2H1.01zm1.93-6.65a1 1 0 1 1 1.41-1.41l1.4 1.4a1 1 0 1 1-1.41 1.41l-1.4-1.4z">
         <div.font_setting>
-          "Font size: "
+          lengdata:font
           <div.great_B :tap.decreaceFontSize> "B-"
           "{settings:font}"
           <div.little_B :tap.increaceFontSize> "B+"
-        <div.nighttheme .theme_checkbox_light=paralel_text:display>
-          "Paralel view"
-          <div.paralel_checkbox .paralel_checkbox_turned=paralel_text:display :tap.toggleParalelMode>
+        <div.nighttheme .theme_checkbox_light=parallel_text:display>
+          lengdata:parallel
+          <div.parallel_checkbox .parallel_checkbox_turned=parallel_text:display :tap.toggleParallelMode>
             <span>
+        <div.nighttheme>
+          lengdata:language
+          <button.change_language :tap=(do @show_languages = !@show_languages)>
+            if settings:language == 'ukr'
+              "Українська"
+            if settings:language == 'eng'
+              "English"
+          <div.languages .show_languages=show_languages>
+            <button :tap.setLanguage('eng')> "English"
+            <button :tap.setLanguage('ukr')> "Українська"
+
 
       <div.search_results .show_search_results=search:search_div>
         <div.search_hat>
-          <svg:svg.close_search :tap=(do search:search_div = false) id="burger-icon" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" viewBox="0 0 20 20" width="20" height="20" space="preserve">
+          <svg:svg.close_search :tap=(do search:search_div = false) xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" viewBox="0 0 20 20" width="20" height="20" space="preserve">
             <svg:line id="line1" x1="0" y1="5" x2="20" y2="5" data-svg-origin="20 5" style="" transform="matrix(1,0,0,1,0,0)">
             <svg:line id="line2" x1="0" y1="15" x2="20" y2="15" data-svg-origin="20 15" style="" transform="matrix(1,0,0,1,0,0)">
           <h2> search:search_result_header
+          <svg:svg.filter_search .filter_search_hover=search:show_filters||search:is_filter :tap.turnFilter xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <svg:path d="M12 12l8-8V0H0v4l8 8v8l4-4v-4z">
         <div.search_body>
           if search_verses:length
-            for verse, key in search_verses
-              <span>
-              <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
-                <div.search_res_verse_text>
-                  <span> verse:fields:text
-                <div.search_res_verse_header>
-                  <span> nameOfBook(verse:fields:book)
-                  ' '
-                  <span> verse:fields:chapter
-                  ':'
-                  <span> verse:fields:verse
-              if key > search:counter
-                <button.more_results :tap=(do search:counter += 50)> "More results"
-                break
+            if search:show_filters
+              <div.filters>
+                if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+                  <div.book_in_list :tap.dropFilter> lengdata:drop_filter
+                  for book in @parallel_books
+                    <div.book_in_list :tap.addFilter(book:bookid)> book:name
+                else
+                  <div.book_in_list :tap.dropFilter> lengdata:drop_filter
+                  for book in @books
+                    <div.book_in_list :tap.addFilter(book:bookid)> book:name
+            if search:is_filter
+              for verse, key in search_verses when verse:fields:book == search:filter
+                <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
+                  <div.search_res_verse_text>
+                    <span> verse:fields:text
+                  <div.search_res_verse_header>
+                    <span> nameOfBook(verse:fields:book)
+                    ' '
+                    <span> verse:fields:chapter
+                    ':'
+                    <span> verse:fields:verse
+                if key > search:counter
+                  <button.more_results :tap=(do search:counter = key + 50)> lengdata:more_results
+                  break
+            else
+              for verse, key in search_verses
+                <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
+                  <div.search_res_verse_text>
+                    <span> verse:fields:text
+                  <div.search_res_verse_header>
+                    <span> nameOfBook(verse:fields:book)
+                    ' '
+                    <span> verse:fields:chapter
+                    ':'
+                    <span> verse:fields:verse
+                if key > search:counter
+                  <button.more_results :tap=(do search:counter += 50)> lengdata:more_results
+                  break
           else
-            <div> "We do not find anything. Verify your translation or simplify your query. Also note that the search is case sensitive so that 'God' and 'god' and 'GOD' are complitly different queries!"
+            <p> lengdata:nothing
+            <p> lengdata:translation, search:search_result_translation
+
 
 Imba.mount <App>
