@@ -1,23 +1,27 @@
 export const eng_leng = {
   other: "Other",
+  search: "Search",
   theme: "Light theme",
   font: "Font size",
   parallel: "Parallel view",
   drop_filter: "Drop filter",
+  filter_name: "Filter:",
   more_results: "More results",
-  find_nothing: "We did not find anything. Verify your translation or simplify your query. Also note that the search is case sensitive so that 'God', 'god' and 'GOD' are completely different queries!",
+  nothing: "We did not find anything. Verify your translation or simplify your query.",
   translation: "Translation: ",
   language: "Language"
 }
 
 export const ukr_leng = {
   other: "Інше",
-  theme: "Денна тема",
-  font: "Розмір шрифту",
+  search: "Пошук",
+  theme: "Світла тема",
+  font: "Шрифт",
   parallel: "Паралельне читання",
   drop_filter: "Скинути фільтр",
+  filter_name: "Фільтер:",
   more_results: "Більше результатів",
-  nothing: "Ми нічого не знайшли. Перевірте свій переклад або спростіть запит. Також зауважте, що пошук є чутливим до регістру, тобто 'Бог', 'бог' і 'БОГ' - це абсолютно різні запити!",
+  nothing: "Ми нічого не знайшли. Перевірте свій переклад або спростіть запит.",
   translation: "Переклад: ",
   language: "Мова"
 }

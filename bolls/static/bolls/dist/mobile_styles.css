@@ -1,0 +1,44 @@
+@media screen and (max-width: 700px) {
+  .search_results {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background: var(--background-color);
+    box-shadow: none;
+    transform: scale(0) translateY(90deg);
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .show_search_results {
+    padding: 12px;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    z-index: auto;
+  }
+
+  /* .close_search .filter_search {margin: 0px;} */
+
+  .filters {
+    height: 96vh;
+    top: 2vh;
+    padding: 12px 4px;
+  }
+  .parallel_text {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 100vh;
+  }
+  .first_parallel, .second_parallel {
+    height: auto;
+  }
+  .second_parallel {
+    border-top: 1px dotted #888;
+  }
+
+}

@@ -47,6 +47,14 @@ body {
 
 .App {min-height: 100vh;}
 
+.show_bible_menu > .bible-menu {
+  opacity: 1;
+  background-color: var(--background-color);
+  box-shadow: 16px 4px 24px rgba(0, 0, 0, 0.5);
+  transform: translateX(0px);
+  overflow-y: auto;
+}
+
 .bible-menu {
   top: 0px;
   left: 0px;
@@ -165,6 +173,8 @@ body {
   width: 100%;
 }
 
+
+
 @-webkit-keyframes text-came {
   0% {
     opacity: 0;
@@ -227,6 +237,26 @@ body {
   vertical-align: super;
 }
 
+.clicked {
+  text-decoration: underline dotted;
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  bottom: -12vh;
+  position: fixed;
+}
+
+.choosen_verses {
+  position: fixed;
+  width: 100vw;
+  height: 12vh;
+  background: var(--background-color);
+  bottom: 0px;
+  opacity: 1;
+  visibility: visible;
+}
 .right_align {
   display: inline-block !important;
   justify-content: end;
@@ -240,7 +270,6 @@ body {
   justify-content: center;
   direction: ltr;
 }
-
 .arrow {
   display: flex;
   justify-content: center;
@@ -255,14 +284,23 @@ body {
   fill: var(--text-color);
   cursor: pointer;
 }
-
 .arrow_next {transform: rotate(-90deg) scale(2);}
-
 .arrow_prew {transform: rotate(90deg) scale(2);}
 
 
 
+
 /* Settings css */
+.show_settings_menu > .settings-menu {
+  background-color: var(--background-color);
+  opacity: 1;
+  box-shadow: -16px -4px 24px rgba(0, 0, 0, 0.3);
+  transform: translateX(0px);
+  overflow-y: auto;
+  scrollbar-color: #737373 #38383D6B;
+  scrollbar-width: thin;
+  z-index: 1;
+}
 .settings-menu {
   top: 0px;
   right: 0px;
@@ -273,18 +311,8 @@ body {
   flex-direction: column;
   opacity: 0;
   padding: 32px 12px;
-  transform: translateX(190px);
-}
-
-.settings-menu:hover {
-  background-color: var(--background-color);
-  opacity: 1;
-  box-shadow: -16px -4px 24px rgba(0, 0, 0, 0.3);
-  transform: translateX(0px);
-  overflow-y: auto;
   scrollbar-color: #737373 #38383D6B;
-  scrollbar-width: thin;
-  z-index: 1;
+  transform: translateX(190px);
 }
 
 .settings_header {
@@ -313,7 +341,6 @@ body {
   margin-left: auto;
   cursor: pointer;
 }
-
 .theme_checkbox span {
   position: absolute;
   min-width: 26px;
@@ -323,7 +350,6 @@ body {
   box-sizing: border-box;
   cursor: pointer;
 }
-
 .theme_checkbox svg {
   height: 18px;
   width: 18px;
@@ -332,7 +358,6 @@ body {
   position: relative;
   left: 4px;
 }
-
 .theme_checkbox_light span {left: 20px;}
 
 .font_setting {
@@ -340,7 +365,6 @@ body {
   align-items: center;
   cursor: default;
 }
-
 .great_B {
   font-size: 15px;
   padding: 8px;
@@ -349,12 +373,10 @@ body {
   cursor: pointer;
   margin-left: auto;
 }
-
 .great_B::selection {
   color: var(--text-color);
   background: var(--background-color);
 }
-
 .great_B:hover {color: royalblue;}
 
 .little_B {
@@ -362,12 +384,10 @@ body {
   padding: 8px;
   cursor: pointer;
 }
-
 .little_B::selection {
   color: var(--text-color);
   background: var(--background-color);
 }
-
 .little_B:hover {color: royalblue;}
 
 .change_language {
@@ -385,16 +405,14 @@ body {
   display: flex;
   flex-direction: column;
   right: 12px;
-  margin-top: 90px;
+  margin-top: 40px;
   visibility: hidden;
   opacity: 0;
 }
-
 .show_languages {
   visibility: visible;
   opacity: 1;
 }
-
 .languages button {
   background: var(--background-color);
   color: var(--text-color);
@@ -431,7 +449,6 @@ body {
 }
 
 .search_hat {display: flex;}
-
 .search_hat h2 {
   text-align: center;
   vertical-align: middle;
@@ -455,11 +472,8 @@ body {
   stroke: var(--text-color);
   cursor: pointer;
 }
-
 .close_search:hover {stroke: indianred;}
-
 .close_search #line1 {transform: matrix(0.7071, -0.7071, 0.7071, 0.7071, -2.6776695296636888, 13.606601717798211);}
-
 .close_search #line2 {transform: matrix(0.7071, 0.7071, -0.7071, 0.7071, 11.464466094067262, -7.748737341529164);}
 
 .filter_search {
@@ -469,7 +483,6 @@ body {
   margin: 12px 0;
   cursor: pointer;
 }
-
 .filter_search_hover {fill: olivedrab;}
 .filter_search:hover {fill: olivedrab;}
 
@@ -530,7 +543,6 @@ body {
   height: 96vh;
   overflow-y: auto;
 }
-
 .parallel_checkbox {
   min-width: 50px;
   min-height: 30px;
@@ -542,7 +554,6 @@ body {
   margin-left: auto;
   cursor: pointer;
 }
-
 .parallel_checkbox span {
   position: absolute;
   min-width: 26px;
@@ -553,7 +564,6 @@ body {
   box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.04), 0px 3px 8px rgba(0, 0, 0, 0.16);
   cursor: pointer;
 }
-
 .parallel_checkbox_turned span {
   left: 20px;
 }

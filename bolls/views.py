@@ -10,7 +10,7 @@ def index(request):
 
 def search(request, translation, piece):
     results_of_search = Verses.objects.filter(
-        translation=translation, text__contains=piece).order_by('book', 'chapter', 'verse')
+        translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
     data = serializers.serialize('json', results_of_search)
     return JsonResponse(data, safe=False)
 
