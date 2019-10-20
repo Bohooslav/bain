@@ -1,4 +1,4 @@
-import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTG, AB, NASB, translations from "./translations_data.imba"
+import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTG, HOM, NASB, translations from "./translations_data.imba"
 
 import eng_leng, ukr_leng from "./lengdata.imba"
 
@@ -111,7 +111,7 @@ tag App
         when "SYNOD" then @parallel_books = SYNOD
         when "CUV" then @parallel_books = CUV
         when "NTG" then @parallel_books = NTG
-        when "AB" then @parallel_books = AB
+        when "HOM" then @parallel_books = HOM
     else
       switch translation
         when "YLT" then @books = YLT
@@ -123,7 +123,7 @@ tag App
         when "SYNOD" then @books = SYNOD
         when "CUV" then @books = CUV
         when "NTG" then @books = NTG
-        when "AB" then @books = AB
+        when "HOM" then @books = HOM
 
   def load url
     var res = await window.fetch(url)
@@ -191,9 +191,9 @@ tag App
     Imba.commit
 
   def onmousemove e
-    if e.x > window:screen:width - 20
+    if e.x > window:outerWidth - 20
       flag 'show_settings_menu'
-    elif e.x < window:screen:width - 210 && !mobimenu
+    elif e.x < window:outerWidth - 210 && !mobimenu
       unflag 'show_settings_menu'
       mobimenu = ''
 
@@ -321,6 +321,7 @@ tag App
     self
 
   def ontouchend touch
+    console.log window:outerWidth
     if touch.dx > 64 && mobimenu != 'show_settings_menu'
       flag 'show_bible_menu'
       mobimenu = 'show_bible_menu'
@@ -332,7 +333,7 @@ tag App
     else
       if touch.x < 210 && mobimenu == 'show_bible_menu'
         return
-      elif touch.x > window:screen:width - 210
+      elif touch.x > window:outerWidth - 210
         return
       else
         unflag 'show_settings_menu'

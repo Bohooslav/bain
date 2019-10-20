@@ -1191,6 +1191,378 @@ export const UKRK = [
     "chapters": 22
   }
 ]
+export const HOM = [
+  {
+    "bookid": 1,
+    "name": "Буття",
+    "chapters": 50
+  }
+  {
+    "bookid": 2,
+    "name": "Вихід",
+    "chapters": 40
+  }
+  {
+    "bookid": 3,
+    "name": "Левит",
+    "chapters": 27
+  }
+  {
+    "bookid": 4,
+    "name": "Числа",
+    "chapters": 36
+  }
+  {
+    "bookid": 5,
+    "name": "Второзаконня",
+    "chapters": 34
+  }
+  {
+    "bookid": 6,
+    "name": "Iсус Навин",
+    "chapters": 24
+  }
+  {
+    "bookid": 7,
+    "name": "Судді",
+    "chapters": 21
+  }
+  {
+    "bookid": 8,
+    "name": "Рут",
+    "chapters": 4
+  }
+  {
+    "bookid": 9,
+    "name": "I Самуїл",
+    "chapters": 31
+  }
+  {
+    "bookid": 10,
+    "name": "II Самуїл",
+    "chapters": 24
+  }
+  {
+    "bookid": 11,
+    "name": "I Царі",
+    "chapters": 22
+  }
+  {
+    "bookid": 12,
+    "name": "II Царі",
+    "chapters": 25
+  }
+  {
+    "bookid": 13,
+    "name": "I Хроніка",
+    "chapters": 29
+  }
+  {
+    "bookid": 14,
+    "name": "II Хроніка",
+    "chapters": 36
+  }
+  {
+    "bookid": 15,
+    "name": "Ездра",
+    "chapters": 10
+  }
+  {
+    "bookid": 16,
+    "name": "Неємія",
+    "chapters": 13
+  }
+  {
+    "bookid": 17,
+    "name": "Естера",
+    "chapters": 10
+  }
+  {
+    "bookid": 18,
+    "name": "Іов",
+    "chapters": 42
+  }
+  {
+    "bookid": 19,
+    "name": "Псалми",
+    "chapters": 150
+  }
+  {
+    "bookid": 20,
+    "name": "Приповідки",
+    "chapters": 31
+  }
+  {
+    "bookid": 21,
+    "name": "Проповідник",
+    "chapters": 12
+  }
+  {
+    "bookid": 22,
+    "name": "Пісня пісень",
+    "chapters": 8
+  }
+  {
+    "bookid": 23,
+    "name": "Ісая",
+    "chapters": 66
+  }
+  {
+    "bookid": 24,
+    "name": "Єремiя",
+    "chapters": 52
+  }
+  {
+    "bookid": 25,
+    "name": "Плач Єремiї",
+    "chapters": 5
+  }
+  {
+    "bookid": 26,
+    "name": "Єзекiїль",
+    "chapters": 48
+  }
+  {
+    "bookid": 27,
+    "name": "Даниїл",
+    "chapters": 12
+  }
+  {
+    "bookid": 28,
+    "name": "Осiя",
+    "chapters": 14
+  }
+  {
+    "bookid": 29,
+    "name": "Йоіл",
+    "chapters": 3
+  }
+  {
+    "bookid": 30,
+    "name": "Амос",
+    "chapters": 9
+  }
+  {
+    "bookid": 31,
+    "name": "Овдiй",
+    "chapters": 1
+  }
+  {
+    "bookid": 32,
+    "name": "Йона",
+    "chapters": 4
+  }
+  {
+    "bookid": 33,
+    "name": "Міхей",
+    "chapters": 7
+  }
+  {
+    "bookid": 34,
+    "name": "Наум",
+    "chapters": 3
+  }
+  {
+    "bookid": 35,
+    "name": "Авакум",
+    "chapters": 3
+  }
+  {
+    "bookid": 36,
+    "name": "Софонiя",
+    "chapters": 3
+  }
+  {
+    "bookid": 37,
+    "name": "Аггей",
+    "chapters": 2
+  }
+  {
+    "bookid": 38,
+    "name": "Захарiя",
+    "chapters": 14
+  }
+  {
+    "bookid": 39,
+    "name": "Малахія",
+    "chapters": 3
+  }
+  {
+    "bookid": 40,
+    "name": "Матей",
+    "chapters": 28
+  }
+  {
+    "bookid": 41,
+    "name": "Марко",
+    "chapters": 16
+  }
+  {
+    "bookid": 42,
+    "name": "Лука",
+    "chapters": 24
+  }
+  {
+    "bookid": 43,
+    "name": "Йоан",
+    "chapters": 21
+  }
+  {
+    "bookid": 44,
+    "name": "Діяння",
+    "chapters": 28
+  }
+  {
+    "bookid": 59,
+    "name": "Якова",
+    "chapters": 5
+  }
+  {
+    "bookid": 60,
+    "name": "I Послання Петра",
+    "chapters": 5
+  }
+  {
+    "bookid": 61,
+    "name": "II Послання Петра",
+    "chapters": 3
+  }
+  {
+    "bookid": 62,
+    "name": "I Послання Йоана",
+    "chapters": 5
+  }
+  {
+    "bookid": 63,
+    "name": "II Послання Йоана",
+    "chapters": 1
+  }
+  {
+    "bookid": 64,
+    "name": "III Послання Йоана",
+    "chapters": 1
+  }
+  {
+    "bookid": 65,
+    "name": "Послання Юди",
+    "chapters": 1
+  }
+  {
+    "bookid": 45,
+    "name": "До римлян",
+    "chapters": 16
+  }
+  {
+    "bookid": 46,
+    "name": "I до Корінтян",
+    "chapters": 16
+  }
+  {
+    "bookid": 47,
+    "name": "II до Корінтян",
+    "chapters": 13
+  }
+  {
+    "bookid": 48,
+    "name": "До Галатiв",
+    "chapters": 6
+  }
+  {
+    "bookid": 49,
+    "name": "До Ефесян",
+    "chapters": 6
+  }
+  {
+    "bookid": 50,
+    "name": "До Филип'ян",
+    "chapters": 4
+  }
+  {
+    "bookid": 51,
+    "name": "До Колосян",
+    "chapters": 4
+  }
+  {
+    "bookid": 52,
+    "name": " I до Солунян",
+    "chapters": 5
+  }
+  {
+    "bookid": 53,
+    "name": " II до Солунян",
+    "chapters": 3
+  }
+  {
+    "bookid": 54,
+    "name": "I до Тимотея",
+    "chapters": 6
+  }
+  {
+    "bookid": 55,
+    "name": "II до Тимотея",
+    "chapters": 4
+  }
+  {
+    "bookid": 56,
+    "name": "До Тита",
+    "chapters": 3
+  }
+  {
+    "bookid": 57,
+    "name": "До Филимона",
+    "chapters": 1
+  }
+  {
+    "bookid": 58,
+    "name": "До євреїв",
+    "chapters": 13
+  }
+  {
+    "bookid": 66,
+    "name": "Об'явлення",
+    "chapters": 22
+  },
+  {
+      "bookid": 68,
+      "name": "Товит",
+      "chapters": 14
+  },
+  {
+      "bookid": 69,
+      "name": "Юдита",
+      "chapters": 16
+  },
+  {
+      "bookid": 70,
+      "name": "Мудрість",
+      "chapters": 19
+  },
+  {
+      "bookid": 71,
+      "name": "Сирах",
+      "chapters": 51
+  },
+  {
+      "bookid": 72,
+      "name": "Лист Єремії",
+      "chapters": 1
+  },
+  {
+      "bookid": 73,
+      "name": "Варух",
+      "chapters": 5
+  },
+  {
+      "bookid": 74,
+      "name": "I Макавеї",
+      "chapters": 16
+  },
+  {
+      "bookid": 75,
+      "name": "II Макавеї",
+      "chapters": 15
+  },
+]
 export const LXX = [
   {
     "bookid": 1,
@@ -2329,8 +2701,9 @@ export const NTG = [
     "chapters": 22
   }
 ]
-export const AB = YLT
 export const NASB = YLT
+
+
 
 export const translations = [
   {
@@ -2369,6 +2742,11 @@ export const translations = [
     "language": "Ukrainian"
   }
   {
+    "short_name": "HOM",
+    "full_name": "Святе Письмо, Переклад Івана Хоменка, 1963",
+    "language": "Ukrainian"
+  }
+  {
     "short_name": "SYNOD",
     "full_name": "Русский Синодальный Перевод",
     "language": "Russian"
@@ -2377,10 +2755,5 @@ export const translations = [
     "short_name": "CUV",
     "full_name": "Chinese: Union (Traditional)",
     "language": "Chinese"
-  }
-  {
-    "short_name": "AB",
-    "full_name": "Arabic Bible",
-    "language": "Arabic"
   }
 ]
