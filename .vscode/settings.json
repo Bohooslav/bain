@@ -1,4 +1,6 @@
 {
   "files.trimTrailingWhitespace": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+  "git.ignoreLimitWarning": true,
+  "python.pythonPath": "env/bin/python3.7"
 }

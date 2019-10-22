@@ -23,12 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '300lf8rl25%wq$cs$2^k$r-u16@58b7m%ljdsuug_5fy&%eyg='
 
-# api-key = 012e320e8e5dd8bbcbdcce5f24b81795
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,18 +75,36 @@ WSGI_APPLICATION = 'bain.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+# [START db_setup]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bain',
-    },
-    # 'bibles': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'bibles',
-    # },
-}
+# ./cloud_sql_proxy - instances = "bolls-256717:europe-west6:bollsdb" = tcp: 3306
 
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST': '/cloudsql/bolls-256717:europe-west6:bollsdb',
+            'USER': 'postgres',
+            'PASSWORD': 'IAvIjOyH3jvczpIK',
+            'NAME': 'bain',
+        }
+    }
+else:
+    # Running locally so connect to either a local MySQL instance or connect to
+    # Cloud SQL via the proxy. To start the proxy via command line:
+    #
+    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    #
+    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'bain',
+        },
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -125,17 +142,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
-### Next is added settings
+ADMINS = [('Bohuslav', 'bpavlisinec@gmail.com')]
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
-)
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'bundles/', # must end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-    }
-}
+# virtualenv env
+# source env/bin/activate
+# pip install -r requirements.txt
