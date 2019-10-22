@@ -101,7 +101,6 @@ public
 
 ########### MY ###########
 env/
-static/
 
 node_modules/
 bolls/static/bolls/node_modules/
