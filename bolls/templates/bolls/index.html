@@ -10,12 +10,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" class="next-head">
+    <meta name="description" content="Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV." class="next-head">
+    <meta property="og:title" content="Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV." class="next-head">
+    <meta property="og:description" content="Read God`s Word with a deep understanding of His design, Bible elevates your soul with rapid ascending to calm, safety and more." class="next-head">
+    <meta property="og:image" content="http://bolls.life/static/light.png" class="next-head">
+    <meta name="twitter:image:src" content="http://bolls.life/static/light.png">
   </head>
 
   <body>
     <script>
       {% if text %}
         window.preloaded_text = {{ text|safe }};
+      {% else %}
+        window.preloaded_text = false;
       {% endif %}
     </script>
     <script src="{% static 'bolls/dist/client.js' %}"></script>

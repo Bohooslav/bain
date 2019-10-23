@@ -8,8 +8,8 @@ let settings = {
   translation: 'YLT',
   book: 1,
   chapter: 1,
-  font: 27,
-  language: 'ukr'
+  font: 24,
+  language: 'eng'
 }
 
 let search = {
@@ -25,17 +25,15 @@ let search = {
 
 let parallel_text = {
   display: false,
-  translation: 'YLT',
+  translation: 'KJV',
   book: 1,
   chapter: 1,
-  edited_version: 'YLT',
+  edited_version: 'KJV',
 }
 
 let mobimenu = ''
 let offline = false
 
-let choosen = []
-let choosen_text = []
 
 tag App
   prop verses
@@ -48,6 +46,7 @@ tag App
   prop linked_verse
   prop langdata
   prop show_languages
+
 
   def build
     if window:preloaded_text
@@ -63,7 +62,7 @@ tag App
       else
         switch window:navigator:language
           when 'uk' then settings:language = 'ukr'
-          when 'en-US' then settings:language = 'eng'
+          else settings:language = 'eng'
     else
       if getCookie('translation')
         settings:translation = getCookie('translation')
@@ -79,8 +78,8 @@ tag App
             settings:language = 'ukr'
             settings:translation = 'UKRK'
             setCookie('language', settings:language)
-          when 'en-US' then settings:language = 'eng'
-      @verses = getText(settings:translation, settings:book, settings:chapter, false)
+          else settings:language = 'eng'
+      @verses = getText(settings:translation, settings:book, settings:chapter)
       switchTranslation settings:translation, false
     if getCookie('theme')
       settings:theme = getCookie('theme')
@@ -146,7 +145,7 @@ tag App
   def getText translation, book, chapter
     settings:book = book
     settings:chapter = chapter
-    let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
+    let url = "get-text/" + translation + '/' + book + '/' + chapter + '/'
     @verses = {}
     @verses = JSON.parse(await load url)
     search:search_div = false
@@ -160,7 +159,7 @@ tag App
     parallel_text:edited_version = translation
     parallel_text:book = book
     parallel_text:chapter = chapter
-    let url = "http://127.0.0.1:8000/get-text/" + translation + '/' + book + '/' + chapter + '/'
+    let url = "get-text/" + translation + '/' + book + '/' + chapter + '/'
     @parallel_verses = {}
     @parallel_verses = JSON.parse(await load url)
     switchTranslation parallel_text:translation, true
@@ -190,10 +189,10 @@ tag App
   def getSearchText
     let url
     if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-      url = "http://127.0.0.1:8000/" + parallel_text:edited_version + '/' + search:search_input + '/'
+      url = parallel_text:edited_version + '/' + search:search_input + '/'
       search:search_result_translation = parallel_text:edited_version
     else
-      url = "http://127.0.0.1:8000/" + settings:translation + '/' + search:search_input + '/'
+      url = settings:translation + '/' + search:search_input + '/'
       search:search_result_translation = settings:translation
     @search_verses = {}
     @search_verses = JSON.parse(await load url)
@@ -346,6 +345,12 @@ tag App
       flag 'show_settings_menu'
       mobimenu = 'show_settings_menu'
       unflag 'show_bible_menu'
+    elif touch.dx > 64 && mobimenu == 'show_settings_menu'
+      mobimenu = ''
+      unflag 'show_settings_menu'
+    elif touch.dx < -64 && mobimenu == 'show_bible_menu'
+      mobimenu = ''
+      unflag 'show_bible_menu'
     else
       if touch.x < 210 && mobimenu == 'show_bible_menu'
         return
@@ -359,9 +364,9 @@ tag App
         mobimenu = ''
 
   def ontouchcancel touch
-    console.log "Censel"
     unflag 'show_bible_menu'
     unflag 'show_settings_menu'
+    mobimenu = ''
 
 
 
@@ -394,22 +399,20 @@ tag App
         <div.freespace>
 
       <div.text .parallel_text=parallel_text:display css:font-size="{settings:font}px">
-        <div .first_parallel=parallel_text:display .right_align=(settings:translation=="WLC" || settings:translation=="AB")>
+        <div .first_parallel=parallel_text:display .right_align=(settings:translation=="WLC")>
           <h2> nameOfBook(settings:book, false), ' ', settings:chapter
           <p.text-ident> " "
-          if (settings:translation=="WLC" || settings:translation=="AB")
+          if (settings:translation=="WLC")
             for verse in verses
               <span.verse id=verse:fields:verse>
                 ' '
                 verse:fields:verse
               <span> verse:fields:text
-              # <span .clicked=choosen.find(do |element| return element == verse:fields:verse) :tap.prevent.addToChoosen(verse:fields:verse)> verse:fields:text
           else for verse in verses
             <span.verse id=verse:fields:verse>
               ' '
               verse:fields:verse
             <span> verse:fields:text
-            # <span .clicked=choosen.find(do |element| return element == verse:fields:verse) :tap.prevent.addToChoosen(verse:fields:verse)> verse:fields:text
           <div.arrows>
             <button.arrow css:margin-right="auto" :tap.prevent.prewChapter()>
               <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -418,10 +421,10 @@ tag App
               <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                 <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 
-        <div.second_parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC" || parallel_text:translation=="AB")>
+        <div.second_parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC")>
           <h2> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <p.text-ident> " "
-          if (parallel_text:translation=="WLC" || parallel_text:translation=="AB")
+          if (parallel_text:translation=="WLC")
             for verse in @parallel_verses
               <span.verse id=verse:fields:verse>
                 ' '
@@ -526,12 +529,7 @@ tag App
             <p> langdata:nothing
             <p> langdata:translation, search:search_result_translation
 
-      <div.parallel_verses>
-        for obj, key in choosen_text
-          for verse in obj
-            <span.verse id=verse:fields:verse>
-              ' ', verse:fields:verse
-            <span .clicked=choosen.find(do |element| return element == verse:fields:verse) :tap.prevent.addToChoosen(verse:fields:verse)> verse:fields:text
+
 
       <div.online .offline=offline>
         langdata:offline

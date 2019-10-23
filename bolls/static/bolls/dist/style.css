@@ -40,7 +40,7 @@ html[data-theme='light'] {
 
 body {
   font-family: "Zilla Slab",  "Open Sans",  sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   background: var(--background-color);
   color: var(--text-color);
 }
@@ -53,39 +53,37 @@ body {
   box-shadow: 16px 4px 24px rgba(0, 0, 0, 0.5);
   transform: translateX(0px);
   overflow-y: auto;
+  left: 0px;
 }
 
 .bible-menu {
   top: 0px;
   left: 0px;
   position: fixed;
-  height: 100vh;
+  height: 100%;
   width: 210px;
   display: flex;
+  background-color: var(--background-color);
   flex-direction: column;
+  transform: translateX(-200px);
   color: var(--text-color);
-  opacity: 0;
   padding: 32px 12px;
   z-index: 999;
-  transform: translateX(-200px);
 }
 
 .bible-menu:hover {
-  opacity: 1;
-  background-color: var(--background-color);
   box-shadow: 16px 4px 24px rgba(0, 0, 0, 0.5);
-  transform: translateX(0px);
   overflow-y: auto;
+  transform: translateX(0px);
 }
 
 .translations_list {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  height: 0px;
+  padding: 12px 0px 24px;
   -webkit-transform: rotateX(-90deg) translateZ(100vh);
   transform: rotateX(-90deg) translateZ(100vh);
-  height: 0px;
   transform-origin: top left;
-  padding: 12px 8px 24px;
 }
 
 .choose_parallel {
@@ -124,12 +122,14 @@ body {
 }
 
 .book_in_list {
+  display: block;
   text-decoration: none;
   font-size: 24px;
   color: inherit;
-  padding: 4px;
+  padding: 8px 0px;
   direction: unset;
   cursor: pointer;
+  height: auto;
 }
 
 .book_in_list::selection {
@@ -142,7 +142,7 @@ body {
 .list_of_chapters {
   font-family: "Zilla Slab", "Open Sans", sans-serif;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   -webkit-transform: rotateX(-90deg) translateZ(100vh);
   transform: rotateX(-90deg) translateZ(100vh);
   transform-origin: top left;
@@ -157,7 +157,7 @@ body {
 
 .chapter_number {
   text-align: center;
-  height: 36px;
+  height: 37.2px;
   cursor: pointer;
 }
 
@@ -202,7 +202,7 @@ body {
   font-size: 42px;
   font-family: "Metropolis", sans-serif;
   color: var(--text-color);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .parallel_text {
@@ -300,20 +300,19 @@ body {
   overflow-y: auto;
   scrollbar-color: #737373 #38383D6B;
   scrollbar-width: thin;
-  z-index: 1;
+  z-index: 4;
 }
 .settings-menu {
   top: 0px;
   right: 0px;
   position: fixed;
-  height: 100vh;
+  height: 100%;
   width: 210px;
   display: flex;
   flex-direction: column;
-  opacity: 0;
   padding: 32px 12px;
   scrollbar-color: #737373 #38383D6B;
-  transform: translateX(190px);
+  transform: translateX(198px);
 }
 
 .settings_header {
@@ -326,7 +325,7 @@ body {
 .nighttheme {
   display: flex;
   align-items: center;
-  margin: 12px 0;
+  margin: 16px 0;
   cursor: default;
 }
 
@@ -355,16 +354,19 @@ body {
   height: 18px;
   width: 18px;
   fill: var(--text-color);
-  top: 4px;
+  top: 3px;
   position: relative;
   left: 4px;
 }
-.theme_checkbox_light span {left: 20px;}
+.theme_checkbox_light span {
+  transform: translateX(20px);
+}
 
 .font_setting {
   display: flex;
   align-items: center;
   cursor: default;
+  margin: 8px 0px;
 }
 .great_B {
   font-size: 15px;
@@ -373,6 +375,9 @@ body {
   align-items: center;
   cursor: pointer;
   margin-left: auto;
+  background: #88888830;
+  border-radius: 4px;
+  margin-right: 8px;
 }
 .great_B::selection {
   color: var(--text-color);
@@ -384,6 +389,9 @@ body {
   font-size: 20px;
   padding: 8px;
   cursor: pointer;
+  background: #88888830;
+  border-radius: 4px;
+  margin-left: 8px;
 }
 .little_B::selection {
   color: var(--text-color);
@@ -395,7 +403,7 @@ body {
   background: var(--background-color);
   color: var(--text-color);
   cursor: pointer;
-  padding: 0px 8px;
+  padding: 4px 8px;
   margin-left: auto;
   font-size: 16px;
   border-color: var(--text-color);
@@ -452,24 +460,21 @@ body {
 .search_hat {display: flex;}
 .search_hat h2 {
   text-align: center;
-  vertical-align: middle;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
 }
 
 .show_search_results {
   padding: 12px;
   opacity: 1;
   transform: scale(1) translateY(0);
-  z-index: auto;
+  z-index: 2;
 }
 
 .close_search {
   width: 26px;
-  height: 26px;
-  margin: 12px 0;
+  height: 50px;
+  padding: 12px 0;
   stroke: var(--text-color);
   cursor: pointer;
 }
@@ -480,8 +485,8 @@ body {
 .filter_search {
   fill: var(--text-color);
   width: 26px;
-  height: 26px;
-  margin: 12px 0;
+  height: 50px;
+  padding: 12px 0;
   cursor: pointer;
 }
 .filter_search_hover {fill: olivedrab;}
@@ -565,7 +570,9 @@ body {
   box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.04), 0px 3px 8px rgba(0, 0, 0, 0.16);
   cursor: pointer;
 }
-.parallel_checkbox_turned span {left: 20px;}
+.parallel_checkbox_turned span {
+  transform: translateX(20px);
+}
 
 .help {
   text-decoration: none;
