@@ -1,4 +1,4 @@
-export const eng_leng = {
+export const en_leng = {
   other: "Other",
   search: "Search",
   theme: "Light theme",
@@ -10,11 +10,14 @@ export const eng_leng = {
   nothing: "We did not find anything. Verify your translation or simplify your query.",
   translation: "Translation: ",
   language: "Language",
-  offline: "It seems that you are offline(",
-  help: "Help"
+  offline: "You are offline(",
+  login: "Log in",
+  logout: "Log out",
+  help: "Help",
+  signin: "Sign up"
 }
 
-export const ukr_leng = {
+export const uk_leng = {
   other: "Інше",
   search: "Пошук",
   theme: "Світла тема",
@@ -26,6 +29,28 @@ export const ukr_leng = {
   nothing: "Ми нічого не знайшли. Перевірте свій переклад або спростіть запит.",
   translation: "Переклад: ",
   language: "Мова",
-  offline: "Мені здається ви в оффлайні(",
-  help: "Допомога"
+  offline: "Ви в оффлайні(",
+  login: "Увійти",
+  logout: "Вийти",
+  help: "Допомога",
+  signin: "Зареєструватися"
+}
+
+export const ru_leng = {
+  other: "Разное",
+  search: "Поиск",
+  theme: "Дневная тема",
+  font: "Шрифт",
+  parallel: "Паралель",
+  drop_filter: "Сбросить фильтр",
+  filter_name: "Фильтр:",
+  more_results: "Больше результатов",
+  nothing: "Мы ничего не нашли. Проверте свой перевод или спростите запрос.",
+  translation: "Перевод: ",
+  language: "Язык",
+  offline: "Вы в оффлайне(",
+  login: "Войти",
+  logout: "Выйти",
+  help: "Помощь",
+  signin: "Зарегестрироватся"
 }

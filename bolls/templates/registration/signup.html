@@ -1,0 +1,112 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html id="html" data-theme='dark'>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bolls | {% trans "Sign up" %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'registration/login_style.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="description" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
+    <meta property="og:title" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
+    <meta property="og:description" content="Read God`s Word with a deep understanding of His design, Bible elevates your soul with rapid ascending to calm, safety and more.">
+    <meta property="og:image" content="http://bolls.life/static/light.png">
+    <meta name="twitter:image:src" content="http://bolls.life/static/light.png">
+  </head>
+
+  <body>
+    <div class="formflex">
+
+    <h1 id="h1" style="font-size: 24px; color: var(--text-color);">Bolls | {% trans 'Sign up' %}</h1>
+
+    {% block content %}
+
+    {% if form.errors %}
+    {{ form.errors }}
+    {% endif %}
+
+    <div class="flex">
+      <form method="post" action="{% url 'signup' %}">
+        {% csrf_token %}
+          {{ form }}
+
+        <input type="submit" value="Create">
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+
+
+    </div>
+    <p style="font-size: 13px; padding: 16px 0px 64px;" id="donthaveanaccount">{% trans "Already have an account? " %}
+      <a id="create" href="{% url 'login' %}"> Log in </a>
+    </p>
+
+    {% endblock %}
+    </div>
+
+
+
+
+    <script>
+      if (window.localStorage.getItem('theme')){
+        var doc = document.querySelector('#html');
+        doc.dataset.theme = window.localStorage.getItem('theme');}
+
+      if (window.navigator.language == "uk"){
+        var form = document.getElementsByTagName('form')[0];
+        form[7].value = "Створити";
+
+        var labels = document.getElementsByTagName("label");
+        labels[1].innerText = "Ім'я";
+        labels[2].innerText = "Прізвище";
+        labels[3].innerText = "Електронна пошта";
+
+        var helptext = document.getElementsByClassName("helptext");
+        helptext[1].innerText = "Не обов'язково"
+        helptext[2].innerText = "Не обов'язково"
+        helptext[3].innerText = "Обов'язково. Повідомте дійсну електронну адресу"
+
+
+        var donthaveanaccount = document.getElementById("h1");
+        donthaveanaccount.innerText = "Bolls | Зареєструватися ";
+
+        var donthaveanaccount = document.getElementById("donthaveanaccount");
+        donthaveanaccount.firstChild.data = "Вже маєте обліковий запис? ";
+
+        var create = document.getElementById("create");
+        create.innerText = "Увійти";
+      }
+
+      if (window.navigator.language == "ru"){
+        var form = document.getElementsByTagName('form')[0];
+        form[7].value = "Создать";
+
+        var labels = document.getElementsByTagName("label");
+        labels[1].innerText = "Имя";
+        labels[2].innerText = "Отчество";
+        labels[3].innerText = "Електронная почта";
+
+        var helptext = document.getElementsByClassName("helptext");
+        helptext[1].innerText = "Не обязательно"
+        helptext[2].innerText = "Не обязательно"
+        helptext[3].innerText = "Обязательно. Сообщите настояшую електронную почту"
+        console.log(helptext)
+
+
+        var donthaveanaccount = document.getElementById("h1");
+        donthaveanaccount.innerText = "Bolls | Зарегестрироватся ";
+
+        var donthaveanaccount = document.getElementById("donthaveanaccount");
+        donthaveanaccount.firstChild.data = "Уже имеете аккаунт? ";
+
+        var create = document.getElementById("create");
+        create.innerText = "Войти";
+      }
+
+    </script>
+  </body>
+</html>

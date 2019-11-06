@@ -142,3 +142,98 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-SemiBoldItalic.woff2') format('woff2'),
+        url('fonts/ZillaSlab-SemiBoldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-Light.woff2') format('woff2'),
+        url('fonts/ZillaSlab-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-LightItalic.woff2') format('woff2'),
+        url('fonts/ZillaSlab-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-Medium.woff2') format('woff2'),
+        url('fonts/ZillaSlab-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab Highlight';
+    src: url('fonts/ZillaSlabHighlight-Bold.woff2') format('woff2'),
+        url('fonts/ZillaSlabHighlight-Bold.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-Italic.woff2') format('woff2'),
+        url('fonts/ZillaSlab-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-MediumItalic.woff2') format('woff2'),
+        url('fonts/ZillaSlab-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-BoldItalic.woff2') format('woff2'),
+        url('fonts/ZillaSlab-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-Bold.woff2') format('woff2'),
+        url('fonts/ZillaSlab-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-SemiBold.woff2') format('woff2'),
+        url('fonts/ZillaSlab-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab';
+    src: url('fonts/ZillaSlab-Regular.woff2') format('woff2'),
+        url('fonts/ZillaSlab-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zilla Slab Highlight';
+    src: url('fonts/ZillaSlabHighlight-Regular.woff2') format('woff2'),
+        url('fonts/ZillaSlabHighlight-Regular.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}

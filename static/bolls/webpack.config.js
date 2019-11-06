@@ -4,6 +4,16 @@ module.exports = {
 			{
 				test: /\.imba$/,
 				loader: 'imba/loader',
+			},
+			{
+				test: /\.m?js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env']
+					}
+				}
 			}
 		]
 	},
@@ -11,5 +21,6 @@ module.exports = {
 		extensions: [".imba",".js", ".json"]
 	},
 	entry: "./src/client.imba",
+	// entry: ["./src/client.imba", "./dist/client.js"],
 	output: {  path: __dirname + '/dist', filename: "client.js" }
 }

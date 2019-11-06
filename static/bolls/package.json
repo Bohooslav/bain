@@ -25,12 +25,18 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.6.0",
     "express": "^4.17.1",
     "imba": "^1.4.8",
     "webpack": "^4.39.3",
     "webpack-dev-server": "^3.8.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
     "webpack-cli": "^3.3.7"
   }
 }

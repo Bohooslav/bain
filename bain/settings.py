@@ -25,7 +25,13 @@ SECRET_KEY = '300lf8rl25%wq$cs$2^k$r-u16@58b7m%ljdsuug_5fy&%eyg='
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+if os.getenv('GAE_APPLICATION', None):
+    DEBUG = False
+else:
+    DEBUG = True
+
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -146,8 +153,15 @@ USE_TZ = True
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
-ADMINS = [('Bohuslav', 'bpavlisinec@gmail.com')]
+ADMINS = [('Boguslav', 'bpavlisinec@gmail.com')]
+# python manage.py createsuperuser --username=Boguslav --email=bpavlisinec@gmail.com
 
-# virtualenv env
-# source env/bin/activate
-# pip install -r requirements.txt
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+
+USE_THOUSAND_SEPARATOR = True
+
+SERIALIZATION_MODULES = {
+    "geojson": "django.contrib.gis.serializers.geojson",
+}

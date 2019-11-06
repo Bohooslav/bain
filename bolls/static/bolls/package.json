@@ -13,7 +13,7 @@
   "scripts": {
     "start": "imba src/server.imba",
     "dev": "webpack-dev-server --hot --content-base dist/",
-    "build": "webpack --mode=production",
+    "build": "babel dist -d lib",
     "watch": "webpack --mode=development --watch --progress --colors --display-modules"
   },
   "files": [],
@@ -25,12 +25,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "imba": "^1.4.8",
-    "webpack": "^4.39.3",
-    "webpack-dev-server": "^3.8.0"
+    "imba": "^1.5.1",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.7"
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "imba-router": "^0.4.0",
+    "webpack-cli": "^3.3.10"
   }
 }

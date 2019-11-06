@@ -5,30 +5,26 @@
   }
 
   .search_results {
-    position: fixed;
     top: 0px;
     right: 0px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    background: var(--background-color);
+    height: 100%;
+    width: 100%;
     box-shadow: none;
-    transform: scale(0) translateY(90deg);
-    opacity: 0;
-    z-index: -1;
   }
 
   .show_search_results {
     padding: 12px;
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    z-index: auto;
+    border: none;
   }
 
+  .show-canvas {
+    transform: scale(1) translateX(-148px);
+    top: -100px;
+    border: 4px solid var(--background-color);
+  }
   .filters {
-    height: 96vh;
-    top: 2vh;
+    height: 96%;
+    top: 2%;
     padding: 12px 4px;
   }
   .parallel_text {
@@ -41,7 +37,6 @@
     height: auto;
   }
   .second_parallel {
-    border-top: 1px dotted #888;
+    border-top: 1px solid #88f8;
   }
-
 }

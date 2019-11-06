@@ -1,6 +1,6 @@
 import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTGT, HOM, translations from "./translations_data.imba"
 
-import eng_leng, ukr_leng from "./langdata.imba"
+import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
 
 let settings = {
@@ -13,13 +13,13 @@ let settings = {
 }
 
 let search = {
+  search_div: false,
   search_input: '',
   search_result_header: '',
   search_result_translation: '',
-  search_div: false,
-  counter: 50,
   show_filters: false,
   is_filter: false,
+  counter: 50,
   filter: 0
 }
 
@@ -31,12 +31,29 @@ let parallel_text = {
   edited_version: 'KJV',
 }
 
+let user = {
+  name: '',
+  id: -1
+}
+
+
 let mobimenu = ''
 let offline = false
+let inzone = false
+let bible_menu_left = -280
+let settings_menu_left = 280
+
+
+
+let choosen = []
+let highlight_color = ''
+let show_color_picker = false
+
 
 
 tag App
   prop verses
+  prop bookmarks
   prop search_verses
   prop parallel_verses
   prop parallel_books
@@ -49,54 +66,52 @@ tag App
 
 
   def build
-    if window:preloaded_text
-      @verses = window:preloaded_text
-      @linked_verse = window:highlighted_verse
-      switchTranslation window:preloaded_text[0]:fields:translation, false
-      settings:translation = window:preloaded_text[0]:fields:translation
-      settings:book = window:preloaded_text[0]:fields:book
-      settings:chapter = window:preloaded_text[0]:fields:chapter
-      parallel_text:display = false
-      if getCookie('language')
-        settings:language = getCookie('language')
-      else
-        switch window:navigator:language
-          when 'uk' then settings:language = 'ukr'
-          else settings:language = 'eng'
+    # try get settings cookies
+    if getCookie('translation')
+      settings:translation = getCookie('translation')
+    if getCookie('book')
+      settings:book = parseInt(getCookie('book'))
+    if getCookie('chapter')
+      settings:chapter = parseInt(getCookie('chapter'))
+    @verses = getText(settings:translation, settings:book, settings:chapter)
+
+    console.log window:navigator:language
+    if getCookie('language')
+      settings:language = getCookie('language')
     else
-      if getCookie('translation')
-        settings:translation = getCookie('translation')
-      if getCookie('book')
-        settings:book = parseInt(getCookie('book'))
-      if getCookie('chapter')
-        settings:chapter = parseInt(getCookie('chapter'))
-      if getCookie('language')
-        settings:language = getCookie('language')
-      else
-        switch window:navigator:language
-          when 'uk'
-            settings:language = 'ukr'
-            settings:translation = 'UKRK'
-            setCookie('language', settings:language)
-          else settings:language = 'eng'
-      @verses = getText(settings:translation, settings:book, settings:chapter)
-      switchTranslation settings:translation, false
+      switch window:navigator:language
+        when 'uk'
+          settings:language = 'ukr'
+          settings:translation = 'UKRK'
+          setCookie('language', settings:language)
+        when 'ru'
+          settings:language = 'ru'
+          settings:translation = 'SYNOD'
+          setCookie('language', settings:language)
+    switch settings:language
+      when 'eng' then @langdata = en_leng
+      when 'ukr' then @langdata = uk_leng
+      when 'ru' then @langdata = ru_leng
+    switchTranslation settings:translation, false
+
     if getCookie('theme')
       settings:theme = getCookie('theme')
       let html = document.querySelector('#html')
       html:dataset:theme = settings:theme
     if getCookie('font')
       settings:font = parseInt(getCookie('font'))
-    if getCookie('parallel_display')
-      if getCookie('parallel_display') == 'true'
-        toggleParallelMode
-    switch settings:language
-      when 'eng' then @langdata = eng_leng
-      when 'ukr' then @langdata = ukr_leng
+    if getCookie('parallel_display') == 'true'
+      toggleParallelMode
+
+    if window:username
+      user:name = window:username
+      user:id = window:userid
+
     @search_verses = {}
     @show_chapters_of = 0
     @show_list_of_translations = 0
     @show_languages = false
+
 
 
   def getCookie c_name
@@ -104,6 +119,7 @@ tag App
 
   def setCookie c_name, value, expiredays
     return window:localStorage.setItem(c_name, value)
+
 
   def switchTranslation translation, parallel
     if parallel
@@ -133,26 +149,52 @@ tag App
         when "NTGT" then @books = NTGT
         when "HOM" then @books = HOM
 
+
   def load url
     if window:navigator:onLine
       offline = false
     else
       offline = true
-    var res = await window.fetch(url)
-    .then( do |result| result.json())
-    .then( do |json| return json)
+    var res = await window.fetch url
+    return res.json
 
-  def getText translation, book, chapter
-    settings:book = book
-    settings:chapter = chapter
+
+
+  def getText translation, book, chapter, verse
     let url = "get-text/" + translation + '/' + book + '/' + chapter + '/'
+    @bookmarks = {}
     @verses = {}
     @verses = JSON.parse(await load url)
+
+    # if user:name
+    #   url = "get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+    #   @bookmarks = (await load url):data
+    #   for bookmark, key in @bookmarks
+    #     bookmarks[key] = JSON.parse(bookmark)[0]:fields
+    # if bookmarks.find(do |element| return element:verse == verses[2]:pk)
+    #   console.log bookmarks.find(do |element| return element:verse == verses[2]:pk):background
+    # console.log verses[0]:pk == bookmarks[0]:verse
+    # scheduler.mark
+    scheduler.mark
+
+    unflag 'show_bible_menu'
+    bible_menu_left = -280
+    mobimenu = ''
     search:search_div = false
     dropFilter
     Imba.commit
+
+    settings:book = book
+    settings:chapter = chapter
     setCookie('book', book)
     setCookie('chapter', chapter)
+
+    if verse
+      setTimeout(&,1200) do
+        console.log verse
+        window:location:hash = "#{verse}"
+
+
 
   def getParallelText translation, book, chapter
     parallel_text:translation = translation
@@ -168,6 +210,7 @@ tag App
     setCookie('parallel_translation', translation)
     setCookie('parallel_book', book)
     setCookie('parallel_chapter', chapter)
+
 
   def toggleParallelMode
     if parallel_text:display
@@ -185,40 +228,6 @@ tag App
 
   def changeEditedParallel translation
     parallel_text:edited_version = translation
-
-  def getSearchText
-    let url
-    if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-      url = parallel_text:edited_version + '/' + search:search_input + '/'
-      search:search_result_translation = parallel_text:edited_version
-    else
-      url = settings:translation + '/' + search:search_input + '/'
-      search:search_result_translation = settings:translation
-    @search_verses = {}
-    @search_verses = JSON.parse(await load url)
-    search:search_result_header = search:search_input
-    search:search_div = true
-    search:counter = 50
-    unflag 'show_settings_menu'
-    Imba.commit
-
-  def onmousemove e
-    if e.x > window:outerWidth - 20
-      flag 'show_settings_menu'
-    elif e.x < window:outerWidth - 210 && !mobimenu
-      unflag 'show_settings_menu'
-      mobimenu = ''
-
-  def addFilter book
-    search:is_filter = true
-    search:filter = book
-    search:show_filters = false
-    search:counter = 50
-
-  def dropFilter
-    search:is_filter = false
-    search:show_filters = false
-    search:counter = 50
 
   def changeTranslation translation
     if parallel_text:edited_version == parallel_text:translation && parallel_text:display
@@ -242,6 +251,72 @@ tag App
       settings:translation = translation
       setCookie('translation', translation)
     @show_list_of_translations = false
+
+
+  def getSearchText
+    if search:search_input != ''
+      let url
+      if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+        url = parallel_text:edited_version + '/' + search:search_input + '/'
+        search:search_result_translation = parallel_text:edited_version
+      else
+        url = settings:translation + '/' + search:search_input + '/'
+        search:search_result_translation = settings:translation
+      @search_verses = {}
+      @search_verses = JSON.parse(await load url)
+      search:search_result_header = search:search_input
+      search:search_div = true
+      search:counter = 50
+      unflag 'show_settings_menu'
+      Imba.commit
+
+
+  def addFilter book
+    search:is_filter = true
+    search:filter = book
+    search:show_filters = false
+    search:counter = 50
+
+  def dropFilter
+    search:is_filter = false
+    search:show_filters = false
+    search:counter = 50
+
+
+  def changeTheme
+    let html = document.querySelector('#html')
+    switch settings:theme
+      when 'light'
+        html:dataset:theme = 'dark'
+        settings:theme = 'dark'
+        setCookie('theme', 'dark')
+      when 'dark'
+        html:dataset:theme = 'light'
+        settings:theme = 'light'
+        setCookie('theme', 'light')
+
+  def decreaceFontSize
+    if settings:font > 16
+      settings:font -= 2
+      setCookie('font', settings:font)
+
+  def increaceFontSize
+    if settings:font < 64 && window:outerWidth > 480
+      settings:font = settings:font + 2
+      setCookie('font', settings:font)
+    elif settings:font < 42
+      settings:font = settings:font + 2
+      setCookie('font', settings:font)
+
+  def setLanguage language
+    settings:language = language
+    switch language
+      when 'eng' then @langdata = en_leng
+      when 'ukr' then @langdata = uk_leng
+      when 'ru' then @langdata = ru_leng
+    setCookie('language', language)
+    show_languages = !@show_languages
+
 
   def showChapters bookid
     if bookid != @show_chapters_of
@@ -299,80 +374,151 @@ tag App
         if books[current_index - 1]
           getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
-  def changeTheme
-    let html = document.querySelector('#html')
-    switch settings:theme
-      when 'light'
-        html:dataset:theme = 'dark'
-        settings:theme = 'dark'
-        setCookie('theme', 'dark')
-      when 'dark'
-        html:dataset:theme = 'light'
-        settings:theme = 'light'
-        setCookie('theme', 'light')
 
-  def decreaceFontSize
-    if settings:font > 16
-      settings:font -= 2
-      setCookie('font', settings:font)
+  def onmousemove e
+    if window:outerWidth > 700
+      if e.x < 32
+        bible_menu_left = 0
+        flag 'show_bible_menu'
+        mobimenu = 'show_bible_menu'
+        unflag 'show_settings_menu'
+      elif e.x > window:outerWidth - 32
+        settings_menu_left = 0
+        flag 'show_settings_menu'
+        mobimenu = 'show_settings_menu'
+        unflag 'show_bible_menu'
+      elif 280 < e.x < window:outerWidth - 280
+        bible_menu_left = -280
+        settings_menu_left = 280
+        unflag 'show_bible_menu'
+        unflag 'show_settings_menu'
+        mobimenu = ''
 
-  def increaceFontSize
-    if settings:font < 64 && window:outerWidth > 480
-      settings:font = settings:font + 2
-      setCookie('font', settings:font)
-    elif settings:font < 42
-      settings:font = settings:font + 2
-      setCookie('font', settings:font)
-
-
-  def setLanguage language
-    settings:language = language
-    switch language
-      when 'eng' then @langdata = eng_leng
-      when 'ukr' then @langdata = ukr_leng
-    setCookie('language', language)
-    show_languages = !@show_languages
 
   def ontouchstart touch
+    if touch.x < 32 || touch.x > window:outerWidth - 32
+      inzone = true
     self
 
+  def ontouchmove touch
+    if inzone && mobimenu == ''
+      if (bible_menu_left < 0 || touch.dx < 280) && mobimenu != 'show_settings_menu'
+        bible_menu_left = touch.dx - 280
+
+      if (settings_menu_left > 0 || touch.dx > -280) && mobimenu != 'show_bible_menu'
+        settings_menu_left = touch.dx + 280
+
+      Imba.commit
+
   def ontouchend touch
-    if touch.dx > 64 && mobimenu != 'show_settings_menu'
-      flag 'show_bible_menu'
-      mobimenu = 'show_bible_menu'
-      unflag 'show_settings_menu'
-    elif touch.dx < -64 && mobimenu != 'show_bible_menu'
-      flag 'show_settings_menu'
-      mobimenu = 'show_settings_menu'
-      unflag 'show_bible_menu'
-    elif touch.dx > 64 && mobimenu == 'show_settings_menu'
-      mobimenu = ''
-      unflag 'show_settings_menu'
-    elif touch.dx < -64 && mobimenu == 'show_bible_menu'
-      mobimenu = ''
-      unflag 'show_bible_menu'
-    else
-      if touch.x < 210 && mobimenu == 'show_bible_menu'
-        return
-      elif touch.x > window:outerWidth - 210
+    if inzone && mobimenu == ''
+      inzone = false
+      if touch.dx > 120 && mobimenu != 'show_settings_menu'
+        bible_menu_left = 0
+        flag 'show_bible_menu'
+        mobimenu = 'show_bible_menu'
+      elif touch.dx < -120 && mobimenu != 'show_bible_menu'
+        settings_menu_left = 0
+        flag 'show_settings_menu'
+        mobimenu = 'show_settings_menu'
+      else
+        settings_menu_left = 280
+        bible_menu_left = -280
+        unflag 'show_settings_menu'
         unflag 'show_bible_menu'
         mobimenu = ''
-        return
-      else
+    elif mobimenu == 'show_bible_menu' && touch.dx < -120
+      bible_menu_left = -280
+      unflag 'show_bible_menu'
+      mobimenu = ''
+    elif mobimenu == 'show_settings_menu' && touch.dx > 120
+      settings_menu_left = 280
+      unflag 'show_settings_menu'
+      mobimenu = ''
+    Imba.commit
+
+  def ontouchcancel touch
+        bible_menu_left = -280
+        settings_menu_left = 280
         unflag 'show_settings_menu'
         unflag 'show_bible_menu'
         mobimenu = ''
 
-  def ontouchcancel touch
-    unflag 'show_bible_menu'
-    unflag 'show_settings_menu'
-    mobimenu = ''
+  def getHighlight verse
+    let highlight = @bookmarks.find(do |element| return element:verse == verse:pk)
+    # console.log "We are here", highlight
+    if highlight
+      return highlight:background
+    css:background="#{getHighlight(verse)}"
+
+
+  def addToChoosen id
+    if user:name
+      if choosen.find(do |element| return element == id)
+        choosen.splice(choosen.indexOf(id), 1)
+      else
+        choosen.push id
+      if choosen:length == 1 && !highlight_color
+        highlight_color = "royalblue"
+      elif !choosen:length
+        show_color_picker = false
+
+  def changeHighlightColor color
+    show_color_picker = false
+    highlight_color = color
+
+  def getHighlightedRow
+    let row = nameOfBook settings:book
+    row += ' ' + settings:chapter + ':'
+    for id, key in choosen.sort(do |a, b| return a - b)
+      if id == choosen[key - 1] + 1
+        if id == choosen[key+1] - 1
+          continue
+        else
+          row += '-' + id
+      else
+        if !key
+          row += id
+        else
+          row += ',' + id
+    return row
+
+
+  def buildCanvasPicker
+    if !show_color_picker
+      var canvasEl = document.getElementById('colorCanvas')
+      var canvasContext = canvasEl.getContext('2d')
+
+      var image = Image.new(250, 250)
+      image:onload = do canvasContext.drawImage(image, 0, 0, image:width, image:height)
+      image:src = "static/bolls/dist/color_wheel.png"
+
+      canvasEl:onclick = do |e|
+        var imgData = canvasContext.getImageData(e:offsetX, e:offsetY, 1, 1)
+        var rgba = imgData:data
+
+        highlight_color = "rgba(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2] + ", " + rgba[3] + ")"
+        console.log highlight_color, imgData:data
+
+      canvasEl:ontouch = do |e|
+        var imgData = canvasContext.getImageData(e:offsetX, e:offsetY, 1, 1)
+        var rgba = imgData:data
+
+        highlight_color = "rgba(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2] + ", " + rgba[3] + ")"
+      show_color_picker = true
+    else
+      show_color_picker = false
+
+    def closeMark
+      choosen = []
+      show_color_picker = false
+
 
 
 
   def render
-    <self>
-      <div.bible-menu>
+    <self .noscroll=search:search_div>
+      <div.bible-menu css:transform="translateX({ bible_menu_left }px)">
         if parallel_text:display
           <div.choose_parallel>
             <div.translation_name .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation)> settings:translation
@@ -402,19 +548,13 @@ tag App
         <div .first_parallel=parallel_text:display .right_align=(settings:translation=="WLC")>
           <h2> nameOfBook(settings:book, false), ' ', settings:chapter
           <p.text-ident> " "
-          if (settings:translation=="WLC")
-            for verse in verses
-              <span.verse id=verse:fields:verse>
-                ' '
-                verse:fields:verse
-              <span> verse:fields:text
-          else for verse in verses
-            <span.verse id=verse:fields:verse>
+          for verse in @verses
+            <a.verse href="#{verse:fields:verse}" id=verse:fields:verse>
               ' '
               verse:fields:verse
-            <span> verse:fields:text
+            <span .clicked=choosen.find(do |element| return element == verse:fields:verse) :tap.prevent.addToChoosen(verse:fields:verse) css:text-decoration-color=highlight_color> verse:fields:text
           <div.arrows>
-            <button.arrow css:margin-right="auto" :tap.prevent.prewChapter()>
+            <button.arrow :tap.prevent.prewChapter()>
               <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                 <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
             <button.arrow :tap.prevent.nextChapter()>
@@ -424,13 +564,7 @@ tag App
         <div.second_parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC")>
           <h2> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <p.text-ident> " "
-          if (parallel_text:translation=="WLC")
-            for verse in @parallel_verses
-              <span.verse id=verse:fields:verse>
-                ' '
-                verse:fields:verse
-              <span> verse:fields:text
-          else for verse in @parallel_verses
+          for verse in @parallel_verses
             <span.verse id=verse:fields:verse>
               ' '
               verse:fields:verse
@@ -442,8 +576,12 @@ tag App
             <button.arrow :tap.prevent.nextChapter('true')>
               <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                 <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
+        if choosen:length
+          <div.freespace>
 
-      <div.settings-menu>
+
+
+      <div.settings-menu css:transform="translateX({ settings_menu_left }px)">
         <p.settings_header> langdata:other
         <input[search:search_input].search_btn type='search' placeholder=langdata:search :keydown.enter.getSearchText :keydown.esc=(do search:search_div = false)> "Search"
         <div.nighttheme .theme_checkbox_light=(settings:theme=="light")>
@@ -457,7 +595,7 @@ tag App
               else
                 <svg:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <svg:path d="M10 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM9 1a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0V1zm6.65 1.94a1 1 0 1 1 1.41 1.41l-1.4 1.4a1 1 0 1 1-1.41-1.41l1.4-1.4zM18.99 9a1 1 0 1 1 0 2h-1.98a1 1 0 1 1 0-2h1.98zm-1.93 6.65a1 1 0 1 1-1.41 1.41l-1.4-1.4a1 1 0 1 1 1.41-1.41l1.4 1.4zM11 18.99a1 1 0 1 1-2 0v-1.98a1 1 0 1 1 2 0v1.98zm-6.65-1.93a1 1 0 1 1-1.41-1.41l1.4-1.4a1 1 0 1 1 1.41 1.41l-1.4 1.4zM1.01 11a1 1 0 1 1 0-2h1.98a1 1 0 1 1 0 2H1.01zm1.93-6.65a1 1 0 1 1 1.41-1.41l1.4 1.4a1 1 0 1 1-1.41 1.41l-1.4-1.4z">
-        <div.font_setting>
+        <div.nighttheme>
           langdata:font
           <div.great_B :tap.prevent.decreaceFontSize> "B-"
           "{settings:font}"
@@ -473,16 +611,27 @@ tag App
               "Українська"
             if settings:language == 'eng'
               "English"
+            if settings:language == 'ru'
+              "Русский"
           <div.languages .show_languages=show_languages>
             <button :tap.prevent.setLanguage('ukr')> "Українська"
             <button :tap.prevent.setLanguage('eng')> "English"
+            <button :tap.prevent.setLanguage('ru')> "Русский"
         <a.help href="mailto:bpavlisinec@gmail.com"> langdata:help
+        # <div.profile_in_settings>
+        #   if user:name
+        #     <p.username> user:name
+        #     <a.prof_btn href="/accounts/logout/"> langdata:logout
+        #   else
+        #     <a.prof_btn href="/accounts/login/"> langdata:login, ' '
+        #     <a.prof_btn.signin href="/signup/"> langdata:signin
+        <div.freespace>
 
       <div.search_results .show_search_results=search:search_div>
         <div.search_hat>
           <svg:svg.close_search :tap.prevent=(do search:search_div = false) xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" viewBox="0 0 20 20" width="20" height="20" space="preserve">
-            <svg:line id="line1" x1="0" y1="5" x2="20" y2="5" data-svg-origin="20 5" style="" transform="matrix(1,0,0,1,0,0)">
-            <svg:line id="line2" x1="0" y1="15" x2="20" y2="15" data-svg-origin="20 15" style="" transform="matrix(1,0,0,1,0,0)">
+          <svg:line id="line1" x1="0" y1="5" x2="20" y2="5" data-svg-origin="20 5" style="" transform="matrix(1,0,0,1,0,0)">
+          <svg:line id="line2" x1="0" y1="15" x2="20" y2="15" data-svg-origin="20 15" style="" transform="matrix(1,0,0,1,0,0)">
           <h2> search:search_result_header
           <svg:svg.filter_search .filter_search_hover=search:show_filters||search:is_filter :tap.prevent=(do search:show_filters = !search:show_filters) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <svg:path d="M12 12l8-8V0H0v4l8 8v8l4-4v-4z">
@@ -500,7 +649,7 @@ tag App
                     <div.book_in_list :tap.prevent.addFilter(book:bookid)> book:name
             if search:is_filter
               for verse, key in search_verses when verse:fields:book == search:filter
-                <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
+                <a.search_item :tap.getText(verse:fields:translation, verse:fields:book, verse:fields:chapter, verse:fields:verse)>
                   <div.search_res_verse_text>
                     <span> verse:fields:text
                   <div.search_res_verse_header>
@@ -515,7 +664,7 @@ tag App
 
             else
               for verse, key in search_verses
-                <a.search_item href="/{verse:fields:translation}/{verse:fields:book}/{verse:fields:chapter}/#{verse:fields:verse}" target="_blank">
+                <a.search_item :tap.getText(verse:fields:translation, verse:fields:book, verse:fields:chapter, verse:fields:verse)>
                   <div.search_res_verse_text>
                     <span> verse:fields:text
                   <div.search_res_verse_header>
@@ -528,6 +677,35 @@ tag App
           else
             <p> langdata:nothing
             <p> langdata:translation, search:search_result_translation
+          <div.freespace>
+
+
+      <div.hide .choosen_verses=choosen:length>
+        <div.markingcontainer>
+          <canvas.color-canvas .show-canvas=show_color_picker id="colorCanvas" width="250" height="250">
+          <p css:padding="16px"> getHighlightedRow
+          <div.mark_grid>
+            <div.color_mark css:background="indianred" :tap.prevent.changeHighlightColor("indianred")>
+            <div.color_mark css:background="goldenrod" :tap.prevent.changeHighlightColor("goldenrod")>
+            <div.color_mark css:background="olivedrab" :tap.prevent.changeHighlightColor("olivedrab")>
+            <div.color_mark css:background="cadetblue" :tap.prevent.changeHighlightColor("cadetblue")>
+            <div.color_mark css:background="royalblue" :tap.prevent.changeHighlightColor("royalblue")>
+            <div.color_mark css:background="blueviolet" :tap.prevent.changeHighlightColor("blueviolet")>
+            <div.color_mark
+              css:background="linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+              linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+              linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)"
+              :tap.prevent.buildCanvasPicker>
+          <div.addbuttons>
+            <svg:svg.close_search :tap.prevent.closeMark xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" viewBox="0 0 20 20" width="20" height="20" space="preserve" css:margin="0px 0 0 12px">
+              <svg:line id="line1" x1="0" y1="5" x2="20" y2="5">
+              <svg:line id="line2" x1="0" y1="15" x2="20" y2="15">
+            <button> "Add a label"
+            <button> "Copy"
+            <button> "Add a note"
+            <svg:svg.save_bookmark xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <svg:path d="M0 11l2-2 5 5L18 3l2 2L7 18z">
+
 
 
 
