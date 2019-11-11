@@ -161,7 +161,3 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 USE_THOUSAND_SEPARATOR = True
-
-SERIALIZATION_MODULES = {
-    "geojson": "django.contrib.gis.serializers.geojson",
-}

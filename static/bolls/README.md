@@ -1,14 +1,12 @@
-# Hello World Imba
+# Bolls
 
-Tiny template for testing out Imba. Click [Use this
-template](https://github.com/imba/hello-world-imba/generate) on GitHub to
-create a new repository with this template.
+Bolls frontend
 
 ## Getting started
 
 ```
-git clone https://github.com/imba/hello-world-imba
-cd hello-world-imba
+git clone https://github.com/Bohooslav/bolls/
+cd bolls
 yarn # npm install
 ```
 

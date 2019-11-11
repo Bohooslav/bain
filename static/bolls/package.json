@@ -1,10 +1,10 @@
 {
-  "name": "hello-world-imba",
-  "description": "Hello World for Imba",
+  "name": "bolls-bible",
+  "description": "Bolls Bible",
   "keywords": [
-    "imba"
+    "bolls"
   ],
-  "author": "Sindre Aarsaether",
+  "author": "Bohuslav Pavlyshynec",
   "bugs": "https://github.com/somebee/hello-world-imba/issues",
   "version": "1.0.0",
   "engines": {
@@ -13,30 +13,31 @@
   "scripts": {
     "start": "imba src/server.imba",
     "dev": "webpack-dev-server --hot --content-base dist/",
-    "build": "webpack --mode=production",
+    "build": "babel dist -d lib",
     "watch": "webpack --mode=development --watch --progress --colors --display-modules"
   },
   "files": [],
   "directories": {},
-  "homepage": "http://imba.io",
+  "homepage": "http://bolls.life",
   "repository": {
     "type": "git",
-    "url": "git://github.com/somebee/hello-world-imba.git"
+    "url": "git://github.com/Bohooslav/bolls.git"
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
-    "express": "^4.17.1",
-    "imba": "^1.4.8",
-    "webpack": "^4.39.3",
-    "webpack-dev-server": "^3.8.0"
+    "imba": "^1.5.1",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/register": "^7.6.2",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
-    "webpack-cli": "^3.3.7"
+    "imba-router": "^0.4.0",
+    "webpack-cli": "^3.3.10"
   }
 }

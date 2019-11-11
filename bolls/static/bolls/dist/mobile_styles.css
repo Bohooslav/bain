@@ -1,12 +1,12 @@
 @media screen and (max-width: 700px) {
-  .text, .text h2 {
-    margin: 0px;
+  .text, .text h1, h2, h3 {
+    margin: 0;
     overflow-wrap: break-word;
   }
 
   .search_results {
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     height: 100%;
     width: 100%;
     box-shadow: none;

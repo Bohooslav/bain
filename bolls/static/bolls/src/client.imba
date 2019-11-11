@@ -1,3 +1,3 @@
-import {Site} from './components/Site'
+import {Bible} from './components/Bible'
 
-Imba.mount <Site>
+Imba.mount <Bible>

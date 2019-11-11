@@ -1,8 +1,7 @@
 import ast, json
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.serializers import serialize
 
@@ -20,6 +19,14 @@ def getText(request, translation, book, chapter):
         book=book, chapter=chapter, translation=translation).order_by('verse')
     data = serialize('json', all_objects)
     return JsonResponse(data, safe=False)
+
+
+def linkToVerse(request, translation, book, chapter, verse):
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verse": verse})
+
+
+def linkToChapter(request, translation, book, chapter):
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter})
 
 
 def search(request, translation, piece):
@@ -44,6 +51,7 @@ def signUp(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+
 @login_required
 def profile(request):
     return redirect('index')
@@ -66,7 +74,7 @@ def getBookmarks(request, translation, book, chapter):
 @login_required
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
-    all_objects = user.bookmarks_set.all().order_by('date')[range_from:range_to]
+    all_objects = user.bookmarks_set.all().order_by('-date', 'verse')[range_from:range_to]
 
     bookmarks = serialize(
         'json', all_objects, use_natural_foreign_keys=True)

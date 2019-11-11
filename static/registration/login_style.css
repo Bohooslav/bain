@@ -8,6 +8,11 @@ html[data-theme='light'] {
   --text-color: #04060c;
 }
 
+html {
+  --btn-bg: #88f2;
+  --btn-bg-hover: #88f4;
+}
+
 * {
   box-sizing: border-box;
   scrollbar-color: #737373 #38383D33;
@@ -38,8 +43,8 @@ html[data-theme='light'] {
 }
 
 *::selection {
-  color: var(--background-color);
-  background-color: var(--text-color);
+  color: #fee;
+  background-color: #417690;
 }
 
 :focus {
@@ -47,7 +52,7 @@ html[data-theme='light'] {
 }
 
 body {
-  font-family: "Zilla Slab", "Open Sans", sans-serif;
+  font-family: sans-serif;
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
@@ -78,6 +83,10 @@ ul {
   color: indianred;
 }
 
+br {
+  display: none;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -98,17 +107,21 @@ input {
 }
 
 input[type="submit"] {
-  background: var(--background-color);
+  background-color: var(--btn-bg);
   color: var(--text-color);
   cursor: pointer;
   padding: 4px 8px;
   margin-left: auto;
   font-size: 16px;
-  border-width: 2px;
-  border-color: var(--text-color);
   margin-top: 16px;
   width: 100%;
+  border-radius: 4px;
 }
+
+input[type="submit"]:hover {
+  background-color: var(--btn-bg-hover);
+}
+
 
 a {
   font-size: 13px;

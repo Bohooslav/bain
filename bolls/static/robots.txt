@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /*.xls$
+Allow: /
+
+Sitemap: http://www.bolls.life/sitemap.xml

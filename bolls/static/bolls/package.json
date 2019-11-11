@@ -1,10 +1,10 @@
 {
-  "name": "hello-world-imba",
-  "description": "Hello World for Imba",
+  "name": "bolls-bible",
+  "description": "Bolls Bible",
   "keywords": [
-    "imba"
+    "bolls"
   ],
-  "author": "Sindre Aarsaether",
+  "author": "Bohuslav Pavlyshynec",
   "bugs": "https://github.com/somebee/hello-world-imba/issues",
   "version": "1.0.0",
   "engines": {
@@ -18,10 +18,10 @@
   },
   "files": [],
   "directories": {},
-  "homepage": "http://imba.io",
+  "homepage": "http://bolls.life",
   "repository": {
     "type": "git",
-    "url": "git://github.com/somebee/hello-world-imba.git"
+    "url": "git://github.com/Bohooslav/bolls.git"
   },
   "license": "MIT",
   "dependencies": {
@@ -30,8 +30,9 @@
     "webpack-dev-server": "^3.9.0"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.7.0",
     "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.0",
+    "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "@babel/register": "^7.7.0",
     "babel-core": "^6.26.3",

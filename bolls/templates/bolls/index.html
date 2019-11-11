@@ -4,29 +4,40 @@
 <html id="html" data-theme='dark'>
   <head>
     <meta charset="UTF-8">
-    <title>Bolls</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/font_style.css' %}">
+    <title>Bolls Bible</title>
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="/site.webmanifest">
+
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    <meta name="description" content="Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
-    <meta property="og:title" content="Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
-    <meta property="og:description" content="Read God`s Word with a deep understanding of His design, Bible elevates your soul with rapid ascending to calm, safety and more.">
+    <meta name="description" content="Read the Bible with full emphasis on the God`s Word only. Sola scriptura">
+    <meta property="og:title" content="Read the Bible with full emphasis on the God`s Word only. Sola scriptura">
+    <meta property="og:description" content="Read God`s Word with a deep understanding of His design. Bible elevates your soul with rapid ascending to calm, safety and more.">
     <meta property="og:image" content="http://bolls.life/static/light.png">
     <meta name="twitter:image:src" content="http://bolls.life/static/light.png">
   </head>
 
   <body>
     <script>
+      {% if translation %}
+        window.translation = "{{ translation }}";
+        window.book = "{{ book }}";
+        window.chapter = "{{ chapter }}";
+        {% if verse %}
+          window.verse = "{{ verse }}";
+        {% endif %}
+      {% else %}
+        window.translation = false;
+      {% endif %}
+
       {% if user.is_authenticated %}
-        window.username = "{{ user.username }}"
-        window.userid = "{{ user.id }}"
-        window.first_name = "{{ user.first_name }}"
-        window.last_name = "{{ user.last_name }}"
+        window.username = "{{ user.username }}";
+        window.userid = "{{ user.id }}";
+        window.first_name = "{{ user.first_name }}";
+        window.last_name = "{{ user.last_name }}";
       {% else %}
         window.username = false
       {% endif %}
