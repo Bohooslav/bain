@@ -8,11 +8,6 @@ html[data-theme='light'] {
   --text-color: #04060c;
 }
 
-html {
-  --btn-bg: #88f2;
-  --btn-bg-hover: #88f4;
-}
-
 * {
   box-sizing: border-box;
   scrollbar-color: #737373 #38383D33;
@@ -107,23 +102,24 @@ input {
 }
 
 input[type="submit"] {
-  background-color: var(--btn-bg);
+  background: var(--background-color);
   color: var(--text-color);
   cursor: pointer;
   padding: 4px 8px;
   margin-left: auto;
   font-size: 16px;
+  border-width: 2px;
+  border-color: var(--text-color);
   margin-top: 16px;
   width: 100%;
-  border-radius: 4px;
 }
-
-input[type="submit"]:hover {
-  background-color: var(--btn-bg-hover);
-}
-
 
 a {
   font-size: 13px;
   color: var(--text-color);
+}
+
+.tomain {
+  font: inherit;
+  text-decoration: none;
 }

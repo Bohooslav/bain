@@ -4,14 +4,21 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('profile/', views.profile, name='profile'),
+    path('robots.txt', views.robots, name='robots'),
     path('signup/', views.signUp, name='signup'),
 
+    path('get-categories/',
+         views.getCategories, name='getCategories'),
+    path('get-searched-bookmarks/<str:query>/',
+         views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),
     path('<slug:translation>/<str:piece>/', views.search, name='search'),
 
-    path('get-text/<slug:translation>/<int:book>/<int:chapter>/', views.getText, name='getText'),
-    path('get-bookmarks/<slug:translation>/<int:book>/<int:chapter>/', views.getBookmarks, name='getBookmarks'),
-    path('get-profile-bookmarks/<int:range_from>/<int:range_to>/', views.getProfileBookmarks, name='getProfileBookmarks'),
+    path('get-text/<slug:translation>/<int:book>/<int:chapter>/',
+         views.getText, name='getText'),
+    path('get-bookmarks/<slug:translation>/<int:book>/<int:chapter>/',
+         views.getBookmarks, name='getBookmarks'),
+    path('get-profile-bookmarks/<int:range_from>/<int:range_to>/',
+         views.getProfileBookmarks, name='getProfileBookmarks'),
 
     path('save-bookmarks/', views.saveBookmarks, name='saveBookmarks'),
     path('delete-bookmarks/', views.deleteBookmarks, name='deleteBookmarks'),

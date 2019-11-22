@@ -84,8 +84,6 @@ WSGI_APPLICATION = 'bain.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 # [START db_setup]
 
-# ./cloud_sql_proxy - instances = "bolls-256717:europe-west6:bollsdb" = tcp: 3306
-
 if os.getenv('GAE_APPLICATION', None):
     # Running on production App Engine, so connect to Google Cloud SQL using
     # the unix socket at /cloudsql/<your-cloudsql-connection string>
@@ -154,10 +152,17 @@ STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
 ADMINS = [('Boguslav', 'bpavlisinec@gmail.com')]
-# python manage.py createsuperuser --username=Boguslav --email=bpavlisinec@gmail.com
 
 
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-USE_THOUSAND_SEPARATOR = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bollsbible@gmail.com'
+EMAIL_HOST_PASSWORD = '4673bCX4Wkv886C'
+EMAIL_PORT = 587
+
+SERVER_EMAIL = 'bollsbible@gmail.com'

@@ -1,15 +1,21 @@
 module.exports = {
 	module: {
-		rules: [
-			{
-				test: /\.imba$/,
-				loader: 'imba/loader',
-			}
-		]
+		rules: [{
+			test: /\.imba$/,
+			use: [{
+				loader: 'babel-loader',
+				options: {
+					presets: ['@babel/preset-env']
+				}
+			}, 'imba/loader']
+		}, ]
 	},
 	resolve: {
-		extensions: [".imba",".js", ".json"]
+		extensions: [".imba", ".js", ".json"]
 	},
 	entry: "./src/client.imba",
-	output: {  path: __dirname + '/dist', filename: "client.js" }
+	output: {
+		path: __dirname + '/dist',
+		filename: "client.js"
+	}
 }

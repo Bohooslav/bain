@@ -1,14 +1,23 @@
-import ast, json
+from django.db.models import Count
+import ast
+import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.serializers import serialize
 
 from django.contrib.auth.models import User
 from .models import Verses, Bookmarks
 
 from bolls.forms import SignUpForm
+
+from django.core.mail import mail_admins, BadHeaderError
+from django.views import generic
+from django.utils import timezone
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+
 
 def index(request):
     return render(request, 'bolls/index.html')
@@ -51,12 +60,6 @@ def signUp(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-
-@login_required
-def profile(request):
-    return redirect('index')
-
-
 @login_required
 def getBookmarks(request, translation, book, chapter):
     all_objects = Verses.objects.filter(
@@ -74,12 +77,33 @@ def getBookmarks(request, translation, book, chapter):
 @login_required
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
-    all_objects = user.bookmarks_set.all().order_by('-date', 'verse')[range_from:range_to]
+    all_objects = user.bookmarks_set.all().order_by(
+        '-date', 'verse')[range_from:range_to]
 
     bookmarks = serialize(
         'json', all_objects, use_natural_foreign_keys=True)
 
     return JsonResponse({"data": bookmarks}, safe=False)
+
+
+@login_required
+def getSearchedProfileBookmarks(request, query):
+    user = request.user
+    all_objects = user.bookmarks_set.all().filter(note__icontains=query).order_by(
+        '-date', 'verse')
+
+    bookmarks = serialize(
+        'json', all_objects, use_natural_foreign_keys=True)
+
+    return JsonResponse({"data": bookmarks}, safe=False)
+
+
+@login_required
+def getCategories(request):
+    user = request.user
+    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note'))
+
+    return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
 
 @login_required
@@ -111,3 +135,36 @@ def deleteBookmarks(request):
         user.bookmarks_set.filter(verse=verse).delete()
 
     return JsonResponse({"200": "ok"}, safe=False)
+
+
+def robots(request):
+    filename = "robots.txt"
+    content = "User-agent: *\nDisallow: /*.xls$\nAllow: /\nSitemap: http://www.bolls.life/static/sitemap.txt"
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(
+        filename)
+    return response
+
+
+def help(request):
+    return render(request, 'bolls/help.html')
+
+
+def order(request):
+	name = request.POST.get('name', '')
+	telephone = request.POST.get('telephone', '')
+	email = request.POST.get('email', '')
+	if request.user:
+		try:
+			mail_admins(
+                            'Subject here',
+                            'Here is the message.',
+                            'from@example.com',
+                            ['to@example.com'],
+                            fail_silently=False,
+                        )
+		except BadHeaderError:
+			return HttpResponse('Invalid header found.')
+		return HttpResponseRedirect(reverse('Yurman:ordered'))
+	else:
+		return HttpResponse('Make sure all fields are entered and valid.')

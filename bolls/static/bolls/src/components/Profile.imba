@@ -1,22 +1,21 @@
 import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTGT, HOM, translations from "./translations_data.imba"
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
-var user = {
+let user = {
   name: '',
   id: -1,
-  first_name: '',
-  last_name: ''
 }
 
-var limits_of_range = {
+let limits_of_range = {
   from: 0,
   to: 15,
   loaded: 0
 }
 
-var verses = []
+let verses = []
 
-var offline = false
+let offline = false
+let query = ''
 
 
 export tag Profile
@@ -24,14 +23,13 @@ export tag Profile
   prop bookmarks default: []
   prop books default: []
   prop translation default: ''
+  prop categories default: []
 
 
   def build
     if window:username
       user:name = window:username
       user:id = window:userid
-      user:first_name = window:first_name
-      user:last_name = window:last_name
 
     if getCookie('language')
       switch getCookie('language')
@@ -40,9 +38,9 @@ export tag Profile
         when 'ru' then @langdata = ru_leng
     else
       switch window:navigator:language
-        when 'eng' then @langdata = en_leng
-        when 'ukr' then @langdata = uk_leng
-        when 'ru' then @langdata = ru_leng
+        when 'uk' then @langdata = uk_leng
+        when 'ru-RU' then @langdata = ru_leng
+        else @langdata = en_leng
 
 
   def mount
@@ -52,13 +50,14 @@ export tag Profile
     limits_of_range:loaded = 0
     @bookmarks = []
     getProfileBookmarks limits_of_range:from, limits_of_range:to
+    getCategories
 
-    var bible = document:getElementsByClassName("Bible")
+    let bible = document:getElementsByClassName("Bible")
     bible[0]:classList.add("display_none")
     unflag("display_none")
 
   def unmount
-    var bible = document:getElementsByClassName("Bible")
+    let bible = document:getElementsByClassName("Bible")
     bible[0]:classList.remove("display_none")
     flag("display_none")
 
@@ -99,7 +98,7 @@ export tag Profile
 
   def getTitleRow translation, book, chapter, verses
     switchTranslationBooks translation
-    var row
+    let row
     row = nameOfBook book
     row += ' ' + chapter + ':'
     for id, key in verses.sort(do |a, b| return a - b)
@@ -116,11 +115,11 @@ export tag Profile
     return row
 
   def getProfileBookmarks range_from, range_to
-    var url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
+    let url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
     loadData(url).then do |data|
-      var loaded_data = JSON.parse(data:data)
+      let loaded_data = JSON.parse(data:data)
       limits_of_range:loaded += loaded_data:length
-      var newItem = {
+      let newItem = {
         verse: [],
         text: []
       }
@@ -154,6 +153,16 @@ export tag Profile
             }
       scheduler.mark
 
+  def getCategories
+    let url = "/get-categories/"
+    @categories = []
+    loadData(url).then do |data|
+      for categories in data:data
+        for piece in categories:note.split(' | ')
+          if piece != ''
+            @categories.push(piece)
+      @categories = Array.from(Set.new(@categories))
+      scheduler.mark
 
   def getMoreBookmarks
     if limits_of_range:loaded == limits_of_range:to
@@ -162,20 +171,81 @@ export tag Profile
       getProfileBookmarks limits_of_range:from, limits_of_range:to
 
   def goToBookmark bookmark
-    var bible = document:getElementsByClassName("Bible")
-    document:getElementsByClassName("Bible")
+    let bible = document:getElementsByClassName("Bible")
     bible[0]:_tag.getText(bookmark:translation, bookmark:book, bookmark:chapter)
     orphanize
     setTimeout(&,1200) do
       window:location:hash = "#{bookmark:verse[0]}"
 
+  def getSearchedBookmarks category
+    if category
+      query = category
+      @bookmarks = []
+      let url = "/get-searched-bookmarks/" + category + '/'
+      loadData(url).then do |data|
+        let loaded_data = JSON.parse(data:data)
+        limits_of_range:loaded += loaded_data:length
+        let newItem = {
+          verse: [],
+          text: []
+        }
+        for item, key in loaded_data
+          newItem:date = Date.new(item:fields:date)
+          newItem:color = item:fields:color
+          newItem:note = item:fields:note
+          newItem:translation = item:fields:verse[0]
+          newItem:book = item:fields:verse[1]
+          newItem:chapter = item:fields:verse[2]
+          newItem:verse = [item:fields:verse[3]]
+          newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
+          if @bookmarks[@bookmarks:length - 1]
+            if item:fields:date == @bookmarks[@bookmarks:length - 1]:date.getTime
+              @bookmarks[@bookmarks:length - 1]:verse.push(item:fields:verse[3])
+              @bookmarks[@bookmarks:length - 1]:text.push(item:fields:verse[4])
+              @bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
+            else
+              newItem:text.push(item:fields:verse[4])
+              @bookmarks.push(newItem)
+              newItem = {
+                verse: [],
+                text: []
+              }
+          else
+            newItem:text.push(item:fields:verse[4])
+            @bookmarks.push(newItem)
+            newItem = {
+                verse: [],
+                text: []
+              }
+        if !bookmarks:length
+          let meg = document.getElementById('defaultmassage')
+          meg:innerHTML = langdata:nothing
+        scheduler.mark
+    else closeSearch
 
+  def closeSearch
+    query = ''
+    limits_of_range:from = 0
+    limits_of_range:to = 50
+    @bookmarks = []
+    getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 
   def render
     <self>
       <section.profile_block>
-        <header>
-          <h1.userName> user:first_name, ' ', user:last_name
+        <header.profile_hat>
+          <h1.userName> user:name
+          <.collectionsflex css:flex-wrap="wrap">
+            if !query
+              if @categories:length
+                for category in @categories
+                  if category
+                    <p.collection :tap.prevent.getSearchedBookmarks(category)> category
+                <div css:min-width="16px">
+            else
+              <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
+                <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
+              <h2> query
         for bookmark in @bookmarks
           <article.bookmark_in_list css:border-color="{bookmark:color}" .right_align=(bookmark:translation=="WLC")>
             <a.bookmark_text :tap.prevent.goToBookmark(bookmark)>
@@ -187,12 +257,12 @@ export tag Profile
               <span.booktitle> bookmark:title, ' '
               <time.time .time_rtl=(bookmark:translation=="WLC") time:datetime="bookmark:date"> bookmark:date.toLocaleString()
           <hr.hr>
-        if limits_of_range:loaded == limits_of_range:to
+        if (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
           <button.more_results :tap.prevent.getMoreBookmarks css:margin="16px 0px 96px"> langdata:more_results
         else
           <div.freespace>
         if !@bookmarks:length
-          <p> langdata:thereisnobookmarks
+          <p id="defaultmassage"> langdata:thereisnobookmarks
 
 
       <a.back_to_Bible :tap.prevent.orphanize>

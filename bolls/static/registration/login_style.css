@@ -47,7 +47,7 @@ html[data-theme='light'] {
 }
 
 body {
-  font-family: "Zilla Slab", "Open Sans", sans-serif;
+  font-family: sans-serif;
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
@@ -117,4 +117,9 @@ input[type="submit"] {
 a {
   font-size: 13px;
   color: var(--text-color);
+}
+
+.tomain {
+  font: inherit;
+  text-decoration: none;
 }

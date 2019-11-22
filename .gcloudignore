@@ -30,3 +30,7 @@ env/
 /cloud_sql_proxy
 /creae_table.sql
 /links.imba
+
+/bolls/static/
+/static/bolls/package-lock.json
+/static/bolls/src

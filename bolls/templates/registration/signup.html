@@ -7,22 +7,26 @@
     <meta charset="UTF-8">
     <title>Bolls | {% trans "Sign up" %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'registration/login_style.css' %}">
+
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    <meta name="description" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
-    <meta property="og:title" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the Bible only. YLT, KJV, NASB, WLC, LXX, NTGT, UBIO, UKRK, HOM, SYNOD, CUV.">
-    <meta property="og:description" content="Read God`s Word with a deep understanding of His design, Bible elevates your soul with rapid ascending to calm, safety and more.">
-    <meta property="og:image" content="http://bolls.life/static/light.png">
-    <meta name="twitter:image:src" content="http://bolls.life/static/light.png">
+    <meta name="keywords" content="Bible,Біблія,Библия">
+    <meta name="description" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the God`s Word only. Sola scriptura">
+    <meta property="og:title" content="Bolls | {% trans "Sign up" %}. Read the Bible with full emphasis on the God`s Word only. Sola scriptura">
+    <meta property="og:description" content="Read God`s Word with a deep understanding of His design. Bible elevates your soul with rapid ascending to calm, safety and more.">
+    <meta property="og:image" content="{% static 'light.png' %}">
+    <meta name="twitter:image:src" content="{% static 'light.png' %}">
+    <meta name="theme-color" content="#04060c"/>
   </head>
 
   <body>
     <div class="formflex">
 
-    <h1 id="h1" style="font-size: 24px; color: var(--text-color);">Bolls | {% trans 'Sign up' %}</h1>
+    <h1 id="h1" style="font-size: 24px; color: var(--text-color);"><a class="tomain" href="/">Bolls</a> | {% trans 'Sign up' %}</h1>
 
     {% block content %}
 
@@ -58,17 +62,13 @@
 
       if (window.navigator.language == "uk"){
         var form = document.getElementsByTagName('form')[0];
-        form[7].value = "Створити";
+        form[5].value = "Створити";
 
         var labels = document.getElementsByTagName("label");
-        labels[1].innerText = "Ім'я";
-        labels[2].innerText = "Прізвище";
-        labels[3].innerText = "Електронна пошта";
+        labels[1].innerText = "Електронна пошта";
 
         var helptext = document.getElementsByClassName("helptext");
-        helptext[1].innerText = "Не обов'язково"
-        helptext[2].innerText = "Не обов'язково"
-        helptext[3].innerText = "Обов'язково. Повідомте дійсну електронну адресу"
+        helptext[1].innerText = "Обов'язково. Повідомте дійсну електронну адресу"
 
 
         var donthaveanaccount = document.getElementById("h1");
@@ -81,19 +81,15 @@
         create.innerText = "Увійти";
       }
 
-      if (window.navigator.language == "ru"){
+      if (window.navigator.language == "ru-RU"){
         var form = document.getElementsByTagName('form')[0];
-        form[7].value = "Создать";
+        form[5].value = "Создать";
 
         var labels = document.getElementsByTagName("label");
-        labels[1].innerText = "Имя";
-        labels[2].innerText = "Отчество";
-        labels[3].innerText = "Електронная почта";
+        labels[1].innerText = "Електронная почта";
 
         var helptext = document.getElementsByClassName("helptext");
-        helptext[1].innerText = "Не обязательно"
-        helptext[2].innerText = "Не обязательно"
-        helptext[3].innerText = "Обязательно. Сообщите настояшую електронную почту"
+        helptext[1].innerText = "Обязательно. Сообщите настояшую електронную почту"
         console.log(helptext)
 
 

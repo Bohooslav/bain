@@ -22,7 +22,7 @@
   <body>
     <div class="formflex">
 
-    <h1 style="font-size: 24px; color: var(--text-color);">Bolls | {% trans "Log in" %}</h1>
+    <h1 style="font-size: 24px; color: var(--text-color);"><a class="tomain" href="/">Bolls</a> | {% trans "Log in" %}</h1>
 
     {% block content %}
 
@@ -78,7 +78,7 @@
         create.innerText = "Зареєструватися";
       }
 
-      if (window.navigator.language == "ru"){
+      if (window.navigator.language == "ru-RU"){
         var form = document.getElementsByTagName('form')[0];
         form[3].value = "Войти";
 
