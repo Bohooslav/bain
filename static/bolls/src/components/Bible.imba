@@ -112,9 +112,12 @@ export tag Bible
         setCookie('book', window:book)
         setCookie('chapter', window:chapter)
       window:history.pushState(Object.create(null), null, '/')
+      document:title += " | " + getNameOfBookFfromHitory(window:translation, window:book) + ' ' + window:chapter
       if window:verse
+        document:title += ':' + window:verse
         setTimeout(&,1200) do
           window:location:hash = "#{window:verse}"
+      document:title += ' ' + window:translation
 
     if window:username
       user:name = window:username
@@ -252,6 +255,7 @@ export tag Bible
     mobimenu = ''
     dropFilter
     closeMark
+    document:title = "Bolls Bible | " + nameOfBook book + ' ' + chapter
     Imba.commit
 
     settings:book = book

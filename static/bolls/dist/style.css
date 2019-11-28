@@ -147,6 +147,7 @@ button {
   font-weight: bold;
   text-align: center;
   font-size: 20px;
+  padding: 8px 0;
   color: inherit;
   cursor: pointer;
 }
@@ -869,7 +870,7 @@ h2 {
 
 .bookmark_in_list {
   margin: 8px 0;
-  border-left: 4px solid;
+  border-left: 8px solid;
   padding: 8px;
   text-align: initial;
 }
