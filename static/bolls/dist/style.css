@@ -8,6 +8,22 @@ html[data-theme='light'] {
   --text-color: #04060c;
 }
 
+@media (prefers-color-scheme: dark) {
+  html {
+    --background-color: #04060c;
+    --text-color: #fee;
+  }
+
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    --background-color: #fee;
+    --text-color: #04060c;
+  }
+}
+
+
 html {
   --btn-bg: #88f2;
   --btn-bg-hover: #88f4;
@@ -54,6 +70,7 @@ body {
   font-size: 20px;
   background: var(--background-color);
   color: var(--text-color);
+  overflow: hidden;
 }
 
 ul,
@@ -97,10 +114,11 @@ button {
   left: 0;
   bottom: 0;
   width: 280px;
-  display: block;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color);
   color: inherit;
-  padding: 32px 12px;
+  padding-top: 32px;
   z-index: 999;
   overflow-y: auto;
   box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
@@ -109,23 +127,26 @@ button {
 .translations_list {
   display: block;
   height: 0;
-  padding: 12px 0 24px;
-  -webkit-transform: scale(0);
+  margin: 0 8px;
   transform: scale(0);
   transform-origin: bottom right;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
 }
 
 .choose_parallel {
   display: flex;
   justify-content: space-around;
-  min-height: 45px;
+  min-height: 36px;
 }
 
 .translation_name {
   transition-property: color;
   font-weight: bold;
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   color: inherit;
   cursor: pointer;
 }
@@ -135,7 +156,13 @@ button {
 }
 
 .current_translation {
-  color: cadetblue;
+  color: olivedrab;
+}
+
+.books-container {
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 12px 32px;
 }
 
 .book_name {
@@ -211,7 +238,7 @@ button {
 }
 
 .chapter_number:hover {
-  color: indianred;
+  color: royalblue;
 }
 
 .active_book,
@@ -336,7 +363,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 4px;
-  margin: 16px 0 36px;
+  margin: 8px 0;
   min-width: 320px;
   justify-content: center;
 }
@@ -695,7 +722,7 @@ h2 {
 }
 
 .search_item:hover {
-  color: cadetblue;
+  color: olivedrab;
 }
 
 .search_res_verse_text {
@@ -735,7 +762,7 @@ h2 {
 }
 
 .parallel {
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
 }
 .parallel_checkbox {
@@ -794,6 +821,7 @@ h2 {
 .Profile {
   display: flex;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .back_to_Bible {
@@ -957,7 +985,8 @@ h2 {
   display: flex;
   align-items: center;
   padding: 4px 16px;
-  border: 1px solid var(--btn-bg);
+  border-top: 1px solid var(--btn-bg);
+  border-bottom: 1px solid var(--btn-bg);
   cursor: default;
   height: 44px;
 }
@@ -1021,8 +1050,7 @@ h2 {
   color: inherit;
   padding: 12px;
   cursor: pointer;
-  border: 1px solid var(--btn-bg);
-  margin-bottom: 36px;
+  border-top: 1px solid var(--btn-bg);
   font-weight: bold;
 }
 .show_collections {

@@ -35,6 +35,7 @@ export const en_leng = {
   save: "Save",
   addcollection: "Add a collection",
   newcollection: "New collection",
+  back: "Back",
 }
 
 export const uk_leng = {
@@ -74,6 +75,7 @@ export const uk_leng = {
   save: "Зберегти",
   addcollection: "Створити колекцію",
   newcollection: "Нова колекція",
+  back: "Назад",
 }
 
 export const ru_leng = {
@@ -113,4 +115,5 @@ export const ru_leng = {
   save: "Сохранить",
   addcollection: "Создать кллекцию",
   newcollection: "Новая коллекция",
+  back: "Назад",
 }

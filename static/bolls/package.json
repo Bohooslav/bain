@@ -34,12 +34,12 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-env": "^7.7.4",
     "@babel/preset-es2017": "^7.0.0-beta.53",
-    "@babel/register": "^7.7.0",
+    "@babel/register": "^7.7.4",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",

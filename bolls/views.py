@@ -26,8 +26,17 @@ def index(request):
 def getText(request, translation, book, chapter):
     all_objects = Verses.objects.filter(
         book=book, chapter=chapter, translation=translation).order_by('verse')
-    data = serialize('json', all_objects)
-    return JsonResponse(data, safe=False)
+    d = []
+    for obj in all_objects:
+        d.append({
+            "pk": obj.pk,
+            "translation": obj.translation,
+            "book": obj.book,
+            "chapter": obj.chapter,
+            "verse": obj.verse,
+            "text": obj.text
+        })
+    return JsonResponse(d, safe=False)
 
 
 def linkToVerse(request, translation, book, chapter, verse):
@@ -41,8 +50,17 @@ def linkToChapter(request, translation, book, chapter):
 def search(request, translation, piece):
     results_of_search = Verses.objects.filter(
         translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
-    data = serialize('json', results_of_search)
-    return JsonResponse(data, safe=False)
+    d = []
+    for obj in results_of_search:
+        d.append({
+            "pk": obj.pk,
+            "translation": obj.translation,
+            "book": obj.book,
+            "chapter": obj.chapter,
+            "verse": obj.verse,
+            "text": obj.text
+        })
+    return JsonResponse(d, safe=False)
 
 
 def signUp(request):
@@ -68,10 +86,15 @@ def getBookmarks(request, translation, book, chapter):
     bookmarks = []
     for obj in all_objects:
         if list(obj.bookmarks_set.all().filter(user=request.user)):
-            bookmarks.append(serialize(
-                'json', obj.bookmarks_set.all()))
+            for bookmark in obj.bookmarks_set.all():
+                bookmarks.append({
+                        "verse": bookmark.verse.pk,
+                        "date": bookmark.date,
+                        "color": bookmark.color,
+                        "note": bookmark.note,
+                    })
 
-    return JsonResponse({"data": bookmarks}, safe=False)
+    return JsonResponse(bookmarks, safe=False)
 
 
 @login_required
@@ -101,7 +124,8 @@ def getSearchedProfileBookmarks(request, query):
 @login_required
 def getCategories(request):
     user = request.user
-    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note'))
+    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note')).order_by(
+        '-date')
 
     return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
@@ -146,25 +170,25 @@ def robots(request):
     return response
 
 
-def help(request):
-    return render(request, 'bolls/help.html')
+# def help(request):
+#     return render(request, 'bolls/help.html')
 
 
-def order(request):
-	name = request.POST.get('name', '')
-	telephone = request.POST.get('telephone', '')
-	email = request.POST.get('email', '')
-	if request.user:
-		try:
-			mail_admins(
-                            'Subject here',
-                            'Here is the message.',
-                            'from@example.com',
-                            ['to@example.com'],
-                            fail_silently=False,
-                        )
-		except BadHeaderError:
-			return HttpResponse('Invalid header found.')
-		return HttpResponseRedirect(reverse('Yurman:ordered'))
-	else:
-		return HttpResponse('Make sure all fields are entered and valid.')
+# def order(request):
+# 	name = request.POST.get('name', '')
+# 	telephone = request.POST.get('telephone', '')
+# 	email = request.POST.get('email', '')
+# 	if request.user:
+# 		try:
+# 			mail_admins(
+#                             'Subject here',
+#                             'Here is the message.',
+#                             'from@example.com',
+#                             ['to@example.com'],
+#                             fail_silently=False,
+#                         )
+# 		except BadHeaderError:
+# 			return HttpResponse('Invalid header found.')
+# 		return HttpResponseRedirect(reverse('Yurman:ordered'))
+# 	else:
+# 		return HttpResponse('Make sure all fields are entered and valid.')

@@ -2067,107 +2067,107 @@ export const SYNOD = [
       "chapters": 28
   },
   {
-      "bookid": 45,
+      "bookid": 59,
       "name": "Иакова",
       "chapters": 5
   },
   {
-      "bookid": 46,
+      "bookid": 60,
       "name": "1-е Петра",
       "chapters": 5
   },
   {
-      "bookid": 47,
+      "bookid": 61,
       "name": "2-е Петра",
       "chapters": 3
   },
   {
-      "bookid": 48,
+      "bookid": 62,
       "name": "1-е Иоанна",
       "chapters": 5
   },
   {
-      "bookid": 49,
+      "bookid": 63,
       "name": "2-е Иоанна",
       "chapters": 1
   },
   {
-      "bookid": 50,
+      "bookid": 64,
       "name": "3-е Иоанна",
       "chapters": 1
   },
   {
-      "bookid": 51,
+      "bookid": 65,
       "name": "Иуда",
       "chapters": 1
   },
   {
-      "bookid": 52,
+      "bookid": 45,
       "name": "К Римлянам",
       "chapters": 16
   },
   {
-      "bookid": 53,
+      "bookid": 46,
       "name": "1-е Коринфянам",
       "chapters": 16
   },
   {
-      "bookid": 54,
+      "bookid": 47,
       "name": "2-е Коринфянам",
       "chapters": 13
   },
   {
-      "bookid": 55,
+      "bookid": 48,
       "name": "К Галатам",
       "chapters": 6
   },
   {
-      "bookid": 56,
+      "bookid": 49,
       "name": "К Ефесянам",
       "chapters": 6
   },
   {
-      "bookid": 57,
+      "bookid": 50,
       "name": "К Филиппийцам",
       "chapters": 4
   },
   {
-      "bookid": 58,
+      "bookid": 51,
       "name": "К Колоссянам",
       "chapters": 4
   },
   {
-      "bookid": 59,
+      "bookid": 52,
       "name": "1-е Фессалоникийцам",
       "chapters": 5
   },
   {
-      "bookid": 60,
+      "bookid": 53,
       "name": "2-е Фессалоникийцам",
       "chapters": 3
   },
   {
-      "bookid": 61,
+      "bookid": 54,
       "name": "1-е Тимофею",
       "chapters": 6
   },
   {
-      "bookid": 62,
+      "bookid": 55,
       "name": "2-е Тимофею",
       "chapters": 4
   },
   {
-      "bookid": 63,
+      "bookid": 56,
       "name": "К Титу",
       "chapters": 3
   },
   {
-      "bookid": 64,
+      "bookid": 57,
       "name": "К Филимону",
       "chapters": 1
   },
   {
-      "bookid": 65,
+      "bookid": 58,
       "name": "К Евреям",
       "chapters": 13
   },

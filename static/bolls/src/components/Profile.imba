@@ -49,6 +49,7 @@ export tag Profile
     limits_of_range:to = 50
     limits_of_range:loaded = 0
     @bookmarks = []
+    query = ''
     getProfileBookmarks limits_of_range:from, limits_of_range:to
     getCategories
 
@@ -177,6 +178,18 @@ export tag Profile
     setTimeout(&,1200) do
       window:location:hash = "#{bookmark:verse[0]}"
 
+
+  def ontouchstart touch
+    self
+
+  def ontouchend touch
+    if touch.dx > 120 && Math.abs(touch.dy) < 24 && document.getSelection == ''
+      if query
+        closeSearch
+      else
+        unmount
+        orphanize
+
   def getSearchedBookmarks category
     if category
       query = category
@@ -236,12 +249,11 @@ export tag Profile
         <header.profile_hat>
           <h1.userName> user:name
           <.collectionsflex css:flex-wrap="wrap">
-            if !query
-              if @categories:length
-                for category in @categories
-                  if category
-                    <p.collection :tap.prevent.getSearchedBookmarks(category)> category
-                <div css:min-width="16px">
+            if !query && @categories:length
+              for category in @categories
+                if category
+                  <p.collection :tap.prevent.getSearchedBookmarks(category)> category
+              <div css:min-width="16px">
             else
               <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
@@ -267,7 +279,7 @@ export tag Profile
 
       <a.back_to_Bible :tap.prevent.orphanize>
         <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
-          <svg:title> langdata:next
+          <svg:title> langdata:back
           <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
       <div.online .offline=offline>
         langdata:offline
