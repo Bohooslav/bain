@@ -7,11 +7,18 @@
     <title>Bolls Bible</title>
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
+
+    {% if translation %}
+      <link rel="canonical" href="https://bolls.life/{{translation}}/{{chapter}}/">
+    {% else %}
+      <link rel="canonical" href="https://bolls.life/">
+    {% endif %}
 
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <meta name="keywords" content="Bible,Біблія,Библия">

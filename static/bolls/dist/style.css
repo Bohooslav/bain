@@ -37,6 +37,7 @@ html {
   padding: 0;
   transition: all 0.3s ease 0s;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 ::-webkit-scrollbar {
@@ -66,11 +67,10 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: sans, sans-serif;
   font-size: 20px;
   background: var(--background-color);
   color: var(--text-color);
-  overflow: hidden;
 }
 
 ul,
@@ -91,8 +91,12 @@ a {
   100% {opacity: 1;}
 }
 
+h1 {
+  font-family: "Roboto Slab", sans-serif;
+}
+
 h1,
-.text span,
+main span,
 .filters,
 ._colorpicker {
   -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -103,13 +107,13 @@ button {
   border: none;
 }
 
-.Bible,
 .Profile {
   height: 100vh;
 }
 
-.bible-menu {
+nav {
   position: fixed;
+  font-family: "Roboto Slab", sans-serif;
   top: 0;
   left: 0;
   bottom: 0;
@@ -253,7 +257,7 @@ button {
 }
 
 
-.text {
+main {
   display: inline-block;
   width: 100%;
   padding: 4vw 3vw;
@@ -271,13 +275,12 @@ button {
   grid-gap: 0.25vw;
 }
 
-.text h1,
-h2 {
+h1 {
   text-align: center;
   margin: 24px;
 }
 
-.text span {
+main span {
   cursor: pointer;
 }
 
@@ -289,11 +292,14 @@ h2 {
 
 .verse {
   font-size: 0.5em;
-  color: #88f;
+  color: royalblue;
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
-
+.verse::selection {
+  color: royalblue;
+  background-color: #0000;
+}
 .highlighted {
   text-decoration-line: underline;
   text-decoration-thickness: 0.1em;
@@ -440,7 +446,7 @@ h2 {
   overflow: hidden;
 }
 
-.settings-menu {
+aside {
   top: 0;
   right: 0;
   bottom: 0;
@@ -552,27 +558,28 @@ h2 {
 .languages {
   position: absolute;
   display: flex;
+  background: var(--background-color);
   flex-direction: column;
-  right: 12px;
-  padding: 2px;
-  background: var(--btn-bg);
-  border: 1px solid var(--btn-bg-hover);
+  right: 32px;
   visibility: hidden;
   opacity: 0;
 }
-
 .show_languages {
   visibility: visible;
   opacity: 1;
 }
-
 .languages button {
-  background: var(--background-color);
+  background: var(--btn-bg);
   color: inherit;
   cursor: pointer;
-  padding: 12px;
+  padding: 8px;
+  margin: 1px;
+  border-radius: 2px;
   font-size: 16px;
   border: none;
+}
+.languages button:hover {
+  background-color: var(--btn-bg-hover);
 }
 
 .search {
@@ -823,34 +830,6 @@ h2 {
   display: flex;
   justify-content: center;
   overflow-y: auto;
-}
-
-.back_to_Bible {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  height: 64px;
-  width: 64px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: var(--text-color);
-  background: var(--background-color);
-  border-radius: 32px;
-  cursor: pointer;
-  box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40;
-  fill: var(--text-color);
-}
-
-.back_to_Bible:hover {
-  box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40, 0 10px 10px #04060c38;
-  fill: royalblue;
-}
-
-.userName {
-  margin: 64px 12px 12px;
-  text-align: center;
 }
 
 .profile_block {

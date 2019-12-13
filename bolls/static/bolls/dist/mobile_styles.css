@@ -1,6 +1,6 @@
 @media screen and (max-width: 600px) {
   ::-webkit-scrollbar {
-    width: 2px;
+    width: 1px;
   }
   .text, .text h1 {
     overflow-wrap: break-word;

@@ -1,4 +1,5 @@
-import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTGT, HOM, translations from "./translations_data.imba"
+import BOOKS from "./translations_books.json"
+import translations from "./translations.json"
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 import {Profile} from './Profile'
 
@@ -106,13 +107,16 @@ export tag Bible
   prop categories default: []
 
   def build
+    for book in BOOKS
+      this[Object.keys(book)[0]] = book[Object.keys(book)[0]]
+
     if window:translation
       if translations.find(do |element| return element:short_name == window:translation)
         setCookie('translation', window:translation)
         setCookie('book', window:book)
         setCookie('chapter', window:chapter)
       window:history.pushState(Object.create(null), null, '/')
-      document:title += " | " + getNameOfBookFfromHitory(window:translation, window:book) + ' ' + window:chapter
+      document:title += " | " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
       if window:verse
         document:title += ':' + window:verse
         setTimeout(&,1200) do
@@ -189,31 +193,9 @@ export tag Bible
 
   def switchTranslation translation, parallel
     if parallel
-      switch translation
-        when "YLT" then @parallel_books = YLT
-        when "NASB" then @parallel_books = YLT
-        when "KJV" then @parallel_books = YLT
-        when "WLC" then @parallel_books = WLC
-        when "UBIO" then @parallel_books = UBIO
-        when "UKRK" then @parallel_books = UKRK
-        when "LXX" then @parallel_books = LXX
-        when "SYNOD" then @parallel_books = SYNOD
-        when "CUV" then @parallel_books = CUV
-        when "NTGT" then @parallel_books = NTGT
-        when "HOM" then @parallel_books = HOM
+      @parallel_books = this[translation]
     else
-      switch translation
-        when "YLT" then @books = YLT
-        when "NASB" then @books = YLT
-        when "KJV" then @books = YLT
-        when "WLC" then @books = WLC
-        when "UBIO" then @books = UBIO
-        when "UKRK" then @books = UKRK
-        when "LXX" then @books = LXX
-        when "SYNOD" then @books = SYNOD
-        when "CUV" then @books = CUV
-        when "NTGT" then @books = NTGT
-        when "HOM" then @books = HOM
+      @books = this[translation]
 
 
   def saveToHistory translation, book, chapter, verse
@@ -404,7 +386,7 @@ export tag Bible
       setCookie('font', settings:font)
 
   def increaceFontSize
-    if settings:font < 64 && window:outerWidth > 480
+    if settings:font < 64 && window:innerWidth > 480
       settings:font = settings:font + 2
       setCookie('font', settings:font)
     elif settings:font < 40
@@ -482,56 +464,56 @@ export tag Bible
 
 
   def onmousemove e
-    if window:outerWidth > 700
+    if window:innerWidth > 700
       if e.x < 32
         bible_menu_left = 0
         mobimenu = 'show_bible_menu'
-      elif e.x > window:outerWidth - 32
+      elif e.x > window:innerWidth - 32
         settings_menu_left = 0
         mobimenu = 'show_settings_menu'
-      elif 280 < e.x < window:outerWidth - 280
+      elif 280 < e.x < window:innerWidth - 280
         bible_menu_left = -280
         settings_menu_left = 280
         mobimenu = ''
 
 
   def ontouchstart touch
-    if touch.x < 32 || touch.x > window:outerWidth - 32
+    if touch.x < 32 || touch.x > window:innerWidth - 32
       inzone = true
     self
 
   def ontouchupdate touch
     if inzone && mobimenu == ''
-      if (bible_menu_left < 0 || touch.dx < 280) && mobimenu != 'show_settings_menu'
-        bible_menu_left = touch.dx - 280
+      if (bible_menu_left < 0 || touch.dx * 2 < 280) && mobimenu != 'show_settings_menu'
+        bible_menu_left = touch.dx * 2 - 280
 
-      if (settings_menu_left > 0 || touch.dx > -280) && mobimenu != 'show_bible_menu'
-        settings_menu_left = touch.dx + 280
+      if (settings_menu_left > 0 || touch.dx * 2 > -280) && mobimenu != 'show_bible_menu'
+        settings_menu_left = touch.dx * 2 + 280
       Imba.commit
 
 
   def ontouchend touch
     if inzone && mobimenu == ''
-      if touch.dx > 120 && mobimenu != 'show_settings_menu'
+      if touch.dx > 64 && mobimenu != 'show_settings_menu'
         bible_menu_left = 0
         mobimenu = 'show_bible_menu'
-      elif touch.dx < -120 && mobimenu != 'show_bible_menu'
+      elif touch.dx < -64 && mobimenu != 'show_bible_menu'
         settings_menu_left = 0
         mobimenu = 'show_settings_menu'
       else
         settings_menu_left = 280
         bible_menu_left = -280
         mobimenu = ''
-    elif mobimenu == 'show_bible_menu' && touch.dx < -120
+    elif mobimenu == 'show_bible_menu' && touch.dx < -64
       bible_menu_left = -280
       mobimenu = ''
-    elif mobimenu == 'show_settings_menu' && touch.dx > 120
+    elif mobimenu == 'show_settings_menu' && touch.dx > 64
       settings_menu_left = 280
       mobimenu = ''
-    elif document.getSelection == '' && Math.abs(touch.dy) < 32 && !mobimenu
-      if touch.dx < -120
+    elif document.getSelection == '' && Math.abs(touch.dy) < 32 && !mobimenu && !search:search_div && !show_history && !choosenid:length
+      if touch.dx < -64
         nextChapter
-      elif touch.dx > 120
+      elif touch.dx > 64
         prewChapter
     inzone = no
     Imba.commit
@@ -691,7 +673,7 @@ export tag Bible
             color: highlight_color,
             note: notes})
     else
-      window:location:pathname = "/accounts/login";
+      window:location:pathname = "/signup/";
     closeMark
 
   def deleteBookmarks
@@ -750,20 +732,9 @@ export tag Bible
     closeMark
     Imba.mount <Profile>
 
-  def getNameOfBookFfromHitory translation, bookid
+  def getNameOfBookFromHistory translation, bookid
     let books = []
-    switch translation
-      when "YLT" then books = YLT
-      when "NASB" then books = YLT
-      when "KJV" then books = YLT
-      when "WLC" then books = WLC
-      when "UBIO" then books = UBIO
-      when "UKRK" then books = UKRK
-      when "LXX" then books = LXX
-      when "SYNOD" then books = SYNOD
-      when "CUV" then books = CUV
-      when "NTGT" then books = NTGT
-      when "HOM" then books = HOM
+    books = this[translation]
     for book in books
       if book:bookid == bookid
         return book:name
@@ -832,7 +803,7 @@ export tag Bible
 
   def render
     <self>
-      <nav.bible-menu css:transform="translateX({bible_menu_left}px)">
+      <nav css:transform="translateX({bible_menu_left}px)">
         if parallel_text:display
           <.choose_parallel>
             <a.translation_name a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -859,7 +830,7 @@ export tag Bible
                   <li.chapter_number  .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
           <.freespace>
 
-      <main.text .parallel_text=parallel_text:display css:font-size="{settings:font}px">
+      <main .parallel_text=parallel_text:display css:font-size="{settings:font}px">
         <section .parallel=parallel_text:display .right_align=(settings:translation=="WLC")>
           <header>
             <h1> nameOfBook(settings:book, false), ' ', settings:chapter
@@ -1082,17 +1053,17 @@ export tag Bible
 
       <section.history.filters .show_history=show_history>
         <.nighttheme>
-          <h1 css:margin-left="8px"> langdata:history
-          <svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin-left="auto">
+          <svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
               <svg:title> langdata:close_search
               <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
-          <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="0 8px 0 16px" alt=langdata:delete>
+          <h1 css:margin-left="8px"> langdata:history
+          <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="0 8px 0 16px" alt=langdata:delete css:margin-left="auto">
             <svg:title> langdata:delete
             <svg:path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z">
 
         <article.historylist>
           for h in @history.slice().reverse
-            <a.book_in_list  :tap.getText(h:translation, h:book, h:chapter, h:verse)> getNameOfBookFfromHitory(h:translation, h:book), ' ', h:chapter,  ' ', h:translation
+            <a.book_in_list  :tap.getText(h:translation, h:book, h:chapter, h:verse)> getNameOfBookFromHistory(h:translation, h:book), ' ', h:chapter,  ' ', h:translation
 
       <.online .offline=offline>
         langdata:offline

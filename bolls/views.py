@@ -163,32 +163,8 @@ def deleteBookmarks(request):
 
 def robots(request):
     filename = "robots.txt"
-    content = "User-agent: *\nDisallow: /*.xls$\nAllow: /\nSitemap: http://www.bolls.life/static/sitemap.txt"
+    content = "User-agent: *\nAllow: /\nSitemap: http://bolls.life/static/sitemap.xml"
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename)
     return response
-
-
-# def help(request):
-#     return render(request, 'bolls/help.html')
-
-
-# def order(request):
-# 	name = request.POST.get('name', '')
-# 	telephone = request.POST.get('telephone', '')
-# 	email = request.POST.get('email', '')
-# 	if request.user:
-# 		try:
-# 			mail_admins(
-#                             'Subject here',
-#                             'Here is the message.',
-#                             'from@example.com',
-#                             ['to@example.com'],
-#                             fail_silently=False,
-#                         )
-# 		except BadHeaderError:
-# 			return HttpResponse('Invalid header found.')
-# 		return HttpResponseRedirect(reverse('Yurman:ordered'))
-# 	else:
-# 		return HttpResponse('Make sure all fields are entered and valid.')

@@ -1,4 +1,6 @@
-import YLT, WLC, UBIO, UKRK, LXX, SYNOD, CUV, NTGT, HOM, translations from "./translations_data.imba"
+import BOOKS from "./translations_books.json"
+
+import translations from "./translations.json"
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
 let user = {
@@ -27,6 +29,9 @@ export tag Profile
 
 
   def build
+    for book in BOOKS
+      this[Object.keys(book)[0]] = book[Object.keys(book)[0]]
+
     if window:username
       user:name = window:username
       user:id = window:userid
@@ -79,18 +84,7 @@ export tag Profile
   def switchTranslationBooks translation
     if @translation != translation
       @translation = translation
-      switch translation
-        when "YLT" then @books = YLT
-        when "NASB" then @books = YLT
-        when "KJV" then @books = YLT
-        when "WLC" then @books = WLC
-        when "UBIO" then @books = UBIO
-        when "UKRK" then @books = UKRK
-        when "LXX" then @books = LXX
-        when "SYNOD" then @books = SYNOD
-        when "CUV" then @books = CUV
-        when "NTGT" then @books = NTGT
-        when "HOM" then @books = HOM
+      @books = this[translation]
 
   def nameOfBook bookid
     for book in @books
@@ -193,9 +187,9 @@ export tag Profile
   def getSearchedBookmarks category
     if category
       query = category
-      @bookmarks = []
       let url = "/get-searched-bookmarks/" + category + '/'
       loadData(url).then do |data|
+        @bookmarks = []
         let loaded_data = JSON.parse(data:data)
         limits_of_range:loaded += loaded_data:length
         let newItem = {
@@ -247,17 +241,21 @@ export tag Profile
     <self>
       <section.profile_block>
         <header.profile_hat>
-          <h1.userName> user:name
-          <.collectionsflex css:flex-wrap="wrap">
-            if !query && @categories:length
+          if !query && @categories:length
+            <.collectionsflex css:flex-wrap="wrap">
+              <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.orphanize>
+                <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
+              <h1> user:name
+            <.collectionsflex css:flex-wrap="wrap">
               for category in @categories
                 if category
                   <p.collection :tap.prevent.getSearchedBookmarks(category)> category
               <div css:min-width="16px">
-            else
+          else
+            <.collectionsflex css:flex-wrap="wrap">
               <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-              <h2> query
+              <h1> query
         for bookmark in @bookmarks
           <article.bookmark_in_list css:border-color="{bookmark:color}" .right_align=(bookmark:translation=="WLC")>
             <a.bookmark_text :tap.prevent.goToBookmark(bookmark)>
@@ -276,10 +274,5 @@ export tag Profile
         if !@bookmarks:length
           <p id="defaultmassage"> langdata:thereisnobookmarks
 
-
-      <a.back_to_Bible :tap.prevent.orphanize>
-        <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
-          <svg:title> langdata:back
-          <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
       <div.online .offline=offline>
         langdata:offline
