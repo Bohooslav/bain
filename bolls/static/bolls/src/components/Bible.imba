@@ -828,11 +828,11 @@ export tag Bible
 
   def toggleChronorder
     if @chronorder
-      @parallel_books.sort(do |book, koob| return book:bookid > koob:bookid)
-      @books.sort(do |book, koob| return book:bookid > koob:bookid)
+      @parallel_books.sort(do |book, koob| return book:bookid - koob:bookid)
+      @books.sort(do |book, koob| return book:bookid - koob:bookid)
     else
-      @parallel_books.sort(do |book, koob| return book:chronorder > koob:chronorder)
-      @books.sort(do |book, koob| return book:chronorder > koob:chronorder)
+      @parallel_books.sort(do |book, koob| return book:chronorder - koob:chronorder)
+      @books.sort(do |book, koob| return book:chronorder - koob:chronorder)
     @chronorder = !@chronorder
     setCookie('chronorder', @chronorder.toString)
 
