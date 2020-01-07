@@ -31,7 +31,7 @@ html {
 
 * {
   box-sizing: border-box;
-  scrollbar-color: #737373 #38383D33;
+  scrollbar-color: #737373 #38383D00;
   scrollbar-width: thin;
   margin: 0;
   padding: 0;
@@ -45,7 +45,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #38383D33;
+  background: #38383D00;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -83,12 +83,23 @@ a {
 }
 
 @-webkit-keyframes text-came {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
 @keyframes text-came {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 h1 {
@@ -98,7 +109,9 @@ h1 {
 h1,
 main span,
 .filters,
-._colorpicker {
+._colorpicker,
+.bookmark_in_list,
+.collectionsflex {
   -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
@@ -110,6 +123,10 @@ button {
 .Profile {
   height: 100vh;
 }
+/*
+.Bible {
+  position: fixed;
+} */
 
 nav {
   position: fixed;
@@ -125,7 +142,30 @@ nav {
   padding-top: 32px;
   z-index: 999;
   overflow-y: auto;
-  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.chronological_order {
+  fill: var(--text-color);
+  width: 42px;
+  height: 42px;
+  display: block;
+  position: relative;
+  padding: 8px 0 8px 20px;
+  margin-top: -42px;
+}
+
+.chronological_order:hover {
+  fill: royalblue;
+}
+
+.chronological_order_in_use {
+  transform: rotate(180deg);
+  padding: 8px 20px 8px 0px;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
 
 .translations_list {
@@ -186,8 +226,8 @@ nav {
 }
 
 .book_name::selection {
-  background: var(--background-color);
-  color: var(--text-color);
+  background: inherit;
+  color: inherit;
 }
 
 .book_in_list {
@@ -203,8 +243,8 @@ nav {
 }
 
 .book_in_list::selection {
-  color: var(--text-color);
-  background: var(--background-color);
+  background: inherit;
+  color: inherit;
 }
 
 .book_in_list:hover {
@@ -252,20 +292,19 @@ nav {
 }
 
 .freespace {
-  min-height: 180px;
-  width: 100%;
+  min-height: 256px;
 }
 
 
 main {
-  display: inline-block;
+  display: block;
   width: 100%;
   padding: 4vw 3vw;
   color: var(--text-color);
   line-height: 1.5;
-  position: fixed;
+  /* position: fixed;
   overflow-y: auto;
-  height: 100%;
+  height: 100%; */
 }
 
 .parallel_text {
@@ -278,6 +317,11 @@ main {
 h1 {
   text-align: center;
   margin: 24px;
+}
+
+main h1:hover {
+  text-decoration: solid underline;
+  cursor: pointer;
 }
 
 main span {
@@ -296,10 +340,12 @@ main span {
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
+
 .verse::selection {
-  color: royalblue;
-  background-color: #0000;
+  background: inherit;
+  color: inherit;
 }
+
 .highlighted {
   text-decoration-line: underline;
   text-decoration-thickness: 0.1em;
@@ -349,10 +395,8 @@ main span {
 }
 
 .mark_grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
   justify-content: center;
-  grid-gap: 4px;
 }
 
 .color_mark {
@@ -425,13 +469,12 @@ main span {
   margin: 24px 0;
   bottom: 0;
   right: 0;
-  background-color: #88a2;
   fill: var(--text-color);
   cursor: pointer;
 }
 
 .arrow:hover {
-  background-color: #88a4;
+  background-color: #88a2;
 }
 
 .arrow_next {
@@ -454,10 +497,9 @@ aside {
   background-color: var(--background-color);
   width: 280px;
   display: block;
-  flex-direction: column;
   padding: 32px 12px;
   z-index: 4;
-  box-shadow: -3px 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
 
@@ -564,10 +606,12 @@ aside {
   visibility: hidden;
   opacity: 0;
 }
+
 .show_languages {
   visibility: visible;
   opacity: 1;
 }
+
 .languages button {
   background: var(--btn-bg);
   color: inherit;
@@ -578,6 +622,7 @@ aside {
   font-size: 16px;
   border: none;
 }
+
 .languages button:hover {
   background-color: var(--btn-bg-hover);
 }
@@ -773,6 +818,7 @@ aside {
   height: 100%;
   overflow-y: auto;
 }
+
 .parallel_checkbox {
   min-width: 50px;
   min-height: 30px;
@@ -932,6 +978,7 @@ aside {
   -ms-transform: translateX(110vw);
   -o-transform: translateX(110vw);
 }
+
 .show_history {
   transform: translateX(calc(96vw - 300px));
   -webkit-transform: translateX(calc(96vw - 300px));
@@ -970,10 +1017,12 @@ aside {
   cursor: default;
   height: 44px;
 }
+
 .saveto {
   margin: auto;
   font-size: 16px;
 }
+
 .svgAdd {
   width: 20px;
   height: 32px;
@@ -983,9 +1032,11 @@ aside {
   position: absolute;
   right: 16px;
 }
+
 .svgAdd:hover {
   stroke: goldenrod;
 }
+
 .svgBack {
   width: 20px;
   height: 32px;
@@ -995,6 +1046,7 @@ aside {
   position: absolute;
   left: 16px;
 }
+
 .svgBack:hover {
   fill: goldenrod;
 }
@@ -1005,6 +1057,7 @@ aside {
   padding: 8px;
   white-space: nowrap;
 }
+
 .collectionsflex::-webkit-scrollbar {
   display: none;
 }
@@ -1021,6 +1074,7 @@ aside {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
 }
+
 .collection:hover {
   background: var(--btn-bg-hover);
 }
@@ -1033,6 +1087,7 @@ aside {
   border-top: 1px solid var(--btn-bg);
   font-weight: bold;
 }
+
 .show_collections {
   transform: none;
   -webkit-transform: none;
@@ -1040,6 +1095,7 @@ aside {
   -ms-transform: none;
   -o-transform: none;
 }
+
 .newcollectioninput {
   width: auto;
   height: 34px;
@@ -1050,10 +1106,12 @@ aside {
   color: inherit;
   text-align: center;
 }
+
 .add_new_collection {
   background: royalblue;
   color: #fff;
 }
+
 .add_new_collection:hover {
   background: #4169e1dd;
 }
@@ -1062,4 +1120,13 @@ aside {
   position: relative;
   margin: auto 0;
   left: 8px;
+}
+
+address a {
+  color: #888;
+  font-size: 12px;
+}
+
+address a:hover {
+  color: #9ab;
 }

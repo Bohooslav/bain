@@ -93,12 +93,22 @@ label {
   margin-top: 16px;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   background: #88f2;
   border: 1px solid #88f4;
   color: var(--text-color);
   padding: 4px 8px;
   margin-bottom: 4px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  background: #88f4;
+  box-shadow: 0 4px 16px #fff4;
+  border: 1px solid #88f8;
 }
 
 input[type="submit"] {
@@ -112,6 +122,15 @@ input[type="submit"] {
   border-color: var(--text-color);
   margin-top: 16px;
   width: 100%;
+  font-weight: bold;
+}
+input[type="submit"]:hover {
+  box-shadow: 0 4px 24px #fff4;
+  transform: translateY(-2px);
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
+  -o-transform: translateY(-2px);
 }
 
 a {

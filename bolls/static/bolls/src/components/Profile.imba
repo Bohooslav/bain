@@ -1,6 +1,6 @@
-import BOOKS from "./translations_books.json"
+let BOOKS = require "./translations_books.json"
+let translations = require "./translations.json"
 
-import translations from "./translations.json"
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
 let user = {
@@ -29,9 +29,6 @@ export tag Profile
 
 
   def build
-    for book in BOOKS
-      this[Object.keys(book)[0]] = book[Object.keys(book)[0]]
-
     if window:username
       user:name = window:username
       user:id = window:userid
@@ -84,7 +81,7 @@ export tag Profile
   def switchTranslationBooks translation
     if @translation != translation
       @translation = translation
-      @books = this[translation]
+      @books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
 
   def nameOfBook bookid
     for book in @books
@@ -112,35 +109,34 @@ export tag Profile
   def getProfileBookmarks range_from, range_to
     let url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
     loadData(url).then do |data|
-      let loaded_data = JSON.parse(data:data)
-      limits_of_range:loaded += loaded_data:length
+      limits_of_range:loaded += data:length
       let newItem = {
         verse: [],
         text: []
       }
-      for item, key in loaded_data
-        newItem:date = Date.new(item:fields:date)
-        newItem:color = item:fields:color
-        newItem:note = item:fields:note
-        newItem:translation = item:fields:verse[0]
-        newItem:book = item:fields:verse[1]
-        newItem:chapter = item:fields:verse[2]
-        newItem:verse = [item:fields:verse[3]]
+      for item, key in data
+        newItem:date = Date.new(item:date)
+        newItem:color = item:color
+        newItem:note = item:note
+        newItem:translation = item:verse:translation
+        newItem:book = item:verse:book
+        newItem:chapter = item:verse:chapter
+        newItem:verse = [item:verse:verse]
         newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
         if @bookmarks[@bookmarks:length - 1]
-          if item:fields:date == @bookmarks[@bookmarks:length - 1]:date.getTime
-            @bookmarks[@bookmarks:length - 1]:verse.push(item:fields:verse[3])
-            @bookmarks[@bookmarks:length - 1]:text.push(item:fields:verse[4])
+          if item:date == @bookmarks[@bookmarks:length - 1]:date.getTime
+            @bookmarks[@bookmarks:length - 1]:verse.push(item:verse:verse)
+            @bookmarks[@bookmarks:length - 1]:text.push(item:verse:text)
             @bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
           else
-            newItem:text.push(item:fields:verse[4])
+            newItem:text.push(item:verse:text)
             @bookmarks.push(newItem)
             newItem = {
               verse: [],
               text: []
             }
         else
-          newItem:text.push(item:fields:verse[4])
+          newItem:text.push(item:verse:text)
           @bookmarks.push(newItem)
           newItem = {
               verse: [],
@@ -190,35 +186,34 @@ export tag Profile
       let url = "/get-searched-bookmarks/" + category + '/'
       loadData(url).then do |data|
         @bookmarks = []
-        let loaded_data = JSON.parse(data:data)
-        limits_of_range:loaded += loaded_data:length
+        limits_of_range:loaded += data:length
         let newItem = {
           verse: [],
           text: []
         }
-        for item, key in loaded_data
-          newItem:date = Date.new(item:fields:date)
-          newItem:color = item:fields:color
-          newItem:note = item:fields:note
-          newItem:translation = item:fields:verse[0]
-          newItem:book = item:fields:verse[1]
-          newItem:chapter = item:fields:verse[2]
-          newItem:verse = [item:fields:verse[3]]
+        for item, key in data
+          newItem:date = Date.new(item:date)
+          newItem:color = item:color
+          newItem:note = item:note
+          newItem:translation = item:verse:translation
+          newItem:book = item:verse:book
+          newItem:chapter = item:verse:chapter
+          newItem:verse = [item:verse:verse]
           newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
           if @bookmarks[@bookmarks:length - 1]
-            if item:fields:date == @bookmarks[@bookmarks:length - 1]:date.getTime
-              @bookmarks[@bookmarks:length - 1]:verse.push(item:fields:verse[3])
-              @bookmarks[@bookmarks:length - 1]:text.push(item:fields:verse[4])
+            if item:date == @bookmarks[@bookmarks:length - 1]:date.getTime
+              @bookmarks[@bookmarks:length - 1]:verse.push(item:verse:verse)
+              @bookmarks[@bookmarks:length - 1]:text.push(item:verse:text)
               @bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
             else
-              newItem:text.push(item:fields:verse[4])
+              newItem:text.push(item:verse:text)
               @bookmarks.push(newItem)
               newItem = {
                 verse: [],
                 text: []
               }
           else
-            newItem:text.push(item:fields:verse[4])
+            newItem:text.push(item:verse:text)
             @bookmarks.push(newItem)
             newItem = {
                 verse: [],
@@ -264,7 +259,7 @@ export tag Profile
             if bookmark:note
               <p.note> bookmark:note
             <p.dataflex>
-              <span.booktitle> bookmark:title, ' '
+              <span.booktitle> bookmark:title, ' ', bookmark:translation
               <time.time .time_rtl=(bookmark:translation=="WLC") time:datetime="bookmark:date"> bookmark:date.toLocaleString()
           <hr.hr>
         if (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
@@ -272,7 +267,7 @@ export tag Profile
         else
           <div.freespace>
         if !@bookmarks:length
-          <p id="defaultmassage"> langdata:thereisnobookmarks
+          <p#defaultmassage> langdata:thereisnobookmarks
 
       <div.online .offline=offline>
         langdata:offline

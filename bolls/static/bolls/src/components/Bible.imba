@@ -1,5 +1,5 @@
-import BOOKS from "./translations_books.json"
-import translations from "./translations.json"
+let BOOKS = require "./translations_books.json"
+let translations = require "./translations.json"
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 import {Profile} from './Profile'
 
@@ -105,11 +105,9 @@ export tag Bible
   prop langdata default: []
   prop history default: []
   prop categories default: []
+  prop chronorder default: no
 
   def build
-    for book in BOOKS
-      this[Object.keys(book)[0]] = book[Object.keys(book)[0]]
-
     if window:translation
       if translations.find(do |element| return element:short_name == window:translation)
         setCookie('translation', window:translation)
@@ -153,16 +151,16 @@ export tag Bible
         else document:lastChild:lang = "en"
     setCookie('translation', settings:translation)
     switch settings:language
-      when 'eng'
-        @langdata = en_leng
-        document:lastChild:lang = "en"
       when 'ukr'
         @langdata = uk_leng
         document:lastChild:lang = "uk"
       when 'ru'
         @langdata = ru_leng
         document:lastChild:lang = "ru-RU"
-
+      else
+        settings:language = 'eng'
+        @langdata = en_leng
+        document:lastChild:lang = "en"
     switchTranslation settings:translation, no
     @verses = getText(settings:translation, settings:book, settings:chapter)
 
@@ -178,6 +176,8 @@ export tag Bible
       settings:font = parseInt(getCookie('font'))
     if getCookie('parallel_display') == 'true'
       toggleParallelMode
+    if getCookie('chronorder') == 'true'
+      toggleChronorder
 
   def getCookie c_name
     return window:localStorage.getItem(c_name)
@@ -193,9 +193,9 @@ export tag Bible
 
   def switchTranslation translation, parallel
     if parallel
-      @parallel_books = this[translation]
+      @parallel_books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
     else
-      @books = this[translation]
+      @books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
 
 
   def saveToHistory translation, book, chapter, verse
@@ -238,6 +238,14 @@ export tag Bible
     dropFilter
     closeMark
     document:title = "Bolls Bible | " + nameOfBook(book) + ' ' + chapter
+    try
+      document.getElementById('main').focus()
+    catch error
+      # log error
+      log null
+    if @chronorder
+      @chronorder = !@chronorder
+      toggleChronorder
     Imba.commit
 
     settings:book = book
@@ -263,6 +271,10 @@ export tag Bible
     loadData(url).then do |data|
       @parallel_verses = data
       scheduler.mark
+
+    if @chronorder
+      @chronorder = !@chronorder
+      toggleChronorder
 
     # if User is registred get his bookmarks
     if window:username
@@ -313,7 +325,7 @@ export tag Bible
       setCookie('translation', translation)
     else
       switchTranslation translation, no
-      if books.find(do |element| return element:bookid == settings:book)
+      if @books.find(do |element| return element:bookid == settings:book)
         getText(translation, settings:book, settings:chapter)
       else
         getText(translation, books[0]:bookid, 1)
@@ -512,9 +524,13 @@ export tag Bible
       mobimenu = ''
     elif document.getSelection == '' && Math.abs(touch.dy) < 32 && !mobimenu && !search:search_div && !show_history && !choosenid:length
       if touch.dx < -64
-        nextChapter
+        if parallel_text:display && touch.y > window:innerHeight / 2
+          nextChapter("true")
+        else nextChapter
       elif touch.dx > 64
-        prewChapter
+        if parallel_text:display && touch.y > window:innerHeight / 2
+          prewChapter("true")
+        else prewChapter
     inzone = no
     Imba.commit
 
@@ -558,28 +574,29 @@ export tag Bible
           choosen_categories.push(piece)
 
   def addToChoosen pk, id, parallel
-    if !choosen_parallel
-      choosen_parallel = parallel
-      choosenid.push pk
-      choosen.push id
-      pushNoteIfExist pk
-    elif choosen_parallel == parallel
-      if choosenid.find(do |element| return element == pk)
-        choosenid.splice(choosenid.indexOf(pk), 1)
-        choosen.splice(choosen.indexOf(id), 1)
-
-        let note = getNoteOfChoosen(pk)
-        if note
-          for piece in note.split(' | ')
-            if piece != ''
-              choosen_categories.splice(choosen_categories.indexOf(choosen_categories.find(do |element| return element == piece)), 1)
-      else
+    if document.getSelection == ''
+      if !choosen_parallel
+        choosen_parallel = parallel
         choosenid.push pk
         choosen.push id
         pushNoteIfExist pk
-      if !choosenid:length
-        closeMark
-      show_collections = no
+      elif choosen_parallel == parallel
+        if choosenid.find(do |element| return element == pk)
+          choosenid.splice(choosenid.indexOf(pk), 1)
+          choosen.splice(choosen.indexOf(id), 1)
+
+          let note = getNoteOfChoosen(pk)
+          if note
+            for piece in note.split(' | ')
+              if piece != ''
+                choosen_categories.splice(choosen_categories.indexOf(choosen_categories.find(do |element| return element == piece)), 1)
+        else
+          choosenid.push pk
+          choosen.push id
+          pushNoteIfExist pk
+        if !choosenid:length
+          closeMark
+        show_collections = no
 
 
 
@@ -734,7 +751,7 @@ export tag Bible
 
   def getNameOfBookFromHistory translation, bookid
     let books = []
-    books = this[translation]
+    books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
     for book in books
       if book:bookid == bookid
         return book:name
@@ -801,6 +818,26 @@ export tag Bible
     else
       return translation == settings:translation
 
+  def toggleBibleMenu
+    if bible_menu_left
+      bible_menu_left = 0
+      mobimenu = 'show_bible_menu'
+    else
+      bible_menu_left = -280
+      mobimenu = ''
+
+  def toggleChronorder
+    if @chronorder
+      @parallel_books.sort(do |book, koob| return book:bookid > koob:bookid)
+      @books.sort(do |book, koob| return book:bookid > koob:bookid)
+    else
+      @parallel_books.sort(do |book, koob| return book:chronorder > koob:chronorder)
+      @books.sort(do |book, koob| return book:chronorder > koob:chronorder)
+    @chronorder = !@chronorder
+    setCookie('chronorder', @chronorder.toString)
+
+
+
   def render
     <self>
       <nav css:transform="translateX({bible_menu_left}px)">
@@ -811,7 +848,11 @@ export tag Bible
           if parallel_text:edited_version == parallel_text:translation
             <a.translation_name a:role="button" :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
           else <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
-        else <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+        else
+          <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+        <svg:svg.chronological_order .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <title> langdata:chronological_order
+          <svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z">
         <ul.translations_list .show_list_of_chapters=@show_list_of_translations>
           for translation in translations
             <li.book_in_list .active_book=currentTranslation(translation:short_name) css:font-size="18px" :tap.prevent.changeTranslation(translation:short_name) tabindex="0"> translation:full_name
@@ -830,14 +871,14 @@ export tag Bible
                   <li.chapter_number  .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
           <.freespace>
 
-      <main .parallel_text=parallel_text:display css:font-size="{settings:font}px">
+      <main#main tabindex="0" .parallel_text=parallel_text:display css:font-size="{settings:font}px">
         <section .parallel=parallel_text:display .right_align=(settings:translation=="WLC")>
           <header>
-            <h1> nameOfBook(settings:book, false), ' ', settings:chapter
+            <h1 :tap.prevent.toggleBibleMenu> nameOfBook(settings:book, false), ' ', settings:chapter
           <article>
             <.text-ident> " "
             for verse in @verses
-              <span.verse id=verse:verse>
+              <a.verse id=verse:verse href="#{verse:verse}">
                 ' '
                 verse:verse
               <span
@@ -858,11 +899,11 @@ export tag Bible
               <.freespace>
         <section.display_none.parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC")>
           <header>
-            <h1> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+            <h1 :tap.prevent.toggleBibleMenu> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <article>
             <.text-ident> " "
             for verse in @parallel_verses
-              <span.verse>
+              <a.verse id="p{verse:verse}" href="#p{verse:verse}">
                 ' '
                 verse:verse
               <span
@@ -928,6 +969,9 @@ export tag Bible
             <a.prof_btn href="accounts/login/"> langdata:login, ' '
             <a.prof_btn.signin href="signup/"> langdata:signin
         <.freespace>
+        <footer>
+          <address>
+            <a href="/api"> "© 2019 Павлишинець Богуслав"
 
       <section.search_results .show_search_results=search:search_div>
         <article.search_hat>
@@ -953,7 +997,7 @@ export tag Bible
             if search:is_filter
               <p.search_results_total> getFilteredArray:length, ' ', langdata:totalyresultsofsearch
               for verse, key in getFilteredArray
-                <a.search_item :tap.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
+                <a.search_item :tap.prevent.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
                   <.search_res_verse_text>
                     <span> verse:text
                   <.search_res_verse_header>
@@ -968,7 +1012,7 @@ export tag Bible
             else
               <p.search_results_total> @search_verses:length, ' ', langdata:totalyresultsofsearch
               for verse, key in @search_verses
-                <a.search_item :tap.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
+                <a.search_item :tap.prevent.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
                   <.search_res_verse_text>
                     <span> verse:text
                   <.search_res_verse_header>
@@ -1052,18 +1096,18 @@ export tag Bible
           <button.cancel :tap.prevent.turnCollections> langdata:cancel
 
       <section.history.filters .show_history=show_history>
-        <.nighttheme>
+        <.nighttheme css:margin="0">
           <svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
               <svg:title> langdata:close_search
               <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
-          <h1 css:margin-left="8px"> langdata:history
+          <h1 css:margin="0 0 0 8px"> langdata:history
           <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="0 8px 0 16px" alt=langdata:delete css:margin-left="auto">
             <svg:title> langdata:delete
             <svg:path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z">
 
         <article.historylist>
           for h in @history.slice().reverse
-            <a.book_in_list  :tap.getText(h:translation, h:book, h:chapter, h:verse)> getNameOfBookFromHistory(h:translation, h:book), ' ', h:chapter,  ' ', h:translation
+            <a.book_in_list  :tap.prevent.getText(h:translation, h:book, h:chapter, h:verse)> getNameOfBookFromHistory(h:translation, h:book), ' ', h:chapter,  ' ', h:translation
 
       <.online .offline=offline>
         langdata:offline

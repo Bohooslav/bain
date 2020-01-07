@@ -31,7 +31,7 @@ html {
 
 * {
   box-sizing: border-box;
-  scrollbar-color: #737373 #38383D33;
+  scrollbar-color: #737373 #38383D00;
   scrollbar-width: thin;
   margin: 0;
   padding: 0;
@@ -45,7 +45,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #38383D33;
+  background: #38383D00;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -98,7 +98,9 @@ h1 {
 h1,
 main span,
 .filters,
-._colorpicker {
+._colorpicker,
+.bookmark_in_list,
+.collectionsflex {
   -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
@@ -109,6 +111,10 @@ button {
 
 .Profile {
   height: 100vh;
+}
+
+.Bible {
+  /* position: fixed; */
 }
 
 nav {
@@ -125,7 +131,7 @@ nav {
   padding-top: 32px;
   z-index: 999;
   overflow-y: auto;
-  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .translations_list {
@@ -186,8 +192,8 @@ nav {
 }
 
 .book_name::selection {
-  background: var(--background-color);
-  color: var(--text-color);
+  background: inherit;
+  color: inherit;
 }
 
 .book_in_list {
@@ -203,8 +209,8 @@ nav {
 }
 
 .book_in_list::selection {
-  color: var(--text-color);
-  background: var(--background-color);
+  background: inherit;
+  color: inherit;
 }
 
 .book_in_list:hover {
@@ -252,20 +258,19 @@ nav {
 }
 
 .freespace {
-  min-height: 180px;
-  width: 100%;
+  min-height: 256px;
 }
 
 
 main {
-  display: inline-block;
+  display: block;
   width: 100%;
   padding: 4vw 3vw;
   color: var(--text-color);
   line-height: 1.5;
-  position: fixed;
+  /* position: fixed;
   overflow-y: auto;
-  height: 100%;
+  height: 100%; */
 }
 
 .parallel_text {
@@ -278,6 +283,11 @@ main {
 h1 {
   text-align: center;
   margin: 24px;
+}
+
+main h1:hover {
+  text-decoration: solid underline;
+  cursor: pointer;
 }
 
 main span {
@@ -297,8 +307,8 @@ main span {
   vertical-align: super;
 }
 .verse::selection {
-  color: royalblue;
-  background-color: #0000;
+  background: inherit;
+  color: inherit;
 }
 .highlighted {
   text-decoration-line: underline;
@@ -349,10 +359,8 @@ main span {
 }
 
 .mark_grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
   justify-content: center;
-  grid-gap: 4px;
 }
 
 .color_mark {
@@ -425,13 +433,12 @@ main span {
   margin: 24px 0;
   bottom: 0;
   right: 0;
-  background-color: #88a2;
   fill: var(--text-color);
   cursor: pointer;
 }
 
 .arrow:hover {
-  background-color: #88a4;
+  background-color: #88a2;
 }
 
 .arrow_next {
@@ -454,10 +461,9 @@ aside {
   background-color: var(--background-color);
   width: 280px;
   display: block;
-  flex-direction: column;
   padding: 32px 12px;
   z-index: 4;
-  box-shadow: -3px 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
 
@@ -1062,4 +1068,12 @@ aside {
   position: relative;
   margin: auto 0;
   left: 8px;
+}
+
+address a {
+  color: #888;
+  font-size: 12px;
+}
+address a:hover {
+  color: #9ab;
 }

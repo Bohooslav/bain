@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from django.core.serializers import serialize
 
 from django.contrib.auth.models import User
 from .models import Verses, Bookmarks
@@ -30,9 +29,6 @@ def getText(request, translation, book, chapter):
     for obj in all_objects:
         d.append({
             "pk": obj.pk,
-            "translation": obj.translation,
-            "book": obj.book,
-            "chapter": obj.chapter,
             "verse": obj.verse,
             "text": obj.text
         })
@@ -88,45 +84,64 @@ def getBookmarks(request, translation, book, chapter):
         if list(obj.bookmarks_set.all().filter(user=request.user)):
             for bookmark in obj.bookmarks_set.all():
                 bookmarks.append({
-                        "verse": bookmark.verse.pk,
-                        "date": bookmark.date,
-                        "color": bookmark.color,
-                        "note": bookmark.note,
-                    })
-
+                    "verse": bookmark.verse.pk,
+                    "date": bookmark.date,
+                    "color": bookmark.color,
+                    "note": bookmark.note,
+                })
     return JsonResponse(bookmarks, safe=False)
 
 
 @login_required
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
-    all_objects = user.bookmarks_set.all().order_by(
-        '-date', 'verse')[range_from:range_to]
 
-    bookmarks = serialize(
-        'json', all_objects, use_natural_foreign_keys=True)
+    bookmarks = []
+    for bookmark in user.bookmarks_set.all().order_by(
+            '-date', 'verse')[range_from:range_to]:
 
-    return JsonResponse({"data": bookmarks}, safe=False)
+        bookmarks.append({
+            "verse": {
+                "verse_id": bookmark.verse.pk,
+                "translation": bookmark.verse.translation,
+                "book": bookmark.verse.book,
+                "chapter": bookmark.verse.chapter,
+                "verse": bookmark.verse.verse,
+                "text": bookmark.verse.text,
+            },
+            "date": bookmark.date,
+            "color": bookmark.color,
+            "note": bookmark.note,
+        })
+
+    return JsonResponse(bookmarks, safe=False)
 
 
 @login_required
 def getSearchedProfileBookmarks(request, query):
     user = request.user
-    all_objects = user.bookmarks_set.all().filter(note__icontains=query).order_by(
-        '-date', 'verse')
-
-    bookmarks = serialize(
-        'json', all_objects, use_natural_foreign_keys=True)
-
-    return JsonResponse({"data": bookmarks}, safe=False)
+    bookmarks = []
+    for bookmark in user.bookmarks_set.all().filter(note__icontains=query).order_by('-date', 'verse'):
+        bookmarks.append({
+            "verse": {
+                "verse_id": bookmark.verse.pk,
+                "translation": bookmark.verse.translation,
+                "book": bookmark.verse.book,
+                "chapter": bookmark.verse.chapter,
+                "verse": bookmark.verse.verse,
+                "text": bookmark.verse.text,
+            },
+            "date": bookmark.date,
+            "color": bookmark.color,
+            "note": bookmark.note,
+        })
+    return JsonResponse(bookmarks, safe=False)
 
 
 @login_required
 def getCategories(request):
     user = request.user
-    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note')).order_by(
-        '-date')
-
+    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note')).order_by('-date')
     return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
 
@@ -145,7 +160,7 @@ def saveBookmarks(request):
         except Bookmarks.DoesNotExist:
             user.bookmarks_set.create(
                 verse=verse, date=received_json_data["date"], color=received_json_data["color"], note=received_json_data["notes"])
-    return JsonResponse({"200": "ok"}, safe=False)
+    return JsonResponse({"response": "200"}, safe=False)
 
 
 @login_required
@@ -155,16 +170,19 @@ def deleteBookmarks(request):
 
     for verseid in ast.literal_eval(received_json_data["verses"]):
         verse = Verses.objects.get(pk=verseid)
-        print(verse)
         user.bookmarks_set.filter(verse=verse).delete()
 
-    return JsonResponse({"200": "ok"}, safe=False)
+    return JsonResponse({"response": "200"}, safe=False)
 
 
 def robots(request):
     filename = "robots.txt"
-    content = "User-agent: *\nAllow: /\nSitemap: http://bolls.life/static/sitemap.xml"
+    content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/sitemap.xml"
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename)
     return response
+
+
+def api(request):
+    return render(request, 'bolls/api.html')

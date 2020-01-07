@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bolls API</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/api.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <link rel="canonical" href="https://bolls.life/">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="description" content="API documentation of Bolls project for developing frontend clients. ">
+    <meta property="og:title" content="API for Bolls project">
+    <meta property="og:description" content="API documentation of Bolls project for developing frontend clients.">
+    <meta property="og:image" content="{% static 'light.png' %}">
+    <meta name="twitter:image:src" content="{% static 'light.png' %}">
+    <meta name="theme-color" content="#04060c"/>
+  </head>
+
+  <body>
+    <header>
+      <h1>Bolls API Documentation</h1>
+      <p> This documentation is called to provide an available API for creating a functioning client.</p>
+      {% comment %} <h2> Content </h2> {% endcomment %}
+    </header>
+    <h2>Fetching Bible text</h2>
+    <p>Firstly, to fetch Bible text, you need to get <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations.json">a list of available translations</a> and <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations_books.json">a list of their books</a>. Then, using that data, you can form a url for fetching a chapter of certain translation and book. The url constructor is the next:
+
+    <pre>https://bolls-256717.appspot.com/get-text/&lt;slug:translation&gt;/&lt;int:book&gt;/&lt;int:chapter&gt;/</pre>
+
+    <p>Where <code>&lt;slug:translation&gt;</code> is a translation abbreviation like <code>YLT</code> or <code>UBIO</code> or <code>SYNOD</code>, and where <code>&lt;int:book&gt;</code> and<code>&lt;int:chapter&gt;</code> is just a number of a book and a number of a chapter. For example by the next url you will got an eight chapter of Song of Solomon book:</p>
+
+    <pre><a target="_blank" href="https://bolls-256717.appspot.com/get-text/YLT/22/8/">https://bolls-256717.appspot.com/get-text/YLT/22/8/</a></pre>
+
+    <p>The result of this request will be a list of verses of that chapter, where every verse will has some several fields.</p>
+    <ul>
+      <li> The <code>pk</code> field is an id of the verse in database.
+      <li> The <code>verse</code> field is a number of the verse in its chapter.
+      <li> The <code>text</code> field contains a text of this verse.
+    </ul>
+
+
+    <h2>Search</h2>
+    <p>To find verses by a slug or a string you need to form a url in the next manner:</p>
+
+    <pre>https://bolls-256717.appspot.com/&lt;slug:translation&gt;/&lt;str:piece&gt;/</pre>
+
+    <p>Where <code>&lt;slug:translation&gt;</code> is a translation in which you want to find something. The <code>&lt;str:piece&gt;</code> is a piece of text which can be a slug or a string which you look for. It is`not case sensitive, and it can be anything on any language: <code>.../WLC/שָּׁמַ֖יִם וְאֵ֥ת/</code>, <code>.../LXX/ὁ θεὸς τὸν/</code>, <code>.../UBIO/Небо та землю/</code>, <code>.../CUV/淵 面 黑 暗/</code>. For example the next url will returm a list of verses, where "Haggi" word is found:</p>
+
+    <pre><a target="_blank" href="https://bolls-256717.appspot.com/YLT/haggi/">https://bolls-256717.appspot.com/YLT/haggi/</a></pre>
+
+    <p>The result of this request will be a list of ALL found verses in the given translation, where every verse will has some several fields:</p>
+    <ul>
+      <li> The <code>pk</code> field is an id of the verse in database.
+      <li> The <code>translation</code> field is a translation in which was the search.
+      <li> The <code>book</code> field is a book of the verse.
+      <li> The <code>chapter</code> field is a chapter of the book.
+      <li> The <code>verse</code> field is a number of the verse in the chapter.
+      <li> The <code>text</code> field contains a text of this verse.
+    </ul>
+    <footer>
+      <address>
+        <p>If you have any further questions <a href="mailto:bpavlisinec@gmail.com" target="_blank">you can write to me</a></p>
+      </address>
+    </footer>
+
+
+
+{% comment %} <code></code> {% endcomment %}
+  </body>
+</html>

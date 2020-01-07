@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('robots.txt', views.robots, name='robots'),
     path('signup/', views.signUp, name='signup'),
+    path('api/', views.api, name='api'),
 
     path('get-categories/',
          views.getCategories, name='getCategories'),
@@ -27,4 +28,5 @@ urlpatterns = [
          views.linkToVerse, name='linkToVerse'),
     path('<slug:translation>/<int:book>/<int:chapter>/',
          views.linkToChapter, name='linkToChapter'),
+
 ]
