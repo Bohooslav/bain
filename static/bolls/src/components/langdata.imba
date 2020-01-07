@@ -36,6 +36,7 @@ export const en_leng = {
   addcollection: "Add a collection",
   newcollection: "New collection",
   back: "Back",
+  chronological_order: "Chronological Order",
 }
 
 export const uk_leng = {
@@ -76,6 +77,7 @@ export const uk_leng = {
   addcollection: "Створити колекцію",
   newcollection: "Нова колекція",
   back: "Назад",
+  chronological_order: "Хронологічний порядок",
 }
 
 export const ru_leng = {
@@ -116,4 +118,5 @@ export const ru_leng = {
   addcollection: "Создать кллекцию",
   newcollection: "Новая коллекция",
   back: "Назад",
+  chronological_order: "Хронологический порядок",
 }

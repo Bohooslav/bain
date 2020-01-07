@@ -105,6 +105,7 @@ export tag Bible
   prop langdata default: []
   prop history default: []
   prop categories default: []
+  prop chronorder default: no
 
   def build
     if window:translation
@@ -175,6 +176,8 @@ export tag Bible
       settings:font = parseInt(getCookie('font'))
     if getCookie('parallel_display') == 'true'
       toggleParallelMode
+    if getCookie('chronorder') == 'true'
+      toggleChronorder
 
   def getCookie c_name
     return window:localStorage.getItem(c_name)
@@ -240,7 +243,9 @@ export tag Bible
     catch error
       # log error
       log null
-
+    if @chronorder
+      @chronorder = !@chronorder
+      toggleChronorder
     Imba.commit
 
     settings:book = book
@@ -266,6 +271,10 @@ export tag Bible
     loadData(url).then do |data|
       @parallel_verses = data
       scheduler.mark
+
+    if @chronorder
+      @chronorder = !@chronorder
+      toggleChronorder
 
     # if User is registred get his bookmarks
     if window:username
@@ -316,7 +325,7 @@ export tag Bible
       setCookie('translation', translation)
     else
       switchTranslation translation, no
-      if books.find(do |element| return element:bookid == settings:book)
+      if @books.find(do |element| return element:bookid == settings:book)
         getText(translation, settings:book, settings:chapter)
       else
         getText(translation, books[0]:bookid, 1)
@@ -817,6 +826,18 @@ export tag Bible
       bible_menu_left = -280
       mobimenu = ''
 
+  def toggleChronorder
+    if @chronorder
+      @parallel_books.sort(do |book, koob| return book:bookid > koob:bookid)
+      @books.sort(do |book, koob| return book:bookid > koob:bookid)
+    else
+      @parallel_books.sort(do |book, koob| return book:chronorder > koob:chronorder)
+      @books.sort(do |book, koob| return book:chronorder > koob:chronorder)
+    @chronorder = !@chronorder
+    setCookie('chronorder', @chronorder.toString)
+
+
+
   def render
     <self>
       <nav css:transform="translateX({bible_menu_left}px)">
@@ -827,7 +848,11 @@ export tag Bible
           if parallel_text:edited_version == parallel_text:translation
             <a.translation_name a:role="button" :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
           else <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
-        else <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+        else
+          <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+        <svg:svg.chronological_order .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <title> langdata:chronological_order
+          <svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z">
         <ul.translations_list .show_list_of_chapters=@show_list_of_translations>
           for translation in translations
             <li.book_in_list .active_book=currentTranslation(translation:short_name) css:font-size="18px" :tap.prevent.changeTranslation(translation:short_name) tabindex="0"> translation:full_name
@@ -874,7 +899,7 @@ export tag Bible
               <.freespace>
         <section.display_none.parallel .show_parallel=parallel_text:display .right_align=(parallel_text:translation=="WLC")>
           <header>
-            <h1> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+            <h1 :tap.prevent.toggleBibleMenu> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <article>
             <.text-ident> " "
             for verse in @parallel_verses

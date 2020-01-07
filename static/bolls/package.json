@@ -5,7 +5,7 @@
     "bolls"
   ],
   "author": "Bohuslav Pavlyshynec",
-  "bugs": "https://github.com/somebee/hello-world-imba/issues",
+  "bugs": "https://github.com/Bohooslav/bolls/issues",
   "version": "1.0.0",
   "engines": {
     "node": ">=6.0.0"
@@ -37,14 +37,11 @@
     "@babel/core": "^7.7.7",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7",
-    "@babel/preset-es2017": "^7.0.0-beta.53",
     "@babel/register": "^7.7.7",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
     "webpack-cli": "^3.3.10"
   },
   "browserslist": "> 0.05%, not dead"

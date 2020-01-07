@@ -113,7 +113,6 @@ export tag Bible
         setCookie('translation', window:translation)
         setCookie('book', window:book)
         setCookie('chapter', window:chapter)
-      window:history.pushState(Object.create(null), null, '/')
       document:title += " | " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
       if window:verse
         document:title += ':' + window:verse
@@ -223,6 +222,7 @@ export tag Bible
     loadData(url).then do |data|
       @verses = data
       scheduler.mark
+    window:history.pushState(Object.create(null), null, '/' + translation + '/' + book + '/' + chapter + '/')
 
     # if User is registred get his bookmarks
     if user:name

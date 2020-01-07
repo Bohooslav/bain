@@ -83,12 +83,23 @@ a {
 }
 
 @-webkit-keyframes text-came {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
 @keyframes text-came {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 h1 {
@@ -112,10 +123,10 @@ button {
 .Profile {
   height: 100vh;
 }
-
+/*
 .Bible {
-  /* position: fixed; */
-}
+  position: fixed;
+} */
 
 nav {
   position: fixed;
@@ -132,6 +143,29 @@ nav {
   z-index: 999;
   overflow-y: auto;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.chronological_order {
+  fill: var(--text-color);
+  width: 42px;
+  height: 42px;
+  display: block;
+  position: relative;
+  padding: 8px 0 8px 20px;
+  margin-top: -42px;
+}
+
+.chronological_order:hover {
+  fill: royalblue;
+}
+
+.chronological_order_in_use {
+  transform: rotate(180deg);
+  padding: 8px 20px 8px 0px;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
 
 .translations_list {
@@ -306,10 +340,12 @@ main span {
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
+
 .verse::selection {
   background: inherit;
   color: inherit;
 }
+
 .highlighted {
   text-decoration-line: underline;
   text-decoration-thickness: 0.1em;
@@ -570,10 +606,12 @@ aside {
   visibility: hidden;
   opacity: 0;
 }
+
 .show_languages {
   visibility: visible;
   opacity: 1;
 }
+
 .languages button {
   background: var(--btn-bg);
   color: inherit;
@@ -584,6 +622,7 @@ aside {
   font-size: 16px;
   border: none;
 }
+
 .languages button:hover {
   background-color: var(--btn-bg-hover);
 }
@@ -779,6 +818,7 @@ aside {
   height: 100%;
   overflow-y: auto;
 }
+
 .parallel_checkbox {
   min-width: 50px;
   min-height: 30px;
@@ -938,6 +978,7 @@ aside {
   -ms-transform: translateX(110vw);
   -o-transform: translateX(110vw);
 }
+
 .show_history {
   transform: translateX(calc(96vw - 300px));
   -webkit-transform: translateX(calc(96vw - 300px));
@@ -976,10 +1017,12 @@ aside {
   cursor: default;
   height: 44px;
 }
+
 .saveto {
   margin: auto;
   font-size: 16px;
 }
+
 .svgAdd {
   width: 20px;
   height: 32px;
@@ -989,9 +1032,11 @@ aside {
   position: absolute;
   right: 16px;
 }
+
 .svgAdd:hover {
   stroke: goldenrod;
 }
+
 .svgBack {
   width: 20px;
   height: 32px;
@@ -1001,6 +1046,7 @@ aside {
   position: absolute;
   left: 16px;
 }
+
 .svgBack:hover {
   fill: goldenrod;
 }
@@ -1011,6 +1057,7 @@ aside {
   padding: 8px;
   white-space: nowrap;
 }
+
 .collectionsflex::-webkit-scrollbar {
   display: none;
 }
@@ -1027,6 +1074,7 @@ aside {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
 }
+
 .collection:hover {
   background: var(--btn-bg-hover);
 }
@@ -1039,6 +1087,7 @@ aside {
   border-top: 1px solid var(--btn-bg);
   font-weight: bold;
 }
+
 .show_collections {
   transform: none;
   -webkit-transform: none;
@@ -1046,6 +1095,7 @@ aside {
   -ms-transform: none;
   -o-transform: none;
 }
+
 .newcollectioninput {
   width: auto;
   height: 34px;
@@ -1056,10 +1106,12 @@ aside {
   color: inherit;
   text-align: center;
 }
+
 .add_new_collection {
   background: royalblue;
   color: #fff;
 }
+
 .add_new_collection:hover {
   background: #4169e1dd;
 }
@@ -1074,6 +1126,7 @@ address a {
   color: #888;
   font-size: 12px;
 }
+
 address a:hover {
   color: #9ab;
 }
