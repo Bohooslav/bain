@@ -1,7 +1,8 @@
-let BOOKS = require "./translations_books.json"
-let translations = require "./translations.json"
+import "./translations_books.json" as BOOKS
+import "./translations.json" as translations
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 import {Profile} from './Profile'
+import {Load} from "./loading.imba"
 
 let settings = {
   theme: 'light',
@@ -10,16 +11,6 @@ let settings = {
   chapter: 1,
   font: 24,
   language: 'eng'
-}
-let search = {
-  search_div: no,
-  search_input: '',
-  search_result_header: '',
-  search_result_translation: '',
-  show_filters: no,
-  is_filter: no,
-  counter: 50,
-  filter: 0
 }
 let parallel_text = {
   display: no,
@@ -56,6 +47,23 @@ document:onkeyup = do |e|
   elif e:code == "ArrowLeft" && e:ctrlKey
     let bible = document:getElementsByClassName("Bible")
     bible[0]:_tag.prewChapter
+
+window:onpopstate = do |event|
+  let state = event:state
+  if state
+    if state:profile
+      Imba.mount <Profile>
+    else
+      let profile = document:getElementsByClassName("Profile")
+      if profile[0]
+        profile[0]:_tag.orphanize
+
+      let bible = document:getElementsByClassName("Bible")
+      if state:parallel
+        bible[0]:_tag.getParallelText(state:translation, state:book, state:chapter, "onpopstate")
+      else
+        parallel_text:display = state:parallel_display
+        bible[0]:_tag.getText(state:translation, state:book, state:chapter, state:verse, "onpopstate")
 
 tag colorpicker
   prop canvasElement default: <canvas width="320" height="207">
@@ -106,6 +114,9 @@ export tag Bible
   prop history default: []
   prop categories default: []
   prop chronorder default: no
+  prop search default: Object.create(null)
+
+
 
   def build
     if window:translation
@@ -116,8 +127,6 @@ export tag Bible
       document:title += " | " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
       if window:verse
         document:title += ':' + window:verse
-        setTimeout(&,1200) do
-          window:location:hash = "#{window:verse}"
       document:title += ' ' + window:translation
 
     if window:username
@@ -161,7 +170,12 @@ export tag Bible
         @langdata = en_leng
         document:lastChild:lang = "en"
     switchTranslation settings:translation, no
-    @verses = getText(settings:translation, settings:book, settings:chapter)
+
+    if window:location:pathname == '/profile/'
+      @verses = getText(settings:translation, settings:book, settings:chapter, window:verse, "build")
+      toProfile
+    else
+      @verses = getText(settings:translation, settings:book, settings:chapter, window:verse, "build")
 
     if getCookie('theme')
       settings:theme = getCookie('theme')
@@ -177,6 +191,20 @@ export tag Bible
       toggleParallelMode
     if getCookie('chronorder') == 'true'
       toggleChronorder
+
+    @search = {
+        search_div: no,
+        search_input: '',
+        search_result_header: '',
+        search_result_translation: '',
+        show_filters: no,
+        is_filter: no,
+        counter: 50,
+        filter: 0,
+        loading: no,
+        change_translation: no,
+        bookd_of_results: []
+      }
 
   def getCookie c_name
     return window:localStorage.getItem(c_name)
@@ -197,16 +225,15 @@ export tag Bible
       @books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
 
 
-  def saveToHistory translation, book, chapter, verse
+  def saveToHistory translation, book, chapter, verse, parallel
     if getCookie("history")
       @history = JSON.parse(getCookie("history"))
     if @history.find(do |element| return element:chapter == chapter && element:book == book && element:translation == translation)
       @history.splice(@history.indexOf(@history.find(do |element| return element:chapter == chapter && element:book == book && element:translation == translation)), 1)
     if verse
-      @history.push({"translation": translation, "book": book, "chapter": chapter, "verse": verse})
-    else @history.push({"translation": translation, "book": book, "chapter": chapter})
+      @history.push({"translation": translation, "book": book, "chapter": chapter, "verse": verse, "parallel": parallel})
+    else @history.push({"translation": translation, "book": book, "chapter": chapter, "parallel": parallel})
     window:localStorage.setItem("history", JSON.stringify(@history))
-
 
   def loadData url
     isOnline
@@ -214,39 +241,43 @@ export tag Bible
       return res.json
 
 
-  def getText translation, book, chapter, verse
-    switchTranslation translation
-    let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
-    @bookmarks = []
-    @verses = []
-    loadData(url).then do |data|
-      @verses = data
-      scheduler.mark
-    window:history.pushState(Object.create(null), null, '/' + translation + '/' + book + '/' + chapter + '/')
-
-    # if User is registred get his bookmarks
-    if user:name
-      url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+  def getText translation, book, chapter, verse, caller
+    if !(translation == settings:translation && book == settings:book && chapter == settings:chapter) || caller == "build"
+      switchTranslation translation
+      let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
+      @bookmarks = []
+      @verses = []
       loadData(url).then do |data|
-        @bookmarks = data
-    unflag 'show_bible_menu'
-    bible_menu_left = -280
-    settings_menu_left = 280
-    search:search_div = no
-    show_history = no
-    mobimenu = ''
-    dropFilter
-    closeMark
-    document:title = "Bolls Bible | " + nameOfBook(book) + ' ' + chapter
-    try
-      document.getElementById('main').focus()
-    catch error
-      # log error
-      log null
-    if @chronorder
-      @chronorder = !@chronorder
-      toggleChronorder
-    Imba.commit
+        @verses = data
+        scheduler.mark
+
+      if user:name
+        url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+        loadData(url).then do |data|
+          @bookmarks = data
+
+      if !caller
+        window:history.pushState(
+            {
+              translation: translation,
+              book: book,
+              chapter: chapter,
+              verse: 0,
+              parallel: no,
+              parallel_display: parallel_text:display
+            },
+            nameOfBook(settings:book, false) + ' ' + settings:chapter,
+            window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
+          )
+
+      clearSpace
+      document:title = "Bolls Bible | " + nameOfBook(book) + ' ' + chapter
+      if document.getElementById('main')
+        document.getElementById('main').focus()
+      if @chronorder
+        @chronorder = !@chronorder
+        toggleChronorder
+      Imba.commit
 
     settings:book = book
     settings:chapter = chapter
@@ -255,44 +286,79 @@ export tag Bible
     setCookie('chapter', chapter)
     setCookie('translation', translation)
 
-    saveToHistory translation, book, chapter, verse
+    saveToHistory translation, book, chapter, verse, no
 
     if verse
       setTimeout(&,1200) do
         window:location:hash = "#{verse}"
 
-  def getParallelText translation, book, chapter
-    parallel_text:translation = translation
-    parallel_text:edited_version = translation
-    parallel_text:book = book
-    parallel_text:chapter = chapter
-    let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
-    @parallel_verses = []
-    loadData(url).then do |data|
-      @parallel_verses = data
-      scheduler.mark
 
-    if @chronorder
-      @chronorder = !@chronorder
-      toggleChronorder
-
-    # if User is registred get his bookmarks
-    if window:username
-      url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
-
-      @parallel_bookmarks = []
-      loadData(url).then do |data|
-        @parallel_bookmarks = data
+  def mount
+    let search = document.getElementById('search_body')
+    search:onscroll = do
+      if this:scrollTop > this:scrollHeight - this:clientHeight - 512
+        self:_search:counter += 20
+        Imba.commit
         scheduler.mark
 
+  def getParallelText translation, book, chapter, caller
+    if !(translation == parallel_text:translation && book == parallel_text:book && chapter == parallel_text:chapter) || caller == "toggle"
+      parallel_text:translation = translation
+      parallel_text:edited_version = translation
+      parallel_text:book = book
+      parallel_text:chapter = chapter
+      let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
+      @parallel_verses = []
+      loadData(url).then do |data|
+        @parallel_verses = data
+        scheduler.mark
+
+      if @chronorder
+        @chronorder = !@chronorder
+        toggleChronorder
+
+      if window:username
+        url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+        @parallel_bookmarks = []
+        loadData(url).then do |data|
+          @parallel_bookmarks = data
+          scheduler.mark
+
+      if !caller
+        window:history.pushState(
+            {
+              translation: translation,
+              book: book,
+              chapter: chapter,
+              parallel: yes
+            },
+            nameOfBook(settings:book, false) + ' ' + settings:chapter,
+            window:location:origin + '//' + settings:translation + '/' + settings:book + '/' + settings:chapter + '/'
+          )
+
+    clearSpace
     parallel_text:display = yes
     setCookie('parallel_display', parallel_text:display)
     switchTranslation parallel_text:translation, yes
-    saveToHistory translation, book, chapter
-    setCookie('translation', settings:translation)
+    saveToHistory translation, book, chapter, 0, yes
     setCookie('parallel_translation', translation)
     setCookie('parallel_book', book)
     setCookie('parallel_chapter', chapter)
+
+  def clearSpace
+    unflag 'show_bible_menu'
+    bible_menu_left = -280
+    settings_menu_left = 280
+    search:search_div = no
+    show_history = no
+    mobimenu = ''
+    dropFilter
+    choosen = []
+    choosenid = []
+    show_color_picker = no
+    show_collections = no
+    choosen_parallel = no
+    choosen_categories = []
 
 
   def toggleParallelMode
@@ -305,7 +371,7 @@ export tag Bible
         parallel_text:book = parseInt(getCookie('parallel_book'))
       if getCookie('parallel_chapter')
         parallel_text:chapter = parseInt(getCookie('parallel_chapter'))
-      getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter)
+      getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter, "toggle")
       parallel_text:display = yes
     setCookie('parallel_display', parallel_text:display)
 
@@ -333,24 +399,30 @@ export tag Bible
         settings:chapter = 1
       settings:translation = translation
       setCookie('translation', translation)
+    if @search:change_translation
+      getSearchText
+      @search:change_translation = no
     @show_list_of_translations = no
 
 
   def getSearchText
-    closeMark
+    clearSpace
     search:search_input = search:search_input.replace(/\\/g, '')
     search:search_input = search:search_input.replace(/\//g, '')
     if search:search_input != ''
       let url
       if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-        url = parallel_text:edited_version + '/' + search:search_input + '/'
+        url = '/' + parallel_text:edited_version + '/' + search:search_input + '/'
         search:search_result_translation = parallel_text:edited_version
       else
-        url = settings:translation + '/' + search:search_input + '/'
+        url = '/' + settings:translation + '/' + search:search_input + '/'
         search:search_result_translation = settings:translation
       @search_verses = Object.create(null)
       loadData(url).then do |data|
         @search_verses = data
+        for verse in @search_verses
+          if !@search:bookd_of_results.find(do |element| return element == verse:book)
+            @search:bookd_of_results.push verse:book
         closeSearch
         Imba.commit
 
@@ -361,7 +433,8 @@ export tag Bible
       search:search_div = !search:search_div
     search:search_result_header = search:search_input
     settings_menu_left = 280
-    document.getElementById('search').blur()
+    if document.getElementById('search')
+      document.getElementById('search').blur()
     mobimenu = ''
 
   def addFilter book
@@ -595,7 +668,7 @@ export tag Bible
           choosen.push id
           pushNoteIfExist pk
         if !choosenid:length
-          closeMark
+          clearSpace
         show_collections = no
 
 
@@ -624,15 +697,6 @@ export tag Bible
         else
           row += ',' + id
     return row
-
-
-  def closeMark
-    choosen = []
-    choosenid = []
-    show_color_picker = no
-    show_collections = no
-    choosen_parallel = no
-    choosen_categories = []
 
 
   def get_cookie name
@@ -691,7 +755,7 @@ export tag Bible
             note: notes})
     else
       window:location:pathname = "/signup/";
-    closeMark
+    clearSpace
 
   def deleteBookmarks
     isOnline
@@ -717,7 +781,7 @@ export tag Bible
       for verse in choosenid
         if @bookmarks.find(do |bookmark| return bookmark:verse == verse)
           @bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bookmark| return bookmark:verse == verse)), 1)
-    closeMark
+    clearSpace
 
   def copyToClipboard
     let aux = document.createElement("input")
@@ -740,13 +804,24 @@ export tag Bible
     aux.select()
     document.execCommand("copy")
     document:body.removeChild(aux)
-    closeMark
+    clearSpace
 
 
 
   def toProfile
     closeSearch true
-    closeMark
+    clearSpace
+    flag("display_none")
+
+    window:history.pushState(
+        {
+          parallel: no,
+          profile: yes
+        },
+        "profile",
+        "/profile/"
+      )
+
     Imba.mount <Profile>
 
   def getNameOfBookFromHistory translation, bookid
@@ -836,6 +911,10 @@ export tag Bible
     @chronorder = !@chronorder
     setCookie('chronorder', @chronorder.toString)
 
+  def showTranslations
+    @show_list_of_translations = yes
+    bible_menu_left = 0
+    @search:change_translation = yes
 
 
   def render
@@ -850,7 +929,7 @@ export tag Bible
           else <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
         else
           <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
-        <svg:svg.chronological_order .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <svg:svg.chronological_order .display_none=@show_list_of_translations .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <title> langdata:chronological_order
           <svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z">
         <ul.translations_list .show_list_of_chapters=@show_list_of_translations>
@@ -882,10 +961,13 @@ export tag Bible
                 ' '
                 verse:verse
               <span
-                :tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
-                .highlighted=getHighlight(verse:pk)
-                .clicked=choosenid.find(do |element| return element == verse:pk)
-                css:text-decoration-color=getHighlight(verse:pk)> verse:text
+                  tabindex="0"
+                  :keydown.enter.sendBookmarksToDjango
+                  :tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
+                  .highlighted=getHighlight(verse:pk)
+                  .clicked=choosenid.find(do |element| return element == verse:pk)
+                  css:text-decoration-color=getHighlight(verse:pk)
+                > verse:text
             <.arrows>
               <a.arrow :tap.prevent.prewChapter()>
                 <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -964,14 +1046,16 @@ export tag Bible
         <.profile_in_settings>
           if user:name
             <a.username :tap.prevent.toProfile> user:name
-            <a.prof_btn href="accounts/logout/"> langdata:logout
+            <a.prof_btn href="/accounts/logout/"> langdata:logout
           else
-            <a.prof_btn href="accounts/login/"> langdata:login, ' '
-            <a.prof_btn.signin href="signup/"> langdata:signin
+            <a.prof_btn href="/accounts/login/"> langdata:login, ' '
+            <a.prof_btn.signin href="/signup/"> langdata:signin
         <.freespace>
         <footer>
-          <address>
-            <a href="/api"> "© 2019 Павлишинець Богуслав"
+          <address css:padding-bottom="4px">
+            <a href="/api"> "© "
+              <time time:datetime="2020-01-11T21:00"> "2019-2020"
+              " Павлишинець Богуслав"
 
       <section.search_results .show_search_results=search:search_div>
         <article.search_hat>
@@ -982,17 +1066,17 @@ export tag Bible
           <svg:svg.filter_search .filter_search_hover=search:show_filters||search:is_filter :tap.prevent=(do search:show_filters = !search:show_filters) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
             <svg:title> langdata:addfilter
             <svg:path d="M12 12l8-8V0H0v4l8 8v8l4-4v-4z">
-        <article.search_body id="search_body" tabindex="0">
+        <article#search_body tabindex="0">
           if @search_verses:length
             if search:show_filters
               <.filters>
                 if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-                  <a.book_in_list :tap.prevent.dropFilter> langdata:drop_filter
+                  if search:is_filter then <a.book_in_list :tap.prevent.dropFilter> langdata:drop_filter
                   for book in @parallel_books
                     <a.book_in_list :tap.prevent.addFilter(book:bookid)> book:name
                 else
-                  <a.book_in_list :tap.prevent.dropFilter> langdata:drop_filter
-                  for book in @books
+                  if search:is_filter then <a.book_in_list :tap.prevent.dropFilter> langdata:drop_filter
+                  for book in @books when @search:bookd_of_results.find(do |element| return element == book:bookid)
                     <a.book_in_list :tap.prevent.addFilter(book:bookid)> book:name
             if search:is_filter
               <p.search_results_total> getFilteredArray:length, ' ', langdata:totalyresultsofsearch
@@ -1005,10 +1089,12 @@ export tag Bible
                     <span> verse:chapter, ':'
                     <span> verse:verse
                 if key > search:counter
-                  <button.more_results :tap.prevent=(do search:counter = key + 50) tabindex="0"> langdata:more_results
+                  <button.more_results :tap.prevent=(do search:counter += 50) tabindex="0"> langdata:more_results
                   break
               <div css:padding='12px 0px'>
                 langdata:filter_name, ' ', nameOfBook search:filter, choosen_parallel
+                <br>
+                <a.more_results css:display="inline-block" css:margin-top="12px" :tap.prevent.dropFilter> langdata:drop_filter
             else
               <p.search_results_total> @search_verses:length, ' ', langdata:totalyresultsofsearch
               for verse, key in @search_verses
@@ -1020,12 +1106,13 @@ export tag Bible
                     <span> verse:chapter, ':'
                     <span> verse:verse
                 if key > search:counter
-                  <button.more_results :tap.prevent=(do search:counter += 50)> langdata:more_results
+                  <button.more_results :tap.prevent=(do search:counter += 50) tabindex="0"> langdata:more_results
                   break
+            <.freespace>
           else
-            <p> langdata:nothing
-            <p> langdata:translation, search:search_result_translation
-          <.freespace>
+            <p css:margin-top="32px"> langdata:nothing
+            <p css:padding="32px 0px 8px"> langdata:translation, search:search_result_translation
+            <button.more_results :tap.prevent.showTranslations> langdata:change_translation
 
       <section.hide .choosen_verses=choosenid:length>
         if show_color_picker
@@ -1045,7 +1132,7 @@ export tag Bible
               linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)"
               :tap.prevent=(do show_color_picker = !show_color_picker)>
           <.addbuttons>
-            <svg:svg.close_search :tap.prevent.closeMark xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="auto" alt=langdata:close>
+            <svg:svg.close_search :tap.prevent.clearSpace xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="auto" alt=langdata:close>
               <svg:title> langdata:close
               <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt="dismiss">
 
@@ -1107,7 +1194,12 @@ export tag Bible
 
         <article.historylist>
           for h in @history.slice().reverse
-            <a.book_in_list  :tap.prevent.getText(h:translation, h:book, h:chapter, h:verse)> getNameOfBookFromHistory(h:translation, h:book), ' ', h:chapter,  ' ', h:translation
+            <a.book_in_list  :tap.prevent.getText(h:translation, h:book, h:chapter, h:verse)>
+              getNameOfBookFromHistory(h:translation, h:book), ' ', h:chapter
+              if h:verse
+                ':' + h:verse
+              ' ', h:translation
 
       <.online .offline=offline>
         langdata:offline
+        <button.reload.more_results :tap=(do window:history.go())> langdata:reload

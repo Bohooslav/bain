@@ -27,7 +27,7 @@ html {
 
 * {
   box-sizing: border-box;
-  scrollbar-color: #737373 #38383D00;
+  scrollbar-color: var(--btn-bg-hover) #00000000;
   scrollbar-width: thin;
   margin: 0;
   padding: 0;
@@ -80,7 +80,7 @@ li {
 
 a {
   /* text-decoration: none; */
-  color: indianred;
+  color: olivedrab;
 }
 
 a:hover {

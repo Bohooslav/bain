@@ -1,5 +1,6 @@
-let BOOKS = require "./translations_books.json"
-let translations = require "./translations.json"
+import "./translations_books.json" as BOOKS
+import "./translations.json" as translations
+import {Load} from "./loading.imba"
 
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
@@ -10,7 +11,7 @@ let user = {
 
 let limits_of_range = {
   from: 0,
-  to: 15,
+  to: 16,
   loaded: 0
 }
 
@@ -18,7 +19,7 @@ let verses = []
 
 let offline = false
 let query = ''
-
+let loading = no
 
 export tag Profile
   prop langdata default: []
@@ -48,7 +49,7 @@ export tag Profile
   def mount
     unflag("display_none")
     limits_of_range:from = 0
-    limits_of_range:to = 50
+    limits_of_range:to = 16
     limits_of_range:loaded = 0
     @bookmarks = []
     query = ''
@@ -56,14 +57,16 @@ export tag Profile
     getCategories
 
     let bible = document:getElementsByClassName("Bible")
-    bible[0]:classList.add("display_none")
-    unflag("display_none")
+    if bible[0]
+      bible[0]:classList.add("display_none")
+      unflag("display_none")
+    window:addEventListener('scroll', do render)
 
   def unmount
     let bible = document:getElementsByClassName("Bible")
     bible[0]:classList.remove("display_none")
     flag("display_none")
-
+    window:removeEventListener('scroll', do render)
 
   def getCookie c_name
     return window:localStorage.getItem(c_name)
@@ -142,6 +145,9 @@ export tag Profile
               verse: [],
               text: []
             }
+      loading = no
+      limits_of_range:from = range_from
+      limits_of_range:to = range_to
       scheduler.mark
 
   def getCategories
@@ -155,11 +161,12 @@ export tag Profile
       @categories = Array.from(Set.new(@categories))
       scheduler.mark
 
+  def toBible
+    window:history.back()
+
   def getMoreBookmarks
     if limits_of_range:loaded == limits_of_range:to
-      limits_of_range:from = limits_of_range:to
-      limits_of_range:to += 50
-      getProfileBookmarks limits_of_range:from, limits_of_range:to
+      getProfileBookmarks limits_of_range:to, limits_of_range:to + 16
 
   def goToBookmark bookmark
     let bible = document:getElementsByClassName("Bible")
@@ -177,8 +184,7 @@ export tag Profile
       if query
         closeSearch
       else
-        unmount
-        orphanize
+        toBible
 
   def getSearchedBookmarks category
     if category
@@ -232,13 +238,20 @@ export tag Profile
     @bookmarks = []
     getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 
+
+  def scroll
+    if (dom:clientHeight - 256 < window:scrollY + window:innerHeight) && !loading
+      loading = yes
+      getMoreBookmarks
+
+
   def render
-    <self>
+    <self :onscroll=scroll>
       <section.profile_block>
         <header.profile_hat>
           if !query && @categories:length
             <.collectionsflex css:flex-wrap="wrap">
-              <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.orphanize>
+              <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
               <h1> user:name
             <.collectionsflex css:flex-wrap="wrap">
@@ -262,8 +275,8 @@ export tag Profile
               <span.booktitle> bookmark:title, ' ', bookmark:translation
               <time.time .time_rtl=(bookmark:translation=="WLC") time:datetime="bookmark:date"> bookmark:date.toLocaleString()
           <hr.hr>
-        if (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
-          <button.more_results :tap.prevent.getMoreBookmarks css:margin="16px 0px 96px"> langdata:more_results
+        if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
+          <Load>
         else
           <div.freespace>
         if !@bookmarks:length

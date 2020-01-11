@@ -31,17 +31,17 @@ html {
 
 * {
   box-sizing: border-box;
-  scrollbar-color: #737373 #38383D00;
-  scrollbar-width: thin;
+  scrollbar-color: var(--btn-bg-hover) #00000000;
+  scrollbar-width: auto;
   margin: 0;
   padding: 0;
-  transition: all 0.3s ease 0s;
+  transition: all 300ms ease 0s;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -49,12 +49,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #545454;
+  background: var(--btn-bg-hover);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #737373;
+  background: var(--btn-bg);
 }
 
 *::selection {
@@ -120,14 +120,6 @@ button {
   border: none;
 }
 
-.Profile {
-  height: 100vh;
-}
-/*
-.Bible {
-  position: fixed;
-} */
-
 nav {
   position: fixed;
   font-family: "Roboto Slab", sans-serif;
@@ -147,12 +139,17 @@ nav {
 
 .chronological_order {
   fill: var(--text-color);
-  width: 42px;
+  width: 62px;
   height: 42px;
   display: block;
   position: relative;
-  padding: 8px 0 8px 20px;
   margin-top: -42px;
+  padding: 8px 20px;
+  transform: rotate(150deg);
+  -webkit-transform: rotate(150deg);
+  -moz-transform: rotate(150deg);
+  -ms-transform: rotate(150deg);
+  -o-transform: rotate(150deg);
 }
 
 .chronological_order:hover {
@@ -160,12 +157,11 @@ nav {
 }
 
 .chronological_order_in_use {
-  transform: rotate(180deg);
-  padding: 8px 20px 8px 0px;
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
+  transform: rotate(-24deg);
+  -webkit-transform: rotate(-24deg);
+  -moz-transform: rotate(-24deg);
+  -ms-transform: rotate(-24deg);
+  -o-transform: rotate(-24deg);
 }
 
 .translations_list {
@@ -302,9 +298,6 @@ main {
   padding: 4vw 3vw;
   color: var(--text-color);
   line-height: 1.5;
-  /* position: fixed;
-  overflow-y: auto;
-  height: 100%; */
 }
 
 .parallel_text {
@@ -312,6 +305,7 @@ main {
   grid-template-columns: 1fr 1fr;
   padding: 0 2vw;
   grid-gap: 0.25vw;
+  height: 100vh;
 }
 
 h1 {
@@ -336,7 +330,7 @@ main span {
 
 .verse {
   font-size: 0.5em;
-  color: royalblue;
+  color: peru;
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
@@ -755,7 +749,7 @@ aside {
   fill: olivedrab;
 }
 
-.search_body {
+#search_body {
   overflow-y: auto;
   height: calc(100% - 50px);
   text-align: center;
@@ -805,12 +799,13 @@ aside {
   display: block;
   top: 0;
   right: 42px;
-  height: 89vh;
+  max-height: 89vh;
   width: auto;
   padding: 8px;
   background: var(--background-color);
   overflow-y: auto;
   border-radius: 8px;
+  border: 1px solid var(--btn-bg);
   box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40, 0 10px 10px #04060c38;
 }
 
@@ -866,16 +861,24 @@ aside {
   color: var(--background-color);
   padding: 8px;
   border-radius: 8px;
+  text-align: center;
 }
 
 .offline {
   display: block;
 }
 
+.reload {
+  display: block;
+  margin-top: 8px;
+  width: 100%;
+}
+
 .Profile {
   display: flex;
   justify-content: center;
   overflow-y: auto;
+  min-height: 100vh;
 }
 
 .profile_block {
@@ -1129,4 +1132,26 @@ address a {
 
 address a:hover {
   color: #9ab;
+}
+
+.Load {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 1em;
+  padding: 128px 0;
+  height: 128px;
+}
+
+figcaption {
+  position: absolute;
+}
+
+.Load svg {
+  height: 30px;
+  width: 30px;
+  fill: var(--text-color);
+  transition-duration: 300ms;
+  transition-timing-function: linear;
+  overflow: visible;
 }

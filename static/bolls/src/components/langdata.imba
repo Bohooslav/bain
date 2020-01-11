@@ -37,6 +37,8 @@ export const en_leng = {
   newcollection: "New collection",
   back: "Back",
   chronological_order: "Chronological Order",
+  reload: "Reload",
+  change_translation: "Change translation",
 }
 
 export const uk_leng = {
@@ -78,6 +80,8 @@ export const uk_leng = {
   newcollection: "Нова колекція",
   back: "Назад",
   chronological_order: "Хронологічний порядок",
+  reload: "Перезавантажити",
+  change_translation: "Змінити переклад",
 }
 
 export const ru_leng = {
@@ -119,4 +123,6 @@ export const ru_leng = {
   newcollection: "Новая коллекция",
   back: "Назад",
   chronological_order: "Хронологический порядок",
+  reload: "Обновить",
+  change_translation: "Поменять перевод",
 }

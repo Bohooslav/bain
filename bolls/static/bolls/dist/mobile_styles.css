@@ -31,4 +31,9 @@
     height: 100vh;
   }
   .parallel{height: auto;}
+
+  .Load svg {
+    height: 16px;
+    width: 16px;
+  }
 }

@@ -7,6 +7,7 @@ urlpatterns = [
     path('robots.txt', views.robots, name='robots'),
     path('signup/', views.signUp, name='signup'),
     path('api/', views.api, name='api'),
+    path('profile/', views.index, name='profile'),
 
     path('get-categories/',
          views.getCategories, name='getCategories'),
@@ -24,9 +25,11 @@ urlpatterns = [
     path('save-bookmarks/', views.saveBookmarks, name='saveBookmarks'),
     path('delete-bookmarks/', views.deleteBookmarks, name='deleteBookmarks'),
 
-    path('<slug:translation>/<int:book>/<int:chapter>/<int:verse>/',
-         views.linkToVerse, name='linkToVerse'),
     path('<slug:translation>/<int:book>/<int:chapter>/',
          views.linkToChapter, name='linkToChapter'),
+    path('/<slug:translation>/<int:book>/<int:chapter>/',
+         views.linkToChapter, name='linkToChapter'),
+    path('<slug:translation>/<int:book>/<int:chapter>/<int:verse>/',
+         views.linkToVerse, name='linkToVerse'),
 
 ]
