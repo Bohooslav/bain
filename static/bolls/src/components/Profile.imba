@@ -148,7 +148,7 @@ export tag Profile
       loading = no
       limits_of_range:from = range_from
       limits_of_range:to = range_to
-      scheduler.mark
+      Imba.commit
 
   def getCategories
     let url = "/get-categories/"
@@ -163,6 +163,7 @@ export tag Profile
 
   def toBible
     window:history.back()
+    orphanize
 
   def getMoreBookmarks
     if limits_of_range:loaded == limits_of_range:to
@@ -189,6 +190,7 @@ export tag Profile
   def getSearchedBookmarks category
     if category
       query = category
+      @bookmarks = []
       let url = "/get-searched-bookmarks/" + category + '/'
       loadData(url).then do |data|
         @bookmarks = []
@@ -240,7 +242,7 @@ export tag Profile
 
 
   def scroll
-    if (dom:clientHeight - 256 < window:scrollY + window:innerHeight) && !loading
+    if (dom:clientHeight - 512 < window:scrollY + window:innerHeight) && !loading
       loading = yes
       getMoreBookmarks
 
@@ -265,15 +267,15 @@ export tag Profile
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
               <h1> query
         for bookmark in @bookmarks
-          <article.bookmark_in_list css:border-color="{bookmark:color}" .right_align=(bookmark:translation=="WLC")>
-            <a.bookmark_text :tap.prevent.goToBookmark(bookmark)>
+          <article.bookmark_in_list css:border-color="{bookmark:color}">
+            <p.bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
               for text in bookmark:text
                 <span> text, ' '
             if bookmark:note
               <p.note> bookmark:note
             <p.dataflex>
-              <span.booktitle> bookmark:title, ' ', bookmark:translation
-              <time.time .time_rtl=(bookmark:translation=="WLC") time:datetime="bookmark:date"> bookmark:date.toLocaleString()
+              <span.booktitle dir="auto"> bookmark:title, ' ', bookmark:translation
+              <time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
           <hr.hr>
         if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
           <Load>

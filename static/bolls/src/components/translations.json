@@ -20,21 +20,6 @@
     "language": "Hebrew"
   },
   {
-    "short_name": "LXX",
-    "full_name": "LXX [A], Accentedq",
-    "language": "Greek"
-  },
-  {
-    "short_name": "NTGT",
-    "full_name": "Greek NT: Tischendorf 8th Ed.",
-    "language": "Greek"
-  },
-  {
-    "short_name": "VULG",
-    "full_name": "Biblia Sacra juxta Vulgatam Clementinam",
-    "language": "Latin"
-  },
-  {
     "short_name": "UBIO",
     "full_name": "Біблія, Іван Іванович Огієнко 1962",
     "language": "Ukrainian"
@@ -53,6 +38,21 @@
     "short_name": "SYNOD",
     "full_name": "Русский Синодальный Перевод",
     "language": "Russian"
+  },
+  {
+    "short_name": "LXX",
+    "full_name": "LXX [A], Accentedq",
+    "language": "Greek"
+  },
+  {
+    "short_name": "NTGT",
+    "full_name": "Greek NT: Tischendorf 8th Ed.",
+    "language": "Greek"
+  },
+  {
+    "short_name": "VULG",
+    "full_name": "Biblia Sacra juxta Vulgatam Clementinam",
+    "language": "Latin"
   },
   {
     "short_name": "CUV",

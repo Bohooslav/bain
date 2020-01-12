@@ -8,21 +8,6 @@ html[data-theme='light'] {
   --text-color: #04060c;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    --background-color: #04060c;
-    --text-color: #fee;
-  }
-
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    --background-color: #fee;
-    --text-color: #04060c;
-  }
-}
-
 
 html {
   --btn-bg: #88f2;
@@ -111,7 +96,8 @@ main span,
 .filters,
 ._colorpicker,
 .bookmark_in_list,
-.collectionsflex {
+.collectionsflex,
+.book_in_list {
   -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
@@ -156,6 +142,11 @@ nav {
   fill: royalblue;
 }
 
+.hide_chron_order {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .chronological_order_in_use {
   transform: rotate(-24deg);
   -webkit-transform: rotate(-24deg);
@@ -166,15 +157,31 @@ nav {
 
 .translations_list {
   display: block;
-  height: 0;
-  margin: 0 8px;
-  transform: scale(0);
+  margin: -16px 16px;
   transform-origin: bottom right;
-  -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  -ms-transform: scale(0);
-  -o-transform: scale(0);
+  display: flex;
+  flex-direction: column;
+  padding: 0 126px;
+  height: 32px;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
 }
+
+.translation_in_list {
+  align-self: center;
+  width: 252px;
+  font-size: 18px;
+}
+
+.show_translations_list {
+  margin: 16px;
+  height: auto;
+  visibility: visible;
+  opacity: 1;
+  overflow: unset;
+}
+
 
 .choose_parallel {
   display: flex;
@@ -187,6 +194,7 @@ nav {
   font-weight: bold;
   text-align: center;
   font-size: 20px;
+  width: 100%;
   padding: 8px 0;
   color: inherit;
   cursor: pointer;
@@ -228,13 +236,11 @@ nav {
 
 .book_in_list {
   display: block;
-  font: inherit;
   color: inherit;
   background: inherit;
   padding: 12px 0;
   margin: 0 8px;
   height: auto;
-  text-align: left;
   cursor: pointer;
 }
 
@@ -329,8 +335,8 @@ main span {
 }
 
 .verse {
-  font-size: 0.5em;
-  color: peru;
+  font-size: 0.68em;
+  color: olivedrab;
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
@@ -440,12 +446,6 @@ main span {
   fill: olivedrab;
 }
 
-
-.right_align {
-  justify-content: end;
-  text-align: right;
-  direction: rtl;
-}
 
 .arrows {
   display: flex;
@@ -752,7 +752,6 @@ aside {
 #search_body {
   overflow-y: auto;
   height: calc(100% - 50px);
-  text-align: center;
 }
 
 .search_results_total {
@@ -774,6 +773,7 @@ aside {
 
 .search_res_verse_text {
   margin: 0 12px 0 0;
+  font-size: 1.1em;
 }
 
 .search_res_verse_header {
@@ -807,6 +807,11 @@ aside {
   border-radius: 8px;
   border: 1px solid var(--btn-bg);
   box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40, 0 10px 10px #04060c38;
+}
+
+.book_in_filter {
+  width: max-content;
+  max-width: 370px;
 }
 
 .parallel {
@@ -913,13 +918,6 @@ aside {
   text-align: right;
   opacity: 0.75;
   font-size: .75em;
-}
-
-.time_rtl {
-  margin-right: auto;
-  margin-left: 0;
-  padding-right: 8px;
-  text-align: left;
 }
 
 .note {

@@ -24,6 +24,9 @@
     top: 2%;
     padding: 12px 4px;
   }
+  .book_in_filter {
+    max-width: 240px;
+  }
   .parallel_text {
     display: grid;
     grid-template-columns: 1fr;
