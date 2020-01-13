@@ -28,12 +28,17 @@
     max-width: 240px;
   }
   .parallel_text {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 0;
   }
-  .parallel{height: auto;}
+  .parallel{
+    height: 50%;
+    width: 100%;
+  }
+  .show_parallel {
+    border-top: 2px solid var(--btn-bg-hover);
+  }
 
   .Load svg {
     height: 16px;

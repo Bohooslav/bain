@@ -1,11 +1,13 @@
 html[data-theme='dark'] {
   --background-color: #04060c;
   --text-color: #fee;
+  --verse-color: olivedrab;
 }
 
 html[data-theme='light'] {
   --background-color: #fee;
   --text-color: #04060c;
+  --verse-color: sienna;
 }
 
 
@@ -307,10 +309,9 @@ main {
 }
 
 .parallel_text {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   padding: 0 2vw;
-  grid-gap: 0.25vw;
+  grid-gap: 2vw;
   height: 100vh;
 }
 
@@ -336,7 +337,7 @@ main span {
 
 .verse {
   font-size: 0.68em;
-  color: olivedrab;
+  color: var(--verse-color);
   padding: 0 2px 0 4px;
   vertical-align: super;
 }
@@ -767,18 +768,18 @@ aside {
   cursor: pointer;
 }
 
-.search_item:hover {
-  color: olivedrab;
-}
-
 .search_res_verse_text {
   margin: 0 12px 0 0;
   font-size: 1.1em;
 }
 
+.search_res_verse_text:hover {
+  color: olivedrab;
+}
+
 .search_res_verse_header {
   text-align: right;
-  margin: 0 12px 20px;
+  margin: 8px 0 16px;
 }
 
 .more_results {
@@ -817,6 +818,7 @@ aside {
 .parallel {
   height: 100%;
   overflow-y: auto;
+  width: 50%;
 }
 
 .parallel_checkbox {
@@ -862,11 +864,12 @@ aside {
   position: fixed;
   bottom: 16px;
   left: 16px;
-  background: var(--text-color);
-  color: var(--background-color);
+  color: var(--text-color);
+  background: var(--background-color);
   padding: 8px;
   border-radius: 8px;
   text-align: center;
+  border: 1px solid var(--btn-bg-hover);
 }
 
 .offline {
@@ -877,6 +880,13 @@ aside {
   display: block;
   margin-top: 8px;
   width: 100%;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: solid underline;
+}
+
+.reload:hover {
+  transform: translateY(-2px);
 }
 
 .Profile {
@@ -990,6 +1000,20 @@ aside {
 
 .historylist {
   overflow-y: auto;
+}
+
+.open_in_parallel {
+  max-width: 32px;
+  min-width: 32px;
+  width: 32px;
+  margin-left: auto;
+  margin-right: 8px;
+  padding: 4px;
+  fill: var(--text-color);
+}
+
+.open_in_parallel:hover {
+  fill: royalblue;
 }
 
 .addtocollection {
