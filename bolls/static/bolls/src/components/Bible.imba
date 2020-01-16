@@ -73,7 +73,7 @@ window:onpopstate = do |event|
         profile[0]:_tag.orphanize
 
       let bible = document:getElementsByClassName("Bible")
-      if state:parallel-translation && state:parallel-book && state:parallel-chapter && state:parallel-verse
+      if state:parallel-translation && state:parallel-book && state:parallel-chapter
         bible[0]:_tag.getParallelText(state:parallel-translation, state:parallel-book, state:parallel-chapter, state:parallel-verse)
       bible[0]:_tag.getText(state:translation, state:book, state:chapter, state:verse)
 
@@ -266,18 +266,6 @@ export tag Bible
   def getText translation, book, chapter, verse
     if !(translation == settings:translation && book == settings:book && chapter == settings:chapter) || !@verses:length
       switchTranslation translation
-      let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
-      @bookmarks = []
-      @verses = []
-      loadData(url).then do |data|
-        @verses = data
-        scheduler.mark
-
-      if user:name
-        url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
-        loadData(url).then do |data|
-          @bookmarks = data
-
       if !onpopstate && @verses:length
         window:history.pushState(
             {
@@ -296,9 +284,20 @@ export tag Bible
             window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
           )
         onpopstate = no
+      let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
+      @bookmarks = []
+      @verses = []
+      loadData(url).then do |data|
+        @verses = data
+        scheduler.mark
+
+      if user:name
+        url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+        loadData(url).then do |data|
+          @bookmarks = data
 
       clearSpace
-      document:title = "Bolls " + " | " + translations.find(do |element| return element:short_name == translation):full_name + ' ' + nameOfBook(book) + ' ' + chapter
+      document:title = "Bolls " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
       if @chronorder
         @chronorder = !@chronorder
         toggleChronorder
@@ -349,24 +348,22 @@ export tag Bible
           @parallel_bookmarks = data
           scheduler.mark
 
-      if !onpopstate
-        window:history.pushState(
-            {
-
-              translation: settings:translation,
-              book: settings:book,
-              chapter: settings:chapter,
-              verse: settings:verse,
-              parallel: yes,
-              parallel_display: parallel_text:display
-              parallel-translation: translation,
-              parallel-book: book,
-              parallel-chapter: chapter,
-              parallel-verse: verse,
-            },
-            nameOfBook(settings:book, no) + ' ' + settings:chapter,
-            null
-          )
+      if !onpopstate && @verses
+        window:history.pushState({
+            translation: settings:translation,
+            book: settings:book,
+            chapter: settings:chapter,
+            verse: settings:verse,
+            parallel: yes,
+            parallel_display: parallel_text:display
+            parallel-translation: translation,
+            parallel-book: book,
+            parallel-chapter: chapter,
+            parallel-verse: verse,
+          },
+          nameOfBook(settings:book, no) + ' ' + settings:chapter,
+          null
+        )
         onpopstate = no
 
       clearSpace
@@ -1180,7 +1177,7 @@ export tag Bible
         <footer>
           <address css:padding-bottom="4px">
             <a href="/api"> "© "
-              <time time:datetime="2020-01-15T10:11"> "2019-2020"
+              <time time:datetime="2020-01-16T9:49"> "2019-2020"
               " Павлишинець Богуслав"
 
       <section.search_results .show_search_results=search:search_div>
