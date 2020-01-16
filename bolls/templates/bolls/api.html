@@ -30,7 +30,21 @@
       {% comment %} <h2> Content </h2> {% endcomment %}
     </header>
     <h2>Fetching Bible text</h2>
-    <p>Firstly, to fetch Bible text, you need to get <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations.json">a list of available translations</a> and <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations_books.json">a list of their books</a>. Then, using that data, you can form a url for fetching a chapter of certain translation and book. The url constructor is the next:
+    <p>Firstly, to fetch Bible text, you need to get <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations.json">a list of available translations</a> and <a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations_books.json">a their books</a> (<a target="_blank" href="https://bolls-256717.appspot.com/static/bolls/src/components/translations_books_array.json">here is an array</a>). The translations list contain nodes, which have the next properties:</p>
+    <ul>
+      <li> The <code>short_name</code> field is an id of the translation in database. Use it for forming a url.
+      <li> The <code>full_name</code> field is a full name of its translation.
+    </ul>
+
+    <p>The books object (or list) contains books, which contain nodes, which have the next properties:</p>
+    <ul>
+      <li> The <code>bookid</code> field is an id of the book in database.
+      <li> The <code>chronorder</code> field is a number of the book in chronological order (just a smoll feature).
+      <li> The <code>name</code> field is a name of this book.
+      <li> The <code>chapters</code> field is a number of chapters of this book.
+    </ul>
+
+    <p>Then, using that data, you can form a url for fetching a chapter of certain translation and book. The url constructor is the next:
 
     <pre>https://bolls-256717.appspot.com/get-text/&lt;slug:translation&gt;/&lt;int:book&gt;/&lt;int:chapter&gt;/</pre>
 

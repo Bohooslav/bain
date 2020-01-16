@@ -22,11 +22,9 @@
 
   <body>
     <div class="formflex">
-
     <h1 style="font-size: 24px; color: var(--text-color);"><a class="tomain" href="/">Bolls</a> | {% trans "Log in" %}</h1>
 
     {% block content %}
-
     {% if form.errors %}
     <p class="errormessage">{% trans "Your username and password didn't match. Please try again." %}</p>
     {% endif %}
@@ -46,12 +44,9 @@
           {{ form.username }}
           {{ form.password.label_tag }}
           {{ form.password }}
-
         <input type="submit" value="Log in">
         <input type="hidden" name="next" value="{{ next }}">
       </form>
-
-    {# Assumes you setup the password_reset view in your URLconf #}
     <p style="padding-top: 16px;"><a id="lostpass" href="{% url 'password_reset' %}">{% trans "Lost password?" %}</a></p>
     <p style="font-size: 13px; padding-bottom: 64px;" id="donthaveanaccount">{% trans "Don’t have an account? " %}<a id="create" href="{% url 'signup' %}">{% trans "Sign up" %}</a></p>
 
@@ -64,35 +59,26 @@
       if (window.navigator.language == "uk"){
         var form = document.getElementsByTagName('form')[0];
         form[3].value = "Увійти";
-
         if (document.getElementsByClassName('errormessage').length){
           var errormessage = document.getElementsByClassName('errormessage')[0];
           errormessage.innerText = "Ваше ім'я користувача та пароль не збігаються. Будь ласка, спробуйте ще раз.";}
-
         var lostpass = document.getElementById("lostpass");
         lostpass.innerText = "Забули пароль?";
-
         var donthaveanaccount = document.getElementById("donthaveanaccount");
         donthaveanaccount.firstChild.data = "Не маєте облікового запису? ";
-
         var create = document.getElementById("create");
         create.innerText = "Зареєструватися";
       }
-
       if (window.navigator.language == "ru-RU"){
         var form = document.getElementsByTagName('form')[0];
         form[3].value = "Войти";
-
         if (document.getElementsByClassName('errormessage').length){
           var errormessage = document.getElementsByClassName('errormessage')[0];
           errormessage.innerText = "Ваше им'я пользователя и пароль не совпадают. Пожалуйста, попробуйте ещё раз.";}
-
         var lostpass = document.getElementById("lostpass");
         lostpass.innerText = "Забыли пароль?";
-
         var donthaveanaccount = document.getElementById("donthaveanaccount");
         donthaveanaccount.firstChild.data = "Нету аккаунта? ";
-
         var create = document.getElementById("create");
         create.innerText = "Зарегестрироватся";
       }

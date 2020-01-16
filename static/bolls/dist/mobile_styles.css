@@ -2,11 +2,12 @@
   ::-webkit-scrollbar {
     width: 1px;
   }
-  .text, .text h1 {
+  main, main h1 {
     overflow-wrap: break-word;
   }
-  .text h1 {
+  main h1 {
     margin: 16px 0;
+    text-decoration: solid underline;
   }
   .search_results {
     top: 0;
@@ -28,13 +29,20 @@
     max-width: 240px;
   }
   .parallel_text {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 0;
   }
-  .parallel{height: auto;}
-
+  .parallel{
+    height: 50%;
+    width: 100%;
+  }
+  .show_parallel {
+    border-top: 2px solid var(--btn-bg-hover);
+  }
+  ._colorpicker {
+    bottom: 0;
+  }
   .Load svg {
     height: 16px;
     width: 16px;

@@ -1,4 +1,4 @@
-[{"YLT": [
+{"YLT": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -395,8 +395,8 @@
     "name": "Revelation",
     "chapters": 22
   }
-]},
-{"KJV": [
+],
+"KJV": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -793,8 +793,8 @@
     "name": "Revelation",
     "chapters": 22
   }
-]},
-{"NASB": [
+],
+"NASB": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -1191,8 +1191,8 @@
     "name": "Revelation",
     "chapters": 22
   }
-]},
-{"WLC": [
+],
+"WLC": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -1427,8 +1427,8 @@
     "name": "מלאכי",
     "chapters": 3
   }
-]},
-{"UBIO": [
+],
+"UBIO": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -1825,8 +1825,8 @@
     "name": "Об'явлення",
     "chapters": 22
   }
-]},
-{"UKRK": [
+],
+"UKRK": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -2223,8 +2223,8 @@
     "name": "Одкриттє Сьв. Йоана Богослова",
     "chapters": 22
   }
-]},
-{"HOM": [
+],
+"HOM": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -2669,8 +2669,8 @@
     "name": "II Макавеї",
     "chapters": 15
   }
-]},
-{"LXX": [
+],
+"LXX": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -3007,8 +3007,8 @@
     "name": "Odes",
     "chapters": 14
   }
-]},
-{"SYNOD": [
+],
+"SYNOD": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -3471,8 +3471,8 @@
     "name": "3 кн. Ездры",
     "chapters": 16
   }
-]},
-{"CUV": [
+],
+"CUV": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -3869,8 +3869,8 @@
     "name": "启示录",
     "chapters": 22
   }
-]},
-{"NTGT": [
+],
+"NTGT": [
   {
     "bookid": 40,
     "chronorder": 40,
@@ -4033,8 +4033,8 @@
     "name": "ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΟΥ",
     "chapters": 22
   }
-]},
-{"VULG": [
+],
+"VULG": [
   {
     "bookid": 1,
     "chronorder": 1,
@@ -4473,4 +4473,4 @@
     "name": "Machabæorum II",
     "chapters": 15
   }
-]}]
+]}

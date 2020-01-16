@@ -107,7 +107,6 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
   background: #88f4;
-  box-shadow: 0 2px 8px #fff4;
   border: 1px solid #88f8;
 }
 
@@ -125,7 +124,6 @@ input[type="submit"] {
   font-weight: bold;
 }
 input[type="submit"]:hover {
-  box-shadow: 0 4px 24px #fff4;
   transform: translateY(-2px);
   -webkit-transform: translateY(-2px);
   -moz-transform: translateY(-2px);

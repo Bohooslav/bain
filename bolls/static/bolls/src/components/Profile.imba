@@ -84,7 +84,7 @@ export tag Profile
   def switchTranslationBooks translation
     if @translation != translation
       @translation = translation
-      @books = BOOKS.find(do |book| return Object.keys(book)[0] == translation)[translation]
+      @books = BOOKS[translation]
 
   def nameOfBook bookid
     for book in @books

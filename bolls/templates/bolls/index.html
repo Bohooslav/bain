@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html id="html" data-theme='dark'>
   <head>
@@ -8,21 +7,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
-
     {% if translation %}
       <link rel="canonical" href="https://bolls.life//{{translation}}/{{book}}/{{chapter}}/">
     {% else %}
       <link rel="canonical" href="https://bolls.life/">
     {% endif %}
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-
-    <meta name="keywords" content="Bible,Біблія,Библия">
+    <meta name="keywords" content="Bible,Біблія,Библия,read,find,{{translation}},NT,OT">
     <meta name="description" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
     <meta property="og:title" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
     <meta property="og:description" content="Read God`s Word with a deep understanding of His design. Bible elevates your soul with rapid ascending to calm, safety and more.">
@@ -30,26 +25,18 @@
     <meta name="twitter:image:src" content="{% static 'light.png' %}">
     <meta name="theme-color" content="#04060c"/>
   </head>
-
   <body>
     <script>
       {% if translation %}
         window.translation = "{{ translation }}";
         window.book = "{{ book }}";
         window.chapter = "{{ chapter }}";
-        {% if verse %}
-          window.verse = "{{ verse }}";
-        {% endif %}
-      {% else %}
-        window.translation = false;
-      {% endif %}
-
+        {% if verse %} window.verse = "{{ verse }}"; {% endif %}
+      {% else %} window.translation = false; {% endif %}
       {% if user.is_authenticated %}
         window.username = "{{ user.username }}";
         window.userid = "{{ user.id }}";
-      {% else %}
-        window.username = false
-      {% endif %}
+      {% else %} window.username = false {% endif %}
     </script>
     <script src="{% static 'bolls/dist/client.js' %}" async></script>
   </body>
