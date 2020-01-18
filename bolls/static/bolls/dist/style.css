@@ -47,8 +47,8 @@ html {
 }
 
 *::selection {
-  color: #fee;
-  background-color: #417690;
+  color: var(--background-color);
+  background-color: var(--accent-color);
 }
 
 :focus {
@@ -102,6 +102,7 @@ main span,
 .bookmark_in_list,
 .collectionsflex,
 .book_in_list,
+.collection,
 .close_colorpicker {
   -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -118,13 +119,10 @@ nav {
   left: 0;
   bottom: 0;
   width: 280px;
-  display: flex;
-  flex-direction: column;
+  display: block;
   background-color: var(--background-color);
-  color: inherit;
-  padding-top: 32px;
+  padding: 32px 0;
   z-index: 999;
-  overflow-y: auto;
 }
 
 .chronological_order {
@@ -162,11 +160,13 @@ nav {
 
 .translations_list {
   display: block;
-  margin: -16px 8px 0;
+  margin: -16px 0;
+  padding: 8px;
   height: 32px;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
+  overflow-y: auto;
 }
 
 .translation_in_list {
@@ -176,13 +176,12 @@ nav {
 }
 
 .show_translations_list {
-  margin: 16px 8px;
-  height: auto;
+  margin: 16px 0;
+  padding: 8px;
+  height: 100%;
   visibility: visible;
   opacity: 1;
-  overflow: unset;
 }
-
 
 .choose_parallel {
   display: flex;
@@ -215,26 +214,6 @@ nav {
   padding: 0 8px 32px;
 }
 
-.book_name {
-  transition-property: color;
-  display: block;
-  width: 100%;
-  font-weight: bold;
-  text-align: center;
-  font-size: 24px;
-  color: inherit;
-  cursor: pointer;
-}
-
-.book_name:hover {
-  color: indianred;
-}
-
-.book_name::selection {
-  background: inherit;
-  color: inherit;
-}
-
 .book_in_list {
   display: block;
   color: inherit;
@@ -254,28 +233,34 @@ nav {
 }
 
 .list_of_chapters {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  -webkit-transform: scale(0);
-  transform: scale(0);
-  transform-origin: bottom right;
-  height: 0;
-  cursor: pointer;
+  display: block;
+  max-height: 0px;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  transition-duration: 160ms;
+  transition-timing-function: linear;
+  margin: -16px 0 16px;
 }
 
 .show_list_of_chapters {
+  transform-origin: center;
   -webkit-transform: none;
   transform: none;
-  height: auto;
-  padding: 8px 0 16px;
+  max-height: 1200px;
+  visibility: visible;
+  opacity: 1;
+  margin: 8px 0 16px;
+  transition-duration: 300ms;
 }
 
 .chapter_number {
-  display: block;
+  cursor: pointer;
+  display: inline-block;
   text-align: center;
-  height: 54px;
+  height: 50.4px;
+  width: 50.4px;
   font-size: 20px;
-  width: 100%;
   padding-top: 16px;
 }
 
@@ -290,13 +275,12 @@ nav {
 
 .active_book,
 .active_chapter {
-  color: sienna;
+  color: var(--accent-color);
 }
 
 .freespace {
   min-height: 256px;
 }
-
 
 main {
   display: block;
@@ -344,7 +328,7 @@ main span {
 }
 
 .text-ident {
-  height: 42px;
+  height: 0;
   width: 4vw;
   display: inline-block;
 }
@@ -389,24 +373,21 @@ main span {
 }
 
 .choosen_verses {
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
   transform: none;
   z-index: 999;
 }
 
 .markingcontainer {
   text-align: center;
-  padding: 16px;
+  padding: 16px 0;
 }
 
 ._colorpicker {
   position: absolute;
   bottom: 100%;
-  display: flex;
-  justify-content: center;
-  transform: scale(0);
   cursor: crosshair;
-  max-width: 600px;
+  border: 2px solid var(--background-color);
 }
 
 .close_colorpicker {
@@ -422,11 +403,6 @@ main span {
   border-radius: 50%;
   margin: 8px;
   border: 1px solid var(--btn-bg-hover);
-}
-
-.show-canvas {
-  transform: scale(1);
-  border: 4px solid var(--background-color);
 }
 
 .mark_grid {
@@ -469,7 +445,7 @@ main span {
 }
 
 .delete_color:hover {
-  fill: indianred;
+  fill: firebrick;
 }
 
 .addbuttons {
@@ -477,17 +453,6 @@ main span {
   grid-gap: 4px;
   margin: 0px auto;
   width: 320px;
-  justify-content: center;
-}
-
-.addbuttons button {
-  background: var(--background-color);
-  color: var(--text-color);
-  padding: 8px;
-  margin: auto;
-  background: #88a2;
-  border-radius: 4px;
-  border: none;
 }
 
 .save_bookmark {
@@ -507,7 +472,6 @@ main span {
   fill: olivedrab;
 }
 
-
 .arrows {
   display: flex;
   justify-content: space-between;
@@ -521,8 +485,6 @@ main span {
   height: 64px;
   width: 64px;
   margin: 24px 0;
-  bottom: 0;
-  right: 0;
   fill: var(--text-color);
   cursor: pointer;
 }
@@ -540,13 +502,8 @@ main span {
   transform: rotate(90deg) scale(2);
 }
 
-.noscroll {
-  overflow: hidden;
-}
-
 aside {
   top: 0;
-  right: 0;
   bottom: 0;
   position: fixed;
   background-color: var(--background-color);
@@ -554,7 +511,6 @@ aside {
   display: block;
   padding: 32px 12px;
   z-index: 4;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
 
@@ -600,14 +556,12 @@ aside {
 }
 
 .great_B {
-  font-size: 15px;
+  font-size: 16px;
   padding: 8px;
-  display: flex;
-  align-items: center;
   cursor: pointer;
   margin-left: auto;
   background: var(--btn-bg);
-  border-radius: 4px;
+  border-radius: 23%;
   margin-right: 4px;
 }
 
@@ -617,7 +571,7 @@ aside {
 }
 
 .great_B:hover {
-  color: royalblue;
+  background-color: var(--btn-bg-hover);
 }
 
 .little_B {
@@ -625,7 +579,7 @@ aside {
   padding: 8px;
   cursor: pointer;
   background: var(--btn-bg);
-  border-radius: 4px;
+  border-radius: 23%;
   margin-left: 4px;
 }
 
@@ -635,7 +589,7 @@ aside {
 }
 
 .little_B:hover {
-  color: royalblue;
+  background-color: var(--btn-bg-hover);
 }
 
 .change_language {
@@ -653,16 +607,18 @@ aside {
 }
 
 .languages {
+  background: var(--background-color);
   position: absolute;
   display: flex;
-  background: var(--background-color);
   flex-direction: column;
-  right: 32px;
+  right: 64px;
+  transform: scale(0.825);
   visibility: hidden;
   opacity: 0;
 }
 
 .show_languages {
+  transform: scale(1);
   visibility: visible;
   opacity: 1;
 }
@@ -686,7 +642,7 @@ aside {
   width: 100%;
   padding: 4px;
   font-size: 20px;
-  background: #bbf2;
+  background: var(--btn-bg);
   border: 1px solid var(--btn-bg);
   border-radius: 4px;
   margin: 16px 0;
@@ -703,7 +659,6 @@ aside {
 
 .profile_in_settings {
   display: flex;
-  justify-content: end;
   margin: 24px 0;
 }
 
@@ -730,8 +685,7 @@ aside {
 }
 
 .username {
-  margin-right: auto;
-  padding: 7px 0;
+  padding: 5px 0;
   cursor: pointer;
   color: var(--text-color);
 }
@@ -740,7 +694,6 @@ aside {
   color: royalblue;
 }
 
-/* Search */
 .search_results {
   display: block;
   height: 86%;
@@ -749,30 +702,27 @@ aside {
   right: 10%;
   background: var(--background-color);
   position: fixed;
-  box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40, 0 10px 10px #04060c38;
+  border: 1px solid var(--btn-bg);
   transform: translateY(120%);
+  border-radius: 16px;
   z-index: 1;
+  padding: 12px 24px;
 }
 
 .search_hat {
   display: flex;
+  justify-content: space-between;
 }
 
 .search_hat h1 {
   text-align: center;
-  width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  padding: 8px 0;
   margin: 0;
 }
 
 .show_search_results {
-  padding: 12px 24px;
-  opacity: 1;
   transform: translateY(0);
-  border: 1px solid var(--btn-bg);
-  border-radius: 16px;
+  box-shadow: 0 0 128px rgba(0, 0, 0, 0.3);
 }
 
 .close_search {
@@ -784,7 +734,7 @@ aside {
 }
 
 .close_search:hover {
-  fill: indianred;
+  fill: firebrick;
 }
 
 .close_search #line1 {
@@ -832,6 +782,7 @@ aside {
   margin: 0 12px 0 0;
   font-size: 1.1em;
   cursor: pointer;
+  line-height: 1.25;
 }
 
 .search_res_verse_text:hover {
@@ -864,12 +815,12 @@ aside {
   right: 42px;
   max-height: 89vh;
   width: auto;
-  padding: 8px;
+  padding: 8px 16px 8px 8px;
   background: var(--background-color);
   overflow-y: auto;
   border-radius: 8px;
   border: 1px solid var(--btn-bg);
-  box-shadow: 0 0 0 .5px #04060c32, 0 0 0 1px #04060c16, 0 14px 28px #04060c40, 0 10px 10px #04060c38;
+  box-shadow: 0 14px 28px #04060c40, 0 10px 10px #04060c38;
 }
 
 .book_in_filter {
@@ -951,13 +902,6 @@ aside {
   transform: translateY(-2px);
 }
 
-.Profile {
-  display: flex;
-  justify-content: center;
-  overflow-y: auto;
-  min-height: 100vh;
-}
-
 .profile_block {
   max-width: 1200px;
   text-align: center;
@@ -983,6 +927,7 @@ aside {
 .bookmark_text {
   color: inherit;
   cursor: pointer;
+  line-height: 1.25;
 }
 
 .time {
@@ -1053,6 +998,7 @@ aside {
 }
 
 .show_history {
+  box-shadow: 0 0 128px rgba(0, 0, 0, 0.3);
   transform: translateX(calc(96vw - 300px));
   -webkit-transform: translateX(calc(96vw - 300px));
   -moz-transform: translateX(calc(96vw - 300px));

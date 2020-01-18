@@ -11,7 +11,7 @@ let user = {
 
 let limits_of_range = {
   from: 0,
-  to: 16,
+  to: 32,
   loaded: 0
 }
 
@@ -49,7 +49,7 @@ export tag Profile
   def mount
     unflag("display_none")
     limits_of_range:from = 0
-    limits_of_range:to = 16
+    limits_of_range:to = 32
     limits_of_range:loaded = 0
     @bookmarks = []
     query = ''
@@ -167,7 +167,7 @@ export tag Profile
 
   def getMoreBookmarks
     if limits_of_range:loaded == limits_of_range:to
-      getProfileBookmarks limits_of_range:to, limits_of_range:to + 16
+      getProfileBookmarks limits_of_range:to, limits_of_range:to + 32
 
   def goToBookmark bookmark
     let bible = document:getElementsByClassName("Bible")

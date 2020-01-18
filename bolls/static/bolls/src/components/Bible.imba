@@ -29,7 +29,7 @@ let mobimenu = ''
 let offline = no
 let inzone = no
 let bible_menu_left = -280
-let settings_menu_left = 280
+let settings_menu_left = -280
 let choosen = []
 let choosenid = []
 let highlight_color = 'royalblue'
@@ -41,8 +41,7 @@ let choosen_parallel = no
 let store = {newcollection: ''}
 let addcollection = no
 let choosen_categories = []
-let onpopstate = no
-
+var onpopstate = no
 
 document:onkeyup = do |e|
   var e = e || window:event
@@ -57,7 +56,6 @@ document:onkeyup = do |e|
   elif e:code == "Escape"
     let bible = document:getElementsByClassName("Bible")
     bible[0]:_tag.clearSpace
-
 
 window:onpopstate = do |event|
   let state = event:state
@@ -131,8 +129,6 @@ export tag Bible
   prop categories default: []
   prop chronorder default: no
   prop search default: Object.create(null)
-
-
 
   def build
     if window:translation
@@ -227,8 +223,6 @@ export tag Bible
         translation: settings:translation
       }
 
-
-
   def getCookie c_name
     return window:localStorage.getItem(c_name)
 
@@ -248,7 +242,6 @@ export tag Bible
     else
       if settings:translation != translation || !@books:length
         @books = BOOKS[translation]
-
 
   def saveToHistory translation, book, chapter, verse, parallel
     if getCookie("history")
@@ -283,7 +276,7 @@ export tag Bible
             nameOfBook(settings:book, false) + ' ' + settings:chapter,
             window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
           )
-        onpopstate = no
+      onpopstate = no
       let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
       @bookmarks = []
       @verses = []
@@ -364,7 +357,7 @@ export tag Bible
           nameOfBook(settings:book, no) + ' ' + settings:chapter,
           null
         )
-        onpopstate = no
+      onpopstate = no
 
       clearSpace
       parallel_text:display = yes
@@ -381,16 +374,15 @@ export tag Bible
           window:location:hash = "#p{verse}"
 
   def clearSpace
-    unflag 'show_bible_menu'
-    unflag 'show_settings_menu'
     bible_menu_left = -280
-    settings_menu_left = 280
+    settings_menu_left = -280
     search:search_div = no
     show_history = no
     mobimenu = ''
     dropFilter
     choosen = []
     choosenid = []
+    addcollection = no
     show_color_picker = no
     show_collections = no
     choosen_parallel = no
@@ -398,7 +390,6 @@ export tag Bible
     if document.getElementById('main')
       document.getElementById('main').focus()
     Imba.commit
-
 
   def toggleParallelMode
     if parallel_text:display
@@ -446,7 +437,6 @@ export tag Bible
       @search:change_translation = no
     @show_list_of_translations = no
 
-
   def getSearchText
     clearSpace
     search:search_input = search:search_input.replace(/\\/g, '')
@@ -481,7 +471,7 @@ export tag Bible
       @search:search_div = !@search:search_div
       @search:change_translation = no
     @search:search_result_header = @search:search_input
-    settings_menu_left = 280
+    settings_menu_left = -280
     if document.getElementById('search')
       document.getElementById('search').blur()
     mobimenu = ''
@@ -499,8 +489,6 @@ export tag Bible
 
   def getFilteredArray
     return @search_verses.filter(do |verse| verse:book == search:filter)
-
-
 
   def changeTheme
     let html = document.querySelector('#html')
@@ -530,12 +518,11 @@ export tag Bible
   def setLanguage language
     settings:language = language
     switch language
-      when 'eng' then @langdata = en_leng
       when 'ukr' then @langdata = uk_leng
       when 'ru' then @langdata = ru_leng
+      else @langdata = en_leng
     setCookie('language', language)
     show_languages = !@show_languages
-
 
   def showChapters bookid
     if bookid != @show_chapters_of
@@ -596,9 +583,8 @@ export tag Bible
         if books[current_index - 1]
           getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
-
   def onmousemove e
-    if window:innerWidth > 700
+    if window:innerWidth > 600
       if e.x < 32
         bible_menu_left = 0
         mobimenu = 'show_bible_menu'
@@ -607,9 +593,8 @@ export tag Bible
         mobimenu = 'show_settings_menu'
       elif 280 < e.x < window:innerWidth - 280
         bible_menu_left = -280
-        settings_menu_left = 280
+        settings_menu_left = -280
         mobimenu = ''
-
 
   def ontouchstart touch
     if touch.x < 32 || touch.x > window:innerWidth - 32
@@ -620,15 +605,14 @@ export tag Bible
     if inzone
       if (bible_menu_left < 0 && touch.dx < 280) && mobimenu != 'show_settings_menu'
         bible_menu_left = touch.dx - 280
-      if (settings_menu_left > 0 && touch.dx > -280) && mobimenu != 'show_bible_menu'
-        settings_menu_left = touch.dx + 280
+      if (settings_menu_left < 0 && touch.dx > -280) && mobimenu != 'show_bible_menu'
+        settings_menu_left = - 280 - touch.dx
     else
       if mobimenu == 'show_bible_menu' && touch.dx < 0
         bible_menu_left = touch.dx
       if mobimenu == 'show_settings_menu' && touch.dx > 0
-        settings_menu_left = touch.dx
+        settings_menu_left = - touch.dx
     Imba.commit
-
 
   def ontouchend touch
     if inzone && mobimenu == ''
@@ -639,7 +623,7 @@ export tag Bible
         settings_menu_left = 0
         mobimenu = 'show_settings_menu'
       else
-        settings_menu_left = 280
+        settings_menu_left = -280
         bible_menu_left = -280
         mobimenu = ''
     elif mobimenu == 'show_bible_menu'
@@ -649,10 +633,10 @@ export tag Bible
       else bible_menu_left = 0
     elif mobimenu == 'show_settings_menu'
       if touch.dx > 64
-        settings_menu_left = 280
+        settings_menu_left = -280
         mobimenu = ''
       else settings_menu_left = 0
-    elif document.getSelection == '' && Math.abs(touch.dy) < 32 && !mobimenu && !search:search_div && !show_history && !choosenid:length
+    elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !mobimenu && !search:search_div && !show_history && !choosenid:length
       if touch.dx < -64
         if parallel_text:display && touch.y > window:innerHeight / 2
           nextChapter("true")
@@ -666,10 +650,8 @@ export tag Bible
 
   def ontouchcancel touch
     bible_menu_left = -280
-    settings_menu_left = 280
+    settings_menu_left = -280
     mobimenu = ''
-
-
 
   def getHighlight verse
     if choosenid:length && choosenid.find(do |element| return element == verse)
@@ -710,10 +692,11 @@ export tag Bible
         choosenid.push pk
         choosen.push id
         pushNoteIfExist pk
-        if parallel == "first" && window:innerHeight < 600
-          window:location:hash = "#{id}"
-        elif window:innerHeight < 600
-          window:location:hash = "#p{id}"
+        if window:innerWidth < 600
+          if parallel == "first"
+            window:location:hash = "#{id}"
+          else
+            window:location:hash = "#p{id}"
       elif choosen_parallel == parallel
         if choosenid.find(do |element| return element == pk)
           choosenid.splice(choosenid.indexOf(pk), 1)
@@ -731,8 +714,6 @@ export tag Bible
         if !choosenid:length
           clearSpace
         show_collections = no
-
-
 
   def changeHighlightColor color
     show_color_picker = no
@@ -758,7 +739,6 @@ export tag Bible
         else
           row += ',' + id
     return row
-
 
   def get_cookie name
     let cookieValue = null
@@ -829,7 +809,6 @@ export tag Bible
     highlights.splice(highlights.indexOf(highlights.find(do |element| return element == color_to_delete)), 1)
     window:localStorage.setItem("highlights", JSON.stringify(highlights))
 
-
   def deleteBookmarks
     isOnline
     window.fetch("/delete-bookmarks/", {
@@ -882,7 +861,6 @@ export tag Bible
     document:body.removeChild(aux)
     clearSpace
 
-
   def toProfile from_build = no
     closeSearch true
     clearSpace
@@ -909,14 +887,13 @@ export tag Bible
 
   def turnHistory
     show_history = !show_history
-    settings_menu_left = 280
+    settings_menu_left = -280
     mobimenu = ''
 
   def clearHistory
     turnHistory
     @history = []
     window:localStorage.setItem("history", "[]")
-
 
   def turnCollections
     if addcollection
@@ -953,12 +930,14 @@ export tag Bible
       choosen_categories.push collection
       if !@categories.find(do |element| return element == collection)
         @categories.unshift collection
+        sendBookmarksToDjango
+        clearSpace
       if collection == store:newcollection
         document.getElementById('newcollectioninput'):value = ''
         store:newcollection = ""
-        addcollection = no
     else
-      show_collections = no
+      sendBookmarksToDjango
+      clearSpace
 
   def currentTranslation translation
     if parallel_text:display
@@ -972,7 +951,7 @@ export tag Bible
   def toggleBibleMenu parallel
     if bible_menu_left
       bible_menu_left = 0
-      settings_menu_left = 280
+      settings_menu_left = -280
       mobimenu = 'show_bible_menu'
       if parallel
         parallel_text:edited_version = parallel_text:translation
@@ -1024,23 +1003,24 @@ export tag Bible
 
   def render
     <self>
-      <nav css:transform="translateX({bible_menu_left}px)" css:box-shadow="0 0 {(bible_menu_left + 280) / 4}px rgba(0, 0, 0, 0.3)">
+      <nav css:left="{bible_menu_left}px" css:box-shadow="0 0 {(bible_menu_left + 280) / 8}px rgba(0, 0, 0, 0.3)">
         if parallel_text:display
           <.choose_parallel>
-            <a.translation_name a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
-            <a.translation_name a:role="button" .current_translation=(parallel_text:edited_version == parallel_text:translation) :tap.prevent.changeEditedParallel(parallel_text:translation) tabindex="0"> parallel_text:translation
+            <p.translation_name a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
+            <p.translation_name a:role="button" .current_translation=(parallel_text:edited_version == parallel_text:translation) :tap.prevent.changeEditedParallel(parallel_text:translation) tabindex="0"> parallel_text:translation
           if parallel_text:edited_version == parallel_text:translation
-            <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
+            <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
           else
-            <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+            <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
         else
-          <a.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
-        <svg:svg.chronological_order .hide_chron_order=@show_list_of_translations .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+        <svg:svg.chronological_order .hide_chron_order=@show_list_of_translations .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" title=langdata:chronological_order>
           <title> langdata:chronological_order
           <svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z">
         <ul.translations_list .show_translations_list=@show_list_of_translations>
           for translation in translations
             <li.book_in_list.translation_in_list .active_book=currentTranslation(translation:short_name) :tap.prevent.changeTranslation(translation:short_name) tabindex="0"> translation:full_name
+          <.freespace>
         <.books-container dir="auto">
           if parallel_text:edited_version == parallel_text:translation && parallel_text:display
             for book in @parallel_books
@@ -1081,11 +1061,11 @@ export tag Bible
                   css:text-decoration-color=getHighlight(verse:pk)
                 > verse:text
             <.arrows>
-              <a.arrow :tap.prevent.prewChapter()>
+              <a.arrow :tap.prevent.prewChapter() title=langdata:prew>
                 <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                   <svg:title> langdata:prew
                   <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
-              <a.arrow :tap.prevent.nextChapter()>
+              <a.arrow :tap.prevent.nextChapter() title=langdata:next>
                 <svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
                   <svg:title> langdata:next
                   <svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
@@ -1120,7 +1100,7 @@ export tag Bible
             if choosenid:length
               <.freespace>
 
-      <aside.settings-menu css:transform="translateX({settings_menu_left}px)" css:box-shadow="0 0 {(Math.abs(settings_menu_left - 280)) / 4}px rgba(0, 0, 0, 0.3)">
+      <aside css:right="{settings_menu_left}px" css:box-shadow="0 0 {(settings_menu_left + 280) / 8}px rgba(0, 0, 0, 0.3)">
         <p.settings_header> langdata:other
         <input[search:search_input].search id='search' type='search' placeholder=langdata:search input:aria-label=langdata:search :keydown.enter.prevent.getSearchText> langdata:search
         <.nighttheme .theme_checkbox_light=(settings:theme=="light")>
@@ -1265,12 +1245,12 @@ export tag Bible
                     >
                   <svg:title> langdata:delete
                   <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
-            <li.color_mark css:background="FireBrick" :tap.prevent.changeHighlightColor("FireBrick")>
-            <li.color_mark css:background="Chocolate" :tap.prevent.changeHighlightColor("Chocolate")>
-            <li.color_mark css:background="GoldenRod" :tap.prevent.changeHighlightColor("GoldenRod")>
-            <li.color_mark css:background="OliveDrab" :tap.prevent.changeHighlightColor("OliveDrab")>
-            <li.color_mark css:background="RoyalBlue" :tap.prevent.changeHighlightColor("RoyalBlue")>
-            <li.color_mark css:background="SlateBlue" :tap.prevent.changeHighlightColor("SlateBlue")>
+            <li.color_mark css:background="FireBrick" :tap.prevent.changeHighlightColor("#b22222")>
+            <li.color_mark css:background="Chocolate" :tap.prevent.changeHighlightColor("#d2691e")>
+            <li.color_mark css:background="GoldenRod" :tap.prevent.changeHighlightColor("#daa520")>
+            <li.color_mark css:background="OliveDrab" :tap.prevent.changeHighlightColor("#6b8e23")>
+            <li.color_mark css:background="RoyalBlue" :tap.prevent.changeHighlightColor("#4169e1")>
+            <li.color_mark css:background="#984da5" :tap.prevent.changeHighlightColor("#984da5")>
             <li.color_mark
               css:border="none"
               css:background="linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
