@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html id="html" data-theme='dark'>
   <head>
@@ -39,5 +40,6 @@
       {% else %} window.username = false {% endif %}
     </script>
     <script src="{% static 'bolls/dist/client.js' %}" async></script>
+    <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser" %}</noscript>
   </body>
 </html>

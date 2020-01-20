@@ -10,20 +10,26 @@
     text-decoration: solid underline;
   }
   .search_results {
-    top: 0;
     right: 0;
     height: 100%;
     width: 100%;
     box-shadow: none;
+    border: none;
+    padding: 12px;
   }
   .show_search_results {
-    padding: 12px;
-    border: none;
+    top: 0%;
   }
   .filters {
-    height: 96%;
+    max-height: 96%;
     top: 2%;
     padding: 12px 4px;
+  }
+  .history {
+    top: -100%;
+  }
+  .show_history {
+    top: 2%;
   }
   .book_in_filter {
     max-width: 240px;

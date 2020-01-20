@@ -282,7 +282,7 @@ export tag Profile
         else
           <div.freespace>
         if !@bookmarks:length
-          <p#defaultmassage> langdata:thereisnobookmarks
+          <p css:text-align="center"> langdata:thereisnobookmarks
 
       <div.online .offline=offline>
         langdata:offline
