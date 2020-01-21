@@ -1,3 +1,4 @@
+import os
 from django.db.models import Count
 import ast
 import json
@@ -141,7 +142,8 @@ def getSearchedProfileBookmarks(request, query):
 @login_required
 def getCategories(request):
     user = request.user
-    all_objects = user.bookmarks_set.values('note').annotate(dcount=Count('note')).order_by('-date')
+    all_objects = user.bookmarks_set.values('note').annotate(
+        dcount=Count('note')).order_by('-date')
     return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
 
@@ -167,11 +169,9 @@ def saveBookmarks(request):
 def deleteBookmarks(request):
     received_json_data = json.loads(request.body)
     user = User.objects.get(pk=received_json_data["user"])
-
     for verseid in ast.literal_eval(received_json_data["verses"]):
         verse = Verses.objects.get(pk=verseid)
         user.bookmarks_set.filter(verse=verse).delete()
-
     return JsonResponse({"response": "200"}, safe=False)
 
 
@@ -186,3 +186,17 @@ def robots(request):
 
 def api(request):
     return render(request, 'bolls/api.html')
+
+
+def sw(request):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    test_file = open(BASE_DIR + '/static/bolls/dist/sw.js', 'rb')
+
+    response = HttpResponse(content=test_file)
+    response['Content-Type'] = 'application/javascript'
+    response['Content-Disposition'] = 'attachment; filename="%s.js"' \
+        % 'whatever'
+    return response
+
+
+    # return render(request, 'static/bolls/dist/sw.js')

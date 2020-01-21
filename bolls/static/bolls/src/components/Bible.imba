@@ -41,7 +41,9 @@ let choosen_parallel = no
 let store = {newcollection: ''}
 let addcollection = no
 let choosen_categories = []
-var onpopstate = no
+let onpopstate = no
+let loading = no
+let menuicons = yes
 
 document:onkeyup = do |e|
   var e = e || window:event
@@ -61,6 +63,11 @@ document:onkeyup = do |e|
   if e:code == "Escape"
     let bible = document:getElementsByClassName("Bible")
     bible[0]:_tag.clearSpace
+  if e:code == "KeyH" && e:altKey && e:ctrlKey
+    menuicons = !menuicons
+    Imba.commit
+    window:localStorage.setItem("menuicons", menuicons)
+
 
 window:onpopstate = do |event|
   let state = event:state
@@ -211,6 +218,8 @@ export tag Bible
       toggleChronorder
     if getCookie("highlights")
       highlights = JSON.parse(getCookie("highlights"))
+    if getCookie('menuicons') != 'true'
+      menuicons = no
 
     @search = {
         search_div: no,
@@ -262,6 +271,7 @@ export tag Bible
 
   def getText translation, book, chapter, verse
     if !(translation == settings:translation && book == settings:book && chapter == settings:chapter) || !@verses:length
+      loading = yes
       switchTranslation translation
       if !onpopstate && @verses:length
         window:history.pushState(
@@ -284,14 +294,21 @@ export tag Bible
       let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
       @bookmarks = []
       @verses = []
-      loadData(url).then do |data|
-        @verses = data
-        scheduler.mark
+      try
+        loadData(url).then do |data|
+          @verses = data
+          loading = no
+          scheduler.mark
+      catch error
+        console.error('Error:', error)
 
       if user:name
         url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
-        loadData(url).then do |data|
-          @bookmarks = data
+        try
+          loadData(url).then do |data|
+            @bookmarks = data
+        catch error
+          console.error('Error:', error)
 
       clearSpace
       document:title = "Bolls " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
@@ -330,9 +347,12 @@ export tag Bible
       parallel_text:chapter = chapter
       let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
       @parallel_verses = []
-      loadData(url).then do |data|
-        @parallel_verses = data
-        scheduler.mark
+      try
+        loadData(url).then do |data|
+          @parallel_verses = data
+          scheduler.mark
+      catch error
+        console.error('Error:', error)
 
       if @chronorder
         @chronorder = !@chronorder
@@ -341,9 +361,12 @@ export tag Bible
       if window:username
         url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
         @parallel_bookmarks = []
-        loadData(url).then do |data|
-          @parallel_bookmarks = data
-          scheduler.mark
+        try
+          loadData(url).then do |data|
+            @parallel_bookmarks = data
+            scheduler.mark
+        catch error
+          console.error('Error:', error)
 
       if !onpopstate && @verses
         window:history.pushState({
@@ -364,7 +387,6 @@ export tag Bible
       onpopstate = no
 
       clearSpace
-      # parallel_text:display = yes
       Imba.commit
       setCookie('parallel_display', parallel_text:display)
       switchTranslation parallel_text:translation, yes
@@ -443,10 +465,11 @@ export tag Bible
     @show_list_of_translations = no
 
   def getSearchText
-    clearSpace
-    search:search_input = search:search_input.replace(/\\/g, '')
     search:search_input = search:search_input.replace(/\//g, '')
-    if search:search_input != ''
+    search:search_input = search:search_input.replace(/\\/g, '')
+    if search:search_input != '' && (search:search_result_header != search:search_input || !@search:search_div)
+      clearSpace
+      loading = yes
       let url
       if parallel_text:edited_version == parallel_text:translation && parallel_text:display
         @search:translation = parallel_text:edited_version
@@ -457,21 +480,25 @@ export tag Bible
         url = '/' + settings:translation + '/' + search:search_input + '/'
         search:search_result_translation = settings:translation
       @search_verses = Object.create(null)
-      loadData(url).then do |data|
-        @search_verses = data
-        for verse in @search_verses
-          if !@search:bookd_of_results.find(do |element| return element == verse:book)
-            @search:bookd_of_results.push verse:book
-        closeSearch
-        if !@search_verses:length
-          setTimeout(&, 3000) do
-            toggleSettingsMenu
-            Imba.commit
-        Imba.commit
+      try
+        loadData(url).then do |data|
+          @search_verses = data
+          for verse in @search_verses
+            if !@search:bookd_of_results.find(do |element| return element == verse:book)
+              @search:bookd_of_results.push verse:book
+          closeSearch
+          if !@search_verses:length
+            setTimeout(&, 3000) do
+              toggleSettingsMenu
+              Imba.commit
+          Imba.commit
+      catch error
+        console.error('Error:', error)
 
   def closeSearch close
+    loading = no
     @search:counter = 50
-    @search:search_div = true
+    @search:search_div = yes
     if close
       @search:search_div = !@search:search_div
       @search:change_translation = no
@@ -912,16 +939,19 @@ export tag Bible
   def getCategories
     let url = "/get-categories/"
     @categories = []
-    loadData(url).then do |data|
-      for categories in data:data
-        for piece in categories:note.split(' | ')
-          if piece != ''
-            @categories.push(piece)
-      for category in choosen_categories
-        if !@categories.find(do |element| return element == category)
-          @categories.unshift category
-      @categories = Array.from(Set.new(@categories))
-      scheduler.mark
+    try
+      loadData(url).then do |data|
+        for categories in data:data
+          for piece in categories:note.split(' | ')
+            if piece != ''
+              @categories.push(piece)
+        for category in choosen_categories
+          if !@categories.find(do |element| return element == category)
+            @categories.unshift category
+        @categories = Array.from(Set.new(@categories))
+        scheduler.mark
+    catch error
+      console.error('Error:', error)
 
   def addCollection
     addcollection = yes
@@ -1042,9 +1072,13 @@ export tag Bible
           <.freespace>
 
       <main#main tabindex="0" .parallel_text=parallel_text:display css:font-size="{settings:font}px">
-        <svg:svg.navigation :tap.prevent.toggleSettingsMenu xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <svg:title> langdata:other
-          <svg:path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z">
+        if menuicons
+          <svg:svg.navigation :tap.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <svg:title> "book"
+            <svg:path d="M3 5H7V6H3V5ZM3 8H7V7H3V8ZM3 10H7V9H3V10ZM14 5H10V6H14V5ZM14 7H10V8H14V7ZM14 9H10V10H14V9ZM16 3V12C16 12.55 15.55 13 15 13H9.5L8.5 14L7.5 13H2C1.45 13 1 12.55 1 12V3C1 2.45 1.45 2 2 2H7.5L8.5 3L9.5 2H15C15.55 2 16 2.45 16 3ZM8 3.5L7.5 3H2V12H8V3.5ZM15 3H9.5L9 3.5V12H15V3Z">
+          <svg:svg.navigation :tap.prevent.toggleSettingsMenu() css:right="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 10">
+            <svg:title> langdata:other
+            <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11.41 6H0.59C0 6 0 5.59 0 5C0 4.41 0 4 0.59 4H11.4C11.99 4 11.99 4.41 11.99 5C11.99 5.59 11.99 6 11.4 6H11.41ZM11.41 2H0.59C0 2 0 1.59 0 1C0 0.41 0 0 0.59 0H11.4C11.99 0 11.99 0.41 11.99 1C11.99 1.59 11.99 2 11.4 2H11.41ZM0.59 8H11.4C11.99 8 11.99 8.41 11.99 9C11.99 9.59 11.99 10 11.4 10H0.59C0 10 0 9.59 0 9C0 8.41 0 8 0.59 8Z">
         <section .parallel=parallel_text:display dir="auto">
           <header>
             <h1 :tap.prevent.toggleBibleMenu()> nameOfBook(settings:book, false), ' ', settings:chapter
@@ -1165,6 +1199,9 @@ export tag Bible
               <time time:datetime="2020-01-20T22:53"> "2019-2020"
               " Павлишинець Богуслав"
 
+      if loading
+        <Load style="position: fixed; top: 50%; left: 50%;">
+
       <section.search_results .show_search_results=search:search_div>
         <article.search_hat>
           <svg:svg.close_search :tap.prevent.closeSearch(true) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1234,10 +1271,10 @@ export tag Bible
           if window:innerWidth < 600
             <svg:svg.close_colorpicker
                 :tap.prevent=(do show_color_picker = !show_color_picker)
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" tabindex="0"
                 >
               <svg:title> langdata:close
-              <svg:path d="M0 11l2-2 5 5L18 3l2 2L7 18z">
+              <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
           <colorpicker .show-canvas=show_color_picker canvas:alt=langdata:canvastitle id="" tabindex="0">  langdata:canvastitle
         <p> getHighlightedRow
         <ul.mark_grid>
@@ -1266,21 +1303,21 @@ export tag Bible
             <svg:title> langdata:close
             <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt="dismiss">
 
-          <svg:svg.close_search :tap.prevent.deleteBookmarks xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="auto" alt=langdata:delete>
+          <svg:svg.close_search :tap.prevent.deleteBookmarks xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" css:margin="auto" alt=langdata:delete>
             <svg:title> langdata:delete
-            <svg:path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z">
+            <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 
-          <svg:svg.save_bookmark :tap.prevent.copyToClipboard xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=langdata:copy>
+          <svg:svg.save_bookmark :tap.prevent.copyToClipboard xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=langdata:copy>
             <svg:title> langdata:copy
-            <svg:path d="M6 6V2c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8c0-1.1.9-2 2-2h4zm2 0h4a2 2 0 0 1 2 2v4h4V2H8v4zM2 8v10h10V8H2z">
+            <svg:path d="M395.25,0h-306c-28.05,0-51,22.95-51,51v357h51V51h306V0z M471.75,102h-280.5c-28.05,0-51,22.95-51,51v357	c0,28.05,22.95,51,51,51h280.5c28.05,0,51-22.95,51-51V153C522.75,124.95,499.8,102,471.75,102z M471.75,510h-280.5V153h280.5V510 z">
 
           <svg:svg.save_bookmark .filled=choosen_categories:length :tap.prevent.turnCollections xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=langdata:addtocollection>
             <svg:title> langdata:addtocollection
             <svg:path d="M2 2c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v18l-8-4-8 4V2zm2 0v15l6-3 6 3V2H4z">
 
-          <svg:svg.save_bookmark xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.sendBookmarksToDjango alt=langdata:create>
+          <svg:svg.save_bookmark css:padding="10px 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" :tap.prevent.sendBookmarksToDjango alt=langdata:create>
             <svg:title> langdata:create
-            <svg:path d="M0 11l2-2 5 5L18 3l2 2L7 18z">
+            <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
 
       <section.addtocollection .show_collections=show_collections>
         <.collectionshat>
@@ -1318,9 +1355,9 @@ export tag Bible
               <svg:title> langdata:close_search
               <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
           <h1 css:margin="0 0 0 8px"> langdata:history
-          <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" css:margin="0 12px 0 16px" alt=langdata:delete css:margin-left="auto">
+          <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="padding: 0; margin: 0 12px 0 16px; width: 32px;" alt=langdata:delete css:margin-left="auto">
             <svg:title> langdata:delete
-            <svg:path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z">
+            <svg:path d="M15 16h4v2h-4v-2zm0-8h7v2h-7V8zm0 4h6v2h-6v-2zM3 20h10V8H3v12zM14 5h-3l-1-1H6L5 5H2v2h12V5z">
 
         <article.historylist>
           if @history:length
@@ -1339,4 +1376,7 @@ export tag Bible
 
       <.online .offline=offline>
         langdata:offline
-        <a.reload :tap=(do window:history.go())> langdata:reload
+        <svg:svg css:transform="translateY(0.2em)" fill="var(--text-color)" xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.26em" viewBox="0 0 24 24">
+          <svg:path fill="none" d="M0 0h24v24H0V0z">
+          <svg:path d="M23.64 7c-.45-.34-4.93-4-11.64-4-1.32 0-2.55.14-3.69.38L18.43 13.5 23.64 7zM3.41 1.31L2 2.72l2.05 2.05C1.91 5.76.59 6.82.36 7L12 21.5l3.91-4.87 3.32 3.32 1.41-1.41L3.41 1.31z">
+        <a.reload :tap=(do window:location.reload(true))> langdata:reload

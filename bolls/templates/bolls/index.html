@@ -41,5 +41,24 @@
     </script>
     <script src="{% static 'bolls/dist/client.js' %}" async></script>
     <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser" %}</noscript>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register("/sw.js").then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+      // if (window.location.protocol === 'http:') {
+      //   const requireHTTPS = document.getElementById('requireHTTPS');
+      //   const link = requireHTTPS.querySelector('a');
+      //   link.href = window.location.href.replace('http://', 'https://');
+      //   requireHTTPS.classList.remove('hidden');
+      // }
+    </script>
   </body>
 </html>

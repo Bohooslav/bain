@@ -278,7 +278,7 @@ export tag Profile
               <time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
           <hr.hr>
         if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
-          <Load>
+          <Load css:padding="128px 0">
         else
           <div.freespace>
         if !@bookmarks:length

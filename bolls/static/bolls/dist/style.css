@@ -12,8 +12,8 @@ html[data-theme='light'] {
   --text-color: #04060c;
   --accent-color: navy;
   --accent-hover-color: royalblue;
-  --btn-bg: #4169e122;
-  --btn-bg-hover: #4169e111;
+  --btn-bg: #47f2;
+  --btn-bg-hover: #47f1;
 }
 
 * {
@@ -25,6 +25,7 @@ html[data-theme='light'] {
   transition: all 300ms ease 0s;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 ::-webkit-scrollbar {
@@ -198,7 +199,7 @@ nav {
 }
 
 .current_translation {
-  color: olivedrab;
+  color: var(--accent-color);
 }
 
 .books-container {
@@ -214,11 +215,6 @@ nav {
   padding: 12px 8px;
   height: auto;
   cursor: pointer;
-}
-
-.book_in_list::selection {
-  background: inherit;
-  color: inherit;
 }
 
 .list_of_chapters {
@@ -248,11 +244,6 @@ nav {
   padding-top: 16px;
 }
 
-.chapter_number::selection {
-  color: inherit;
-  background: inherit;
-}
-
 .translation_name:hover,
 .book_in_list:hover,
 .chapter_number:hover {
@@ -278,18 +269,17 @@ main {
 
 .navigation {
   top: 0;
-  right: 0;
   width: 32px;
   height: 32px;
   margin: 3vw;
-  fill: var(--btn-bg-hover);
+  fill: var(--btn-bg);
   position: absolute;
   z-index: 1;
   cursor: pointer;
 }
 
 .navigation:hover {
-  fill: var(--btn-bg);
+  fill: var(--accent-hover-color);
 }
 
 .parallel_text {
@@ -328,11 +318,6 @@ main span {
 
 .verse:hover {
   color: var(--accent-hover-color);
-}
-
-.verse::selection {
-  background: inherit;
-  color: inherit;
 }
 
 .highlighted {
@@ -510,6 +495,19 @@ aside {
   cursor: default;
 }
 
+.username::selection,
+.prof_btn::selection,
+.translation_name::selection,
+.book_in_list::selection,
+.chapter_number::selection,
+.verse::selection,
+.nighttheme::selection,
+.help::selection,
+.great_B::selection {
+  color: inherit;
+  background-color: transparent;
+}
+
 .theme_checkbox {
   width: 50px;
   height: 30px;
@@ -545,11 +543,6 @@ aside {
   background: var(--btn-bg);
   border-radius: 4px;
   margin-right: 4px;
-}
-
-.great_B::selection {
-  color: inherit;
-  background: #0000;
 }
 
 .great_B:hover {
@@ -591,8 +584,6 @@ aside {
 .languages {
   background: var(--background-color);
   position: absolute;
-  display: flex;
-  flex-direction: column;
   right: 64px;
   transform: scale(0.75);
   visibility: hidden;
@@ -614,6 +605,8 @@ aside {
   border-radius: 2px;
   font-size: 16px;
   border: none;
+  display: block;
+  width: 100%;
 }
 
 .languages button:hover {
@@ -737,11 +730,11 @@ aside {
 }
 
 .filter_search_hover {
-  fill: olivedrab;
+  fill: var(--accent-color);
 }
 
 .filter_search:hover {
-  fill: olivedrab;
+  fill: var(--accent-hover-color);
 }
 
 #search_body {
@@ -769,7 +762,7 @@ aside {
 }
 
 .search_res_verse_text:hover {
-  color: olivedrab;
+  color: var(--accent-hover-color);
 }
 
 .search_res_verse_header {
@@ -870,6 +863,7 @@ aside {
 
 .offline {
   display: block;
+  z-index: 1000;
 }
 
 .reload {
@@ -961,23 +955,18 @@ aside {
 }
 
 .history {
-  background: var(--background-color);
   position: fixed;
   right: auto;
   top: -100%;
   right: 3vw;
   width: 300px;
-  overflow-y: auto;
   max-height: 97vh;
   padding: 8px;
   z-index: 4;
-  display: flex;
-  flex-direction: column;
   visibility: hidden;
 }
 
 .show_history {
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
   right: 3vw;
   top: 2%;
   visibility: visible;
@@ -985,6 +974,7 @@ aside {
 
 .historylist {
   overflow-y: auto;
+  max-height: calc(97vh - 66px);
 }
 
 .open_in_parallel {
@@ -1140,8 +1130,9 @@ address a:hover {
   justify-content: center;
   margin-top: 16px;
   font-size: 1em;
-  padding: 128px 0;
   height: 128px;
+  -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 1s both;
+  animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 1s both;
 }
 
 figcaption {

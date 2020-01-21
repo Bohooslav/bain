@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Verses(models.Model):
     translation = models.CharField(max_length=120)
     book = models.PositiveSmallIntegerField()
@@ -10,7 +9,6 @@ class Verses(models.Model):
     text = models.TextField()
     def natural_key(self):
         return (self.translation, self.book, self.chapter, self.verse, self.text)
-
 
 class Bookmarks(models.Model):
     verse = models.ForeignKey(Verses, on_delete=models.CASCADE)
