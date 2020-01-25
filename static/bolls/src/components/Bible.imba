@@ -63,11 +63,14 @@ document:onkeyup = do |e|
   if e:code == "Escape"
     let bible = document:getElementsByClassName("Bible")
     bible[0]:_tag.clearSpace
+    let profile = document:getElementsByClassName("Profile")
+    if profile[0]
+      profile[0]:_tag.orphanize
+      window:history.back()
   if e:code == "KeyH" && e:altKey && e:ctrlKey
     menuicons = !menuicons
     Imba.commit
     window:localStorage.setItem("menuicons", menuicons)
-
 
 window:onpopstate = do |event|
   let state = event:state
@@ -218,7 +221,7 @@ export tag Bible
       toggleChronorder
     if getCookie("highlights")
       highlights = JSON.parse(getCookie("highlights"))
-    if getCookie('menuicons') != 'true'
+    if getCookie('menuicons') == 'false'
       menuicons = no
 
     @search = {
@@ -420,6 +423,7 @@ export tag Bible
   def toggleParallelMode
     if parallel_text:display
       parallel_text:display = no
+      clearSpace
     else
       if getCookie('parallel_translation')
         parallel_text:translation = getCookie('parallel_translation')
@@ -487,10 +491,6 @@ export tag Bible
             if !@search:bookd_of_results.find(do |element| return element == verse:book)
               @search:bookd_of_results.push verse:book
           closeSearch
-          if !@search_verses:length
-            setTimeout(&, 3000) do
-              toggleSettingsMenu
-              Imba.commit
           Imba.commit
       catch error
         console.error('Error:', error)
@@ -1034,6 +1034,9 @@ export tag Bible
     settings:verse_break = !settings:verse_break
     setCookie('verse_break', settings:verse_break)
 
+  def translationFullName tr
+    translations.find(do |translation| return translation:short_name == tr):full_name
+
 
 
   def render
@@ -1041,14 +1044,14 @@ export tag Bible
       <nav css:left="{bible_menu_left}px" css:box-shadow="0 0 {(bible_menu_left + 280) / 8}px rgba(0, 0, 0, 0.3)">
         if parallel_text:display
           <.choose_parallel>
-            <p.translation_name a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
-            <p.translation_name a:role="button" .current_translation=(parallel_text:edited_version == parallel_text:translation) :tap.prevent.changeEditedParallel(parallel_text:translation) tabindex="0"> parallel_text:translation
+            <p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
+            <p.translation_name title=translationFullName(parallel_text:translation) a:role="button" .current_translation=(parallel_text:edited_version == parallel_text:translation) :tap.prevent.changeEditedParallel(parallel_text:translation) tabindex="0"> parallel_text:translation
           if parallel_text:edited_version == parallel_text:translation
-            <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
+            <p.translation_name title=langdata:change_translation :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
           else
-            <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+            <p.translation_name title=langdata:change_translation :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
         else
-          <p.translation_name :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
+          <p.translation_name title=langdata:change_translation :tap.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
         <svg:svg.chronological_order .hide_chron_order=@show_list_of_translations .chronological_order_in_use=@chronorder :tap.prevent.toggleChronorder xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" title=langdata:chronological_order>
           <title> langdata:chronological_order
           <svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z">
@@ -1072,16 +1075,9 @@ export tag Bible
           <.freespace>
 
       <main#main tabindex="0" .parallel_text=parallel_text:display css:font-size="{settings:font}px">
-        if menuicons
-          <svg:svg.navigation :tap.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-            <svg:title> "book"
-            <svg:path d="M3 5H7V6H3V5ZM3 8H7V7H3V8ZM3 10H7V9H3V10ZM14 5H10V6H14V5ZM14 7H10V8H14V7ZM14 9H10V10H14V9ZM16 3V12C16 12.55 15.55 13 15 13H9.5L8.5 14L7.5 13H2C1.45 13 1 12.55 1 12V3C1 2.45 1.45 2 2 2H7.5L8.5 3L9.5 2H15C15.55 2 16 2.45 16 3ZM8 3.5L7.5 3H2V12H8V3.5ZM15 3H9.5L9 3.5V12H15V3Z">
-          <svg:svg.navigation :tap.prevent.toggleSettingsMenu() css:right="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 10">
-            <svg:title> langdata:other
-            <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11.41 6H0.59C0 6 0 5.59 0 5C0 4.41 0 4 0.59 4H11.4C11.99 4 11.99 4.41 11.99 5C11.99 5.59 11.99 6 11.4 6H11.41ZM11.41 2H0.59C0 2 0 1.59 0 1C0 0.41 0 0 0.59 0H11.4C11.99 0 11.99 0.41 11.99 1C11.99 1.59 11.99 2 11.4 2H11.41ZM0.59 8H11.4C11.99 8 11.99 8.41 11.99 9C11.99 9.59 11.99 10 11.4 10H0.59C0 10 0 9.59 0 9C0 8.41 0 8 0.59 8Z">
         <section .parallel=parallel_text:display dir="auto">
           <header>
-            <h1 :tap.prevent.toggleBibleMenu()> nameOfBook(settings:book, false), ' ', settings:chapter
+            <h1 :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
           <article>
             <.text-ident> " "
             for verse in @verses
@@ -1091,14 +1087,14 @@ export tag Bible
               <a.verse id=verse:verse href="#{verse:verse}">
                 ' '
                 verse:verse
-              <span
+              <verse[verse]
                   tabindex="0"
                   :keydown.enter.sendBookmarksToDjango
                   :tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
                   .highlighted=getHighlight(verse:pk)
                   .clicked=choosenid.find(do |element| return element == verse:pk)
                   css:text-decoration-color=getHighlight(verse:pk)
-                > verse:text
+                >
             <.arrows>
               <a.arrow :tap.prevent.prewChapter() title=langdata:prew>
                 <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -1112,7 +1108,7 @@ export tag Bible
               <.freespace>
         <section.display_none.parallel .show_parallel=parallel_text:display dir="auto">
           <header>
-            <h1 :tap.prevent.toggleBibleMenu(yes)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+            <h1 :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
           <article>
             <.text-ident> " "
             for verse in @parallel_verses
@@ -1122,11 +1118,11 @@ export tag Bible
               <a.verse id="p{verse:verse}" href="#p{verse:verse}">
                 ' '
                 verse:verse
-              <span
+              <verse[verse]
                 :tap.prevent.addToChoosen(verse:pk, verse:verse, 'second')
                 .highlighted=getParallelHighlight(verse:pk)
                 .clicked=choosenid.find(do |element| return element == verse:pk)
-                css:text-decoration-color=getParallelHighlight(verse:pk)> verse:text
+                css:text-decoration-color=getParallelHighlight(verse:pk)>
             <.arrows>
               <a.arrow :tap.prevent.prewChapter("true")>
                 <svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -1196,11 +1192,8 @@ export tag Bible
         <footer>
           <address css:padding-bottom="4px">
             <a href="/api"> "© "
-              <time time:datetime="2020-01-20T22:53"> "2019-2020"
+              <time time:datetime="2020-01-22T12:38"> "2019-2020"
               " Павлишинець Богуслав"
-
-      if loading
-        <Load style="position: fixed; top: 50%; left: 50%;">
 
       <section.search_results .show_search_results=search:search_div>
         <article.search_hat>
@@ -1228,7 +1221,7 @@ export tag Bible
               for verse, key in getFilteredArray
                 <a.search_item>
                   <.search_res_verse_text :tap.prevent.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
-                    <span> verse:text
+                    <verse[verse]>
                   <.search_res_verse_header>
                     <span> nameOfBook(verse:book, choosen_parallel), ' '
                     <span> verse:chapter, ':'
@@ -1248,7 +1241,7 @@ export tag Bible
               for verse, key in @search_verses
                 <a.search_item>
                   <.search_res_verse_text :tap.prevent.getText(verse:translation, verse:book, verse:chapter, verse:verse)>
-                    <span> verse:text
+                    <verse[verse]>
                   <.search_res_verse_header>
                     <span> nameOfBook(verse:book, choosen_parallel), ' '
                     <span> verse:chapter, ':'
@@ -1374,9 +1367,27 @@ export tag Bible
           else
             <p css:padding="12px"> langdata:empty_history
 
+      if menuicons
+        <svg:svg.navigation :tap.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <svg:title> langdata:change_book
+          <svg:path d="M3 5H7V6H3V5ZM3 8H7V7H3V8ZM3 10H7V9H3V10ZM14 5H10V6H14V5ZM14 7H10V8H14V7ZM14 9H10V10H14V9ZM16 3V12C16 12.55 15.55 13 15 13H9.5L8.5 14L7.5 13H2C1.45 13 1 12.55 1 12V3C1 2.45 1.45 2 2 2H7.5L8.5 3L9.5 2H15C15.55 2 16 2.45 16 3ZM8 3.5L7.5 3H2V12H8V3.5ZM15 3H9.5L9 3.5V12H15V3Z">
+        <svg:svg.navigation :tap.prevent.toggleSettingsMenu() style="right: 0; transform: scaleY(0.8);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 10">
+          <svg:title> langdata:other
+          <svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11.41 6H0.59C0 6 0 5.59 0 5C0 4.41 0 4 0.59 4H11.4C11.99 4 11.99 4.41 11.99 5C11.99 5.59 11.99 6 11.4 6H11.41ZM11.41 2H0.59C0 2 0 1.59 0 1C0 0.41 0 0 0.59 0H11.4C11.99 0 11.99 0.41 11.99 1C11.99 1.59 11.99 2 11.4 2H11.41ZM0.59 8H11.4C11.99 8 11.99 8.41 11.99 9C11.99 9.59 11.99 10 11.4 10H0.59C0 10 0 9.59 0 9C0 8.41 0 8 0.59 8Z">
+
       <.online .offline=offline>
         langdata:offline
         <svg:svg css:transform="translateY(0.2em)" fill="var(--text-color)" xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.26em" viewBox="0 0 24 24">
           <svg:path fill="none" d="M0 0h24v24H0V0z">
           <svg:path d="M23.64 7c-.45-.34-4.93-4-11.64-4-1.32 0-2.55.14-3.69.38L18.43 13.5 23.64 7zM3.41 1.31L2 2.72l2.05 2.05C1.91 5.76.59 6.82.36 7L12 21.5l3.91-4.87 3.32 3.32 1.41-1.41L3.41 1.31z">
         <a.reload :tap=(do window:location.reload(true))> langdata:reload
+
+      if loading
+        <Load style="position: fixed; top: 50%; left: 50%;">
+
+tag verse < span
+  def mount
+    dom:innerHTML = @data:text
+
+  def render
+    <self>

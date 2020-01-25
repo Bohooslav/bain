@@ -6,8 +6,7 @@
     overflow-wrap: break-word;
   }
   main h1 {
-    margin: 16px 0;
-    text-decoration: solid underline;
+    margin: 32px 0 16px;
   }
   .search_results {
     right: 0;

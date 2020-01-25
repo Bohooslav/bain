@@ -1,22 +1,14 @@
 import os
-from django.db.models import Count
 import ast
 import json
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
-
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Verses, Bookmarks
-
 from bolls.forms import SignUpForm
-
-from django.core.mail import mail_admins, BadHeaderError
-from django.views import generic
-from django.utils import timezone
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from .models import Verses, Bookmarks
 
 
 def index(request):
@@ -177,7 +169,7 @@ def deleteBookmarks(request):
 
 def robots(request):
     filename = "robots.txt"
-    content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/sitemap.xml"
+    content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/mapofsite.xml"
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename)
@@ -190,13 +182,10 @@ def api(request):
 
 def sw(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    test_file = open(BASE_DIR + '/static/bolls/dist/sw.js', 'rb')
-
-    response = HttpResponse(content=test_file)
+    # sw_file = open(BASE_DIR + '/bolls/static/bolls/dist/sw.js', 'rb')
+    sw_file = open(BASE_DIR + '/static/bolls/dist/sw.js', 'rb')
+    response = HttpResponse(content=sw_file)
     response['Content-Type'] = 'application/javascript'
     response['Content-Disposition'] = 'attachment; filename="%s.js"' \
         % 'whatever'
     return response
-
-
-    # return render(request, 'static/bolls/dist/sw.js')

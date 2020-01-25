@@ -21,6 +21,13 @@ let offline = false
 let query = ''
 let loading = no
 
+tag verse < span
+  def build
+    dom:innerHTML = @data
+
+  def render
+    <self>
+
 export tag Profile
   prop langdata default: []
   prop bookmarks default: []
@@ -44,7 +51,6 @@ export tag Profile
         when 'uk' then @langdata = uk_leng
         when 'ru-RU' then @langdata = ru_leng
         else @langdata = en_leng
-
 
   def mount
     unflag("display_none")
@@ -79,7 +85,6 @@ export tag Profile
 
     window.fetch(url).then do |res|
       return res.json
-
 
   def switchTranslationBooks translation
     if @translation != translation
@@ -268,9 +273,7 @@ export tag Profile
               <h1> query
         for bookmark in @bookmarks
           <article.bookmark_in_list css:border-color="{bookmark:color}">
-            <p.bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
-              for text in bookmark:text
-                <span> text, ' '
+            <verse[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
             if bookmark:note
               <p.note> bookmark:note
             <p.dataflex>

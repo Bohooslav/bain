@@ -18,14 +18,14 @@ export const en_leng = {
   signin: "Sign up",
   close: "Close",
   delete: "Delete",
-  verse_break: "Verse break",
+  verse_break: "Verse wrap",
   copy: "Copy",
   clear_copy: "Clear copying",
   addtocollection: "Add to collection",
   create: "Create",
   prew: 'Prew',
   next: 'Next',
-  addfilter: 'Add search filter',
+  addfilter: 'Add filter',
   close_search: 'Close search',
   nighttheme: 'Turn on night theme',
   lighttheme: 'Turn on light theme',
@@ -43,6 +43,7 @@ export const en_leng = {
   chronological_order: "Chronological Order",
   reload: "Reload",
   change_translation: "Change translation",
+  change_book: "Change book or chapter",
 }
 
 export const uk_leng = {
@@ -90,6 +91,7 @@ export const uk_leng = {
   chronological_order: "Хронологічний порядок",
   reload: "Перезавантажити",
   change_translation: "Змінити переклад",
+  change_book: "Змінити книгу чи главу",
 }
 
 export const ru_leng = {
@@ -137,4 +139,5 @@ export const ru_leng = {
   chronological_order: "Хронологический порядок",
   reload: "Обновить",
   change_translation: "Поменять перевод",
+  change_book: "Поменять книгу или главу",
 }
