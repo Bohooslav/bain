@@ -97,11 +97,9 @@ tag colorpicker
 
   def build
     let canvasContext = @canvasElement:context('2d')
-
     let image = Image.new(320, 207)
     image:onload = do canvasContext.drawImage(image, 0, 0, image:width, image:height)
     image:src = "/static/bolls/dist/8.jpg"
-
     let imgData
     let rgba
 
@@ -119,7 +117,6 @@ tag colorpicker
       imgData = canvasContext.getImageData(e:_event:offsetX, e:_event:offsetY, 1, 1)
       rgba = imgData:data
       highlight_color = "rgba(" + rgba[0] + "," + rgba[1] + "," + rgba[2] + "," + rgba[3] + ")"
-
 
   def render
     <self .show-canvas=show_color_picker>
@@ -883,7 +880,7 @@ export tag Bible
       if !settings:clear_copy
         value += ' ' + parallel_text:translation + ', ' + "bolls.life" + '/' + parallel_text:translation + '/' + parallel_text:book + '/' + parallel_text:chapter
     else
-      value += '" \n' + getHighlightedRow
+      value += '"\n\n' + getHighlightedRow
       if !settings:clear_copy
         value += ' ' + settings:translation + ' ' + "bolls.life" + '/'+ settings:translation + '/' + settings:book + '/' + settings:chapter + '/' + choosen.sort(do |a, b| return a - b)[0]
     aux:textContent = value
