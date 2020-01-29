@@ -179,6 +179,9 @@ def robots(request):
 def api(request):
     return render(request, 'bolls/api.html')
 
+def downloads(request):
+    return render(request, 'bolls/downloads.html')
+
 
 def sw(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

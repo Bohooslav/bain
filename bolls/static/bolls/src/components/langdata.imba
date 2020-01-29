@@ -3,6 +3,7 @@ export const en_leng = {
   search: "Search",
   theme: "Light theme",
   font: "Font size",
+  font-family: "Font family",
   parallel: "Parallel view",
   open_in_parallel: "Open in parallel view",
   drop_filter: "Drop filter",
@@ -44,13 +45,18 @@ export const en_leng = {
   reload: "Reload",
   change_translation: "Change translation",
   change_book: "Change book or chapter",
+  download: "Download",
+  download-for: "Download for",
+  snapstore: "Get it from the Snap Store",
+  exhortation: "A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura!",
 }
 
 export const uk_leng = {
   other: "Інше",
   search: "Пошук",
   theme: "Світла тема",
-  font: "Шрифт",
+  font: "Розмір шрифту",
+  font-family: "Шрифт",
   parallel: "Паралель",
   open_in_parallel: "Відкрити в паралелі",
   drop_filter: "Скинути фільтр",
@@ -92,13 +98,18 @@ export const uk_leng = {
   reload: "Перезавантажити",
   change_translation: "Змінити переклад",
   change_book: "Змінити книгу чи главу",
+  download: "Завантажити",
+  download-for: "Завантажити для",
+  snapstore: "Отримати через Snap Store",
+  exhortation: "Веб-додаток для читання Біблії з повним акцентом лише на Божому Cлові. Sola scriptura!",
 }
 
 export const ru_leng = {
   other: "Разное",
   search: "Поиск",
   theme: "Дневная тема",
-  font: "Шрифт",
+  font: "Розмер шрифта",
+  font-family: "Шрифт",
   parallel: "Паралель",
   open_in_parallel: "Открыть в паралели",
   drop_filter: "Сбросить фильтр",
@@ -140,4 +151,8 @@ export const ru_leng = {
   reload: "Обновить",
   change_translation: "Поменять перевод",
   change_book: "Поменять книгу или главу",
+  download: "Скачать",
+  download-for: "Скачать для",
+  snapstore: "Получить через Snap Store",
+  exhortation: "Веб-приложение для чтения Библии с полным акцентом только на Божьем Cлове. Sola scriptura!",
 }

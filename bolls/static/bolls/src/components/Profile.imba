@@ -53,7 +53,6 @@ export tag Profile
         else @langdata = en_leng
 
   def mount
-    unflag("display_none")
     limits_of_range:from = 0
     limits_of_range:to = 32
     limits_of_range:loaded = 0
@@ -65,7 +64,6 @@ export tag Profile
     let bible = document:getElementsByClassName("Bible")
     if bible[0]
       bible[0]:classList.add("display_none")
-      unflag("display_none")
     window:addEventListener('scroll', do render)
 
   def unmount
@@ -259,6 +257,7 @@ export tag Profile
           if !query && @categories:length
             <.collectionsflex css:flex-wrap="wrap">
               <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
+                <svg:title>  @langdata:back
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
               <h1> user:name
             <.collectionsflex css:flex-wrap="wrap">

@@ -58,7 +58,7 @@ html[data-theme='light'] {
 
 body {
   font-family: sans, sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
 }
@@ -118,7 +118,7 @@ nav {
   font-family: "Roboto Slab", sans-serif;
   top: 0;
   bottom: 0;
-  width: 280px;
+  width: 300px;
   display: block;
   background-color: var(--background-color);
   padding: 32px 0;
@@ -240,7 +240,7 @@ nav {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  height: 50px;
+  height: 54px;
   width: 20%;
   font-size: 20px;
   padding-top: 16px;
@@ -303,22 +303,11 @@ main h1:hover {
 
 main span {
   cursor: pointer;
-  /* font-family: 'Rubik', sans-serif;
-  font-family: 'Arimo', sans-serif;
-  font-family: 'Heebo', sans-serif;
-  font-family: 'Varela Round', sans-serif;
+  /* font-family: 'David Libre', serif;
+  font-family: 'Bellefair', serif;
   font-family: 'M PLUS 1p', sans-serif;
-  font-family: 'Tinos', serif;
-  font-family: 'Assistant', sans-serif;
-  font-family: 'Frank Ruhl Libre', serif;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-family: 'Miriam Libre', sans-serif;
-  font-family: 'Alef', sans-serif;
-  font-family: 'Suez One', serif;
-  font-family: 'Secular One', sans-serif;
-  font-family: 'David Libre', serif;
-  font-family: 'Cousine', monospace;
-  font-family: 'Bellefair', serif; */
+  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto', sans-serif; */
 }
 
 .text-ident {
@@ -493,7 +482,7 @@ aside {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 280px;
+  width: 300px;
   padding: 32px 12px;
   z-index: 4;
   overflow-y: auto;
@@ -511,6 +500,7 @@ aside {
   align-items: center;
   margin: 24px 0;
   cursor: default;
+  height: 38px;
 }
 
 .username::selection,
@@ -568,7 +558,6 @@ aside {
 }
 
 .little_B {
-  font-size: 20px;
   padding: 8px;
   cursor: pointer;
   background: var(--btn-bg);
@@ -618,7 +607,7 @@ aside {
   background: var(--btn-bg);
   color: inherit;
   cursor: pointer;
-  padding: 8px;
+  padding: 8px 16px;
   margin: 1px;
   border-radius: 2px;
   font-size: 16px;
@@ -856,11 +845,26 @@ aside {
 }
 
 .help {
+  align-items: center;
   color: inherit;
-  margin: 24px 0;
   cursor: pointer;
-  height: 32px;
+  display: flex;
+  height: 38px;
+  margin: 24px 0;
+  --fill-on-hover: var(--text-color);
 }
+
+.help:hover {
+  --fill-on-hover: var(--accent-hover-color);
+}
+
+.asidesvg {
+  margin-left: auto;
+  fill: var(--fill-on-hover);
+  height: 32px;
+  width: 32px;
+}
+
 
 .help:hover {
   color: var(--accent-hover-color);
@@ -1164,4 +1168,59 @@ figcaption {
   transition-duration: 300ms;
   transition-timing-function: linear;
   overflow: visible;
+}
+
+.platforms_svg {
+  fill: var(--text-color);
+  width: 64px;
+  height: 64px;
+}
+
+#downloads-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+#download-bolls {
+  margin: 32px auto;
+  padding: 12px 16px;
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: var(--background-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+#download-bolls:hover {
+  background-color: var(--accent-hover-color);
+  transform: scale(1.05) translateY(-2px);
+}
+
+.platform-item {
+  display: flex;
+  padding: 16px;
+  border-radius: 16px;
+  text-align: center;
+  margin: 16px;
+  color: inherit;
+  cursor: pointer;
+  background-color: var(--btn-bg);
+}
+
+.platform-item:hover {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-4px);
+}
+
+.platform-item p {
+  margin: auto 16px;
+  text-align: left;
+}
+
+.exhortation {
+  text-align: center;
+  margin: 4vw auto;
+  font-size: 2.3em;
+  max-width: 800px;
 }

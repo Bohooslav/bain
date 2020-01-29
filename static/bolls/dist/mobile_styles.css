@@ -1,6 +1,6 @@
 @media screen and (max-width: 600px) {
   ::-webkit-scrollbar {
-    width: 1px;
+    width: 2px;
   }
   main, main h1 {
     overflow-wrap: break-word;
@@ -51,5 +51,12 @@
   .Load svg {
     height: 24px;
     width: 24px;
+  }
+  .platform-item {
+    width: 100%;
+  }
+  .exhortation {
+    margin: 4vw 8px;
+    font-size: 1.5em;
   }
 }

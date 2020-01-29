@@ -7,6 +7,7 @@ urlpatterns = [
     path('robots.txt', views.robots, name='robots'),
     path('signup/', views.signUp, name='signup'),
     path('api/', views.api, name='api'),
+    path('downloads/', views.index, name='downloads'),
     path('sw.js', views.sw, name='sw'),
     path('profile/', views.index, name='profile'),
     path('get-categories/', views.getCategories, name='getCategories'),
@@ -19,5 +20,8 @@ urlpatterns = [
     path('get-profile-bookmarks/<int:range_from>/<int:range_to>/', views.getProfileBookmarks, name='getProfileBookmarks'),
     path('<slug:translation>/<int:book>/<int:chapter>/', views.linkToChapter, name='linkToChapter'),
     path('/<slug:translation>/<int:book>/<int:chapter>/', views.linkToChapter, name='linkToChapter'),
-    path('<slug:translation>/<int:book>/<int:chapter>/<int:verse>/', views.linkToVerse, name='linkToVerse'),
+    path('<slug:translation>/<int:book>/<int:chapter>/<int:verse>/',
+         views.linkToVerse, name='linkToVerse'),
+    path('/<slug:translation>/<int:book>/<int:chapter>/<int:verse>/',
+         views.linkToVerse, name='/linkToVerse'),
 ]

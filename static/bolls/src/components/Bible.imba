@@ -3,13 +3,25 @@ import "./translations.json" as translations
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 import {Profile} from './Profile'
 import {Load} from "./loading.imba"
+import {Downloads} from "./downloads.imba"
+
+
+let on_electron = false
+if window:process
+  on_electron = true
+  console.log window:process:versions:electron
+
 
 let settings = {
   theme: 'light',
   translation: 'YLT',
   book: 1,
   chapter: 1,
-  font: 24,
+  font: {
+    size: 24,
+    family: "Sans, Sans-serif",
+    name: "Sans, Sans-serif"
+  },
   language: 'eng'
   clear_copy: no,
   verse_break: no
@@ -28,8 +40,8 @@ let user = {
 let mobimenu = ''
 let offline = no
 let inzone = no
-let bible_menu_left = -280
-let settings_menu_left = -280
+let bible_menu_left = -300
+let settings_menu_left = -300
 let choosen = []
 let choosenid = []
 let highlight_color = 'royalblue'
@@ -44,6 +56,41 @@ let choosen_categories = []
 let onpopstate = no
 let loading = no
 let menuicons = yes
+let show_fonts = no
+let fonts = [
+  {
+    name: "David Libre",
+    code: "'David Libre', serif"
+  },
+  {
+    name: "Bellefair",
+    code: "'Bellefair', serif"
+  },
+  {
+    name: "M PLUS 1p",
+    code: "'M PLUS 1p', sans-serif"
+  },
+  {
+    name: "Roboto Slab",
+    code: "'Roboto Slab', serif"
+  },
+  {
+    name: "Roboto",
+    code: "'Roboto', sans-serif"
+  },
+  {
+    name: "System UI",
+    code: "system-ui"
+  }
+  {
+    name: "Sans",
+    code: "Sans, Sans-serif"
+  },
+  {
+    name: "Monospace",
+    code: "monospace"
+  },
+]
 
 document:onkeyup = do |e|
   var e = e || window:event
@@ -75,17 +122,27 @@ document:onkeyup = do |e|
 window:onpopstate = do |event|
   let state = event:state
   if state
-    if state:profile
-      let profile = document:getElementsByClassName("Profile")
-      if !profile[0]
-        Imba.mount <Profile>
+    if state:profile || state:downloads
+      if state:profile
+        let profile = document:getElementsByClassName("Profile")
+        if !profile[0]
+          console.log "mount"
+          Imba.mount <Profile>
+      if state:downloads
+        let downloads = document:getElementsByClassName("Downloads")
+        if !downloads[0]
+          Imba.mount <Downloads>
     else
       onpopstate = yes
       let profile = document:getElementsByClassName("Profile")
       if profile[0]
         profile[0]:_tag.orphanize
+      let downloads = document:getElementsByClassName("Downloads")
+      if downloads[0]
+        downloads[0]:_tag.orphanize
 
       let bible = document:getElementsByClassName("Bible")
+      bible[0]:_tag.unflag("display_none")
       if state:parallel-translation && state:parallel-book && state:parallel-chapter
         bible[0]:_tag.getParallelText(state:parallel-translation, state:parallel-book, state:parallel-chapter, state:parallel-verse)
       bible[0]:_tag.getText(state:translation, state:book, state:chapter, state:verse)
@@ -196,6 +253,9 @@ export tag Bible
     if window:location:pathname == '/profile/'
       @verses = getText(settings:translation, settings:book, settings:chapter, window:verse)
       toProfile yes
+    elif window:location:pathname == '/downloads/'
+      @verses = getText(settings:translation, settings:book, settings:chapter, window:verse)
+      toDownloads yes
     else
       @verses = getText(settings:translation, settings:book, settings:chapter, window:verse)
 
@@ -207,7 +267,11 @@ export tag Bible
       let html = document.querySelector('#html')
       html:dataset:theme = settings:theme
     if getCookie('font')
-      settings:font = parseInt(getCookie('font'))
+      settings:font:size = parseInt(getCookie('font'))
+    if getCookie('font-family')
+      settings:font:family = getCookie('font-family')
+    if getCookie('font-name')
+      settings:font:name = getCookie('font-name')
     if getCookie('clear_copy') == 'true'
       settings:clear_copy = getCookie('clear_copy')
     if getCookie('verse_break') == 'true'
@@ -250,11 +314,13 @@ export tag Bible
 
   def switchTranslation translation, parallel
     if parallel
+      log parallel_text:translation, translation
       if parallel_text:translation != translation || !@parallel_books:length
         @parallel_books = BOOKS[translation]
     else
       if settings:translation != translation || !@books:length
         @books = BOOKS[translation]
+    Imba.commit
 
   def saveToHistory translation, book, chapter, verse, parallel
     if getCookie("history")
@@ -327,9 +393,18 @@ export tag Bible
       saveToHistory translation, book, chapter, verse, no
 
       if verse
-        setTimeout(&,1200) do
-          window:location:hash = "#{verse}"
+        foundVerse verse
     else clearSpace
+
+  def foundVerse verse, parallel
+    setTimeout(&,300) do
+      let searched_verse = document.getElementById(verse)
+      if searched_verse
+        if parallel
+          window:location:hash = "#p{verse}"
+        else
+          window:location:hash = "#{verse}"
+      else foundVerse verse
 
   def mount
     let search = document.getElementById('search_body')
@@ -341,10 +416,6 @@ export tag Bible
 
   def getParallelText translation, book, chapter, verse
     if !(translation == parallel_text:translation && book == parallel_text:book && chapter == parallel_text:chapter) || !@parallel_verses:length || !parallel_text:display
-      parallel_text:translation = translation
-      parallel_text:edited_version = translation
-      parallel_text:book = book
-      parallel_text:chapter = chapter
       let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
       @parallel_verses = []
       try
@@ -386,22 +457,25 @@ export tag Bible
         )
       onpopstate = no
 
+      switchTranslation translation, yes
+      parallel_text:translation = translation
+      parallel_text:edited_version = translation
+      parallel_text:book = book
+      parallel_text:chapter = chapter
       clearSpace
       Imba.commit
       setCookie('parallel_display', parallel_text:display)
-      switchTranslation parallel_text:translation, yes
       saveToHistory translation, book, chapter, 0, yes
       setCookie('parallel_translation', translation)
       setCookie('parallel_book', book)
       setCookie('parallel_chapter', chapter)
 
       if verse
-        setTimeout(&,1200) do
-          window:location:hash = "#p{verse}"
+        foundVerse verse, yes
 
   def clearSpace
-    bible_menu_left = -280
-    settings_menu_left = -280
+    bible_menu_left = -300
+    settings_menu_left = -300
     search:search_div = no
     show_history = no
     mobimenu = ''
@@ -500,7 +574,7 @@ export tag Bible
       @search:search_div = !@search:search_div
       @search:change_translation = no
     @search:search_result_header = @search:search_input
-    settings_menu_left = -280
+    settings_menu_left = -300
     if document.getElementById('search')
       document.getElementById('search').blur()
     mobimenu = ''
@@ -532,17 +606,24 @@ export tag Bible
         setCookie('theme', 'light')
 
   def decreaceFontSize
-    if settings:font > 16
-      settings:font -= 2
-      setCookie('font', settings:font)
+    if settings:font:size > 16
+      settings:font:size -= 2
+      setCookie('font', settings:font:size)
 
   def increaceFontSize
-    if settings:font < 64 && window:innerWidth > 480
-      settings:font = settings:font + 2
-      setCookie('font', settings:font)
-    elif settings:font < 40
-      settings:font = settings:font + 2
-      setCookie('font', settings:font)
+    if settings:font:size < 64 && window:innerWidth > 480
+      settings:font:size = settings:font:size + 2
+      setCookie('font', settings:font:size)
+    elif settings:font:size < 40
+      settings:font:size = settings:font:size + 2
+      setCookie('font', settings:font:size)
+
+  def setFontFamily font
+    settings:font:family = font:code
+    settings:font:name = font:name
+    setCookie('font-family', font:code)
+    setCookie('font-name', font:name)
+    show_fonts = no
 
   def setLanguage language
     settings:language = language
@@ -620,9 +701,9 @@ export tag Bible
       elif e.x > window:innerWidth - 32
         settings_menu_left = 0
         mobimenu = 'show_settings_menu'
-      elif 280 < e.x < window:innerWidth - 280
-        bible_menu_left = -280
-        settings_menu_left = -280
+      elif 300 < e.x < window:innerWidth - 300
+        bible_menu_left = -300
+        settings_menu_left = -300
         mobimenu = ''
 
   def ontouchstart touch
@@ -632,10 +713,10 @@ export tag Bible
 
   def ontouchupdate touch
     if inzone
-      if (bible_menu_left < 0 && touch.dx < 280) && mobimenu != 'show_settings_menu'
-        bible_menu_left = touch.dx - 280
-      if (settings_menu_left < 0 && touch.dx > -280) && mobimenu != 'show_bible_menu'
-        settings_menu_left = - 280 - touch.dx
+      if (bible_menu_left < 0 && touch.dx < 300) && mobimenu != 'show_settings_menu'
+        bible_menu_left = touch.dx - 300
+      if (settings_menu_left < 0 && touch.dx > -300) && mobimenu != 'show_bible_menu'
+        settings_menu_left = - 300 - touch.dx
     else
       if mobimenu == 'show_bible_menu' && touch.dx < 0
         bible_menu_left = touch.dx
@@ -652,17 +733,17 @@ export tag Bible
         settings_menu_left = 0
         mobimenu = 'show_settings_menu'
       else
-        settings_menu_left = -280
-        bible_menu_left = -280
+        settings_menu_left = -300
+        bible_menu_left = -300
         mobimenu = ''
     elif mobimenu == 'show_bible_menu'
       if touch.dx < -64
-        bible_menu_left = -280
+        bible_menu_left = -300
         mobimenu = ''
       else bible_menu_left = 0
     elif mobimenu == 'show_settings_menu'
       if touch.dx > 64
-        settings_menu_left = -280
+        settings_menu_left = -300
         mobimenu = ''
       else settings_menu_left = 0
     elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !mobimenu && !search:search_div && !show_history && !choosenid:length
@@ -678,8 +759,8 @@ export tag Bible
     Imba.commit
 
   def ontouchcancel touch
-    bible_menu_left = -280
-    settings_menu_left = -280
+    bible_menu_left = -300
+    settings_menu_left = -300
     mobimenu = ''
 
   def getHighlight verse
@@ -878,11 +959,11 @@ export tag Bible
     if choosen_parallel == 'second'
       value += '" ' + getHighlightedRow
       if !settings:clear_copy
-        value += ' ' + parallel_text:translation + ', ' + "bolls.life" + '/' + parallel_text:translation + '/' + parallel_text:book + '/' + parallel_text:chapter
+        value += ' ' + parallel_text:translation + ', ' + "https://bolls.life" + '/' + parallel_text:translation + '/' + parallel_text:book + '/' + parallel_text:chapter
     else
       value += '"\n\n' + getHighlightedRow
       if !settings:clear_copy
-        value += ' ' + settings:translation + ' ' + "bolls.life" + '/'+ settings:translation + '/' + settings:book + '/' + settings:chapter + '/' + choosen.sort(do |a, b| return a - b)[0]
+        value += ' ' + settings:translation + ' ' + "https://bolls.life" + '/'+ settings:translation + '/' + settings:book + '/' + settings:chapter + '/' + choosen.sort(do |a, b| return a - b)[0]
     aux:textContent = value
     document:body.appendChild(aux)
     aux.select()
@@ -891,10 +972,8 @@ export tag Bible
     clearSpace
 
   def toProfile from_build = no
-    closeSearch true
     clearSpace
     flag("display_none")
-
     if !from_build
       window:history.pushState(
           {
@@ -904,8 +983,23 @@ export tag Bible
           "profile",
           "/profile/"
         )
-
+    document:title = "Bolls " + " | " + window:username
     Imba.mount <Profile>
+
+  def toDownloads from_build
+    clearSpace
+    flag("display_none")
+    if !from_build
+      window:history.pushState(
+          {
+            parallel: no,
+            downloads: yes
+          },
+          "downloads",
+          "/downloads/"
+        )
+    document:title = "Bolls " + " " + @langdata:download
+    Imba.mount <Downloads>
 
   def getNameOfBookFromHistory translation, bookid
     let books = []
@@ -916,7 +1010,7 @@ export tag Bible
 
   def turnHistory
     show_history = !show_history
-    settings_menu_left = -280
+    settings_menu_left = -300
     mobimenu = ''
 
   def clearHistory
@@ -983,23 +1077,23 @@ export tag Bible
   def toggleBibleMenu parallel
     if bible_menu_left
       bible_menu_left = 0
-      settings_menu_left = -280
+      settings_menu_left = -300
       mobimenu = 'show_bible_menu'
       if parallel
         parallel_text:edited_version = parallel_text:translation
       else
         parallel_text:edited_version = settings:translation
     else
-      bible_menu_left = -280
+      bible_menu_left = -300
       mobimenu = ''
 
   def toggleSettingsMenu
     if settings_menu_left
       settings_menu_left = 0
-      bible_menu_left = -280
+      bible_menu_left = -300
       mobimenu = 'show_settings_menu'
     else
-      settings_menu_left = -280
+      settings_menu_left = -300
       mobimenu = ''
 
   def toggleChronorder
@@ -1020,6 +1114,8 @@ export tag Bible
   def backInHistory h, parallel
     if parallel != undefined
       getParallelText(h:translation, h:book, h:chapter, h:verse)
+      parallel_text:display = yes
+      setCookie('parallel_display', parallel_text:display)
     else
       getText(h:translation, h:book, h:chapter, h:verse)
 
@@ -1034,11 +1130,9 @@ export tag Bible
   def translationFullName tr
     translations.find(do |translation| return translation:short_name == tr):full_name
 
-
-
   def render
     <self>
-      <nav css:left="{bible_menu_left}px" css:box-shadow="0 0 {(bible_menu_left + 280) / 8}px rgba(0, 0, 0, 0.3)">
+      <nav css:left="{bible_menu_left}px" css:box-shadow="0 0 {(bible_menu_left + 300) / 8}px rgba(0, 0, 0, 0.3)">
         if parallel_text:display
           <.choose_parallel>
             <p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -1071,7 +1165,7 @@ export tag Bible
                   <li.chapter_number  .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
           <.freespace>
 
-      <main#main tabindex="0" .parallel_text=parallel_text:display css:font-size="{settings:font}px">
+      <main#main tabindex="0" .parallel_text=parallel_text:display css:font-family=settings:font:family css:font-size="{settings:font:size}px">
         <section .parallel=parallel_text:display dir="auto">
           <header>
             <h1 :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
@@ -1132,7 +1226,7 @@ export tag Bible
             if choosenid:length
               <.freespace>
 
-      <aside css:right="{settings_menu_left}px" css:box-shadow="0 0 {(settings_menu_left + 280) / 8}px rgba(0, 0, 0, 0.3)">
+      <aside css:right="{settings_menu_left}px" css:box-shadow="0 0 {(settings_menu_left + 300) / 8}px rgba(0, 0, 0, 0.3)">
         <p.settings_header> langdata:other
         <input[search:search_input].search id='search' type='search' placeholder=langdata:search input:aria-label=langdata:search :keydown.enter.prevent.getSearchText> langdata:search
         <.nighttheme .theme_checkbox_light=(settings:theme=="light")>
@@ -1149,8 +1243,15 @@ export tag Bible
         <.nighttheme>
           langdata:font
           <a.great_B :tap.prevent.decreaceFontSize> "B-"
-          "{settings:font}"
+          "{settings:font:size}"
           <a.little_B :tap.prevent.increaceFontSize> "B+"
+        <.nighttheme css:flex-wrap="wrap">
+          langdata:font-family
+          <button.change_language :tap.prevent=(do show_fonts = !show_fonts)>
+            settings:font:name
+          <.languages .show_languages=show_fonts>
+            for font in fonts
+              <button :tap.prevent.setFontFamily(font)> font:name
         <.nighttheme>
           langdata:parallel
           <a.parallel_checkbox :tap.prevent.toggleParallelMode>
@@ -1176,8 +1277,18 @@ export tag Bible
             <button :tap.prevent.setLanguage('ukr')> "Українська"
             <button :tap.prevent.setLanguage('eng')> "English"
             <button :tap.prevent.setLanguage('ru')> "Русский"
-        <.help :tap.prevent.turnHistory> langdata:history
-        <a.help href="mailto:bpavlisinec@gmail.com" target="_blank"> langdata:help
+        <.help :tap.prevent.turnHistory>
+          langdata:history
+          <svg:svg.asidesvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <svg:title> langdata:history
+            <svg:path d="M0 0h24v24H0z" fill="none">
+            <svg:path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z">
+        <a.help href="mailto:bpavlisinec@gmail.com" target="_blank">
+          langdata:help
+          <svg:svg.asidesvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <svg:title> langdata:help
+            <svg:path fill="none" d="M0 0h24v24H0z">
+            <svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
         <.profile_in_settings>
           if user:name
             <a.username :tap.prevent.toProfile(no)> user:name
@@ -1185,6 +1296,14 @@ export tag Bible
           else
             <a.prof_btn href="/accounts/login/"> langdata:login, ' '
             <a.prof_btn.signin href="/signup/"> langdata:signin
+
+        if !on_electron
+          <a.help :click.prevent.toDownloads(no)>
+            langdata:download
+            <svg:svg.asidesvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <svg:title> langdata:download
+              <svg:path d="M0 0h24v24H0z" fill="none">
+              <svg:path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z">
         <.freespace>
         <footer>
           <address css:padding-bottom="4px">
