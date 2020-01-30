@@ -8,25 +8,16 @@ let user = {
   name: '',
   id: -1,
 }
-
 let limits_of_range = {
   from: 0,
   to: 32,
   loaded: 0
 }
-
 let verses = []
-
 let offline = false
 let query = ''
 let loading = no
-
-tag verse < span
-  def build
-    dom:innerHTML = @data
-
-  def render
-    <self>
+let show_options_of = ''
 
 export tag Profile
   prop langdata default: []
@@ -58,6 +49,7 @@ export tag Profile
     limits_of_range:loaded = 0
     @bookmarks = []
     query = ''
+    show_options_of = ''
     getProfileBookmarks limits_of_range:from, limits_of_range:to
     getCategories
 
@@ -75,12 +67,14 @@ export tag Profile
   def getCookie c_name
     return window:localStorage.getItem(c_name)
 
-  def loadData url
+  def isOnline
     if window:navigator:onLine
-      offline = false
+      offline = no
     else
-      offline = true
+      offline = yes
 
+  def loadData url
+    isOnline
     window.fetch(url).then do |res|
       return res.json
 
@@ -128,10 +122,12 @@ export tag Profile
         newItem:book = item:verse:book
         newItem:chapter = item:verse:chapter
         newItem:verse = [item:verse:verse]
+        newItem:pks = [item:verse:verse_id]
         newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
         if @bookmarks[@bookmarks:length - 1]
           if item:date == @bookmarks[@bookmarks:length - 1]:date.getTime
             @bookmarks[@bookmarks:length - 1]:verse.push(item:verse:verse)
+            @bookmarks[@bookmarks:length - 1]:pks.push(item:verse:verse_id)
             @bookmarks[@bookmarks:length - 1]:text.push(item:verse:text)
             @bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
           else
@@ -178,7 +174,6 @@ export tag Profile
     orphanize
     setTimeout(&,1200) do
       window:location:hash = "#{bookmark:verse[0]}"
-
 
   def ontouchstart touch
     self
@@ -243,23 +238,73 @@ export tag Profile
     @bookmarks = []
     getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 
-
   def scroll
     if (dom:clientHeight - 512 < window:scrollY + window:innerHeight) && !loading
       loading = yes
       getMoreBookmarks
 
+  def showOptions title
+    if show_options_of == title
+      show_options_of = ''
+    else
+      show_options_of = title
+
+  def deleteBookmark bookmark
+    isOnline
+    window.fetch("/delete-bookmarks/", {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        'X-CSRFToken': get_cookie('csrftoken'),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        verses: JSON.stringify(bookmark:pks),
+        user: user:id,
+      }),
+    })
+    .then(do |response| response.json())
+    .then(do |data| console.log data)
+    for verse in bookmark:verse
+      if @bookmarks.find(do |bm| return bm:pks == bookmark:pks)
+        @bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
+        Imba.commit
+    Imba.commit
+
+  def get_cookie name
+    let cookieValue = null
+    if document:cookie && document:cookie !== ''
+      let cookies = document:cookie.split(';')
+      for i in cookies
+        let cookie = i.trim()
+        if (cookie.substring(0, name:length + 1) === (name + '='))
+          cookieValue = window.decodeURIComponent(cookie.substring(name:length + 1))
+          break
+    return cookieValue
+
+  def copyToClipboard bookmark
+    let aux = document.createElement("textarea")
+    let value = '"'
+    value += bookmark:text + '"\n\n' + bookmark:title
+    if getCookie('clear_copy') != 'true'
+      value += ' ' + bookmark:translation + ' ' + "https://bolls.life" + '/'+ bookmark:translation + '/' + bookmark:book + '/' + bookmark:chapter + '/' + bookmark:verse.sort(do |a, b| return a - b)[0]
+    aux:textContent = value
+    document:body.appendChild(aux)
+    aux.select()
+    document.execCommand("copy")
+    document:body.removeChild(aux)
+    show_options_of = ''
 
   def render
     <self :onscroll=scroll>
       <section.profile_block>
         <header.profile_hat>
-          if !query && @categories:length
+          if !query
             <.collectionsflex css:flex-wrap="wrap">
               <svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
                 <svg:title>  @langdata:back
                 <svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-              <h1> user:name
+              <h1> user:name.charAt(0).toUpperCase() + user:name.slice(1)
             <.collectionsflex css:flex-wrap="wrap">
               for category in @categories
                 if category
@@ -278,6 +323,12 @@ export tag Profile
             <p.dataflex>
               <span.booktitle dir="auto"> bookmark:title, ' ', bookmark:translation
               <time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
+              <svg:svg._options :tap.prevent.showOptions(bookmark:title) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <svg:path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z">
+              <.languages css:right="{window:innerWidth > 1200 ? (window:innerWidth - 1140) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
+                <button :tap.prevent.goToBookmark(bookmark)> @langdata:open
+                <button :tap.prevent.copyToClipboard(bookmark)> @langdata:copy
+                <button :tap.prevent.deleteBookmark(bookmark)> @langdata:delete
           <hr.hr>
         if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
           <Load css:padding="128px 0">

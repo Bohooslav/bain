@@ -19,8 +19,8 @@ let settings = {
   chapter: 1,
   font: {
     size: 24,
-    family: "Sans, Sans-serif",
-    name: "Sans, Sans-serif"
+    family: "sans, sans-serif",
+    name: "Sans"
   },
   language: 'eng'
   clear_copy: no,
@@ -57,6 +57,7 @@ let onpopstate = no
 let loading = no
 let menuicons = yes
 let show_fonts = no
+let show_help = no
 let fonts = [
   {
     name: "David Libre",
@@ -222,14 +223,14 @@ export tag Bible
     if getCookie('language')
       settings:language = getCookie('language')
     else
-      switch window:navigator:language
+      switch window:navigator:language.slice(0, 2)
         when 'uk'
           settings:language = 'ukr'
           if !window:translation
             settings:translation = 'UKRK'
           setCookie('language', settings:language)
           document:lastChild:lang = "uk"
-        when 'ru-RU'
+        when 'ru'
           settings:language = 'ru'
           if !window:translation
             settings:translation = 'SYNOD'
@@ -408,11 +409,12 @@ export tag Bible
 
   def mount
     let search = document.getElementById('search_body')
-    search:onscroll = do
-      if this:scrollTop > this:scrollHeight - this:clientHeight - 512
-        self:_search:counter += 20
-        Imba.commit
-        scheduler.mark
+    if search
+      search:onscroll = do
+        if this:scrollTop > this:scrollHeight - this:clientHeight - 512
+          self:_search:counter += 20
+          Imba.commit
+          scheduler.mark
 
   def getParallelText translation, book, chapter, verse
     if !(translation == parallel_text:translation && book == parallel_text:book && chapter == parallel_text:chapter) || !@parallel_verses:length || !parallel_text:display
@@ -486,10 +488,18 @@ export tag Bible
     show_color_picker = no
     show_collections = no
     choosen_parallel = no
+    show_help = no
     choosen_categories = []
     if document.getElementById('main')
       document.getElementById('main').focus()
     Imba.commit
+
+  def turnHelpBox
+    if show_help
+      clearSpace
+    else
+      clearSpace
+      show_help = !show_help
 
   def toggleParallelMode
     if parallel_text:display
@@ -957,7 +967,7 @@ export tag Bible
         if choosenid.find(do |element| return element == verse:pk)
           value += verse:text + ' '
     if choosen_parallel == 'second'
-      value += '" ' + getHighlightedRow
+      value += '"\n\n' + getHighlightedRow
       if !settings:clear_copy
         value += ' ' + parallel_text:translation + ', ' + "https://bolls.life" + '/' + parallel_text:translation + '/' + parallel_text:book + '/' + parallel_text:chapter
     else
@@ -1233,9 +1243,12 @@ export tag Bible
           langdata:theme
           <.theme_checkbox :tap.prevent.changeTheme>
             if settings:theme == "dark"
-              <svg:svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="913.059px" height="913.059px" viewBox="0 0 913.059 913.059" style="enable-background:new 0 0 913.059 913.059;" xml:space="preserve">
-                <svg:title> @langdata:lighttheme
-                <svg:path d="M789.581,777.485c62.73-62.73,103.652-139.002,122.785-219.406c5.479-23.031-22.826-38.58-39.524-21.799   c-0.205,0.207-0.41,0.412-0.615,0.617c-139.57,139.57-367.531,136.879-503.693-8.072   c-128.37-136.658-126.685-348.817,3.673-483.579c1.644-1.699,3.3-3.378,4.97-5.037c16.744-16.635,1.094-44.811-21.869-39.354   c-79.689,18.938-155.326,59.276-217.75,121.035c-182.518,180.576-183.546,473.345-2.245,655.14   C315.821,958.032,608.883,958.182,789.581,777.485z">
+              <svg:svg css:transform="scale(1.2)" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
+                <svg:g>
+                  <svg:rect fill="none" height="24" width="24">
+                <svg:g>
+                  <svg:path d="M11.1,12.08C8.77,7.57,10.6,3.6,11.63,2.01C6.27,2.2,1.98,6.59,1.98,12c0,0.14,0.02,0.28,0.02,0.42 C2.62,12.15,3.29,12,4,12c1.66,0,3.18,0.83,4.1,2.15C9.77,14.63,11,16.17,11,18c0,1.52-0.87,2.83-2.12,3.51 c0.98,0.32,2.03,0.5,3.11,0.5c3.5,0,6.58-1.8,8.37-4.52C18,17.72,13.38,16.52,11.1,12.08z">
+                <svg:path d="M7,16l-0.18,0C6.4,14.84,5.3,14,4,14c-1.66,0-3,1.34-3,3s1.34,3,3,3c0.62,0,2.49,0,3,0c1.1,0,2-0.9,2-2 C9,16.9,8.1,16,7,16z">
             else
               <svg:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <svg:title> @langdata:nihttheme
@@ -1251,7 +1264,7 @@ export tag Bible
             settings:font:name
           <.languages .show_languages=show_fonts>
             for font in fonts
-              <button :tap.prevent.setFontFamily(font)> font:name
+              <button :tap.prevent.setFontFamily(font) css:font-family=font:code> font:name
         <.nighttheme>
           langdata:parallel
           <a.parallel_checkbox :tap.prevent.toggleParallelMode>
@@ -1283,7 +1296,8 @@ export tag Bible
             <svg:title> langdata:history
             <svg:path d="M0 0h24v24H0z" fill="none">
             <svg:path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z">
-        <a.help href="mailto:bpavlisinec@gmail.com" target="_blank">
+        # <a.help href="mailto:bpavlisinec@gmail.com" target="_blank">
+        <a.help :click.prevent.turnHelpBox()>
           langdata:help
           <svg:svg.asidesvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <svg:title> langdata:help
@@ -1305,22 +1319,22 @@ export tag Bible
               <svg:path d="M0 0h24v24H0z" fill="none">
               <svg:path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z">
         <.freespace>
-        <footer>
-          <address css:padding-bottom="4px">
-            <a href="/api"> "© "
-              <time time:datetime="2020-01-22T12:38"> "2019-2020"
-              " Павлишинець Богуслав"
+        <footer css:padding-bottom="4px">
+          <a href="/api">
+            "© "
+            <time time:datetime="2020-01-22T12:38"> "2019-2020"
+            " Павлишинець Богуслав"
 
       <section.search_results .show_search_results=search:search_div>
         <article.search_hat>
           <svg:svg.close_search :tap.prevent.closeSearch(true) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
-            <svg:title> langdata:close_search
+            <svg:title> langdata:close
             <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
           <h1> search:search_result_header
           <svg:svg.filter_search .filter_search_hover=search:show_filters||search:is_filter :tap.prevent=(do search:show_filters = !search:show_filters) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
             <svg:title> langdata:addfilter
             <svg:path d="M12 12l8-8V0H0v4l8 8v8l4-4v-4z">
-        <article#search_body tabindex="0">
+        <article.search_body tabindex="0">
           if @search_verses:length
             if search:show_filters
               <.filters>
@@ -1461,7 +1475,7 @@ export tag Bible
       <section.history.filters .show_history=show_history>
         <.nighttheme css:margin="0">
           <svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
-              <svg:title> langdata:close_search
+              <svg:title> langdata:close
               <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
           <h1 css:margin="0 0 0 8px"> langdata:history
           <svg:svg.close_search :tap.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="padding: 0; margin: 0 12px 0 16px; width: 32px;" alt=langdata:delete css:margin-left="auto">
@@ -1483,6 +1497,25 @@ export tag Bible
           else
             <p css:padding="12px"> langdata:empty_history
 
+      <.search_results .show_search_results=show_help>
+        <article.search_hat>
+          <svg:svg.close_search :tap.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
+            <svg:title> @langdata:close
+            <svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
+          <h1> @langdata:help
+          <svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" tabindex="0">
+            <svg:title> langdata:help
+            <svg:path fill="none" d="M0 0h24v24H0z">
+            <svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
+        <article#helpFAQ.search_body tabindex="0">
+          <p style="color: var(--accent-hover-color); font-size: 0.9em;"> @langdata:faqmsg
+          for q in @langdata:HB
+            <h3> q[0]
+            <p> q[1]
+          <address.still_have_questions>
+            @langdata:still_have_questions
+            <a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
+
       if menuicons
         <svg:svg.navigation :tap.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
           <svg:title> langdata:change_book
@@ -1502,8 +1535,6 @@ export tag Bible
         <Load style="position: fixed; top: 50%; left: 50%;">
 
 tag verse < span
-  def mount
-    dom:innerHTML = @data:text
-
   def render
+    dom:innerHTML = @data:text
     <self>

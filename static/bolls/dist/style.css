@@ -16,6 +16,10 @@ html[data-theme='light'] {
   --btn-bg-hover: #47f1;
 }
 
+html[data-theme="loading"] {
+  background-color: #04060C;
+}
+
 * {
   box-sizing: border-box;
   scrollbar-color: var(--btn-bg-hover) #00000000;
@@ -61,6 +65,7 @@ body {
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
+  min-height: 100vh;
 }
 
 ul,
@@ -591,16 +596,20 @@ aside {
 .languages {
   background: var(--background-color);
   position: absolute;
-  right: 64px;
+  right: 32px;
   transform: scale(0.75);
+  border: 1px solid var(--btn-bg-hover);
+  border-radius: 4px;
   visibility: hidden;
   opacity: 0;
+  z-index: calc(inherit + 1);
 }
 
 .show_languages {
-  transform: scale(1);
+  transform: translateY(-32px);
   visibility: visible;
   opacity: 1;
+  z-index: 10000000;
 }
 
 .languages button {
@@ -744,7 +753,7 @@ aside {
   fill: var(--accent-hover-color);
 }
 
-#search_body {
+.search_body {
   overflow-y: auto;
   height: calc(100% - 50px);
 }
@@ -950,6 +959,19 @@ aside {
   cursor: default;
 }
 
+._options {
+  height: 1.5em;
+  width: 1.5em;
+  fill: var(--btn-bg);
+  cursor: pointer;
+  display: inline-block;
+}
+
+._options:hover {
+  fill: var(--btn-bg-hover);
+}
+
+
 .booktitle {
   font-size: 0.875em;
   opacity: 0.75;
@@ -1138,12 +1160,12 @@ aside {
   left: 8px;
 }
 
-address a {
+footer a {
   color: #888;
   font-size: 12px;
 }
 
-address a:hover {
+footer a:hover {
   color: #9ab;
 }
 
@@ -1192,6 +1214,7 @@ figcaption {
   border-radius: 4px;
   cursor: pointer;
 }
+
 #download-bolls:hover {
   background-color: var(--accent-hover-color);
   transform: scale(1.05) translateY(-2px);
@@ -1223,4 +1246,30 @@ figcaption {
   margin: 4vw auto;
   font-size: 2.3em;
   max-width: 800px;
+}
+
+#helpFAQ{
+  text-indent: 4vw;
+}
+
+#helpFAQ h3 {
+  margin: 24px 0 12px;
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+#helpFAQ p {
+  line-height: 1.5;
+}
+
+.still_have_questions {
+  margin: 128px 0 16px;
+}
+
+address a {
+  color: var(--accent-color);
+}
+
+address a:hover{
+  color: var(--accent-hover-color);
 }

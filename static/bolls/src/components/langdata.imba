@@ -6,6 +6,7 @@ export const en_leng = {
   font-family: "Font family",
   parallel: "Parallel view",
   open_in_parallel: "Open in parallel view",
+  open: "Open",
   drop_filter: "Drop filter",
   filter_name: "Filter:",
   more_results: "More",
@@ -27,7 +28,6 @@ export const en_leng = {
   prew: 'Prew',
   next: 'Next',
   addfilter: 'Add filter',
-  close_search: 'Close search',
   nighttheme: 'Turn on night theme',
   lighttheme: 'Turn on light theme',
   canvastitle: 'Pick a color to highlight choosen verses',
@@ -38,9 +38,9 @@ export const en_leng = {
   cancel: "Cancel",
   saveto: "Save to",
   save: "Save",
+  back: "Back",
   addcollection: "Add a collection",
   newcollection: "New collection",
-  back: "Back",
   chronological_order: "Chronological Order",
   reload: "Reload",
   change_translation: "Change translation",
@@ -49,6 +49,22 @@ export const en_leng = {
   download-for: "Download for",
   snapstore: "Get it from the Snap Store",
   exhortation: "A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura!",
+  faqmsg: "Here you can find answers to FAQ",
+  still_have_questions: "Still have questions or some ideas? Write me and I will answer you as soon as I can:",
+  HB: [
+    [
+      "Where to find the necessary translation?",
+      "On the desktop, hover your mouse under mostleft edge of window or press the book icon at the up, on mobile phone swipe to right from the left edge of the screen and you will see the books menu, where just click on the translation abbreviation up and you will see all available translations."
+    ],
+    [
+      "Why register?",
+      "To save there your bookmarks, and get them available via your browser across all platforms"
+    ],
+    [
+      "Where to see highlighted texts?",
+      "On the desktop, hover your mouse under mostright edge of window or press the menu icon at the up, on mobile phone swipe to left from the right edge of the screen and you will see the menu, where just click on your username below and you will see all youe highlightes."
+    ]
+  ]
 }
 
 export const uk_leng = {
@@ -59,6 +75,7 @@ export const uk_leng = {
   font-family: "Шрифт",
   parallel: "Паралель",
   open_in_parallel: "Відкрити в паралелі",
+  open: "Відкрити",
   drop_filter: "Скинути фільтр",
   filter_name: "Фільтр:",
   more_results: "Більше",
@@ -80,7 +97,6 @@ export const uk_leng = {
   prew: 'Попередня глава',
   next: 'Наступна глава',
   addfilter: 'Додати фільтр',
-  close_search: 'Закрити пошук',
   nighttheme: 'Увімкнути нічну тему',
   lighttheme: 'Увіскнути світлу тему',
   canvastitle: 'Натицькайте колір',
@@ -91,9 +107,9 @@ export const uk_leng = {
   cancel: "Відмінити",
   saveto: "Зберегти до",
   save: "Зберегти",
+  back: "Назад",
   addcollection: "Створити колекцію",
   newcollection: "Нова колекція",
-  back: "Назад",
   chronological_order: "Хронологічний порядок",
   reload: "Перезавантажити",
   change_translation: "Змінити переклад",
@@ -102,6 +118,22 @@ export const uk_leng = {
   download-for: "Завантажити для",
   snapstore: "Отримати через Snap Store",
   exhortation: "Веб-додаток для читання Біблії з повним акцентом лише на Божому Cлові. Sola scriptura!",
+  faqmsg: "Тут ви зможете знайти відповіді на питання що часто задаються",
+  still_have_questions: "Все ще маєте запитання чи якісь ідеї? Напиши мені, і я відповім як тільки зможу:",
+  HB: [
+    [
+      "Де знайти необхідний переклад?",
+      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгору і ви побачите всі доступні переклади."
+    ],
+    [
+      "Для чого потрібно реєструватися?",
+      "Щоб зберігати там свої закладки та мати їх доступними через ваш браузер на всіх платформах"
+    ],
+    [
+      "Де побачити виділені тексти?",
+      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть піктограму меню вгорі, на мобільному телефоні проведіть пальцем ліворуч від правого краю екрана, і ви побачите меню, де просто натисніть своє ім’я користувача нижче, і ви побачите усі виділені вами тексти"
+    ]
+  ]
 }
 
 export const ru_leng = {
@@ -112,6 +144,7 @@ export const ru_leng = {
   font-family: "Шрифт",
   parallel: "Паралель",
   open_in_parallel: "Открыть в паралели",
+  open: "Открыть",
   drop_filter: "Сбросить фильтр",
   filter_name: "Фильтр:",
   more_results: "Больше",
@@ -133,7 +166,6 @@ export const ru_leng = {
   prew: 'Предыдущая глава',
   next: 'Следущая глава',
   addfilter: 'Добавить фильтр',
-  close_search: 'Закрыть поиск',
   nighttheme: 'Включить ночную тему',
   lighttheme: 'Включить светлую тему',
   canvastitle: 'Выберите цвет',
@@ -144,9 +176,9 @@ export const ru_leng = {
   cancel: "Отменить",
   saveto: "Сохранить к",
   save: "Сохранить",
+  back: "Назад",
   addcollection: "Создать кллекцию",
   newcollection: "Новая коллекция",
-  back: "Назад",
   chronological_order: "Хронологический порядок",
   reload: "Обновить",
   change_translation: "Поменять перевод",
@@ -155,4 +187,20 @@ export const ru_leng = {
   download-for: "Скачать для",
   snapstore: "Получить через Snap Store",
   exhortation: "Веб-приложение для чтения Библии с полным акцентом только на Божьем Cлове. Sola scriptura!",
+  faqmsg: "Здесь вы сможете найти ответы на часто задаваемые вопросы",
+  still_have_questions: "Все еще есть вопросы или идеи? Напишите мне, и я отвечу вам, как только смогу:",
+  HB: [
+    [
+      "Где найти нужный перевод?",
+      "На рабочем столе наведите указатель мыши на крайнюю левую сторону окна или нажмите на значок книги вверху, а на мобильном телефоне проведите вправо от левого края экрана, и вы увидите меню книг, где просто нажмите на аббревиатуру вверху, и вы увидите все доступные переводы."
+    ],
+    [
+      "Для чего нужно регистрироваться?",
+      "Чтобы хранить там свои закладки и иметь их доступными через ваш браузер на всех платформах"
+    ],
+    [
+      "Где увидеть выделеные тексты?",
+      "На рабочем столе наведите курсор мыши на крайний правый край окна или нажмите значок меню вверху, на мобильном телефоне проведите влево от правого края экрана, и вы увидите меню, где просто щелкните свое имя пользователя ниже и вы увидите все ваши выделеные тексты"
+    ]
+  ]
 }

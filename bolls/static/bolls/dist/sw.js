@@ -20,17 +20,17 @@ self.addEventListener('install', function (event) {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((resp) => {
-      return fetch(event.request).then((response) => {
+      return resp || fetch(event.request).then((response) => {
         let responseClone = response.clone();
-        if (event.request.url.includes("get-bookmarks") || event.request.url.includes("get-categories") || event.request.url.includes("get-profile-bookmarks") || event.request.url.includes("get-searched-bookmarks") || event.request.url.includes("signup") || event.request.url.includes("accounts"))
-          return responseClone;
+        if (event.request.url.includes("get-bookmarks") || event.request.url.includes("get-categories") || event.request.url.includes("get-profile-bookmarks") || event.request.url.includes("get-searched-bookmarks") || event.request.url.includes("signup") || event.request.url.includes("accounts") || event.request.method == "POST")
+          return response;
 
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseClone);
         });
 
         return response;
-      }) || resp;
+      });
     }).catch(() => {
       return caches.match('/');
     })
