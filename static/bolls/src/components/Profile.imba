@@ -317,7 +317,7 @@ export tag Profile
               <h1> query
         for bookmark in @bookmarks
           <article.bookmark_in_list css:border-color="{bookmark:color}">
-            <verse[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
+            <text-as-html[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
             if bookmark:note
               <p.note> bookmark:note
             <p.dataflex>

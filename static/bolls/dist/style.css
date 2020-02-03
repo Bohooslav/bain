@@ -16,7 +16,7 @@ html[data-theme='light'] {
   --btn-bg-hover: #47f1;
 }
 
-html[data-theme="loading"] {
+html[data-theme="loading"] body {
   background-color: #04060C;
 }
 
@@ -103,7 +103,6 @@ h1 {
 
 h1,
 main span,
-.filters,
 ._colorpicker,
 .bookmark_in_list,
 .collectionsflex,
@@ -128,6 +127,12 @@ nav {
   background-color: var(--background-color);
   padding: 32px 0;
   z-index: 999;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .chronological_order {
@@ -222,6 +227,7 @@ nav {
   padding: 12px 8px;
   height: auto;
   cursor: pointer;
+  width: 100%;
 }
 
 .list_of_chapters {
@@ -263,7 +269,7 @@ nav {
 }
 
 .freespace {
-  min-height: 256px;
+  min-height: 128px;
 }
 
 main {
@@ -271,7 +277,8 @@ main {
   width: 100%;
   padding: 4vw 3vw;
   color: var(--text-color);
-  line-height: 1.5;
+  line-height: 1.6em;
+  margin: auto;
 }
 
 .navigation {
@@ -427,11 +434,12 @@ main span {
   fill: firebrick;
 }
 
-.addbuttons {
+#addbuttons {
   display: flex;
   grid-gap: 4px;
   margin: 0px auto;
   width: 320px;
+  justify-content: space-evenly;
 }
 
 .save_bookmark {
@@ -440,7 +448,6 @@ main span {
   padding: 12px 0;
   fill: var(--text-color);
   cursor: pointer;
-  margin: auto;
 }
 
 .save_bookmark:hover {
@@ -471,6 +478,7 @@ main span {
 .arrow:hover {
   background-color: var(--btn-bg);
   border-radius: 50%;
+  fill: var(--accent-hover-color);
 }
 
 .arrow_next {
@@ -491,12 +499,17 @@ aside {
   padding: 32px 12px;
   z-index: 4;
   overflow-y: auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .settings_header {
   font-size: 24px;
   text-align: center;
-  margin: 0 0 23px 0;
   cursor: default;
 }
 
@@ -508,17 +521,32 @@ aside {
   height: 38px;
 }
 
-.username::selection,
-.prof_btn::selection,
-.translation_name::selection,
-.book_in_list::selection,
-.chapter_number::selection,
-.verse::selection,
-.nighttheme::selection,
-.help::selection,
-.great_B::selection {
-  color: inherit;
-  background-color: transparent;
+.btnbox {
+  cursor: pointer;
+  height: 46px;
+}
+
+.cbtn {
+  width: 50%;
+  height: 100%;
+  fill: var(--text-color);
+}
+
+.cbtn:hover {
+  fill: var(--accent-hover-color);
+  background-color: var(--btn-bg-hover);
+  border-radius: 8px;
+}
+
+.verse,
+nav,
+aside {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .theme_checkbox {
@@ -597,7 +625,7 @@ aside {
   background: var(--background-color);
   position: absolute;
   right: 32px;
-  transform: scale(0.75);
+  transform: scale(0.95);
   border: 1px solid var(--btn-bg-hover);
   border-radius: 4px;
   visibility: hidden;
@@ -636,7 +664,7 @@ aside {
   background: var(--btn-bg);
   border: 1px solid var(--btn-bg);
   border-radius: 4px;
-  margin: 16px 0;
+  margin: 24px 0;
   color: inherit;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -691,6 +719,7 @@ aside {
   width: 80%;
   top: 100%;
   right: 10%;
+  max-width: 60em;
   background: var(--background-color);
   position: fixed;
   border: 1px solid var(--btn-bg-hover);
@@ -725,16 +754,15 @@ aside {
   cursor: pointer;
 }
 
+#remove_parallel {
+  width: 22px;
+  padding: 0;
+  margin: 0 4px 0 -2px;
+  height: 32px;
+}
+
 .close_search:hover {
   fill: firebrick;
-}
-
-.close_search #line1 {
-  transform: matrix(0.7071, -0.7071, 0.7071, 0.7071, -2.6776695296636888, 13.606601717798211);
-}
-
-.close_search #line2 {
-  transform: matrix(0.7071, 0.7071, -0.7071, 0.7071, 11.464466094067262, -7.748737341529164);
 }
 
 .filter_search {
@@ -771,7 +799,6 @@ aside {
 }
 
 .search_res_verse_text {
-  margin: 0 12px 0 0;
   font-size: 1.1em;
   cursor: pointer;
   line-height: 1.25;
@@ -783,8 +810,12 @@ aside {
 
 .search_res_verse_header {
   text-align: right;
-  margin: 8px 0 16px;
+  margin: 4px 0 16px;
   cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  white-space: break-spaces;
 }
 
 .more_results {
@@ -803,6 +834,8 @@ aside {
 .filters {
   position: absolute;
   display: block;
+  visibility: hidden;
+  transform: scale(0.96) translateY(-16px);
   top: 4%;
   right: 48px;
   max-height: 92%;
@@ -813,6 +846,7 @@ aside {
   border-radius: 16px;
   border: 1px solid var(--btn-bg-hover);
   box-shadow: 0 14px 28px #04060c40, 0 10px 10px #04060c38;
+  opacity: 0;
 }
 
 .book_in_filter {
@@ -989,11 +1023,6 @@ aside {
   flex-direction: column;
 }
 
-.search {
-  margin: 16px 0;
-  color: inherit;
-}
-
 .bookmark_search:focus {
   background: var(--btn-bg-hover);
 }
@@ -1014,6 +1043,8 @@ aside {
   right: 3vw;
   top: 2%;
   visibility: visible;
+  opacity: 1;
+  transform: none;
 }
 
 .historylist {
@@ -1025,7 +1056,6 @@ aside {
   max-width: 32px;
   min-width: 32px;
   width: 32px;
-  margin-left: auto;
   margin-right: 8px;
   padding: 4px;
   fill: var(--text-color);
@@ -1248,7 +1278,24 @@ figcaption {
   max-width: 800px;
 }
 
-#helpFAQ{
+.install_on_android {
+  max-width: 1000px;
+  display: block;
+  margin: auto;
+  line-height: 1.5;
+  opacity: 0.8;
+  padding: 16vh 8px;
+}
+
+.install_on_android a {
+  color: var(--accent-color);
+}
+
+.install_on_android a:hover {
+  color: var(--accent-hover-color);
+}
+
+#helpFAQ {
   text-indent: 4vw;
 }
 
@@ -1270,6 +1317,23 @@ address a {
   color: var(--accent-color);
 }
 
-address a:hover{
+address a:hover {
   color: var(--accent-hover-color);
+}
+
+.background-dark {
+  margin: auto;
+  width: 100%;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+@media screen and (min-width: 1600px) {
+  .search_results {
+    right: calc((100vw - 60em) / 2);
+  }
 }

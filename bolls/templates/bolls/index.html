@@ -7,15 +7,13 @@
     <title>Bolls Bible</title>
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
-    <link href="https://fonts.googleapis.com/css?family=Bellefair|David+Libre|M+PLUS+1p|Roboto|Roboto+Slab&display=swap&subset=cyrillic,greek,greek-ext,hebrew,japanese,vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bellefair|David+Libre|M+PLUS+1p|Roboto+Slab&display=swap&subset=cyrillic,greek,greek-ext,hebrew,japanese,vietnamese" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
     {% if translation %}
       <link rel="canonical" href="https://bolls.life//{{translation}}/{{book}}/{{chapter}}/">
-    {% comment %} {% else %}
-      <link rel="canonical" href="https://bolls.life/"> {% endcomment %}
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="keywords" content="Bible,Біблія,Библия,read,find,{{translation}},NT,OT">

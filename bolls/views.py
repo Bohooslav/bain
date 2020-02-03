@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from bolls.forms import SignUpForm
-from .models import Verses, Bookmarks
+from .models import Verses, Bookmarks, History
 
 
 def index(request):
@@ -88,11 +88,9 @@ def getBookmarks(request, translation, book, chapter):
 @login_required
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
-
     bookmarks = []
     for bookmark in user.bookmarks_set.all().order_by(
             '-date', 'verse')[range_from:range_to]:
-
         bookmarks.append({
             "verse": {
                 "verse_id": bookmark.verse.pk,
@@ -140,17 +138,46 @@ def getCategories(request):
 
 
 @login_required
+def getParallelVerses(request):
+    received_json_data = json.loads(request.body)
+    chapter = received_json_data["chapter"]
+    book = received_json_data["book"]
+    response = []
+    for translation in ast.literal_eval(received_json_data["translations"]):
+        verses = []
+        for verse in ast.literal_eval(received_json_data["verses"]):
+            v = Verses.objects.filter(
+                translation=translation, book=book, chapter=chapter, verse=verse)
+            if len(v):
+                for item in v:
+                    verses.append({
+                        "verse_id": item.pk,
+                        "translation": item.translation,
+                        "book": item.book,
+                        "chapter": item.chapter,
+                        "verse": item.verse,
+                        "text": item.text,
+                    })
+            else:
+                verses.append({
+                    "translation": translation,
+                })
+        response.append(verses)
+    return JsonResponse(response, safe=False)
+
+
+@login_required
 def saveBookmarks(request):
     received_json_data = json.loads(request.body)
-    user = User.objects.get(pk=received_json_data["user"])
-
+    user = request.user
     for verseid in ast.literal_eval(received_json_data["verses"]):
         verse = Verses.objects.get(pk=verseid)
         try:
             obj = user.bookmarks_set.get(user=user, verse=verse)
-            user.bookmarks_set.filter(
-                user=user, verse=verse).update(
-                    date=received_json_data["date"], color=received_json_data["color"], note=received_json_data["notes"])
+            obj.date = received_json_data["date"]
+            obj.color = received_json_data["color"]
+            obj.note = received_json_data["notes"]
+            obj.save()
         except Bookmarks.DoesNotExist:
             user.bookmarks_set.create(
                 verse=verse, date=received_json_data["date"], color=received_json_data["color"], note=received_json_data["notes"])
@@ -158,9 +185,32 @@ def saveBookmarks(request):
 
 
 @login_required
+def saveHistory(request):
+    received_json_data = json.loads(request.body)
+    user = request.user
+    try:
+        obj = user.history_set.get(user=user)
+        obj.history = received_json_data["history"]
+        obj.save()
+    except History.DoesNotExist:
+        user.history_set.create(history=received_json_data["history"])
+    return JsonResponse({"response": "200"}, safe=False)
+
+
+@login_required
+def getHistory(request):
+    user = request.user
+    try:
+        obj = user.history_set.get(user=user)
+        return JsonResponse({"history": obj.history}, safe=False)
+    except History.DoesNotExist:
+        return JsonResponse({"history": "[]"}, safe=False)
+
+
+@login_required
 def deleteBookmarks(request):
     received_json_data = json.loads(request.body)
-    user = User.objects.get(pk=received_json_data["user"])
+    user = request.user
     for verseid in ast.literal_eval(received_json_data["verses"]):
         verse = Verses.objects.get(pk=verseid)
         user.bookmarks_set.filter(verse=verse).delete()
@@ -178,6 +228,7 @@ def robots(request):
 
 def api(request):
     return render(request, 'bolls/api.html')
+
 
 def downloads(request):
     return render(request, 'bolls/downloads.html')

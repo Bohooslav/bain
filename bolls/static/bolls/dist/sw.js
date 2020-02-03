@@ -1,10 +1,11 @@
-var CACHE_NAME = 'v1.2.0';
+var CACHE_NAME = 'v1.2.5';
 var urlsToCache = [
   '/',
   '/static/light.png',
   '/static/bolls/dist/style.css',
   '/static/bolls/dist/mobile_styles.css',
   '/static/bolls/dist/client.js',
+  '/static/bolls/dist/8.jpg',
 ];
 
 self.addEventListener('install', function (event) {
@@ -22,13 +23,12 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then((resp) => {
       return resp || fetch(event.request).then((response) => {
         let responseClone = response.clone();
-        if (event.request.url.includes("get-bookmarks") || event.request.url.includes("get-categories") || event.request.url.includes("get-profile-bookmarks") || event.request.url.includes("get-searched-bookmarks") || event.request.url.includes("signup") || event.request.url.includes("accounts") || event.request.method == "POST")
+        if (event.request.url.includes("get-bookmarks") || event.request.url.includes("get-categories") || event.request.url.includes("get-profile-bookmarks") || event.request.url.includes("get-searched-bookmarks") || event.request.url.includes("signup") || event.request.url.includes("get-history") || event.request.url.includes("accounts") || event.request.method == "POST")
           return response;
 
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseClone);
         });
-
         return response;
       });
     }).catch(() => {
@@ -39,7 +39,6 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', (event) => {
   var cacheKeeplist = [CACHE_NAME];
-
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(keyList.map((key) => {
@@ -49,4 +48,5 @@ self.addEventListener('activate', (event) => {
       }));
     })
   );
+  console.log('👷', 'SW is activated');
 });

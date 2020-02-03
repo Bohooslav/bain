@@ -4,6 +4,10 @@ export const en_leng = {
   theme: "Light theme",
   font: "Font size",
   font-family: "Font family",
+  increace_line-height: "Increace line height",
+  decreace_line-height: "Decreace line height",
+  decreace_max-width: "Increace width",
+  increace_max-width: "Decreace width",
   parallel: "Parallel view",
   open_in_parallel: "Open in parallel view",
   open: "Open",
@@ -19,8 +23,14 @@ export const en_leng = {
   help: "Help",
   signin: "Sign up",
   close: "Close",
-  delete: "Delete",
+  delete: "Remove",
   verse_break: "Verse wrap",
+  compare: "Compare",
+  move_up: "Move up",
+  move_down: "Move down",
+  add_translations_msg: "Add translations for comparison",
+  add_translations_btn: "Add translations",
+  the_verse_is_not_available: "The verse is not available in translation: ",
   copy: "Copy",
   clear_copy: "Clear copying",
   addtocollection: "Add to collection",
@@ -51,6 +61,7 @@ export const en_leng = {
   exhortation: "A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura!",
   faqmsg: "Here you can find answers to FAQ",
   still_have_questions: "Still have questions or some ideas? Write me and I will answer you as soon as I can:",
+  install_on_android: '* You can also install this web app on your phone or tablet running on <b>Android</b>. For that go to Google Chrome and open <a href="https://bolls.life">bolls.life</a> in the address line or found in Google "Bolls Bible". Then you should see a message at the bottom of your screen "Add Bolls to home screen". Tap on this message and submit. Then wait a moment and this app will be installed on your phone as a native app. If the message is not showing to you, find "Add to home screen" in the site menu in chrome or in other browser and the effect will be the same.<br/><br/>* On iPhone with iOS <= 12 you also can add the app on your home screen and it will be like a native app, just press the share icon below and found the "Add to home screen" option.',
   HB: [
     [
       "Where to find the necessary translation?",
@@ -58,7 +69,7 @@ export const en_leng = {
     ],
     [
       "Why register?",
-      "To save there your bookmarks, and get them available via your browser across all platforms"
+      "To save there your bookmarks, and get them available via your browser across all platforms."
     ],
     [
       "Where to see highlighted texts?",
@@ -73,6 +84,10 @@ export const uk_leng = {
   theme: "Світла тема",
   font: "Розмір шрифту",
   font-family: "Шрифт",
+  increace_line-height: "Збільшити висоту рядка",
+  decreace_line-height: "Зменшити висоту рядка",
+  decreace_max-width: "Збільшити ширину",
+  increace_max-width: "Зменшити ширину",
   parallel: "Паралель",
   open_in_parallel: "Відкрити в паралелі",
   open: "Відкрити",
@@ -90,6 +105,12 @@ export const uk_leng = {
   close: "Закрити",
   delete: "Видалити",
   verse_break: "Розрив віршів",
+  compare: "Порівняти",
+  move_up: "Підняти",
+  move_down: "Опустити",
+  add_translations_msg: "Додайте переклади для порівняння",
+  add_translations_btn: "Добавити переклади",
+  the_verse_is_not_available: "Цей вірш відсутній у перекладі: ",
   copy: "Копіювати",
   clear_copy: "Чисте копіювання",
   addtocollection: "Додайти до колекції",
@@ -119,19 +140,20 @@ export const uk_leng = {
   snapstore: "Отримати через Snap Store",
   exhortation: "Веб-додаток для читання Біблії з повним акцентом лише на Божому Cлові. Sola scriptura!",
   faqmsg: "Тут ви зможете знайти відповіді на питання що часто задаються",
-  still_have_questions: "Все ще маєте запитання чи якісь ідеї? Напиши мені, і я відповім як тільки зможу:",
+  still_have_questions: "Все ще маєш запитання чи ідеї? Напиши мені, і я відповім як тільки зможу:",
+  install_on_android: ' * Ви також можете встановити цей веб-додаток на свій телефон або планшет, який працює на <b> Android</b>. Для цього перейдіть до Google Chrome та відкрийте <a href="https://bolls.life"> bolls.life </a> у адресному рядку або знайдіть у Google "Bolls Bible". Тоді ви побачите повідомлення внизу екрана "Додати Bolls на головний екран". Натисніть на це повідомлення та підтвердіть. Потім зачекайте мить, і ця програма буде встановлена на ваш телефон як нативна програма. Якщо повідомлення не відображається для вас, знайдіть "Додати на головний екран" в меню сайту в хромі або іншому браузері, і ефект буде таким же. <br/><br/> * На iPhone з iOS <= 12 ви також можете додати цей додаток на ваш головний екран, і він буде як рідний додаток, просто натисніть значок <i>поділитися</i> внизу та знайдіть опцію "Додати на головний екран".',
   HB: [
     [
       "Де знайти необхідний переклад?",
-      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгору і ви побачите всі доступні переклади."
+      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгорі і ви побачите всі доступні переклади."
     ],
     [
       "Для чого потрібно реєструватися?",
-      "Щоб зберігати там свої закладки та мати їх доступними через ваш браузер на всіх платформах"
+      "Щоб зберігати там свої закладки та мати їх доступними через ваш браузер на всіх платформах."
     ],
     [
       "Де побачити виділені тексти?",
-      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть піктограму меню вгорі, на мобільному телефоні проведіть пальцем ліворуч від правого краю екрана, і ви побачите меню, де просто натисніть своє ім’я користувача нижче, і ви побачите усі виділені вами тексти"
+      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть піктограму меню вгорі, на мобільному телефоні проведіть пальцем ліворуч від правого краю екрана, і ви побачите меню, де просто натисніть своє ім’я користувача нижче, і ви побачите усі виділені вами тексти."
     ]
   ]
 }
@@ -142,6 +164,10 @@ export const ru_leng = {
   theme: "Дневная тема",
   font: "Розмер шрифта",
   font-family: "Шрифт",
+  increace_line-height: "Увеличить высоту строки",
+  decreace_line-height: "Уменшить высоту строки",
+  decreace_max-width: "Увеличить ширину",
+  increace_max-width: "Уменшить ширину",
   parallel: "Паралель",
   open_in_parallel: "Открыть в паралели",
   open: "Открыть",
@@ -159,6 +185,12 @@ export const ru_leng = {
   close: "Закрыть",
   delete: "Удалить",
   verse_break: "Розрыв стихов",
+  compare: "Савнить",
+  move_up: "Поднять",
+  move_down: "Опустить",
+  add_translations_msg: "Добавте переводы для сравнения",
+  add_translations_btn: "Добавить переводы",
+  the_verse_is_not_available: "Этот стих не доступен в переводе: ",
   copy: "Копировать",
   clear_copy: "Чистое копирование",
   addtocollection: "Добавить к коллекции",
@@ -188,7 +220,8 @@ export const ru_leng = {
   snapstore: "Получить через Snap Store",
   exhortation: "Веб-приложение для чтения Библии с полным акцентом только на Божьем Cлове. Sola scriptura!",
   faqmsg: "Здесь вы сможете найти ответы на часто задаваемые вопросы",
-  still_have_questions: "Все еще есть вопросы или идеи? Напишите мне, и я отвечу вам, как только смогу:",
+  still_have_questions: "Все еще есть вопросы или идеи? Напиши мне, и я отвечу, как только смогу:",
+  install_on_android: ' * Вы также можете установить это веб-приложение на свой телефон или планшет под <b> Android </b>. Для этого перейдите в Google Chrome и откройте <a href="https://bolls.life"> bolls.life </a> в адресной строке или найдите в Google "Bolls Bible". Затем в нижней части экрана должно появиться сообщение «Добавить приложение на главный экран». Нажмите на это сообщение и подтвердите. Затем подождите немного, и это приложение будет установлено на вашем телефоне как родное приложение. Если сообщение не отображается, найдите «Добавить на главный экран» в меню сайта в Chrome или в другом браузере, и эффект будет таким же. <br/><br/> * На iPhone с iOS <= 12 вы также можете добавить приложение на главном экране, и оно будет как обычное приложение, просто нажмите значок поделится внизу и найдите параметр «Добавить на главный экран».',
   HB: [
     [
       "Где найти нужный перевод?",
@@ -196,11 +229,11 @@ export const ru_leng = {
     ],
     [
       "Для чего нужно регистрироваться?",
-      "Чтобы хранить там свои закладки и иметь их доступными через ваш браузер на всех платформах"
+      "Чтобы хранить там свои закладки и иметь их доступными через ваш браузер на всех платформах."
     ],
     [
       "Где увидеть выделеные тексты?",
-      "На рабочем столе наведите курсор мыши на крайний правый край окна или нажмите значок меню вверху, на мобильном телефоне проведите влево от правого края экрана, и вы увидите меню, где просто щелкните свое имя пользователя ниже и вы увидите все ваши выделеные тексты"
+      "На рабочем столе наведите курсор мыши на крайний правый край окна или нажмите значок меню вверху, на мобильном телефоне проведите влево от правого края экрана, и вы увидите меню, где просто щелкните свое имя пользователя ниже и вы увидите все ваши выделеные тексты."
     ]
   ]
 }
