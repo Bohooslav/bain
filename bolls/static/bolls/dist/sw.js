@@ -1,11 +1,13 @@
-var CACHE_NAME = 'v1.2.5';
+var CACHE_NAME = 'v1.2.10';
 var urlsToCache = [
   '/',
-  '/static/light.png',
-  '/static/bolls/dist/style.css',
-  '/static/bolls/dist/mobile_styles.css',
   '/static/bolls/dist/client.js',
+  '/static/bolls/dist/style.css',
+  '/static/bolls/dist/fonts.css',
+  '/static/bolls/dist/mobile_styles.css',
+  '/static/light.png',
   '/static/bolls/dist/8.jpg',
+  '/static/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', function (event) {
@@ -22,13 +24,12 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((resp) => {
       return resp || fetch(event.request).then((response) => {
-        let responseClone = response.clone();
-        if (event.request.url.includes("get-bookmarks") || event.request.url.includes("get-categories") || event.request.url.includes("get-profile-bookmarks") || event.request.url.includes("get-searched-bookmarks") || event.request.url.includes("signup") || event.request.url.includes("get-history") || event.request.url.includes("accounts") || event.request.method == "POST")
-          return response;
-
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseClone);
-        });
+        var responseClone = response.clone();
+        if (event.request.url.includes("get-text") || event.request.url.includes("search") || event.request.url.includes("fonts.gstatic.com")) {
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
         return response;
       });
     }).catch(() => {

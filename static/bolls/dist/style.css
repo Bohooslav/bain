@@ -524,16 +524,21 @@ aside {
 .btnbox {
   cursor: pointer;
   height: 46px;
+  margin: 16px 0;
 }
 
 .cbtn {
   width: 50%;
   height: 100%;
   fill: var(--text-color);
+  color: var(--text-color);
+  display: inline-block;
+  text-align: center;
 }
 
 .cbtn:hover {
   fill: var(--accent-hover-color);
+  color: var(--accent-hover-color);
   background-color: var(--btn-bg-hover);
   border-radius: 8px;
 }
@@ -547,64 +552,6 @@ aside {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.theme_checkbox {
-  width: 50px;
-  height: 30px;
-  background: var(--background-color);
-  border-radius: 18px;
-  position: relative;
-  border: 2px solid var(--text-color);
-  box-sizing: border-box;
-  border-radius: 40px;
-  margin-left: auto;
-  cursor: pointer;
-}
-
-.theme_checkbox svg {
-  height: 26px;
-  width: 18px;
-  fill: var(--text-color);
-  top: 0;
-  position: relative;
-  left: 4px;
-  cursor: pointer;
-}
-
-.theme_checkbox_light svg {
-  transform: translateX(20px);
-}
-
-.great_B {
-  font-size: 16px;
-  padding: 8px;
-  cursor: pointer;
-  margin-left: auto;
-  background: var(--btn-bg);
-  border-radius: 4px;
-  margin-right: 4px;
-}
-
-.great_B:hover {
-  background-color: var(--btn-bg-hover);
-}
-
-.little_B {
-  padding: 8px;
-  cursor: pointer;
-  background: var(--btn-bg);
-  border-radius: 4px;
-  margin-left: 4px;
-}
-
-.little_B::selection {
-  color: inherit;
-  background: #0000;
-}
-
-.little_B:hover {
-  background-color: var(--btn-bg-hover);
 }
 
 .change_language {
@@ -664,12 +611,10 @@ aside {
   background: var(--btn-bg);
   border: 1px solid var(--btn-bg);
   border-radius: 4px;
-  margin: 24px 0;
+  margin: 24px 0 0;
   color: inherit;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
+  padding: 4px 8px;
+  -webkit-border-radius: 8px;
 }
 
 .search:focus {
@@ -707,6 +652,7 @@ aside {
   padding: 5px 0;
   cursor: pointer;
   color: var(--text-color);
+  word-break: break-word;
 }
 
 .username:hover {
@@ -814,7 +760,7 @@ aside {
   cursor: default;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   white-space: break-spaces;
 }
 
@@ -901,13 +847,12 @@ aside {
   --fill-on-hover: var(--accent-hover-color);
 }
 
-.asidesvg {
-  margin-left: auto;
+.helpsvg {
+  margin-right: 12px;
   fill: var(--fill-on-hover);
   height: 32px;
   width: 32px;
 }
-
 
 .help:hover {
   color: var(--accent-hover-color);
@@ -1166,7 +1111,7 @@ aside {
 
 .newcollectioninput {
   width: auto;
-  height: 34px;
+  height: 32px;
   margin: 8px auto;
   background: inherit;
   border: none;
@@ -1236,7 +1181,7 @@ figcaption {
 }
 
 #download-bolls {
-  margin: 32px auto;
+  margin: 64px auto 128px;
   padding: 12px 16px;
   display: inline-block;
   background-color: var(--accent-color);
@@ -1336,4 +1281,9 @@ address a:hover {
   .search_results {
     right: calc((100vw - 60em) / 2);
   }
+}
+
+.hold_by_finger aside,
+.hold_by_finger nav {
+  transition: none;
 }

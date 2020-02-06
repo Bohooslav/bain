@@ -217,6 +217,10 @@ def deleteBookmarks(request):
     return JsonResponse({"response": "200"}, safe=False)
 
 
+def userLogged(request):
+    return JsonResponse({"username": request.user.username}, safe=False)
+
+
 def robots(request):
     filename = "robots.txt"
     content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/mapofsite.xml"
@@ -228,10 +232,6 @@ def robots(request):
 
 def api(request):
     return render(request, 'bolls/api.html')
-
-
-def downloads(request):
-    return render(request, 'bolls/downloads.html')
 
 
 def sw(request):

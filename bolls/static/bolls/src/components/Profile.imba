@@ -6,7 +6,6 @@ import en_leng, uk_leng, ru_leng from "./langdata.imba"
 
 let user = {
   name: '',
-  id: -1,
 }
 let limits_of_range = {
   from: 0,
@@ -26,22 +25,25 @@ export tag Profile
   prop translation default: ''
   prop categories default: []
 
-
   def build
-    if window:username
-      user:name = window:username
-      user:id = window:userid
-
+    try
+      loadData("/user-logged/").then do |data|
+        if data:username
+          user:name = data:username
+          let url = "/get-history/"
+          try
+            loadData(url).then do |data|
+              @history = JSON.parse(data:history)
+              window:localStorage.setItem("history", JSON.stringify(@history))
+    catch error
+      console.error('Error: ', error)
     if getCookie('language')
       switch getCookie('language')
         when 'eng' then @langdata = en_leng
         when 'ukr' then @langdata = uk_leng
         when 'ru' then @langdata = ru_leng
     else
-      switch window:navigator:language
-        when 'uk' then @langdata = uk_leng
-        when 'ru-RU' then @langdata = ru_leng
-        else @langdata = en_leng
+      @langdata = en_leng
 
   def mount
     limits_of_range:from = 0
@@ -260,7 +262,6 @@ export tag Profile
       },
       body: JSON.stringify({
         verses: JSON.stringify(bookmark:pks),
-        user: user:id,
       }),
     })
     .then(do |response| response.json())

@@ -7,7 +7,7 @@
     <title>Bolls Bible</title>
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
-    <link href="https://fonts.googleapis.com/css?family=Bellefair|David+Libre|M+PLUS+1p|Roboto+Slab&display=swap&subset=cyrillic,greek,greek-ext,hebrew,japanese,vietnamese" rel="stylesheet">
+    <link href="{% static 'bolls/dist/fonts.css' %}" rel="stylesheet"> {% comment %} <link href="https://fonts.googleapis.com/css?family=Bellefair|David+Libre|M+PLUS+1p|Roboto+Slab&display=swap&subset=cyrillic,greek,greek-ext,hebrew,japanese,vietnamese" rel="stylesheet"> {% endcomment %}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
@@ -32,21 +32,15 @@
         window.chapter = "{{ chapter }}";
         {% if verse %} window.verse = "{{ verse }}"; {% endif %}
       {% else %} window.translation = false; {% endif %}
-      {% if user.is_authenticated %}
-        window.username = "{{ user.username }}";
-        window.userid = "{{ user.id }}";
-      {% else %} window.username = false {% endif %}
     </script>
     <script src="{% static 'bolls/dist/client.js' %}" async></script>
-    <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser" %}</noscript>
+    <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register("/sw.js").then(function(registration) {
-            // Registration was successful
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }, function(err) {
-            // registration failed :(
             console.log('ServiceWorker registration failed: ', err);
           });
         });

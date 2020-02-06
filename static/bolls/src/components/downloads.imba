@@ -5,17 +5,11 @@ export tag Downloads
   prop link default: false
 
   def build
-    if getCookie('language')
-      switch getCookie('language')
+    if window:localStorage.getItem('language')
+      switch window:localStorage.getItem('language')
         when 'eng' then @ld = en_leng
         when 'ukr' then @ld = uk_leng
         when 'ru' then @ld = ru_leng
-    else
-      switch window:navigator:language
-        when 'uk' then @ld = uk_leng
-        when 'ru-RU' then @ld = ru_leng
-        else @ld = en_leng
-
     if window:navigator:platform.slice(0, 5) == "Linux"
       @link = "https://storage.googleapis.com/bolls-256717.appspot.com/bolls-0.1.1.AppImage"
     elif window:navigator:platform.slice(0, 3) == "Mac"
@@ -35,13 +29,9 @@ export tag Downloads
     let bible = document:getElementsByClassName("Bible")
     bible[0]:classList.remove("display_none")
 
-  def getCookie c_name
-    return window:localStorage.getItem(c_name)
-
   def toBible
     window:history.back()
     orphanize
-
 
   def render
     <self>
