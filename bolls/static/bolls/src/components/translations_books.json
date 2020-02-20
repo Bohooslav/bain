@@ -1428,6 +1428,242 @@
     "chapters": 3
   }
 ],
+"WLCC": [
+  {
+    "bookid": 1,
+    "chronorder": 1,
+    "name": "בראשית",
+    "chapters": 50
+  },
+  {
+    "bookid": 2,
+    "chronorder": 3,
+    "name": "שמות",
+    "chapters": 40
+  },
+  {
+    "bookid": 3,
+    "chronorder": 4,
+    "name": "ויקרא",
+    "chapters": 27
+  },
+  {
+    "bookid": 4,
+    "chronorder": 5,
+    "name": "במדבר",
+    "chapters": 36
+  },
+  {
+    "bookid": 5,
+    "chronorder": 6,
+    "name": "דברים",
+    "chapters": 34
+  },
+  {
+    "bookid": 6,
+    "chronorder": 7,
+    "name": "יהושע",
+    "chapters": 24
+  },
+  {
+    "bookid": 7,
+    "chronorder": 8,
+    "name": "שופטים",
+    "chapters": 21
+  },
+  {
+    "bookid": 8,
+    "chronorder": 9,
+    "name": "רות",
+    "chapters": 4
+  },
+  {
+    "bookid": 9,
+    "chronorder": 10,
+    "name": "שמואל א",
+    "chapters": 31
+  },
+  {
+    "bookid": 10,
+    "chronorder": 11,
+    "name": "שמואל ב",
+    "chapters": 24
+  },
+  {
+    "bookid": 11,
+    "chronorder": 15,
+    "name": "מלכים א",
+    "chapters": 22
+  },
+  {
+    "bookid": 12,
+    "chronorder": 28,
+    "name": "מלכים ב",
+    "chapters": 25
+  },
+  {
+    "bookid": 13,
+    "chronorder": 12,
+    "name": "דברי הימים א",
+    "chapters": 29
+  },
+  {
+    "bookid": 14,
+    "chronorder": 16,
+    "name": "דברי הימים ב",
+    "chapters": 36
+  },
+  {
+    "bookid": 15,
+    "chronorder": 37,
+    "name": "עזרא",
+    "chapters": 10
+  },
+  {
+    "bookid": 16,
+    "chronorder": 38,
+    "name": "נחמיה",
+    "chapters": 13
+  },
+  {
+    "bookid": 17,
+    "chronorder": 36,
+    "name": "אסתר",
+    "chapters": 10
+  },
+  {
+    "bookid": 18,
+    "chronorder": 2,
+    "name": "איוב",
+    "chapters": 42
+  },
+  {
+    "bookid": 19,
+    "chronorder": 13,
+    "name": "תהלים",
+    "chapters": 150
+  },
+  {
+    "bookid": 20,
+    "chronorder": 17,
+    "name": "משלי",
+    "chapters": 31
+  },
+  {
+    "bookid": 21,
+    "chronorder": 18,
+    "name": "קהלת",
+    "chapters": 12
+  },
+  {
+    "bookid": 22,
+    "chronorder": 14,
+    "name": "שיר השירים",
+    "chapters": 8
+  },
+  {
+    "bookid": 23,
+    "chronorder": 25,
+    "name": "ישעיה",
+    "chapters": 66
+  },
+  {
+    "bookid": 24,
+    "chronorder": 29,
+    "name": "ירמיה",
+    "chapters": 52
+  },
+  {
+    "bookid": 25,
+    "chronorder": 30,
+    "name": "איכה",
+    "chapters": 5
+  },
+  {
+    "bookid": 26,
+    "chronorder": 32,
+    "name": "יחזקאל",
+    "chapters": 48
+  },
+  {
+    "bookid": 27,
+    "chronorder": 33,
+    "name": "דניאל",
+    "chapters": 12
+  },
+  {
+    "bookid": 28,
+    "chronorder": 23,
+    "name": "הושע",
+    "chapters": 14
+  },
+  {
+    "bookid": 29,
+    "chronorder": 20,
+    "name": "יואל",
+    "chapters": 3
+  },
+  {
+    "bookid": 30,
+    "chronorder": 21,
+    "name": "עמוס",
+    "chapters": 9
+  },
+  {
+    "bookid": 31,
+    "chronorder": 31,
+    "name": "עבדיה",
+    "chapters": 1
+  },
+  {
+    "bookid": 32,
+    "chronorder": 19,
+    "name": "יונה",
+    "chapters": 4
+  },
+  {
+    "bookid": 33,
+    "chronorder": 22,
+    "name": "מיכה",
+    "chapters": 7
+  },
+  {
+    "bookid": 34,
+    "chronorder": 24,
+    "name": "נחום",
+    "chapters": 3
+  },
+  {
+    "bookid": 35,
+    "chronorder": 27,
+    "name": "חבקוק",
+    "chapters": 3
+  },
+  {
+    "bookid": 36,
+    "chronorder": 26,
+    "name": "צפניה",
+    "chapters": 3
+  },
+  {
+    "bookid": 37,
+    "chronorder": 34,
+    "name": "חגי",
+    "chapters": 2
+  },
+  {
+    "bookid": 38,
+    "chronorder": 35,
+    "name": "זכריה",
+    "chapters": 14
+  },
+  {
+    "bookid": 39,
+    "chronorder": 39,
+    "name": "מלאכי",
+    "chapters": 3
+  }
+],
 "UBIO": [
   {
     "bookid": 1,

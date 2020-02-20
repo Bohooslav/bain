@@ -1208,7 +1208,247 @@
     },
     {
       "id": "WLC",
-      "description": "Westminster Leningrad Codex",
+      "description": "Westminster Leningrad Codex (with Vowels)",
+      "books": [
+        {
+          "book_id": 1,
+          "chronological_order": 1,
+          "name": "בראשית",
+          "chapters": 50
+        },
+        {
+          "book_id": 2,
+          "chronological_order": 3,
+          "name": "שמות",
+          "chapters": 40
+        },
+        {
+          "book_id": 3,
+          "chronological_order": 4,
+          "name": "ויקרא",
+          "chapters": 27
+        },
+        {
+          "book_id": 4,
+          "chronological_order": 5,
+          "name": "במדבר",
+          "chapters": 36
+        },
+        {
+          "book_id": 5,
+          "chronological_order": 6,
+          "name": "דברים",
+          "chapters": 34
+        },
+        {
+          "book_id": 6,
+          "chronological_order": 7,
+          "name": "יהושע",
+          "chapters": 24
+        },
+        {
+          "book_id": 7,
+          "chronological_order": 8,
+          "name": "שופטים",
+          "chapters": 21
+        },
+        {
+          "book_id": 8,
+          "chronological_order": 9,
+          "name": "רות",
+          "chapters": 4
+        },
+        {
+          "book_id": 9,
+          "chronological_order": 10,
+          "name": "שמואל א",
+          "chapters": 31
+        },
+        {
+          "book_id": 10,
+          "chronological_order": 11,
+          "name": "שמואל ב",
+          "chapters": 24
+        },
+        {
+          "book_id": 11,
+          "chronological_order": 15,
+          "name": "מלכים א",
+          "chapters": 22
+        },
+        {
+          "book_id": 12,
+          "chronological_order": 28,
+          "name": "מלכים ב",
+          "chapters": 25
+        },
+        {
+          "book_id": 13,
+          "chronological_order": 12,
+          "name": "דברי הימים א",
+          "chapters": 29
+        },
+        {
+          "book_id": 14,
+          "chronological_order": 16,
+          "name": "דברי הימים ב",
+          "chapters": 36
+        },
+        {
+          "book_id": 15,
+          "chronological_order": 37,
+          "name": "עזרא",
+          "chapters": 10
+        },
+        {
+          "book_id": 16,
+          "chronological_order": 38,
+          "name": "נחמיה",
+          "chapters": 13
+        },
+        {
+          "book_id": 17,
+          "chronological_order": 36,
+          "name": "אסתר",
+          "chapters": 10
+        },
+        {
+          "book_id": 18,
+          "chronological_order": 2,
+          "name": "איוב",
+          "chapters": 42
+        },
+        {
+          "book_id": 19,
+          "chronological_order": 13,
+          "name": "תהלים",
+          "chapters": 150
+        },
+        {
+          "book_id": 20,
+          "chronological_order": 17,
+          "name": "משלי",
+          "chapters": 31
+        },
+        {
+          "book_id": 21,
+          "chronological_order": 18,
+          "name": "קהלת",
+          "chapters": 12
+        },
+        {
+          "book_id": 22,
+          "chronological_order": 14,
+          "name": "שיר השירים",
+          "chapters": 8
+        },
+        {
+          "book_id": 23,
+          "chronological_order": 25,
+          "name": "ישעיה",
+          "chapters": 66
+        },
+        {
+          "book_id": 24,
+          "chronological_order": 29,
+          "name": "ירמיה",
+          "chapters": 52
+        },
+        {
+          "book_id": 25,
+          "chronological_order": 30,
+          "name": "איכה",
+          "chapters": 5
+        },
+        {
+          "book_id": 26,
+          "chronological_order": 32,
+          "name": "יחזקאל",
+          "chapters": 48
+        },
+        {
+          "book_id": 27,
+          "chronological_order": 33,
+          "name": "דניאל",
+          "chapters": 12
+        },
+        {
+          "book_id": 28,
+          "chronological_order": 23,
+          "name": "הושע",
+          "chapters": 14
+        },
+        {
+          "book_id": 29,
+          "chronological_order": 20,
+          "name": "יואל",
+          "chapters": 3
+        },
+        {
+          "book_id": 30,
+          "chronological_order": 21,
+          "name": "עמוס",
+          "chapters": 9
+        },
+        {
+          "book_id": 31,
+          "chronological_order": 31,
+          "name": "עבדיה",
+          "chapters": 1
+        },
+        {
+          "book_id": 32,
+          "chronological_order": 19,
+          "name": "יונה",
+          "chapters": 4
+        },
+        {
+          "book_id": 33,
+          "chronological_order": 22,
+          "name": "מיכה",
+          "chapters": 7
+        },
+        {
+          "book_id": 34,
+          "chronological_order": 24,
+          "name": "נחום",
+          "chapters": 3
+        },
+        {
+          "book_id": 35,
+          "chronological_order": 27,
+          "name": "חבקוק",
+          "chapters": 3
+        },
+        {
+          "book_id": 36,
+          "chronological_order": 26,
+          "name": "צפניה",
+          "chapters": 3
+        },
+        {
+          "book_id": 37,
+          "chronological_order": 34,
+          "name": "חגי",
+          "chapters": 2
+        },
+        {
+          "book_id": 38,
+          "chronological_order": 35,
+          "name": "זכריה",
+          "chapters": 14
+        },
+        {
+          "book_id": 39,
+          "chronological_order": 39,
+          "name": "מלאכי",
+          "chapters": 3
+        }
+      ]
+    },
+    {
+      "id": "WLCC",
+      "description": "Westminster Leningrad Codex (Consonants)",
       "books": [
         {
           "book_id": 1,

@@ -2,13 +2,8 @@ module.exports = {
 	module: {
 		rules: [{
 			test: /\.imba$/,
-			use: [{
-				loader: 'babel-loader',
-				options: {
-					presets: ['@babel/preset-env']
-				}
-			}, 'imba/loader']
-		}, ]
+			use: 'imba/loader'
+		},]
 	},
 	resolve: {
 		extensions: [".imba", ".js", ".json"]

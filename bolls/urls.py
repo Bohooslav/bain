@@ -16,6 +16,7 @@ urlpatterns = [
     path('save-bookmarks/', views.saveBookmarks, name='saveBookmarks'),
     path('delete-bookmarks/', views.deleteBookmarks, name='deleteBookmarks'),
     path('user-logged/', views.userLogged, name="userLogged"),
+    path('get-translation/<slug:translation>/', views.getTranslation, name="getTranslation"),
     path('get-paralel-verses/', views.getParallelVerses, name='getParallelVerses'),
     path('get-searched-bookmarks/<str:query>/',
          views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),

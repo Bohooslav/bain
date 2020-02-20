@@ -15,6 +15,22 @@ def index(request):
     return render(request, 'bolls/index.html')
 
 
+def getTranslation(request, translation):
+    all_objects = Verses.objects.filter(
+        translation=translation).order_by('book', 'chapter', 'verse')
+    d = []
+    for obj in all_objects:
+        d.append({
+            "pk": obj.pk,
+            "translation": obj.translation,
+            "book": obj.book,
+            "chapter": obj.chapter,
+            "verse": obj.verse,
+            "text": obj.text
+        })
+    return JsonResponse(d, safe=False)
+
+
 def getText(request, translation, book, chapter):
     all_objects = Verses.objects.filter(
         book=book, chapter=chapter, translation=translation).order_by('verse')

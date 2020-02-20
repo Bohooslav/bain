@@ -77,16 +77,6 @@ a {
   text-decoration: none;
 }
 
-@-webkit-keyframes text-came {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
 @keyframes text-came {
   0% {
     opacity: 0;
@@ -108,6 +98,8 @@ main span,
 .collectionsflex,
 .book_in_list,
 .collection,
+.in_offline,
+.online,
 .close_colorpicker {
   -webkit-animation: text-came 300ms ease both;
   animation: text-came 300ms ease both;
@@ -135,6 +127,22 @@ nav {
   user-select: none;
 }
 
+.download_translations {
+  fill: var(--text-color);
+  width: 54px;
+  height: 40px;
+  display: block;
+  position: relative;
+  margin-top: -39px;
+  padding: 8px 8px;
+  cursor: pointer;
+  margin-left: 232px;
+}
+
+.download_translations:hover {
+  fill: var(--accent-hover-color);
+}
+
 .chronological_order {
   fill: var(--text-color);
   width: 54px;
@@ -145,10 +153,6 @@ nav {
   padding: 8px 16px;
   cursor: pointer;
   transform: rotate(150deg);
-  -webkit-transform: rotate(150deg);
-  -moz-transform: rotate(150deg);
-  -ms-transform: rotate(150deg);
-  -o-transform: rotate(150deg);
 }
 
 .chronological_order:hover {
@@ -177,12 +181,6 @@ nav {
   visibility: hidden;
   overflow: hidden;
   overflow-y: auto;
-}
-
-.translation_in_list {
-  align-self: center;
-  width: 100%;
-  font-size: 18px;
 }
 
 .show_translations_list {
@@ -374,6 +372,7 @@ main span {
   cursor: crosshair;
   border: 2px solid var(--background-color);
   right: calc((100vw - 324px) / 2);
+  z-index: 3;
 }
 
 .close_colorpicker {
@@ -519,6 +518,7 @@ aside {
   margin: 24px 0;
   cursor: default;
   height: 38px;
+  cursor: pointer;
 }
 
 .btnbox {
@@ -700,11 +700,26 @@ aside {
   cursor: pointer;
 }
 
-#remove_parallel {
-  width: 22px;
+@keyframes loading {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.animated_downloading {
+  animation: 1.5s linear 0s infinite normal both running loading;
+}
+
+.remove_parallel {
+  width: 24px;
+  min-width: 24px;
   padding: 0;
-  margin: 0 4px 0 -2px;
-  height: 32px;
+  margin: 0 8px 0 -2px;
+  height: 24px;
 }
 
 .close_search:hover {
@@ -858,7 +873,7 @@ aside {
   color: var(--accent-hover-color);
 }
 
-.online {
+/* .online {
   display: none;
   position: fixed;
   bottom: 16px;
@@ -869,12 +884,13 @@ aside {
   border-radius: 8px;
   text-align: center;
   border: 1px solid var(--btn-bg-hover);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .offline {
   display: block;
   z-index: 1000;
-}
+} */
 
 .reload {
   display: block;
@@ -1135,9 +1151,15 @@ aside {
   left: 8px;
 }
 
+footer {
+  color: #888;
+  font-size: 12px;
+}
+
 footer a {
   color: #888;
   font-size: 12px;
+  text-decoration: solid underline;
 }
 
 footer a:hover {
@@ -1286,4 +1308,9 @@ address a:hover {
 .hold_by_finger aside,
 .hold_by_finger nav {
   transition: none;
+}
+
+.in_offline {
+  text-align: center;
+  animation-delay: 1.5s;
 }
