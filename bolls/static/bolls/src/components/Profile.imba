@@ -1,4 +1,4 @@
-import "./translations.json" as translations
+import "./translations_books.json" as BOOKS
 import {Load} from "./loading.imba"
 
 let user = {
@@ -64,7 +64,7 @@ export tag Profile
 	def switchTranslationBooks translation
 		if @translation != translation
 			@translation = translation
-			@books = @data.books[translation]
+			@books = BOOKS[translation]
 
 	def nameOfBook bookid
 		for book in @books
@@ -96,7 +96,6 @@ export tag Profile
 			data = await loadData(url)
 		else
 			data = await @data.getBookmarksFromStorage()
-		log data
 		limits_of_range:loaded += data:length
 		let newItem = {
 			verse: [],
@@ -238,20 +237,23 @@ export tag Profile
 			show_options_of = title
 
 	def deleteBookmark bookmark
-		isOnline
-		window.fetch("/delete-bookmarks/", {
-			method: "POST",
-			cache: "no-cache",
-			headers: {
-				'X-CSRFToken': get_cookie('csrftoken'),
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				verses: JSON.stringify(bookmark:pks),
-			}),
-		})
-		.then(do |response| response.json())
-		.then(do |data| console.log data)
+		if window:navigator:onLine
+			window.fetch("/delete-bookmarks/", {
+				method: "POST",
+				cache: "no-cache",
+				headers: {
+					'X-CSRFToken': get_cookie('csrftoken'),
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					verses: JSON.stringify(bookmark:pks),
+				}),
+			})
+			.then(do |response| response.json())
+			.then(do |data| console.log data)
+		else
+			@data.deleteBookmark(bookmark:verse)
+			window:localStorage.setItem('bookmarks-to-delete', JSON.stringify(bookmark:pks))
 		for verse in bookmark:verse
 			if @bookmarks.find(do |bm| return bm:pks == bookmark:pks)
 				@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)

@@ -17,11 +17,11 @@ let settings = {
 	font: {
 		size: 24,
 		family: "sans, sans-serif",
-		name: "Sans",
+		name: "sans",
 		line-height: 1.6,
-		max-width: 90,
+		weight: 400,
+		max-width: 30,
 	},
-	language: 'eng'
 	clear_copy: no,
 	verse_break: no
 }
@@ -66,6 +66,11 @@ let compare_translations = []
 let compare_parallel_of_chapter
 let compare_parallel_of_book
 let highlighted_title = ''
+let svg_paths = {
+	loading: "M7.979 1.055a1.474 1.474 0 0 0-.27.025c-3 .16-5.627 2.222-6.451 5.129A7.13 7.13 0 0 0 4.5 14.037a7.13 7.13 0 0 0 8.4-1.105 7.13 7.13 0 0 0 1.106-8.4c1.507 2.725 1.032 6.162-1.135 8.37-2.228 2.148-5.654 2.577-8.33 1.065-2.618-1.576-3.914-4.73-3.18-7.672-.708 2.948.623 6.072 3.221 7.601 2.654 1.471 6.026 1.005 8.174-1.109 2.094-2.168 2.514-5.528 1.037-8.133 1.453 2.618.992 5.956-1.096 8.075-2.137 2.067-5.464 2.484-8.033 1.025C2.146 12.244.888 9.182 1.6 6.357c-.685 2.832.604 5.863 3.103 7.327 2.547 1.417 5.821.963 7.88-1.07 2.014-2.078 2.42-5.34.997-7.837 1.4 2.51.951 5.75-1.056 7.778-2.048 1.988-5.276 2.391-7.737.986C2.37 12.098 1.15 9.125 1.838 6.418c-.662 2.714.59 5.655 2.988 7.053 2.439 1.363 5.614.923 7.582-1.032 1.935-1.987 2.329-5.152.96-7.54 1.345 2.402.91 5.544-1.018 7.482-1.958 1.908-5.089 2.299-7.442.947C2.59 11.951 1.411 9.071 2.076 6.48c-.639 2.598.574 5.446 2.873 6.778 2.331 1.31 5.408.882 7.286-.992 1.855-1.898 2.235-4.963.92-7.245 1.292 2.295.869 5.338-.979 7.186-1.867 1.829-4.9 2.206-7.145.908-2.219-1.31-3.36-4.1-2.718-6.574-.616 2.48.56 5.238 2.76 6.504 2.223 1.256 5.2.842 6.988-.953 1.775-1.807 2.143-4.774.88-6.947 1.239 2.187.83 5.13-.939 6.888-1.777 1.75-4.71 2.114-6.847.87-2.12-1.246-3.223-3.943-2.604-6.3-.593 2.364.544 5.03 2.645 6.229 2.115 1.203 4.993.801 6.69-.914 1.697-1.717 2.051-4.585.843-6.65 1.184 2.08.788 4.924-.9 6.591-1.688 1.67-4.522 2.021-6.551.83-2.02-1.179-3.085-3.785-2.489-6.025-.57 2.247.53 4.822 2.53 5.955 2.007 1.15 4.786.76 6.394-.875 1.616-1.627 1.958-4.395.803-6.353 1.131 1.971.747 4.717-.861 6.295-1.597 1.59-4.332 1.927-6.254.79-1.92-1.113-2.947-3.628-2.373-5.751-.547 2.13.513 4.614 2.414 5.681 1.9 1.096 4.58.72 6.097-.836 1.537-1.536 1.865-4.206.764-6.056 1.077 1.864.707 4.51-.822 5.998-1.507 1.51-4.143 1.835-5.957.752-1.82-1.047-2.808-3.47-2.258-5.477-.524 2.013.498 4.405 2.299 5.406 1.792 1.042 4.373.68 5.8-.797 1.457-1.446 1.773-4.016.725-5.76 1.024 1.757.666 4.305-.783 5.702-1.417 1.43-3.953 1.742-5.66.713-1.721-.981-2.672-3.314-2.145-5.203-.5 1.896.484 4.197 2.186 5.132 1.684.989 4.166.64 5.504-.757 1.377-1.357 1.68-3.828.685-5.463.97 1.649.626 4.097-.744 5.404-1.326 1.35-3.764 1.65-5.363.674-1.621-.915-2.534-3.155-2.03-4.928-.477 1.78.47 3.988 2.07 4.858 1.578.934 3.96.598 5.208-.72 1.297-1.266 1.587-3.638.646-5.165.917 1.54.585 3.89-.705 5.107-1.236 1.271-3.575 1.557-5.066.635-1.522-.849-2.395-2.999-1.914-4.654-.455 1.662.453 3.779 1.955 4.582 1.469.88 3.752.557 4.908-.68 1.217-1.176 1.494-3.447.607-4.865.875 1.425.577 3.685-.636 4.836-1.15 1.213-3.411 1.51-4.836.636-1.47-.797-2.343-2.904-1.867-4.507.39-1.626 2.197-3.013 3.869-2.97V4a1.474 1.474 0 0 0 .002 0 1.474 1.474 0 0 0 1.472-1.473 1.474 1.474 0 0 0-1.472-1.472 1.474 1.474 0 0 0-.002 0z",
+	download: "M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z",
+	columnssvg: "m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819"
+}
 let fonts = [
 	{
 		name: "David Libre",
@@ -76,12 +81,12 @@ let fonts = [
 		code: "'Bellefair', serif"
 	},
 	{
-		name: "M PLUS 1p",
-		code: "'M PLUS 1p', sans-serif"
+		name: "Tinos",
+		code: "'Tinos', serif"
 	},
 	{
 		name: "Roboto Slab",
-		code: "'Roboto Slab', serif"
+		code: "'Roboto Slab', sans-serif"
 	},
 	{
 		name: "System UI",
@@ -89,7 +94,7 @@ let fonts = [
 	}
 	{
 		name: "Sans",
-		code: "Sans, Sans-serif"
+		code: "sans, sans-serif"
 	},
 	{
 		name: "Monospace",
@@ -202,7 +207,7 @@ export tag Bible
 	prop chronorder default: no
 	prop search default: Object.create(null)
 
-	def build
+	def setup
 		if window:translation
 			if translations.find(do |element| return element:short_name == window:translation)
 				setCookie('translation', window:translation)
@@ -233,27 +238,12 @@ export tag Bible
 			settings:book = parseInt(getCookie('book'))
 		if getCookie('chapter')
 			settings:chapter = parseInt(getCookie('chapter'))
-		if getCookie('language')
-			settings:language = getCookie('language')
-		else
-			switch window:navigator:language.slice(0, 2)
-				when 'uk'
-					if !window:translation
-						settings:translation = 'UKRK'
-				when 'ru'
-					if !window:translation
-						settings:translation = 'SYNOD'
-		setCookie('language', settings:language)
-		setCookie('translation', settings:translation)
 		switchTranslation settings:translation, no
+		getText(settings:translation, settings:book, settings:chapter, window:verse)
 		if window:location:pathname == '/profile/'
-			@verses = getText(settings:translation, settings:book, settings:chapter, window:verse)
 			toProfile yes
 		elif window:location:pathname == '/downloads/'
-			@verses = getText(settings:translation, settings:book, settings:chapter, window:verse)
 			toDownloads yes
-		else
-			getText(settings:translation, settings:book, settings:chapter, window:verse)
 		if getCookie('theme')
 			settings:theme = getCookie('theme')
 			let html = document.querySelector('#html')
@@ -267,6 +257,8 @@ export tag Bible
 			settings:font:family = getCookie('font-family')
 		if getCookie('font-name')
 			settings:font:name = getCookie('font-name')
+		if getCookie('font-weight')
+			settings:font:weight = parseInt(getCookie('font-weight'))
 		if getCookie('line-height')
 			settings:font:line-height = parseFloat(getCookie('line-height'))
 		if getCookie('max-width')
@@ -301,9 +293,9 @@ export tag Bible
 				bookid_of_results: [],
 				translation: settings:translation
 			}
-
-	def setup
-		log @data.lang:delete
+		if JSON.parse(getCookie("bookmarks-to-delete"))
+			deleteBookmarks(JSON.parse(getCookie("bookmarks-to-delete")))
+			window:localStorage.removeItem("bookmarks-to-delete")
 
 	def mount
 		let search = document.getElementById('search_body')
@@ -314,10 +306,10 @@ export tag Bible
 					Imba.commit
 
 	def getCookie c_name
-		return window:localStorage.getItem(c_name)
+		window:localStorage.getItem(c_name)
 
 	def setCookie c_name, value
-		return window:localStorage.setItem(c_name, value)
+		window:localStorage.setItem(c_name, value)
 
 	def switchTranslation translation, parallel
 		if parallel
@@ -360,7 +352,7 @@ export tag Bible
 		if !(translation == settings:translation && book == settings:book && chapter == settings:chapter) || !@verses:length
 			loading = yes
 			switchTranslation translation
-			if !onpopstate && (@verses:length || (@data.downloaded_translations.find(do |element| return element == translation) && !window:navigator:onLine))
+			if !onpopstate && (@verses:length || !window:navigator:onLine)
 				window:history.pushState({
 						translation: translation,
 						book: book,
@@ -377,6 +369,18 @@ export tag Bible
 					window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
 				)
 			onpopstate = no
+			clearSpace
+			document:title = "Bolls " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
+			if @chronorder
+				@chronorder = !@chronorder
+				toggleChronorder
+			settings:book = book
+			settings:chapter = chapter
+			settings:translation = translation
+			setCookie('book', book)
+			setCookie('chapter', chapter)
+			setCookie('translation', translation)
+			saveToHistory translation, book, chapter, verse, no
 			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
 			@bookmarks = []
 			@verses = []
@@ -388,6 +392,7 @@ export tag Bible
 				loading = no
 				Imba.commit
 			catch error
+				loading = no
 				console.error('Error: ', error)
 			if user:name
 				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
@@ -395,23 +400,8 @@ export tag Bible
 					@bookmarks = await loadData(url)
 				catch error
 					if @data.can_work_with_db
-						let verseids = []
-						for verse in @verses
-							verseids.push(verse:pk)
-						@bookmarks = await @data.getBookmarksFromStorage(verseids)
-			clearSpace
-			document:title = "Bolls " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
-			if @chronorder
-				@chronorder = !@chronorder
-				toggleChronorder
+						@bookmarks = await @data.getBookmarksFromStorage(@verses.map(do |verse| return verse:pk))
 			Imba.commit
-			settings:book = book
-			settings:chapter = chapter
-			settings:translation = translation
-			setCookie('book', book)
-			setCookie('chapter', chapter)
-			setCookie('translation', translation)
-			saveToHistory translation, book, chapter, verse, no
 			if verse
 				foundVerse verse, "#{verse}"
 		else clearSpace
@@ -425,32 +415,6 @@ export tag Bible
 
 	def getParallelText translation, book, chapter, verse
 		if !(translation == parallel_text:translation && book == parallel_text:book && chapter == parallel_text:chapter) || !@parallel_verses:length || !parallel_text:display
-			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
-			@parallel_verses = []
-			try
-				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == translation)
-					@parallel_verses = await @data.getChapterFromDB(translation, book, chapter, verse)
-				else
-					@parallel_verses = await loadData(url)
-				Imba.commit
-			catch error
-				console.error('Error: ', error)
-			if @chronorder
-				@chronorder = !@chronorder
-				toggleChronorder
-			if user:name
-				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
-				@parallel_bookmarks = []
-				try
-					@parallel_bookmarks = await loadData(url)
-					Imba.commit
-				catch error
-					if @data.can_work_with_db
-						let verseids = []
-						for verse in @parallel_verses
-							verseids.push(verse:pk)
-						@parallel_bookmarks = await @data.getBookmarksFromStorage(verseids)
-
 			if !onpopstate && @verses
 				window:history.pushState({
 						translation: settings:translation,
@@ -468,19 +432,43 @@ export tag Bible
 					null
 				)
 			onpopstate = no
+			if @chronorder
+				@chronorder = !@chronorder
+				toggleChronorder
 			switchTranslation translation, yes
 			parallel_text:translation = translation
 			parallel_text:edited_version = translation
 			parallel_text:book = book
 			parallel_text:chapter = chapter
 			clearSpace
+			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
+			@parallel_verses = []
+			try
+				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == translation)
+					@parallel_verses = await @data.getChapterFromDB(translation, book, chapter, verse)
+				else
+					@parallel_verses = await loadData(url)
+				Imba.commit
+			catch error
+				console.error('Error: ', error)
+			if user:name
+				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
+				@parallel_bookmarks = []
+				try
+					@parallel_bookmarks = await loadData(url)
+					Imba.commit
+				catch error
+					if @data.can_work_with_db
+						let verseids = []
+						for verse in @parallel_verses
+							verseids.push(verse:pk)
+						@parallel_bookmarks = await @data.getBookmarksFromStorage(verseids)
 			Imba.commit
 			setCookie('parallel_display', parallel_text:display)
 			saveToHistory translation, book, chapter, 0, yes
 			setCookie('parallel_translation', translation)
 			setCookie('parallel_book', book)
 			setCookie('parallel_chapter', chapter)
-
 			if verse
 				foundVerse verse, "#p{verse}"
 
@@ -765,11 +753,11 @@ export tag Bible
 				mobimenu = ''
 			else settings_menu_left = 0
 		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !mobimenu && !search:search_div && !show_history && !choosenid:length
-			if touch.dx < -64
+			if touch.dx < -16
 				if parallel_text:display && touch.y > window:innerHeight / 2
 					nextChapter("true")
 				else nextChapter
-			elif touch.dx > 64
+			elif touch.dx > 16
 				if parallel_text:display && touch.y > window:innerHeight / 2
 					prewChapter("true")
 				else prewChapter
@@ -935,20 +923,23 @@ export tag Bible
 		highlights.splice(highlights.indexOf(highlights.find(do |element| return element == color_to_delete)), 1)
 		window:localStorage.setItem("highlights", JSON.stringify(highlights))
 
-	def deleteBookmarks
-		window.fetch("/delete-bookmarks/", {
-			method: "POST",
-			cache: "no-cache",
-			headers: {
-				'X-CSRFToken': get_cookie('csrftoken'),
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				verses: JSON.stringify(choosenid),
-			}),
-		})
-		.then(do |response| response.json())
-		.then(do |data| console.log data)
+	def deleteBookmarks ids
+		if window:navigator:onLine
+			window.fetch("/delete-bookmarks/", {
+				method: "POST",
+				cache: "no-cache",
+				headers: {
+					'X-CSRFToken': get_cookie('csrftoken'),
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					verses: JSON.stringify(ids),
+				}),
+			})
+			.then(do |response| response.json())
+			.then(do |data| console.log data)
+		else
+			setCookie('bookmarks-to-delete', JSON.stringify(ids))
 		if choosen_parallel == 'second'
 			for verse in choosenid
 				if @parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)
@@ -1242,6 +1233,11 @@ export tag Bible
 		clearSpace
 		show_downloads = !show_downloads
 
+	def changeFontWeight value
+		if settings:font:weight + value < 1000 && settings:font:weight + value > 0
+			settings:font:weight += value
+			setCookie('font-weight', settings:font:weight)
+
 	def render
 		<self .hold_by_finger=(inzone || onzone)>
 			<nav style="left: {bible_menu_left}px; box-shadow: 0 0 {(bible_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
@@ -1262,7 +1258,7 @@ export tag Bible
 					<svg:svg.download_translations .hide_chron_order=@show_list_of_translations :tap.prevent.toggleDownloads() xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:download
 						<svg:path d="M0 0h24v24H0z" fill="none">
-						<svg:path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z">
+						<svg:path d="{svg_paths:download}">
 				<ul.translations_list .show_translations_list=@show_list_of_translations>
 					for translation in translations
 						<li.book_in_list .active_book=currentTranslation(translation:short_name) :tap.prevent.changeTranslation(translation:short_name) tabindex="0"> translation:full_name
@@ -1282,10 +1278,10 @@ export tag Bible
 									<li.chapter_number  .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
 					<.freespace>
 
-			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height};">
-				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em">
+			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
+				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					<header>
-						<h1 :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
+						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
 					if @verses:length
 						<article>
 							<.text-ident> " "
@@ -1315,14 +1311,14 @@ export tag Bible
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 							if choosen:length
 								<.freespace>
-					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settings:translation)
+					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settings:translation) && !(@verses:length)
 						<p.in_offline>
 							@data.lang:this_translation_is_unavailable
 							<br>
 							<a.reload :tap=(do window:location.reload(true))> @data.lang:reload
-				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em">
+				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
 					<header>
-						<h1 :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
 					if @parallel_verses:length
 						<article>
 							<.text-ident> " "
@@ -1349,7 +1345,7 @@ export tag Bible
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 							if choosenid:length
 								<.freespace>
-					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation)
+					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
 			<aside style="right: {settings_menu_left}px; box-shadow: 0 0 {(settings_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
@@ -1369,6 +1365,9 @@ export tag Bible
 				<.btnbox>
 					<a.cbtn style="padding: 12px; font-size: 20px;" :tap.prevent.decreaseFontSize title=@data.lang:decrease_font-size> "B-"
 					<a.cbtn style="padding: 8px; font-size: 24px;" :tap.prevent.increaseFontSize title=@data.lang:increase_font-size> "B+"
+				<.btnbox>
+					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 100;" :tap.prevent.changeFontWeight(-100) title=@data.lang:decrease_font-weight> "B"
+					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 900;" :tap.prevent.changeFontWeight(100) title=@data.lang:increase_font-weight> "B"
 				<.btnbox>
 					<svg:svg.cbtn :tap.prevent.changeLineHeight(no) xmlns="http://www.w3.org/2000/svg" width="38" height="14" viewBox="0 0 38 14" fill="context-fill" style="padding: calc(42px - 26px) 0;">
 						<svg:title> @data.lang:decrease_line-height
@@ -1398,7 +1397,7 @@ export tag Bible
 								d="m 35.947276,15.059555 c -7.969093,0.761817 -16.59819,3.661819 -16.59819,5.578181 0,0.283637 -0.409086,0.516365 -0.909082,0.516365 -0.498182,0 -1.332726,0.650909 -1.85455,1.445454 -0.52,0.794546 -2.256363,2.158182 -3.856362,3.030909 -4.2854562,2.334545 -5.9854559,4.496363 -7.5981831,9.663636 -0.7927271,2.536365 -1.6272721,4.750909 -1.8581814,4.921819 -0.2290909,0.170909 -1.0600003,2.521818 -1.845455,5.225455 L 0,50.355918 v 118.650912 118.6509 l 1.4272725,4.91455 c 0.7854547,2.70182 1.6163641,5.05454 1.845455,5.22545 0.2309093,0.17092 1.0654543,2.38546 1.8581814,4.92182 1.6127272,5.16727 3.3127269,7.32727 7.5981831,9.66364 1.599999,0.87273 3.336362,2.23636 3.856362,3.03091 0.521824,0.79455 1.356368,1.44363 1.85455,1.44363 0.499996,0 0.909082,0.23273 0.909082,0.51818 0,0.97456 6.109095,3.84182 10.278187,4.82546 7.178184,1.69455 80.296367,1.94181 87.632717,0.29818 6.04365,-1.35454 8.16365,-2.48181 9.22729,-4.90545 0.40182,-0.91091 0.87272,-1.79637 1.04909,-1.96545 5.33636,-5.1291 5.29091,-24.29273 -0.0654,-26.33274 -0.29454,-0.11268 -0.53818,-0.5109 -0.53818,-0.88363 0,-1.30001 -2.77637,-4.72909 -4.30182,-5.31454 -5.89454,-2.25456 -9.98909,-2.51091 -40.25999,-2.51091 -36.860011,0 -34.947285,0.51454 -36.567285,-9.83638 -0.858181,-5.48544 -0.858181,-198.0018 0,-203.48908 1.62,-10.350906 -0.292726,-9.83636 36.567285,-9.83636 30.2709,0 34.36545,-0.254546 40.25999,-2.51091 1.52545,-0.583635 4.30182,-4.012727 4.30182,-5.312726 0,-0.374547 0.24364,-0.772729 0.53818,-0.885456 5.35637,-2.039999 5.40182,-21.203635 0.0654,-26.332727 -0.17637,-0.16909 -0.64727,-1.052727 -1.04909,-1.965455 -1.05091,-2.392726 -3.17092,-3.545454 -8.92,-4.845453 -5.51091,-1.245455 -69.73091,-1.65091 -81.620004,-0.512728 m 246.100004,0.529091 c -5.69091,1.21091 -7.93818,2.427273 -8.91455,4.82909 -0.37092,0.912728 -1.60181,3.692727 -2.73818,6.18 -4.27454,9.361819 0.24,27.027274 7.32909,28.67091 8.94545,2.072727 10.5,2.156364 40.21636,2.156364 36.34,0 34.19273,-0.589092 35.82364,9.83636 0.85818,5.48728 0.85818,198.00364 0,203.48908 -1.63091,10.42547 0.51636,9.83638 -35.82364,9.83638 -29.71636,0 -31.27091,0.0837 -40.21636,2.15817 -7.08909,1.64183 -11.60363,19.30728 -7.32909,28.67092 1.13637,2.48545 2.36726,5.26727 2.73818,6.17818 2.17818,5.35635 7.25091,5.97636 48.9909,5.98727 47.96183,0.0107 53.39273,-0.65818 60.00001,-7.4 1.30545,-1.33091 3.97273,-3.35819 5.92728,-4.50364 5.00908,-2.93635 5.34181,-3.44363 7.8509,-12.03272 1.23454,-4.22727 2.63637,-8.98183 3.11636,-10.56727 1.30909,-4.32001 1.30909,-235.821822 0,-240.14364 -0.47999,-1.585454 -1.88182,-6.34 -3.11636,-10.565454 -2.50909,-8.589091 -2.84182,-9.098182 -7.8509,-12.032728 -1.95455,-1.147272 -4.62183,-3.172727 -5.92728,-4.505454 -6.62546,-6.76 -12.08,-7.425455 -60.30728,-7.36 -30.57272,0.04 -35.33817,0.174546 -39.76908,1.118182 M 87.376365,80.17046 c -4.607268,1.17637 -8.121822,2.99091 -9.203631,4.75273 -0.276368,0.44909 -2.036365,1.68182 -3.910922,2.74 -5.672718,3.20364 -7.954534,10.04727 -6.37817,19.13091 0.736355,4.23455 3.161809,9.6491 4.325448,9.6491 0.303645,0 2.779999,1.52726 5.505457,3.39272 8.17091,5.59636 101.970903,6.05455 126.714543,5.66182 l 107.36546,-0.32001 5.72727,-2.60363 c 7.41637,-3.3709 9.73092,-5.63091 13.21091,-12.89273 3.39091,-7.07272 3.38727,-7.00363 0.48909,-13.67818 -2.98545,-6.87273 -6.95454,-10.82363 -14.29273,-14.22363 l -5.09272,-2.36 -108.00001,-0.24 C 184.65273,78.95774 91.839996,79.03228 87.376365,80.17046 m -2.554545,68.22365 c -16.609096,1.92908 -23.163632,22.64726 -11.147273,35.23271 6.041822,6.3291 5.400003,6.20546 34.032723,6.47819 33.53273,0.32 214.32191,2.93417 217.311,-3.40764 0.68001,-1.44182 4.32537,-7.49055 5.54355,-9.29964 3.30727,-4.90545 3.30727,-11.87637 0,-16.78181 -1.21818,-1.8091 -2.77273,-4.47091 -3.45272,-5.91273 -2.89273,-6.13636 -94.60182,-6.93273 -125.25091,-6.82 -12.34183,0.0454 -115.007284,0.27454 -117.03637,0.51092 m 2.616365,65.16725 c -3.589093,0.91638 -5.980003,2.05274 -9.718185,4.61274 -2.727272,1.86726 -5.207265,3.39454 -5.51091,3.39454 -1.163639,0 -3.589093,5.41455 -4.325448,9.65091 -1.576364,9.08363 0.705452,15.92727 6.37817,19.12909 1.874557,1.05818 3.634554,2.29091 3.910922,2.74 3.005453,4.89818 101.847266,6.2 126.289086,5.81273 l 107.39819,-0.31818 5.08,-2.35455 c 7.32544,-3.39454 11.29817,-7.34909 14.28181,-14.22 2.89818,-6.67272 2.90182,-6.60364 -0.48909,-13.67637 -3.47999,-7.26545 -5.79454,-9.52181 -13.22182,-12.89999 l -5.74,-2.6091 -107.96909,-0.24 c -19.0691,-0.22 -111.976369,-0.14363 -116.363635,0.97818">
 					<svg:svg.cbtn :tap.prevent.toggleParallelMode(yes) style="padding: 8px;" viewBox="0 0 400 338">
 						<svg:title> @data.lang:parallel
-						<svg:path d="m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+						<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 				<.nighttheme :tap.prevent=(do show_fonts = !show_fonts)>
 					@data.lang:font-family
 					<button.change_language>
@@ -1445,7 +1444,7 @@ export tag Bible
 						<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 							<svg:title> @data.lang:download
 							<svg:path d="M0 0h24v24H0z" fill="none">
-							<svg:path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z">
+							<svg:path d="{svg_paths:download}">
 						@data.lang:download
 				<a.help :click.prevent.turnHelpBox()>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -1454,11 +1453,15 @@ export tag Bible
 						<svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
 					@data.lang:help
 				<.freespace>
-				<footer css:padding-bottom="4px">
+				<footer>
 					<p style="padding: 16px 0;">
 						@data.lang:wanna_help
 						<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
-					<a href="/api">
+					<p.footer_links>
+						<a href="https://www.patreon.com/bolls"> "Patreon "
+						<a href="http://t.me/Boguslavv"> "Telegram "
+						<a href="/api"> "API"
+					<p>
 						"© "
 						<time time:datetime="2020-02-12T12:38"> "2019-2020"
 						" Павлишинець Богуслав"
@@ -1494,7 +1497,7 @@ export tag Bible
 										<span> verse:verse
 										<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :tap.prevent.backInHistory({translation: @search:translation, book: verse:book, chapter: verse:chapter,verse: verse:verse}, yes)>
 											<svg:title> @data.lang:open_in_parallel
-											<svg:path d="m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+											<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 								if key > search:counter
 									<button.more_results :tap.prevent=(do search:counter += 50) tabindex="0"> @data.lang:more_results
 									break
@@ -1513,7 +1516,7 @@ export tag Bible
 										<span> verse:verse
 										<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :tap.prevent.backInHistory({translation: @search:translation, book: verse:book, chapter: verse:chapter,verse: verse:verse}, yes)>
 											<svg:title> @data.lang:open_in_parallel
-											<svg:path d="m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+											<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 								if key > search:counter
 									<button.more_results :tap.prevent=(do search:counter += 50) tabindex="0" style="margin: auto; display: flex;"> @data.lang:more_results
 									break
@@ -1560,7 +1563,7 @@ export tag Bible
 					<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:close>
 						<svg:title> @data.lang:close
 						<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
-					<svg:svg.close_search :tap.prevent.deleteBookmarks() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
+					<svg:svg.close_search :tap.prevent.deleteBookmarks(choosenid) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 						<svg:title> @data.lang:delete
 						<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 					<svg:svg.save_bookmark :tap.prevent.copyToClipboard() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
@@ -1627,7 +1630,7 @@ export tag Bible
 									' ', h:translation
 								<svg:svg.open_in_parallel viewBox="0 0 400 338" :tap.prevent.backInHistory(h, yes)>
 									<svg:title> @data.lang:open_in_parallel
-									<svg:path d="m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+									<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 					else
 						<p css:padding="12px"> @data.lang:empty_history
 
@@ -1642,7 +1645,7 @@ export tag Bible
 							<svg:title> @data.lang:help
 							<svg:g>
 									<svg:path d="M16 2L0 7l3.5 2.656L14.563 2.97 5.25 10.656l4.281 3.156z">
-									<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
+									<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
 				<article#helpFAQ.search_body tabindex="0">
 					<p style="color: var(--accent-hover-color); font-size: 0.9em;"> @data.lang:faqmsg
 					for q in @data.lang:HB
@@ -1687,7 +1690,7 @@ export tag Bible
 										<span> tr[0]:translation
 										<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :tap.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
 											<svg:title> @data.lang:open_in_parallel
-											<svg:path d="m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+											<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 										<svg:svg.remove_parallel.close_search :tap.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
 											<svg:title> @data.lang:delete
 											<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
@@ -1709,8 +1712,8 @@ export tag Bible
 					<h1> @data.lang:download_translations
 					if @data:deleting_of_all_transllations()
 						<svg:svg.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-							<svg:title> @data.lang:download
-							<svg:path d="M7.979 1.055a1.474 1.474 0 0 0-.27.025c-3 .16-5.627 2.222-6.451 5.129A7.13 7.13 0 0 0 4.5 14.037a7.13 7.13 0 0 0 8.4-1.105 7.13 7.13 0 0 0 1.106-8.4c1.507 2.725 1.032 6.162-1.135 8.37-2.228 2.148-5.654 2.577-8.33 1.065-2.618-1.576-3.914-4.73-3.18-7.672-.708 2.948.623 6.072 3.221 7.601 2.654 1.471 6.026 1.005 8.174-1.109 2.094-2.168 2.514-5.528 1.037-8.133 1.453 2.618.992 5.956-1.096 8.075-2.137 2.067-5.464 2.484-8.033 1.025C2.146 12.244.888 9.182 1.6 6.357c-.685 2.832.604 5.863 3.103 7.327 2.547 1.417 5.821.963 7.88-1.07 2.014-2.078 2.42-5.34.997-7.837 1.4 2.51.951 5.75-1.056 7.778-2.048 1.988-5.276 2.391-7.737.986C2.37 12.098 1.15 9.125 1.838 6.418c-.662 2.714.59 5.655 2.988 7.053 2.439 1.363 5.614.923 7.582-1.032 1.935-1.987 2.329-5.152.96-7.54 1.345 2.402.91 5.544-1.018 7.482-1.958 1.908-5.089 2.299-7.442.947C2.59 11.951 1.411 9.071 2.076 6.48c-.639 2.598.574 5.446 2.873 6.778 2.331 1.31 5.408.882 7.286-.992 1.855-1.898 2.235-4.963.92-7.245 1.292 2.295.869 5.338-.979 7.186-1.867 1.829-4.9 2.206-7.145.908-2.219-1.31-3.36-4.1-2.718-6.574-.616 2.48.56 5.238 2.76 6.504 2.223 1.256 5.2.842 6.988-.953 1.775-1.807 2.143-4.774.88-6.947 1.239 2.187.83 5.13-.939 6.888-1.777 1.75-4.71 2.114-6.847.87-2.12-1.246-3.223-3.943-2.604-6.3-.593 2.364.544 5.03 2.645 6.229 2.115 1.203 4.993.801 6.69-.914 1.697-1.717 2.051-4.585.843-6.65 1.184 2.08.788 4.924-.9 6.591-1.688 1.67-4.522 2.021-6.551.83-2.02-1.179-3.085-3.785-2.489-6.025-.57 2.247.53 4.822 2.53 5.955 2.007 1.15 4.786.76 6.394-.875 1.616-1.627 1.958-4.395.803-6.353 1.131 1.971.747 4.717-.861 6.295-1.597 1.59-4.332 1.927-6.254.79-1.92-1.113-2.947-3.628-2.373-5.751-.547 2.13.513 4.614 2.414 5.681 1.9 1.096 4.58.72 6.097-.836 1.537-1.536 1.865-4.206.764-6.056 1.077 1.864.707 4.51-.822 5.998-1.507 1.51-4.143 1.835-5.957.752-1.82-1.047-2.808-3.47-2.258-5.477-.524 2.013.498 4.405 2.299 5.406 1.792 1.042 4.373.68 5.8-.797 1.457-1.446 1.773-4.016.725-5.76 1.024 1.757.666 4.305-.783 5.702-1.417 1.43-3.953 1.742-5.66.713-1.721-.981-2.672-3.314-2.145-5.203-.5 1.896.484 4.197 2.186 5.132 1.684.989 4.166.64 5.504-.757 1.377-1.357 1.68-3.828.685-5.463.97 1.649.626 4.097-.744 5.404-1.326 1.35-3.764 1.65-5.363.674-1.621-.915-2.534-3.155-2.03-4.928-.477 1.78.47 3.988 2.07 4.858 1.578.934 3.96.598 5.208-.72 1.297-1.266 1.587-3.638.646-5.165.917 1.54.585 3.89-.705 5.107-1.236 1.271-3.575 1.557-5.066.635-1.522-.849-2.395-2.999-1.914-4.654-.455 1.662.453 3.779 1.955 4.582 1.469.88 3.752.557 4.908-.68 1.217-1.176 1.494-3.447.607-4.865.875 1.425.577 3.685-.636 4.836-1.15 1.213-3.411 1.51-4.836.636-1.47-.797-2.343-2.904-1.867-4.507.39-1.626 2.197-3.013 3.869-2.97V4a1.474 1.474 0 0 0 .002 0 1.474 1.474 0 0 0 1.472-1.473 1.474 1.474 0 0 0-1.472-1.472 1.474 1.474 0 0 0-.002 0z" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+							<svg:title> @data.lang:loading
+							<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
 					else
 						<svg:svg.close_search :tap.prevent=(do @data.clearVersesTable()) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 							<svg:title> @data.lang:remove_all_translations
@@ -1721,8 +1724,8 @@ export tag Bible
 							<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
 							if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
 								<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-									<svg:title> @data.lang:download
-									<svg:path d="M7.979 1.055a1.474 1.474 0 0 0-.27.025c-3 .16-5.627 2.222-6.451 5.129A7.13 7.13 0 0 0 4.5 14.037a7.13 7.13 0 0 0 8.4-1.105 7.13 7.13 0 0 0 1.106-8.4c1.507 2.725 1.032 6.162-1.135 8.37-2.228 2.148-5.654 2.577-8.33 1.065-2.618-1.576-3.914-4.73-3.18-7.672-.708 2.948.623 6.072 3.221 7.601 2.654 1.471 6.026 1.005 8.174-1.109 2.094-2.168 2.514-5.528 1.037-8.133 1.453 2.618.992 5.956-1.096 8.075-2.137 2.067-5.464 2.484-8.033 1.025C2.146 12.244.888 9.182 1.6 6.357c-.685 2.832.604 5.863 3.103 7.327 2.547 1.417 5.821.963 7.88-1.07 2.014-2.078 2.42-5.34.997-7.837 1.4 2.51.951 5.75-1.056 7.778-2.048 1.988-5.276 2.391-7.737.986C2.37 12.098 1.15 9.125 1.838 6.418c-.662 2.714.59 5.655 2.988 7.053 2.439 1.363 5.614.923 7.582-1.032 1.935-1.987 2.329-5.152.96-7.54 1.345 2.402.91 5.544-1.018 7.482-1.958 1.908-5.089 2.299-7.442.947C2.59 11.951 1.411 9.071 2.076 6.48c-.639 2.598.574 5.446 2.873 6.778 2.331 1.31 5.408.882 7.286-.992 1.855-1.898 2.235-4.963.92-7.245 1.292 2.295.869 5.338-.979 7.186-1.867 1.829-4.9 2.206-7.145.908-2.219-1.31-3.36-4.1-2.718-6.574-.616 2.48.56 5.238 2.76 6.504 2.223 1.256 5.2.842 6.988-.953 1.775-1.807 2.143-4.774.88-6.947 1.239 2.187.83 5.13-.939 6.888-1.777 1.75-4.71 2.114-6.847.87-2.12-1.246-3.223-3.943-2.604-6.3-.593 2.364.544 5.03 2.645 6.229 2.115 1.203 4.993.801 6.69-.914 1.697-1.717 2.051-4.585.843-6.65 1.184 2.08.788 4.924-.9 6.591-1.688 1.67-4.522 2.021-6.551.83-2.02-1.179-3.085-3.785-2.489-6.025-.57 2.247.53 4.822 2.53 5.955 2.007 1.15 4.786.76 6.394-.875 1.616-1.627 1.958-4.395.803-6.353 1.131 1.971.747 4.717-.861 6.295-1.597 1.59-4.332 1.927-6.254.79-1.92-1.113-2.947-3.628-2.373-5.751-.547 2.13.513 4.614 2.414 5.681 1.9 1.096 4.58.72 6.097-.836 1.537-1.536 1.865-4.206.764-6.056 1.077 1.864.707 4.51-.822 5.998-1.507 1.51-4.143 1.835-5.957.752-1.82-1.047-2.808-3.47-2.258-5.477-.524 2.013.498 4.405 2.299 5.406 1.792 1.042 4.373.68 5.8-.797 1.457-1.446 1.773-4.016.725-5.76 1.024 1.757.666 4.305-.783 5.702-1.417 1.43-3.953 1.742-5.66.713-1.721-.981-2.672-3.314-2.145-5.203-.5 1.896.484 4.197 2.186 5.132 1.684.989 4.166.64 5.504-.757 1.377-1.357 1.68-3.828.685-5.463.97 1.649.626 4.097-.744 5.404-1.326 1.35-3.764 1.65-5.363.674-1.621-.915-2.534-3.155-2.03-4.928-.477 1.78.47 3.988 2.07 4.858 1.578.934 3.96.598 5.208-.72 1.297-1.266 1.587-3.638.646-5.165.917 1.54.585 3.89-.705 5.107-1.236 1.271-3.575 1.557-5.066.635-1.522-.849-2.395-2.999-1.914-4.654-.455 1.662.453 3.779 1.955 4.582 1.469.88 3.752.557 4.908-.68 1.217-1.176 1.494-3.447.607-4.865.875 1.425.577 3.685-.636 4.836-1.15 1.213-3.411 1.51-4.836.636-1.47-.797-2.343-2.904-1.867-4.507.39-1.626 2.197-3.013 3.869-2.97V4a1.474 1.474 0 0 0 .002 0 1.474 1.474 0 0 0 1.472-1.473 1.474 1.474 0 0 0-1.472-1.472 1.474 1.474 0 0 0-.002 0z" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+									<svg:title> @data.lang:loading
+									<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
 							elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
 								<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 									<svg:title> @data.lang:delete
@@ -1731,7 +1734,7 @@ export tag Bible
 								<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 									<svg:title> @data.lang:download
 									<svg:path d="M0 0h24v24H0z" fill="none">
-									<svg:path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z">
+									<svg:path d="{svg_paths:download}">
 					<.freespace>
 
 			if menuicons
@@ -1746,13 +1749,17 @@ export tag Bible
 				<Load style="position: fixed; top: 50%; left: 50%;">
 
 tag text-as-html < span
+	prop thegiventext default: ""
+
 	def mount
 		schedule(events: yes)
 		dom:innerHTML = @data:text
+		@thegiventext = @data:text
 
 	def tick
-		if @data:text != dom:innerHTML
+		if @data:text != @thegiventext
 			dom:innerHTML = @data:text
+			@thegiventext = @data:text
 			render
 
 	def render

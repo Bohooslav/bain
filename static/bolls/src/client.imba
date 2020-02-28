@@ -1,3 +1,6 @@
 import {Bible} from './components/Bible'
+import {State} from './components/state'
 
-Imba.mount <Bible>
+let Data = State.new
+
+Imba.mount <Bible[Data]>

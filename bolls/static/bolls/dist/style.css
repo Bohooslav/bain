@@ -18,6 +18,7 @@ html[data-theme='light'] {
 
 html[data-theme="loading"] body {
   background-color: #04060C;
+  color: #fee;
 }
 
 * {
@@ -1154,6 +1155,7 @@ aside {
 footer {
   color: #888;
   font-size: 12px;
+  padding-bottom: 8px;
 }
 
 footer a {
@@ -1164,6 +1166,15 @@ footer a {
 
 footer a:hover {
   color: #9ab;
+}
+
+.footer_links {
+  display: flex;
+  padding: 8px 0;
+}
+
+.footer_links a {
+  margin-right: 8px;
 }
 
 .Load {
@@ -1314,3 +1325,7 @@ address a:hover {
   text-align: center;
   animation-delay: 1.5s;
 }
+
+/* ._text-as-html {
+  overflow: auto;
+} */

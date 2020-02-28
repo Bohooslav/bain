@@ -4,6 +4,8 @@ export const en_leng = {
   font-family: "Font family",
   decrease_font-size: "Decrease font size",
   increase_font-size: "Increase font size",
+  increase_font-weight: "Increase font weight",
+  decrease_font-weight: "Decrease font weight",
   increase_line-height: "Increase line height",
   decrease_line-height: "Decrease line height",
   decrease_max-width: "Increase width",
@@ -46,7 +48,6 @@ export const en_leng = {
   canvastitle: 'Pick a color to highlight choosen verses',
   totalyresultsofsearch: 'results',
   thereisnobookmarks: 'Now here is nothing. Here you will can see your highlighted places of Bible',
-  nothing_else: "",
   history: "History",
   empty_history: "The history is empy(",
   cancel: "Cancel",
@@ -57,6 +58,7 @@ export const en_leng = {
   newcollection: "New collection",
   chronological_order: "Chronological Order",
   reload: "Reload",
+  loading: "Loading",
   change_translation: "Change translation",
   change_book: "Change book or chapter",
   download: "Download",
@@ -75,6 +77,10 @@ export const en_leng = {
       "On the desktop, hover your mouse under mostleft edge of window or press the book icon at the up, on mobile phone swipe to right from the left edge of the screen and you will see the books menu, where just click on the translation abbreviation up and you will see all available translations."
     ],
     [
+      "How to download a translation?",
+      "As you guess, this web app is available offline and you can download a translation to use it in offline. To do that go to left menu, find a cloud icon in the top and press it (it is visible if your browser has access to storage and does not have any restrictions in settings). Then you will see the list of available for downloading translations. Just press a cloud icon against the translation you want to download, and after a few seconds it will be downloaded."
+    ]
+    [
       "Why register?",
       "To save there your bookmarks, and get them available via your browser across all platforms."
     ],
@@ -91,6 +97,8 @@ export const uk_leng = {
   font-family: "Шрифт",
   decrease_font-size: "Зменшити шрифт",
   increase_font-size: "Збільшити шрифт",
+  increase_font-weight: "Збільшити товщину шрифту",
+  decrease_font-weight: "Зменшити товщину шрифту",
   increase_line-height: "Збільшити висоту рядка",
   decrease_line-height: "Зменшити висоту рядка",
   decrease_max-width: "Збільшити ширину",
@@ -143,6 +151,7 @@ export const uk_leng = {
   newcollection: "Нова колекція",
   chronological_order: "Хронологічний порядок",
   reload: "Перезавантажити",
+  loading: "Завантаження",
   change_translation: "Змінити переклад",
   change_book: "Змінити книгу чи главу",
   download: "Завантажити",
@@ -161,6 +170,10 @@ export const uk_leng = {
       "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгорі і ви побачите всі доступні переклади."
     ],
     [
+      "Як завантажити переклад?",
+      "Як ви здогадуєтесь, цей веб-додаток доступний офлайн, і ви можете завантажити переклад, щоб використовувати його в режимі офлайн. Для цього перейдіть у меню ліворуч, знайдіть піктограму хмари у верхній частині та натисніть на неї (вона видна, якщо ваш браузер має доступ до пам’яті та не має обмежень у налаштуваннях). Тоді ви побачите список доступних для завантаження перекладів. Просто натисніть піктограму хмари напроти перекладу, який ви хочете завантажити, і через кілька секунд він буде завантажений."
+    ],
+    [
       "Для чого потрібно реєструватися?",
       "Щоб зберігати там свої закладки та мати їх доступними через ваш браузер на всіх платформах."
     ],
@@ -177,6 +190,8 @@ export const ru_leng = {
   font-family: "Шрифт",
   decrease_font-size: "Уменшить шрифт",
   increase_font-size: "Увеличить шрифт",
+  increase_font-weight: "Увеличить толщину шрифта",
+  decrease_font-weight: "Уменшить толщину шрифта",
   increase_line-height: "Увеличить высоту строки",
   decrease_line-height: "Уменшить высоту строки",
   decrease_max-width: "Увеличить ширину",
@@ -229,6 +244,7 @@ export const ru_leng = {
   newcollection: "Новая коллекция",
   chronological_order: "Хронологический порядок",
   reload: "Обновить",
+  loading: "Загрузка",
   change_translation: "Поменять перевод",
   change_book: "Поменять книгу или главу",
   download: "Скачать",
@@ -245,6 +261,10 @@ export const ru_leng = {
     [
       "Где найти нужный перевод?",
       "На рабочем столе наведите указатель мыши на крайнюю левую сторону окна или нажмите на значок книги вверху, а на мобильном телефоне проведите вправо от левого края экрана, и вы увидите меню книг, где просто нажмите на аббревиатуру вверху, и вы увидите все доступные переводы."
+    ],
+    [
+      "Как скачать перевод?",
+      "Как вы и подумали, это веб-приложение доступно в автономном режиме, и вы можете скачать перевод, чтобы использовать его в автономном режиме. Для этого перейдите в левое меню, найдите значок облака в верхней части и нажмите его (оно видно, если ваш браузер имеет доступ к хранилищу и не имеет никаких ограничений в настройках). Тогда вы увидите список доступных для скачивания переводов. Просто нажмите значок облака напротив перевода, который вы хотите загрузить, и через несколько секунд он будет загружен."
     ],
     [
       "Для чего нужно регистрироваться?",

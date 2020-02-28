@@ -13,7 +13,11 @@
   },
   {
     "short_name": "WLC",
-    "full_name": "Westminster Leningrad Codex"
+    "full_name": "Westminster Leningrad Codex (with Vowels)"
+  },
+  {
+    "short_name": "WLCC",
+    "full_name": "Westminster Leningrad Codex (Consonants)"
   },
   {
     "short_name": "UBIO",
