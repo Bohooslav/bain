@@ -1326,6 +1326,6 @@ address a:hover {
   animation-delay: 1.5s;
 }
 
-/* ._text-as-html {
-  overflow: auto;
-} */
+.without_padding {
+  padding: 0;
+}

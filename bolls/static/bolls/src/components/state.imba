@@ -34,6 +34,7 @@ export class State
 					if !window:translation
 						setCookie('translation', 'SYNOD')
 				else
+					@language = 'eng'
 					document:lastChild:lang = "en"
 			setLanguage(@language)
 		@db = Dexie.new('versesdb')
