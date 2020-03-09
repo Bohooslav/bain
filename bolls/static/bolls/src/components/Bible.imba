@@ -10,20 +10,22 @@ if window:process
 	console.log window:process:versions:electron
 
 let settings = {
-	theme: 'light',
+	theme: 'dark',
+	accent: 'blue',
 	translation: 'YLT',
 	book: 1,
 	chapter: 1,
 	font: {
 		size: 24,
 		family: "sans, sans-serif",
-		name: "sans",
-		line-height: 1.6,
+		name: "Sans",
+		line-height: 2,
 		weight: 400,
 		max-width: 30,
 	},
 	clear_copy: no,
-	verse_break: no
+	verse_break: no,
+	lock_drawers: no
 }
 let parallel_text = {
 	display: no,
@@ -55,6 +57,7 @@ let onpopstate = no
 let loading = no
 let menuicons = yes
 let show_fonts = no
+let show_accents = no
 let show_help = no
 let show_compare = no
 let show_downloads = no
@@ -232,12 +235,9 @@ export tag Bible
 				console.error('Error: ', error)
 		elif getCookie('username')
 			user:name = getCookie('username')
-		if getCookie('translation')
-			settings:translation = getCookie('translation')
-		if getCookie('book')
-			settings:book = parseInt(getCookie('book'))
-		if getCookie('chapter')
-			settings:chapter = parseInt(getCookie('chapter'))
+		settings:translation = getCookie('translation') || settings:translation
+		settings:book = parseInt(getCookie('book')) || settings:book
+		settings:chapter = parseInt(getCookie('chapter')) || settings:chapter
 		switchTranslation settings:translation, no
 		getText(settings:translation, settings:book, settings:chapter, window:verse)
 		if window:location:pathname == '/profile/'
@@ -246,35 +246,27 @@ export tag Bible
 			toDownloads yes
 		if getCookie('theme')
 			settings:theme = getCookie('theme')
+			settings:accent = getCookie('accent') || settings:accent
 			let html = document.querySelector('#html')
-			html:dataset:theme = settings:theme
+			html:dataset:theme = settings:accent + settings:theme
 		else
 			let html = document.querySelector('#html')
-			html:dataset:theme = settings:theme
-		if getCookie('font')
-			settings:font:size = parseInt(getCookie('font'))
-		if getCookie('font-family')
-			settings:font:family = getCookie('font-family')
-		if getCookie('font-name')
-			settings:font:name = getCookie('font-name')
-		if getCookie('font-weight')
-			settings:font:weight = parseInt(getCookie('font-weight'))
-		if getCookie('line-height')
-			settings:font:line-height = parseFloat(getCookie('line-height'))
-		if getCookie('max-width')
-			settings:font:max-width = parseInt(getCookie('max-width'))
-		if getCookie('clear_copy') == 'true'
-			settings:clear_copy = getCookie('clear_copy')
-		if getCookie('verse_break') == 'true'
-			settings:verse_break = getCookie('verse_break')
+			html:dataset:theme = settings:accent + settings:theme
+		settings:font:size = parseInt(getCookie('font')) || settings:font:size
+		settings:font:family = getCookie('font-family') || settings:font:family
+		settings:font:name = getCookie('font-name') || settings:font:name
+		settings:font:weight = parseInt(getCookie('font-weight')) || settings:font:weight
+		settings:font:line-height = parseFloat(getCookie('line-height')) || settings:font:line-height
+		settings:font:max-width = parseInt(getCookie('max-width')) || settings:font:max-width
+		settings:clear_copy = (getCookie('clear_copy') == 'true') || settings:clear_copy
+		settings:verse_break = (getCookie('verse_break') == 'true') || settings:verse_break
+		settings:lock_drawers = (getCookie('lock_drawers') == 'true') || settings:lock_drawers
 		if getCookie('parallel_display') == 'true'
-			toggleParallelMode "build"
+			toggleParallelMode("build")
 		if getCookie('chronorder') == 'true'
-			toggleChronorder
-		if getCookie("highlights")
-			highlights = JSON.parse(getCookie("highlights"))
-		if getCookie('menuicons') == 'false'
-			menuicons = no
+			toggleChronorder()
+		highlights = JSON.parse(getCookie("highlights")) || []
+		menuicons = !(getCookie('menuicons') == 'false')
 		compare_translations.push(settings:translation)
 		compare_translations.push(parallel_text:translation)
 		if JSON.parse(getCookie("compare_translations"))
@@ -612,12 +604,16 @@ export tag Bible
 
 	def changeTheme theme
 		let html = document.querySelector('#html')
-		if theme == 'light'
-			html:dataset:theme = 'light'
-		else
-			html:dataset:theme = 'dark'
 		settings:theme = theme
+		html:dataset:theme = settings:accent + settings:theme
 		setCookie('theme', theme)
+
+	def changeAccent accent
+		let html = document.querySelector('#html')
+		settings:accent = accent
+		html:dataset:theme = settings:accent + settings:theme
+		setCookie('accent', accent)
+		show_accents = no
 
 	def decreaseFontSize
 		if settings:font:size > 16
@@ -698,7 +694,7 @@ export tag Bible
 					getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
 	def onmousemove e
-		if window:innerWidth > 600
+		if window:innerWidth > 600 && !settings:lock_drawers
 			if e.x < 32
 				bible_menu_left = 0
 				mobimenu = 'show_bible_menu'
@@ -1143,6 +1139,10 @@ export tag Bible
 		settings:verse_break = !settings:verse_break
 		setCookie('verse_break', settings:verse_break)
 
+	def toggleLockDrawers
+		settings:lock_drawers = !settings:lock_drawers
+		setCookie('lock_drawers', settings:lock_drawers)
+
 	def translationFullName tr
 		translations.find(do |translation| return translation:short_name == tr):full_name
 
@@ -1240,7 +1240,7 @@ export tag Bible
 
 	def render
 		<self .hold_by_finger=(inzone || onzone)>
-			<nav style="left: {bible_menu_left}px; box-shadow: 0 0 {(bible_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
+			<nav .display_none=(settings_menu_left > -300) style="left: {bible_menu_left}px; box-shadow: 0 0 {(bible_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
 				if parallel_text:display
 					<.choose_parallel>
 						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :tap.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -1281,7 +1281,8 @@ export tag Bible
 			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					<header>
-						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
+						if @verses:length
+							<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
 					if @verses:length
 						<article>
 							<.text-ident> " "
@@ -1318,7 +1319,8 @@ export tag Bible
 							<a.reload :tap=(do window:location.reload(true))> @data.lang:reload
 				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
 					<header>
-						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+						if @parallel_verses:length
+							<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
 					if @parallel_verses:length
 						<article>
 							<.text-ident> " "
@@ -1348,8 +1350,16 @@ export tag Bible
 					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
-			<aside style="right: {settings_menu_left}px; box-shadow: 0 0 {(settings_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
-				<p.settings_header> @data.lang:other
+			<aside .display_none=(bible_menu_left > -300) style="right: {settings_menu_left}px; box-shadow: 0 0 {(settings_menu_left + 300) / 12}px rgba(0, 0, 0, 0.3);">
+				<p.settings_header>
+					@data.lang:other
+					<#current_accent .blur_current_accent=show_accents :tap.prevent=(do show_accents = !show_accents)>
+					<.accents .show_accents=show_accents>
+						<.accent :tap.prevent.changeAccent('green') style="background-color: {settings:theme == 'dark' ? '#9acd32' : '#9acd32'};">
+						<.accent :tap.prevent.changeAccent('blue') style="background-color: {settings:theme == 'dark' ? '#8080FF' : '#417690'};">
+						<.accent :tap.prevent.changeAccent('purple') style="background-color: {settings:theme == 'dark' ? '#984da5' : '#994EA6'};">
+						<.accent :tap.prevent.changeAccent('gold') style="background-color: {settings:theme == 'dark' ? '#E7C15F' : '#E1AF33'};">
+						<.accent :tap.prevent.changeAccent('red') style="background-color: {settings:theme == 'dark' ? '#E67A7A' : '#D93A3A'};">
 				<input[search:search_input].search id='search' type='search' placeholder=@data.lang:search input:aria-label=@data.lang:search :keydown.enter.prevent.getSearchText> @data.lang:search
 				<.btnbox>
 					<svg:svg.cbtn :tap.prevent.changeTheme("dark") style="padding: 8px;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
@@ -1418,14 +1428,19 @@ export tag Bible
 					else
 						<a.prof_btn href="/accounts/login/"> @data.lang:login, ' '
 						<a.prof_btn.signin href="/signup/"> @data.lang:signin
-				<.nighttheme :tap.prevent.toggleClearCopy>
+				<.nighttheme :tap.prevent.toggleClearCopy()>
 					@data.lang:clear_copy
 					<a.parallel_checkbox>
 						<span .parallel_checkbox_turned=settings:clear_copy>
-				<.nighttheme :tap.prevent.toggleVerseBreak>
+				<.nighttheme :tap.prevent.toggleVerseBreak()>
 					@data.lang:verse_break
 					<a.parallel_checkbox>
 						<span .parallel_checkbox_turned=settings:verse_break>
+				if window:innerWidth > 680
+					<.nighttheme :tap.prevent.toggleLockDrawers()>
+						@data.lang:lock_drawers
+						<a.parallel_checkbox>
+							<span .parallel_checkbox_turned=settings:lock_drawers>
 				<.nighttheme :tap.prevent=(do @data.show_languages = !@data.show_languages)>
 					@data.lang:language
 					<a.change_language>
@@ -1464,11 +1479,114 @@ export tag Bible
 						<a href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
 						"© "
-						<time time:datetime="2020-02-12T12:38"> "2019-2020"
+						<time time:datetime="2020-03-6T13:00"> "2019-2020"
 						" Павлишинець Богуслав"
 
-			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
-				if search:search_div
+			<section.search_results .display_none=(mobimenu && !(search:search_div || show_help || show_compare || show_downloads)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
+				if show_help
+					<article.search_hat>
+						<svg:svg.close_search :tap.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
+							<svg:title> @data.lang:close
+							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
+						<h1> @data.lang:help
+						<a href="mailto:bpavlisinec@gmail.com">
+							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+								<svg:title> @data.lang:help
+								<svg:g>
+										<svg:path d="M16 2L0 7l3.5 2.656L14.563 2.97 5.25 10.656l4.281 3.156z">
+										<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
+					<article#helpFAQ.search_body tabindex="0">
+						<p style="color: var(--accent-hover-color); font-size: 0.9em;"> @data.lang:faqmsg
+						for q in @data.lang:HB
+							<h3> q[0]
+							<p> q[1]
+						<address.still_have_questions>
+							@data.lang:still_have_questions
+							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
+
+				elif show_compare
+					<article.search_hat>
+						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
+							<svg:title> @data.lang:close
+							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
+						<h1> highlighted_title
+						<svg:svg.filter_search :tap.prevent=(do show_translations_for_comparison = !show_translations_for_comparison) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:addcollection style="stroke: var(--text-color);">
+							<svg:title> @data.lang:compare
+							<svg:line x1="0" y1="10" x2="20" y2="10">
+							<svg:line x1="10" y1="0" x2="10" y2="20">
+					<article.search_body tabindex="0">
+						<p.search_results_total> @data.lang:add_translations_msg
+						<.filters .show=show_translations_for_comparison>
+							if compare_translations:length == translations:length
+								@data.lang:nothing_else
+							for translation in translations when !compare_translations.find(do |element| return element == translation:short_name)
+									<a.book_in_list.book_in_filter dir="auto" :tap.prevent.addTranslation(translation)> translation:short_name, ', ', translation:full_name
+						if compare_translations:length
+							for tr, key in comparison_parallel
+								if tr[0]:text
+									<a.search_item>
+										<.search_res_verse_text :tap.prevent.getText(tr[0]:translation, tr[0]:book, tr[0]:chapter, tr[0]:verse)>
+											for aoeirf in tr
+												<text-as-html[{text: aoeirf:text}]>
+												' '
+										<.search_res_verse_header>
+											<svg:svg.open_in_parallel :tap.prevent.changeOrder(key, -1) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+												<svg:title> @data.lang:move_up
+												<svg:path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z">
+											<svg:svg.open_in_parallel :tap.prevent.changeOrder(key, 1) style="margin-right: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+												<svg:title> @data.lang:move_down
+												<svg:path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z">
+											<span> tr[0]:translation
+											<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :tap.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
+												<svg:title> @data.lang:open_in_parallel
+												<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+											<svg:svg.remove_parallel.close_search :tap.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
+												<svg:title> @data.lang:delete
+												<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
+								else
+									<p style="padding: 16px 0;display: flex; align-items: center;">
+										@data.lang:the_verse_is_not_available, tr[0]:translation, tr[0]:text
+										<svg:svg.remove_parallel.close_search style="margin: -8px 8px 0 auto;" :tap.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
+											<svg:title> @data.lang:delete
+											<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
+							<.freespace>
+						else
+							<button.more_results style="margin: 16px auto; display: flex;" :tap.prevent=(do show_translations_for_comparison = !show_translations_for_comparison)> @data.lang:add_translation_btn
+
+				elif show_downloads
+					<article.search_hat>
+						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
+							<svg:title> @data.lang:close
+							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
+						<h1> @data.lang:download_translations
+						if @data:deleting_of_all_transllations()
+							<svg:svg.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+								<svg:title> @data.lang:loading
+								<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+						else
+							<svg:svg.close_search :tap.prevent=(do @data.clearVersesTable()) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
+								<svg:title> @data.lang:remove_all_translations
+								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
+					<article.search_body tabindex="0">
+						for tr in translations
+							<a.search_res_verse_header>
+								<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
+								if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
+									<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+										<svg:title> @data.lang:loading
+										<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+								elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
+									<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
+										<svg:title> @data.lang:delete
+										<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
+								else
+									<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<svg:title> @data.lang:download
+										<svg:path d="M0 0h24v24H0z" fill="none">
+										<svg:path d="{svg_paths:download}">
+						<.freespace>
+
+				else
 					<article.search_hat>
 						<svg:svg.close_search :tap.prevent.closeSearch(true) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
 							<svg:title> @data.lang:close
@@ -1529,110 +1647,7 @@ export tag Bible
 								<p css:padding="32px 0px 8px"> @data.lang:translation, search:search_result_translation
 								<button.more_results :tap.prevent.showTranslations> @data.lang:change_translation
 
-				if show_help
-					<article.search_hat>
-						<svg:svg.close_search :tap.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
-							<svg:title> @data.lang:close
-							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
-						<h1> @data.lang:help
-						<a href="mailto:bpavlisinec@gmail.com">
-							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-								<svg:title> @data.lang:help
-								<svg:g>
-										<svg:path d="M16 2L0 7l3.5 2.656L14.563 2.97 5.25 10.656l4.281 3.156z">
-										<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
-					<article#helpFAQ.search_body tabindex="0">
-						<p style="color: var(--accent-hover-color); font-size: 0.9em;"> @data.lang:faqmsg
-						for q in @data.lang:HB
-							<h3> q[0]
-							<p> q[1]
-						<address.still_have_questions>
-							@data.lang:still_have_questions
-							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
-
-				if show_compare
-					<article.search_hat>
-						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
-							<svg:title> @data.lang:close
-							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
-						<h1> highlighted_title
-						<svg:svg.filter_search :tap.prevent=(do show_translations_for_comparison = !show_translations_for_comparison) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:addcollection style="stroke: var(--text-color);">
-							<svg:title> @data.lang:compare
-							<svg:line x1="0" y1="10" x2="20" y2="10">
-							<svg:line x1="10" y1="0" x2="10" y2="20">
-					<article.search_body tabindex="0">
-						<p.search_results_total> @data.lang:add_translations_msg
-						<.filters .show=show_translations_for_comparison>
-							if compare_translations:length == translations:length
-								@data.lang:nothing_else
-							for translation in translations when !compare_translations.find(do |element| return element == translation:short_name)
-									<a.book_in_list.book_in_filter dir="auto" :tap.prevent.addTranslation(translation)> translation:short_name, ', ', translation:full_name
-						if compare_translations:length
-							for tr, key in comparison_parallel
-								if tr[0]:text
-									<a.search_item>
-										<.search_res_verse_text :tap.prevent.getText(tr[0]:translation, tr[0]:book, tr[0]:chapter, tr[0]:verse)>
-											for aoeirf in tr
-												<text-as-html[{text: aoeirf:text}]>
-												' '
-										<.search_res_verse_header>
-											<svg:svg.open_in_parallel :tap.prevent.changeOrder(key, -1) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-												<svg:title> @data.lang:move_up
-												<svg:path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z">
-											<svg:svg.open_in_parallel :tap.prevent.changeOrder(key, 1) style="margin-right: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-												<svg:title> @data.lang:move_down
-												<svg:path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z">
-											<span> tr[0]:translation
-											<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :tap.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
-												<svg:title> @data.lang:open_in_parallel
-												<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
-											<svg:svg.remove_parallel.close_search :tap.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
-												<svg:title> @data.lang:delete
-												<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
-								else
-									<p style="padding: 16px 0;display: flex; align-items: center;">
-										@data.lang:the_verse_is_not_available, tr[0]:translation, tr[0]:text
-										<svg:svg.remove_parallel.close_search style="margin: -8px 8px 0 auto;" :tap.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
-											<svg:title> @data.lang:delete
-											<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
-							<.freespace>
-						else
-							<button.more_results style="margin: 16px auto; display: flex;" :tap.prevent=(do show_translations_for_comparison = !show_translations_for_comparison)> @data.lang:add_translation_btn
-
-				if show_downloads
-					<article.search_hat>
-						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
-							<svg:title> @data.lang:close
-							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
-						<h1> @data.lang:download_translations
-						if @data:deleting_of_all_transllations()
-							<svg:svg.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-								<svg:title> @data.lang:loading
-								<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
-						else
-							<svg:svg.close_search :tap.prevent=(do @data.clearVersesTable()) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
-								<svg:title> @data.lang:remove_all_translations
-								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
-					<article.search_body tabindex="0">
-						for tr in translations
-							<a.search_res_verse_header>
-								<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
-								if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
-									<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-										<svg:title> @data.lang:loading
-										<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
-								elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
-									<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
-										<svg:title> @data.lang:delete
-										<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
-								else
-									<svg:svg.remove_parallel.close_search :tap.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-										<svg:title> @data.lang:download
-										<svg:path d="M0 0h24v24H0z" fill="none">
-										<svg:path d="{svg_paths:download}">
-						<.freespace>
-
-			<section.hide .without_padding=show_collections .choosen_verses=choosenid:length>
+			<section.hide  .display_none=(mobimenu && !(choosenid:length)) .without_padding=show_collections .choosen_verses=choosenid:length>
 				if choosenid:length && !(show_collections)
 					if show_color_picker
 						if window:innerWidth < 600
@@ -1716,7 +1731,7 @@ export tag Bible
 					else
 						<button.cancel :tap.prevent.turnCollections> @data.lang:cancel
 
-			<section.history.filters .show_history=show_history>
+			<section.history.filters .display_none=(mobimenu && !(show_history)) .show_history=show_history>
 				<.nighttheme css:margin="0">
 					<svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
 							<svg:title> @data.lang:close

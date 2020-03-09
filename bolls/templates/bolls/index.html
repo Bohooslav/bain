@@ -5,6 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Bolls Bible</title>
+    <script src="{% static 'bolls/dist/client.js' %}" async></script>
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
     <link rel="stylesheet" type="text/css" href="{% static 'bolls/fonts/fontstylesheet.css' %}">
@@ -34,7 +35,6 @@
         {% if verse %} window.verse = "{{ verse }}"; {% endif %}
       {% else %} window.translation = false; {% endif %}
     </script>
-    <script src="{% static 'bolls/dist/client.js' %}" async></script>
     <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
     <script>
       if ('serviceWorker' in navigator) {

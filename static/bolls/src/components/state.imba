@@ -14,10 +14,10 @@ export class State
 	prop lang
 
 	def initialize
+		@can_work_with_db = yes
 		@downloaded_translations = []
 		@downloading_of_this_translations = []
 		@deleting_of_all_transllations = no
-		@can_work_with_db = no
 		@show_languages = no
 		if getCookie('language')
 			setLanguage(getCookie('language'))
@@ -34,6 +34,7 @@ export class State
 					if !window:translation
 						setCookie('translation', 'SYNOD')
 				else
+					@language = 'eng'
 					document:lastChild:lang = "en"
 			setLanguage(@language)
 		@db = Dexie.new('versesdb')
@@ -41,15 +42,8 @@ export class State
 			verses: '&pk, translation, [translation+book+chapter], [translation+book+chapter+verse]',
 			bookmarks: '&verse, *notes'
 		})
-		@db.open()
-		.then(do
-			console.log('👷', ' Opened the database')
-			@can_work_with_db = yes
-			checkDownloadedTranslations()
-			checkSavedBookmarks()
-		).catch(do |error|
-			console.log('Uh oh : ' + error)
-		)
+		checkDownloadedTranslations()
+		checkSavedBookmarks()
 
 
 	def get_cookie name
@@ -74,6 +68,7 @@ export class State
 		return res.json
 
 	def checkDownloadedTranslations
+		@downloaded_translations = JSON.parse(getCookie('downloaded_translations')) || []
 		let checked_translations = await Promise.all(
 			translations.map(
 				do |translation|
@@ -86,6 +81,7 @@ export class State
 			)
 		)
 		@downloaded_translations = checked_translations.filter(do |item| return item != null)
+		setCookie('downloaded_translations', JSON.stringify(@downloaded_translations))
 
 	def checkSavedBookmarks
 		@db.transaction('rw', @db:bookmarks, do
@@ -144,6 +140,9 @@ export class State
 				@db.transaction('rw', @db:bookmarks, do
 					@db:bookmarks.clear()
 				)
+		).catch(do |e|
+			@can_work_with_db = no
+			console.log('Uh oh : ' + e)
 		)
 
 	def downloadTranslation translation

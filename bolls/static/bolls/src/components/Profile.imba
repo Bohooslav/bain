@@ -33,6 +33,7 @@ export tag Profile
 						window:localStorage.setItem("history", JSON.stringify(@history))
 			catch error
 				console.error('Error: ', error)
+
 	def mount
 		limits_of_range:from = 0
 		limits_of_range:to = 32
@@ -314,12 +315,13 @@ export tag Profile
 							<time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
 							<svg:svg._options :tap.prevent.showOptions(bookmark:title) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
 								<svg:path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z">
-							<.languages css:right="{window:innerWidth > 1200 ? (window:innerWidth - 1140) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
+							<.languages css:right="{window:innerWidth > 960 ? (window:innerWidth - 900) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
+								<button :tap.prevent.deleteBookmark(bookmark)> @data.lang:delete
 								<button :tap.prevent.goToBookmark(bookmark)> @data.lang:open
 								<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy
-								<button :tap.prevent.deleteBookmark(bookmark)> @data.lang:delete
 					<hr.hr>
 				if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
+					<button.more_results :tap.prevent.getMoreBookmarks() tabindex="0" style="margin: auto; display: flex;"> @data.lang:more_results
 					<Load css:padding="128px 0">
 				else
 					<div.freespace>
