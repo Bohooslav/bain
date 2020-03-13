@@ -1,11 +1,10 @@
-var CACHE_NAME = 'v1.2.20';
+var CACHE_NAME = 'v1.2.22';
 var urlsToCache = [
   '/',
   '/static/bolls/dist/client.js',
   '/static/bolls/dist/style.css',
   '/static/bolls/fonts/fontstylesheet.css',
   '/static/bolls/dist/mobile_styles.css',
-  '/static/light.png',
   '/static/bolls/dist/8.jpg',
   '/static/apple-touch-icon.png'
 ];

@@ -89,21 +89,23 @@ if os.getenv('GAE_APPLICATION', None):
     # the unix socket at /cloudsql/<your-cloudsql-connection string>
 
     DATABASES = {
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'HOST': '/cloudsql/bolls-256717:europe-west6:bollsdb',
+        #     'USER': 'postgres',
+        #     'PASSWORD': 'IAvIjOyH3jvczpIK',
+        #     'NAME': 'bain',
+        # }
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '/cloudsql/bolls-256717:europe-west6:bollsdb',
+            'HOST': 'bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com',
             'USER': 'postgres',
-            'PASSWORD': 'IAvIjOyH3jvczpIK',
+            'PASSWORD': '#8q^EMgAxWbmLGEp',
             'NAME': 'bain',
+            'PORT': '5432',
         }
     }
 else:
-    # Running locally so connect to either a local MySQL instance or connect to
-    # Cloud SQL via the proxy. To start the proxy via command line:
-    #
-    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
-    #
-    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

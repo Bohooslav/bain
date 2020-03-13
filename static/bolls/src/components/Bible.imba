@@ -138,8 +138,8 @@ window:onpopstate = do |event|
 		if state:profile || state:downloads
 			if state:profile
 				let profile = document:getElementsByClassName("Profile")
+				console.log profile
 				if !profile[0]
-					console.log "mount"
 					Imba.mount <Profile[@data]>
 			if state:downloads
 				let downloads = document:getElementsByClassName("Downloads")
@@ -1358,8 +1358,8 @@ export tag Bible
 						<.accent :tap.prevent.changeAccent('green') style="background-color: {settings:theme == 'dark' ? '#9acd32' : '#9acd32'};">
 						<.accent :tap.prevent.changeAccent('blue') style="background-color: {settings:theme == 'dark' ? '#8080FF' : '#417690'};">
 						<.accent :tap.prevent.changeAccent('purple') style="background-color: {settings:theme == 'dark' ? '#984da5' : '#994EA6'};">
-						<.accent :tap.prevent.changeAccent('gold') style="background-color: {settings:theme == 'dark' ? '#E7C15F' : '#E1AF33'};">
-						<.accent :tap.prevent.changeAccent('red') style="background-color: {settings:theme == 'dark' ? '#E67A7A' : '#D93A3A'};">
+						<.accent :tap.prevent.changeAccent('gold') style="background-color: {settings:theme == 'dark' ? '#DAA520' : '#E1AF33'};">
+						<.accent :tap.prevent.changeAccent('red') style="background-color: {settings:theme == 'dark' ? '#DE5454' : '#D93A3A'};">
 				<input[search:search_input].search id='search' type='search' placeholder=@data.lang:search input:aria-label=@data.lang:search :keydown.enter.prevent.getSearchText> @data.lang:search
 				<.btnbox>
 					<svg:svg.cbtn :tap.prevent.changeTheme("dark") style="padding: 8px;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">

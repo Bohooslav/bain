@@ -105,8 +105,9 @@ def getBookmarks(request, translation, book, chapter):
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
     bookmarks = []
-    for bookmark in user.bookmarks_set.all().order_by(
-            '-date', 'verse')[range_from:range_to]:
+    bookmarkslist = user.bookmarks_set.all().order_by(
+        '-date', 'verse')[range_from:range_to]
+    for bookmark in bookmarkslist:
         bookmarks.append({
             "verse": {
                 "verse_id": bookmark.verse.pk,

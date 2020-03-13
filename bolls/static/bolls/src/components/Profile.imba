@@ -16,34 +16,32 @@ let show_options_of = ''
 
 export tag Profile
 	prop bookmarks default: []
+	prop loaded_bookmarks default: []
 	prop books default: []
 	prop translation default: ''
 	prop categories default: []
 
 	def build
-		if window:navigator:onLine
-			try
-				let data = await loadData("/user-logged/")
-				if data:username
-					user:name = data:username
-					let url = "/get-history/"
-					try
-						data = await loadData(url)
-						@history = JSON.parse(data:history)
-						window:localStorage.setItem("history", JSON.stringify(@history))
-			catch error
-				console.error('Error: ', error)
-
-	def mount
 		limits_of_range:from = 0
 		limits_of_range:to = 32
 		limits_of_range:loaded = 0
+		loading = true
 		@bookmarks = []
+		@loaded_bookmarks = []
 		query = ''
 		show_options_of = ''
 		getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 		if window:navigator:onLine
 			getCategories
+		if window:navigator:onLine
+			try
+				let data = await loadData("/user-logged/")
+				if data:username
+					user:name = data:username
+			catch error
+				console.error('Error: ', error)
+
+	def mount
 		let bible = document:getElementsByClassName("Bible")
 		if bible[0]
 			bible[0]:classList.add("display_none")
@@ -112,26 +110,27 @@ export tag Profile
 			newItem:verse = [item:verse:verse]
 			newItem:pks = [item:verse:verse_id]
 			newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
-			if @bookmarks[@bookmarks:length - 1]
-				if item:date == @bookmarks[@bookmarks:length - 1]:date.getTime
-					@bookmarks[@bookmarks:length - 1]:verse.push(item:verse:verse)
-					@bookmarks[@bookmarks:length - 1]:pks.push(item:verse:verse_id)
-					@bookmarks[@bookmarks:length - 1]:text.push(item:verse:text)
-					@bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
+			if @loaded_bookmarks[@loaded_bookmarks:length - 1]
+				if item:date == @loaded_bookmarks[@loaded_bookmarks:length - 1]:date.getTime
+					@loaded_bookmarks[@loaded_bookmarks:length - 1]:verse.push(item:verse:verse)
+					@loaded_bookmarks[@loaded_bookmarks:length - 1]:pks.push(item:verse:verse_id)
+					@loaded_bookmarks[@loaded_bookmarks:length - 1]:text.push(item:verse:text)
+					@loaded_bookmarks[@loaded_bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @loaded_bookmarks[@loaded_bookmarks:length - 1]:verse
 				else
 					newItem:text.push(item:verse:text)
-					@bookmarks.push(newItem)
+					@loaded_bookmarks.push(newItem)
 					newItem = {
 						verse: [],
 						text: []
 					}
 			else
 				newItem:text.push(item:verse:text)
-				@bookmarks.push(newItem)
+				@loaded_bookmarks.push(newItem)
 				newItem = {
 						verse: [],
 						text: []
 					}
+		# @loaded_bookmarks = @bookmarks
 		loading = no
 		limits_of_range:from = range_from
 		limits_of_range:to = range_to
@@ -154,7 +153,7 @@ export tag Profile
 
 	def getMoreBookmarks
 		if limits_of_range:loaded == limits_of_range:to
-			getProfileBookmarks limits_of_range:to, limits_of_range:to + 32
+			getProfileBookmarks(limits_of_range:to, limits_of_range:to + 32)
 
 	def goToBookmark bookmark
 		let bible = document:getElementsByClassName("Bible")
@@ -179,7 +178,6 @@ export tag Profile
 			@bookmarks = []
 			let url = "/get-searched-bookmarks/" + category + '/'
 			let data = await loadData(url)
-			@bookmarks = []
 			limits_of_range:loaded += data:length
 			let newItem = {
 				verse: [],
@@ -221,10 +219,6 @@ export tag Profile
 
 	def closeSearch
 		query = ''
-		limits_of_range:from = 0
-		limits_of_range:to = 50
-		@bookmarks = []
-		getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 
 	def scroll
 		if (dom:clientHeight - 512 < window:scrollY + window:innerHeight) && !loading
@@ -305,7 +299,7 @@ export tag Profile
 							<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
 								<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
 							<h1> query
-				for bookmark in @bookmarks
+				for bookmark in (query ? @bookmarks : @loaded_bookmarks)
 					<article.bookmark_in_list css:border-color="{bookmark:color}">
 						<text-as-html[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
 						if bookmark:note
@@ -320,12 +314,12 @@ export tag Profile
 								<button :tap.prevent.goToBookmark(bookmark)> @data.lang:open
 								<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy
 					<hr.hr>
-				if loading && (limits_of_range:loaded == limits_of_range:to) && @bookmarks:length
-					<button.more_results :tap.prevent.getMoreBookmarks() tabindex="0" style="margin: auto; display: flex;"> @data.lang:more_results
+				if loading && ((limits_of_range:loaded == limits_of_range:to) || limits_of_range:loaded == 0)
+					# <button.more_results :tap.prevent.getMoreBookmarks() tabindex="0" style="margin: 16px auto; display: flex;"> @data.lang:more_results
 					<Load css:padding="128px 0">
 				else
 					<div.freespace>
-				if !@bookmarks:length
+				if !@bookmarks:length && !@categories:length
 					<p css:text-align="center"> @data.lang:thereisnobookmarks
 
 		if !window:navigator:onLine
