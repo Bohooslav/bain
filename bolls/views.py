@@ -5,8 +5,7 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.http import JsonResponse, HttpResponse
 from bolls.forms import SignUpForm
 from .models import Verses, Bookmarks, History
 

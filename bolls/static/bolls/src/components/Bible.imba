@@ -18,14 +18,15 @@ let settings = {
 	font: {
 		size: 24,
 		family: "sans, sans-serif",
-		name: "Sans",
+		name: "Sans Serif",
 		line-height: 2,
 		weight: 400,
 		max-width: 30,
 	},
 	clear_copy: no,
 	verse_break: no,
-	lock_drawers: no
+	lock_drawers: no,
+	transitions: yes
 }
 let parallel_text = {
 	display: no,
@@ -61,6 +62,7 @@ let show_accents = no
 let show_help = no
 let show_compare = no
 let show_downloads = no
+let what_to_show = 'search'
 let deleting_of_all_transllations = no
 let choosen_for_comparison = []
 let comparison_parallel = []
@@ -96,7 +98,7 @@ let fonts = [
 		code: "system-ui"
 	}
 	{
-		name: "Sans",
+		name: "Sans Serif",
 		code: "sans, sans-serif"
 	},
 	{
@@ -138,7 +140,6 @@ window:onpopstate = do |event|
 		if state:profile || state:downloads
 			if state:profile
 				let profile = document:getElementsByClassName("Profile")
-				console.log profile
 				if !profile[0]
 					Imba.mount <Profile[@data]>
 			if state:downloads
@@ -203,12 +204,11 @@ export tag Bible
 	prop show_chapters_of default: 0
 	prop show_list_of_translations default: no
 	prop show_languages default: no
-	prop linked_verse default: 0
-	prop langdata default: []
 	prop history default: []
 	prop categories default: []
 	prop chronorder default: no
 	prop search default: Object.create(null)
+	prop notification default: ''
 
 	def setup
 		if window:translation
@@ -240,6 +240,7 @@ export tag Bible
 		settings:chapter = parseInt(getCookie('chapter')) || settings:chapter
 		switchTranslation settings:translation, no
 		getText(settings:translation, settings:book, settings:chapter, window:verse)
+		show_chapters_of = settings:book
 		if window:location:pathname == '/profile/'
 			toProfile yes
 		elif window:location:pathname == '/downloads/'
@@ -252,6 +253,13 @@ export tag Bible
 		else
 			let html = document.querySelector('#html')
 			html:dataset:theme = settings:accent + settings:theme
+		if getCookie('transitions') == 'false'
+			settings:transitions = no
+			let html = document.querySelector('#html')
+			html:dataset:transitions = settings:transitions
+		else
+			let html = document.querySelector('#html')
+			html:dataset:transitions = settings:transitions
 		settings:font:size = parseInt(getCookie('font')) || settings:font:size
 		settings:font:family = getCookie('font-family') || settings:font:family
 		settings:font:name = getCookie('font-name') || settings:font:name
@@ -333,7 +341,7 @@ export tag Bible
 					})
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log data)
+			.then(do |data| console.log(data))
 			.catch(do |e| console.log(e))
 
 	def loadData url
@@ -362,7 +370,7 @@ export tag Bible
 				)
 			onpopstate = no
 			clearSpace
-			document:title = "Bolls " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
+			document:title = "Bolls Bible " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
 			if @chronorder
 				@chronorder = !@chronorder
 				toggleChronorder
@@ -492,6 +500,7 @@ export tag Bible
 		else
 			clearSpace
 			show_help = !show_help
+			what_to_show = 'show_help'
 
 	def toggleParallelMode parallel
 		if !parallel
@@ -564,6 +573,7 @@ export tag Bible
 					if !@search:bookid_of_results.find(do |element| return element == verse:book)
 						@search:bookid_of_results.push verse:book
 				closeSearch()
+				what_to_show = ''
 				Imba.commit
 			catch error
 				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == search:search_result_translation)
@@ -886,7 +896,7 @@ export tag Bible
 				}),
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log data)
+			.then(do |data| showNotification('saved'))
 			.catch(do |e| console.log(e))
 		elif @data.can_work_with_db
 			@data.saveBookmarksToStorageUntillOnline({
@@ -933,7 +943,7 @@ export tag Bible
 				}),
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log data)
+			.then(do |data|	showNotification('deleted'))
 		else
 			setCookie('bookmarks-to-delete', JSON.stringify(ids))
 		if choosen_parallel == 'second'
@@ -971,6 +981,12 @@ export tag Bible
 		document.execCommand("copy")
 		document:body.removeChild(aux)
 		clearSpace
+		showNotification('copied')
+
+	def showNotification ntfctn
+		notification = @data.lang[ntfctn]
+		setTimeout(&, 2000) do
+			notification = ''
 
 	def toProfile from_build = no
 		clearSpace
@@ -1029,7 +1045,7 @@ export tag Bible
 					})
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log data)
+			.then(do |data| console.log(data))
 
 	def turnCollections
 		if addcollection
@@ -1131,6 +1147,12 @@ export tag Bible
 		else
 			getText(h:translation, h:book, h:chapter, h:verse)
 
+	def toggleTransitions
+		settings:transitions = !settings:transitions
+		setCookie('transitions', settings:transitions)
+		let html = document.querySelector('#html')
+		html:dataset:transitions = settings:transitions
+
 	def toggleClearCopy
 		settings:clear_copy = !settings:clear_copy
 		setCookie('clear_copy', settings:clear_copy)
@@ -1158,12 +1180,13 @@ export tag Bible
 		else
 			compare_parallel_of_chapter = settings:chapter
 			compare_parallel_of_book = settings:book
+		clearSpace()
 		loading = yes
 		if !window:navigator:onLine && @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == settings:translation)
 			comparison_parallel = await @data.getParallelVersesFromStorage()
-			clearSpace
 			loading = no
 			show_compare = yes
+			what_to_show = 'show_compare'
 			Imba.commit()
 		else
 			window.fetch("/get-paralel-verses/", {
@@ -1184,9 +1207,9 @@ export tag Bible
 			.then(do |data|
 					comparison_parallel = []
 					comparison_parallel = data
-					clearSpace
 					loading = no
 					show_compare = yes
+					what_to_show = 'show_compare'
 					Imba.commit()
 				)
 
@@ -1232,6 +1255,7 @@ export tag Bible
 	def toggleDownloads
 		clearSpace
 		show_downloads = !show_downloads
+		show_downloads ? what_to_show = 'show_downloads' : undefined
 
 	def changeFontWeight value
 		if settings:font:weight + value < 1000 && settings:font:weight + value > 0
@@ -1428,22 +1452,26 @@ export tag Bible
 					else
 						<a.prof_btn href="/accounts/login/"> @data.lang:login, ' '
 						<a.prof_btn.signin href="/signup/"> @data.lang:signin
+				<.nighttheme :tap.prevent.toggleTransitions()>
+					@data.lang:transitions
+					<a.parallel_checkbox .parallel_checkbox_turned=settings:transitions>
+						<span>
 				<.nighttheme :tap.prevent.toggleClearCopy()>
 					@data.lang:clear_copy
-					<a.parallel_checkbox>
-						<span .parallel_checkbox_turned=settings:clear_copy>
+					<a.parallel_checkbox .parallel_checkbox_turned=settings:clear_copy>
+						<span>
 				<.nighttheme :tap.prevent.toggleVerseBreak()>
 					@data.lang:verse_break
-					<a.parallel_checkbox>
-						<span .parallel_checkbox_turned=settings:verse_break>
+					<a.parallel_checkbox .parallel_checkbox_turned=settings:verse_break>
+						<span>
 				if window:innerWidth > 680
 					<.nighttheme :tap.prevent.toggleLockDrawers()>
 						@data.lang:lock_drawers
-						<a.parallel_checkbox>
-							<span .parallel_checkbox_turned=settings:lock_drawers>
+						<a.parallel_checkbox .parallel_checkbox_turned=settings:lock_drawers>
+							<span>
 				<.nighttheme :tap.prevent=(do @data.show_languages = !@data.show_languages)>
 					@data.lang:language
-					<a.change_language>
+					<button.change_language>
 						if @data.language == 'ukr'
 							"Українська"
 						if @data.language == 'eng'
@@ -1483,7 +1511,7 @@ export tag Bible
 						" Павлишинець Богуслав"
 
 			<section.search_results .display_none=(mobimenu && !(search:search_div || show_help || show_compare || show_downloads)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
-				if show_help
+				if what_to_show == 'show_help'
 					<article.search_hat>
 						<svg:svg.close_search :tap.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
 							<svg:title> @data.lang:close
@@ -1504,7 +1532,7 @@ export tag Bible
 							@data.lang:still_have_questions
 							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
 
-				elif show_compare
+				elif what_to_show == 'show_compare'
 					<article.search_hat>
 						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
 							<svg:title> @data.lang:close
@@ -1553,7 +1581,7 @@ export tag Bible
 						else
 							<button.more_results style="margin: 16px auto; display: flex;" :tap.prevent=(do show_translations_for_comparison = !show_translations_for_comparison)> @data.lang:add_translation_btn
 
-				elif show_downloads
+				elif what_to_show == 'show_downloads'
 					<article.search_hat>
 						<svg:svg.close_search :tap.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
 							<svg:title> @data.lang:close
@@ -1648,7 +1676,36 @@ export tag Bible
 								<button.more_results :tap.prevent.showTranslations> @data.lang:change_translation
 
 			<section.hide  .display_none=(mobimenu && !(choosenid:length)) .without_padding=show_collections .choosen_verses=choosenid:length>
-				if choosenid:length && !(show_collections)
+				if show_collections
+					<.collectionshat>
+						<svg:svg.svgBack xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.turnCollections>
+							<svg:title> @data.lang:back
+							<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
+						if addcollection
+							<a.saveto> @data.lang:newcollection
+						else
+							<a.saveto> @data.lang:saveto
+							<svg:svg.svgAdd :tap.prevent.addCollection xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:addcollection>
+								<svg:title> @data.lang:addcollection
+								<svg:line x1="0" y1="10" x2="20" y2="10">
+								<svg:line x1="10" y1="0" x2="10" y2="20">
+					<.collectionsflex>
+						if addcollection
+							<input[store:newcollection].newcollectioninput :keydown.enter.prevent.addNewCollection(store:newcollection) id="newcollectioninput" type="text">
+						elif @categories:length
+							for category in @categories
+								if category
+									<p.collection
+									.add_new_collection=(choosen_categories.find(do |element| return element == category))
+									:tap.prevent.addNewCollection(category)> category
+							<div css:min-width="16px">
+						else
+							<p.collection.add_new_collection css:margin="8px auto" :tap.prevent.addCollection> @data.lang:addcollection
+					if (store:newcollection && addcollection) || (choosen_categories:length && !addcollection)
+						<button.cancel.add_new_collection :tap.prevent.addNewCollection(store:newcollection)> @data.lang:save
+					else
+						<button.cancel :tap.prevent.turnCollections> @data.lang:cancel
+				else
 					if show_color_picker
 						if window:innerWidth < 600
 							<svg:svg.close_colorpicker
@@ -1701,36 +1758,6 @@ export tag Bible
 							<svg:title> @data.lang:create
 							<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
 
-				if show_collections
-					<.collectionshat>
-						<svg:svg.svgBack xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.turnCollections>
-							<svg:title> @data.lang:back
-							<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-						if addcollection
-							<a.saveto> @data.lang:newcollection
-						else
-							<a.saveto> @data.lang:saveto
-							<svg:svg.svgAdd :tap.prevent.addCollection xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:addcollection>
-								<svg:title> @data.lang:addcollection
-								<svg:line x1="0" y1="10" x2="20" y2="10">
-								<svg:line x1="10" y1="0" x2="10" y2="20">
-					<.collectionsflex>
-						if addcollection
-							<input[store:newcollection].newcollectioninput :keydown.enter.prevent.addNewCollection(store:newcollection) id="newcollectioninput" type="text">
-						elif @categories:length
-							for category in @categories
-								if category
-									<p.collection
-									.add_new_collection=(choosen_categories.find(do |element| return element == category))
-									:tap.prevent.addNewCollection(category)> category
-							<div css:min-width="16px">
-						else
-							<p.collection.add_new_collection css:margin="8px auto" :tap.prevent.addCollection> @data.lang:addcollection
-					if (store:newcollection && addcollection) || (choosen_categories:length && !addcollection)
-						<button.cancel.add_new_collection :tap.prevent.addNewCollection(store:newcollection)> @data.lang:save
-					else
-						<button.cancel :tap.prevent.turnCollections> @data.lang:cancel
-
 			<section.history.filters .display_none=(mobimenu && !(show_history)) .show_history=show_history>
 				<.nighttheme css:margin="0">
 					<svg:svg.close_search :tap.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
@@ -1754,6 +1781,10 @@ export tag Bible
 									<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 					else
 						<p css:padding="12px"> @data.lang:empty_history
+
+			if notification
+				<section id="notification">
+					<p> notification
 
 			if menuicons
 				<svg:svg.navigation :tap.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

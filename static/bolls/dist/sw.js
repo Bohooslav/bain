@@ -1,4 +1,4 @@
-var CACHE_NAME = 'v1.2.22';
+var CACHE_NAME = 'v1.2.27';
 var urlsToCache = [
   '/',
   '/static/bolls/dist/client.js',
@@ -6,7 +6,6 @@ var urlsToCache = [
   '/static/bolls/fonts/fontstylesheet.css',
   '/static/bolls/dist/mobile_styles.css',
   '/static/bolls/dist/8.jpg',
-  '/static/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', function (event) {

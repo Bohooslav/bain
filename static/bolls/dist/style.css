@@ -93,14 +93,21 @@ html[data-theme='redlight'] {
   --btn-bg-hover: #47f1;
 }
 
+html[data-transitions='true'] * {
+  transition: all 300ms ease 0s;
+  transition-delay: 0ms;
+}
+
+html[data-transitions='false'] * {
+  transition: none;
+}
+
 * {
   box-sizing: border-box;
   scrollbar-color: var(--btn-bg-hover) #00000000;
   scrollbar-width: auto;
   margin: 0;
   padding: 0;
-  transition: all 300ms ease 0s;
-  transition-delay: 0ms;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -138,8 +145,6 @@ html {
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
-  /* min-height: 100vh;
-  max-height: 100vh; */
 }
 
 ul,
@@ -159,10 +164,6 @@ a {
   100% {
     opacity: 1;
   }
-}
-
-h1 {
-  font-family: "Roboto Slab", sans-serif;
 }
 
 h1,
@@ -419,7 +420,7 @@ main span {
 
 .hide {
   position: fixed;
-  bottom: -100%;
+  bottom: -256px;
   width: 100%;
   background: var(--background-color);
   visibility: hidden;
@@ -609,7 +610,7 @@ aside {
   visibility: hidden;
   opacity: 0;
   z-index: -1;
-  transform: scale(0.8) rotateX(-90deg);
+  transform: scale(0.8);
   transform-origin: top right;
   filter: blur(4px);
 }
@@ -676,7 +677,7 @@ aside {
 }
 
 .change_language {
-  color: inherit;
+  color: var(--text-color);
   padding: 8px 16px;
   margin-left: auto;
   background-color: var(--btn-bg);
@@ -710,7 +711,7 @@ aside {
 
 .languages button {
   background: var(--btn-bg);
-  color: inherit;
+  color: var(--text-color);
   cursor: pointer;
   padding: 8px 16px;
   margin: 1px;
@@ -944,6 +945,7 @@ aside {
   display: block;
   visibility: hidden;
   transform: scale(0.96) translateY(-16px);
+  transform-origin: top right;
   top: 4%;
   right: 48px;
   max-height: 92%;
@@ -992,7 +994,12 @@ aside {
 }
 
 .parallel_checkbox_turned {
+  border-color: var(--accent-hover-color);
+}
+
+.parallel_checkbox_turned span {
   transform: translateX(20px);
+  background-color: var(--accent-hover-color);
 }
 
 .help {
@@ -1005,10 +1012,6 @@ aside {
   --fill-on-hover: var(--text-color);
 }
 
-.help:hover {
-  --fill-on-hover: var(--accent-hover-color);
-}
-
 .helpsvg {
   margin-right: 12px;
   fill: var(--fill-on-hover);
@@ -1016,28 +1019,15 @@ aside {
   width: 32px;
 }
 
-.help:hover {
+.nighttheme:hover {
   color: var(--accent-hover-color);
 }
 
-/* .online {
-  display: none;
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  color: var(--text-color);
-  background: var(--background-color);
-  padding: 8px;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid var(--btn-bg-hover);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.nighttheme:hover,
+.help:hover {
+  --fill-on-hover: var(--accent-hover-color);
+  color: var(--accent-hover-color);
 }
-
-.offline {
-  display: block;
-  z-index: 1000;
-} */
 
 .reload {
   display: block;
@@ -1196,8 +1186,9 @@ aside {
 .open_in_parallel {
   max-width: 32px;
   min-width: 32px;
+  max-height: 46px;
   width: 32px;
-  margin-right: 8px;
+  margin: auto 0 auto 8px;
   padding: 4px;
   fill: var(--text-color);
   cursor: pointer;
@@ -1509,4 +1500,47 @@ address a:hover {
 
 .without_padding {
   padding: 0;
+}
+
+@keyframes show-notification {
+  0% {
+    visibility: hidden;
+    bottom: -128px;
+  }
+
+  8% {
+    visibility: visible;
+    bottom: 0;
+  }
+
+  92% {
+    visibility: visible;
+    bottom: 0;
+  }
+
+  100% {
+    visibility: hidden;
+    bottom: -128px;
+  }
+}
+
+#notification {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 128px;
+  -webkit-animation: show-notification 2000ms ease both;
+  animation: show-notification 2000ms ease both;
+  background: transparent;
+}
+
+#notification p {
+  color: var(--background-color);
+  background-color: var(--accent-hover-color);
+  padding: 16px 32px;
+  border-radius: 16px;
 }

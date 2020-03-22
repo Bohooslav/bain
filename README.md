@@ -14,6 +14,8 @@ git clone https://github.com/Bohooslav/bain.git
 cd bain/
 ```
 
+ at this point you can open VS Code with `code .` or open this folder in with any other text editor
+
 - set up local enviroment
 
 ```bash
@@ -34,9 +36,14 @@ python manage.py runserver 0.0.0.0:8000
 ```
 
 - and go to <http://127.0.0.1:8000/>
-- at the point you can open VS Code with `code .` or with other editor
+- check if everything is correct and you do not see any error. You will not see any book, cuz to do that you should have installed PostreSQL and download the translations from the datababase => <https://us-east-2.console.aws.amazon.com/rds/home?region=us-east-2#database:id=bollsdb;is-cluster=false>. Firstly, using pgAdmin or cmd, create a database `bain`, than run migrations:
 
-### If you run into a problem (and I`m sure) that does mean you miss PostgreSQL or pip or python3.7 or even git
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+ and insert the downloaded translation there. If you do not wanna set up local database you can use remote database, but be careful, do not make any tests or mutations on the production database. It is strongly recommended to use local copy, and do all your testing on it.
 
 - the next step is to go to `./bolls/static/bolls/` to install imba dependencies
 
@@ -45,7 +52,13 @@ cd bolls/static/bolls/
 npm install
 ```
 
-#### Checklist
+- than watch the changes in files to compile them
+
+```bash
+npm run watch
+```
+
+### Checklist
 
 - search
 - parallel

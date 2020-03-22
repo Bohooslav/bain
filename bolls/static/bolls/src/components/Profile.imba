@@ -130,7 +130,6 @@ export tag Profile
 						verse: [],
 						text: []
 					}
-		# @loaded_bookmarks = @bookmarks
 		loading = no
 		limits_of_range:from = range_from
 		limits_of_range:to = range_to
@@ -178,7 +177,6 @@ export tag Profile
 			@bookmarks = []
 			let url = "/get-searched-bookmarks/" + category + '/'
 			let data = await loadData(url)
-			limits_of_range:loaded += data:length
 			let newItem = {
 				verse: [],
 				text: []
@@ -315,7 +313,6 @@ export tag Profile
 								<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy
 					<hr.hr>
 				if loading && ((limits_of_range:loaded == limits_of_range:to) || limits_of_range:loaded == 0)
-					# <button.more_results :tap.prevent.getMoreBookmarks() tabindex="0" style="margin: 16px auto; display: flex;"> @data.lang:more_results
 					<Load css:padding="128px 0">
 				else
 					<div.freespace>

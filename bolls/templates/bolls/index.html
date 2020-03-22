@@ -1,51 +1,57 @@
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
-<html id="html" data-theme='loading'>
-  <head>
-    <meta charset="UTF-8">
-    <title>Bolls Bible</title>
-    <script src="{% static 'bolls/dist/client.js' %}" async></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
-    <link rel="stylesheet" type="text/css" href="{% static 'bolls/fonts/fontstylesheet.css' %}">
-    {% comment %} <link href="https://fonts.googleapis.com/css?family=Bellefair|David+Libre|M+PLUS+1p|Roboto+Slab&display=swap&subset=cyrillic,greek,greek-ext,hebrew,japanese,vietnamese" rel="stylesheet"> {% endcomment %}
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+<html id="html" data-theme='loading' data-transitions="false">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bolls Bible</title>
+  <!-- <script>
+    if (window.location.hostname == 'bolls-256717.appspot.com')
+      window: location = 'https://bolls.life'
+  </script> -->
+  <script>
     {% if translation %}
-      <link rel="canonical" href="https://bolls.life//{{translation}}/{{book}}/{{chapter}}/">
-    {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="keywords" content="Bible,Біблія,Библия,read,find,{{translation}},NT,OT">
-    <meta name="description" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
-    <meta property="og:title" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
-    <meta property="og:description" content="Read God`s Word with a deep understanding of His design. Bible elevates your soul with rapid ascending to calm, safety and more.">
-    <meta property="og:image" content="{% static 'light.png' %}">
-    <meta name="twitter:image:src" content="{% static 'light.png' %}">
-    <meta name="theme-color" content="#04060c"/>
-  </head>
-  <body>
-    <script>
-      {% if translation %}
-        window.translation = "{{ translation }}";
-        window.book = "{{ book }}";
-        window.chapter = "{{ chapter }}";
-        {% if verse %} window.verse = "{{ verse }}"; {% endif %}
-      {% else %} window.translation = false; {% endif %}
-    </script>
-    <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register("/sw.js").then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
+      window.translation = "{{ translation }}";
+      window.book = "{{ book }}";
+      window.chapter = "{{ chapter }}";
+      {% if verse %} window.verse = "{{ verse }}"; {% endif %}
+    {% else %} window.translation = false; {% endif %}
+  </script>
+  <script src="{% static 'bolls/dist/client.js' %}" async></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/mobile_styles.css' %}" media="(max-width: 600px)">
+  <link rel="stylesheet" type="text/css" href="{% static 'bolls/fonts/fontstylesheet.css' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'site.webmanifest' %}">
+  {% if translation %}
+  <link rel="canonical" href="https://bolls.life//{{translation}}/{{book}}/{{chapter}}/">
+  {% endif %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="keywords" content="Bible,Біблія,Библия,read,find,{{translation}},NT,OT">
+  <meta name="description" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
+  <meta property="og:title" content="A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura">
+  <meta property="og:description" content="Read God`s Word with a deep understanding of His design. Bible elevates your soul with rapid ascending to calm, safety and more.">
+  <meta property="og:image" content="{% static 'light.png' %}">
+  <meta name="twitter:image:src" content="{% static 'light.png' %}">
+  <meta name="theme-color" content="#04060c" />
+</head>
+
+<body>
+  <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register("/sw.js").then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
         });
-      }
-    </script>
-  </body>
+      });
+    }
+  </script>
+</body>
+
 </html>
