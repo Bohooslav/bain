@@ -76,6 +76,16 @@ export const en_leng = {
   wanna_help: "Whant to support / colaborate? Write to me here => ",
   still_have_questions: "Still have questions or some ideas? Write me and I will answer you as soon as I can:",
   install_on_android: ' * This web app is also can be installed via Google Chrome. Find plus icon on the address line and press it. After that the app will be installed like a native app.<br/><br/> * You can also install this web app on your phone or tablet running on <b>Android</b>. For that go to Google Chrome and open <a href="https://bolls.life">bolls.life</a> in the address line or found in Google "Bolls Bible". Then you should see a message at the bottom of your screen "Add Bolls to home screen". Tap on this message and submit. Then wait a moment and this app will be installed on your phone as a native app. If the message is not showing to you, find "Add to home screen" in the site menu in chrome or in other browser and the effect will be the same.<br/><br/>* On iPhone with iOS <= 12 you also can add the app on your home screen and it will be like a native app, just press the share icon below and found the "Add to home screen" option.',
+  content: "Content",
+  shortcuts: "Shortcuts",
+  shortcuts_list: [
+    "Next chapter: Ctrl + Right Arrow",
+    "Prew chapter: Ctrl + Left Arrow",
+    "Next chapter of parallel translation: Ctrl + Alt + Right Arrow",
+    "Prew chapter of parallel translation: Ctrl + Alt + Left Arrow",
+    "Back to reading: Esc",
+    "Hide menu icons: Ctrl + Alt + H"
+  ]
   HB: [
     [
       "Where to find the necessary translation?",
@@ -174,6 +184,16 @@ export const uk_leng = {
   wanna_help: "Хочете підтримати / співпрацювати? Напишіть мені тут => ",
   still_have_questions: "Все ще маєш запитання чи ідеї? Напиши мені, і я відповім як тільки зможу:",
   install_on_android: ' * Цей веб-додаток також можна встановити через Google Chrome. Знайдіть значок плюса у адресному рядку та натисніть на нього. Після цього додаток буде встановлено як звичайний додаток. <br/><br/> * Ви також можете встановити цей веб-додаток на свій телефон або планшет, який працює на <b> Android</b>. Для цього перейдіть до Google Chrome та відкрийте <a href="https://bolls.life"> bolls.life </a> у адресному рядку або знайдіть у Google "Bolls Bible". Тоді ви побачите повідомлення внизу екрана "Додати Bolls на головний екран". Натисніть на це повідомлення та підтвердіть. Потім зачекайте мить, і ця програма буде встановлена на ваш телефон як нативна програма. Якщо повідомлення не відображається для вас, знайдіть "Додати на головний екран" в меню сайту в хромі або іншому браузері, і ефект буде таким же. <br/><br/> * На iPhone з iOS <= 12 ви також можете додати цей додаток на ваш головний екран, і він буде як рідний додаток, просто натисніть значок <i>поділитися</i> внизу та знайдіть опцію "Додати на головний екран".',
+  content: "Зміст",
+  shortcuts: "Гярячі клавіші",
+  shortcuts_list: [
+    "Наступна глава: Ctrl + Права Стрілка",
+    "Попередня глава: Ctrl + Ліва Стрілка",
+    "Наступна глава паралельного перекладу: Ctrl + Alt + Права Стрілка",
+    "Попередня глава паралельного перекладу: Ctrl + Alt + Ліва Стрілка",
+    "Повернутися до читання: Esc",
+    "Сховати іконки меню: Ctrl + Alt + H"
+  ]
   HB: [
     [
       "Де знайти необхідний переклад?",
@@ -272,6 +292,16 @@ export const ru_leng = {
   wanna_help: "Хотите поддержать / сотрудничать? Напишите мне здесь =>",
   still_have_questions: "Все еще есть вопросы или идеи? Напиши мне, и я отвечу, как только смогу:",
   install_on_android: ' * Это веб-приложение также можно установить через Google Chrome. Найдите значок плюса в адресной строке и нажмите него. После этого приложение будет установлено как родное приложение.<br/><br/> * Вы также можете установить это веб-приложение на свой телефон или планшет под <b> Android </b>. Для этого перейдите в Google Chrome и откройте <a href="https://bolls.life"> bolls.life </a> в адресной строке или найдите в Google "Bolls Bible". Затем в нижней части экрана должно появиться сообщение «Добавить приложение на главный экран». Нажмите на это сообщение и подтвердите. Затем подождите немного, и это приложение будет установлено на вашем телефоне как родное приложение. Если сообщение не отображается, найдите «Добавить на главный экран» в меню сайта в Chrome или в другом браузере, и эффект будет таким же. <br/><br/> * На iPhone с iOS <= 12 вы также можете добавить приложение на главном экране, и оно будет как обычное приложение, просто нажмите значок поделится внизу и найдите параметр «Добавить на главный экран».',
+  content: "Содержание",
+  shortcuts: "Горячие клавиши",
+  shortcuts_list: [
+    "Следущая глава: Ctrl + Правая Стрелка",
+    "Пдедыдущая глава: Ctrl + Левая Стрелка",
+    "Следущая глава паралельного перевода: Ctrl + Alt + Правая Стрелка",
+    "Пдедыдущая глава паралельного перевода: Ctrl + Alt + Левая Стрелка",
+    "Вернутся к чтению: Esc",
+    "Спрятать иконки меню: Ctrl + Alt + H"
+  ]
   HB: [
     [
       "Где найти нужный перевод?",

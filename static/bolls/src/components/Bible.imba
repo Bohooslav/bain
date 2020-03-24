@@ -986,7 +986,8 @@ export tag Bible
 	def showNotification ntfctn
 		notification = @data.lang[ntfctn]
 		setTimeout(&, 2000) do
-			notification = ''
+			if notification == @data.lang[ntfctn]
+				notification = ''
 
 	def toProfile from_build = no
 		clearSpace
@@ -1317,7 +1318,7 @@ export tag Bible
 								<a.verse id=verse:verse href="#{verse:verse}">
 									' '
 									verse:verse
-								<text-as-html[{text: verse:text}]
+								<text-as-html[verse]
 										tabindex="0"
 										:keydown.enter.sendBookmarksToDjango
 										:tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
@@ -1355,7 +1356,7 @@ export tag Bible
 								<a.verse id="p{verse:verse}" href="#p{verse:verse}">
 									' '
 									verse:verse
-								<text-as-html[{text: verse:text}]
+								<text-as-html[verse]
 									:tap.prevent.addToChoosen(verse:pk, verse:verse, 'second')
 									.highlighted=getParallelHighlight(verse:pk)
 									.clicked=choosenid.find(do |element| return element == verse:pk)
@@ -1452,22 +1453,22 @@ export tag Bible
 					else
 						<a.prof_btn href="/accounts/login/"> @data.lang:login, ' '
 						<a.prof_btn.signin href="/signup/"> @data.lang:signin
-				<.nighttheme :tap.prevent.toggleTransitions()>
+				<.nighttheme.parent_checkbox :tap.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
-					<a.parallel_checkbox .parallel_checkbox_turned=settings:transitions>
+					<a.checkbox>
 						<span>
-				<.nighttheme :tap.prevent.toggleClearCopy()>
+				<.nighttheme.parent_checkbox :tap.prevent.toggleClearCopy() .checkbox_turned=settings:clear_copy>
 					@data.lang:clear_copy
-					<a.parallel_checkbox .parallel_checkbox_turned=settings:clear_copy>
+					<a.checkbox>
 						<span>
-				<.nighttheme :tap.prevent.toggleVerseBreak()>
+				<.nighttheme.parent_checkbox :tap.prevent.toggleVerseBreak() .checkbox_turned=settings:verse_break>
 					@data.lang:verse_break
-					<a.parallel_checkbox .parallel_checkbox_turned=settings:verse_break>
+					<a.checkbox>
 						<span>
 				if window:innerWidth > 680
-					<.nighttheme :tap.prevent.toggleLockDrawers()>
+					<.nighttheme.parent_checkbox :tap.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
 						@data.lang:lock_drawers
-						<a.parallel_checkbox .parallel_checkbox_turned=settings:lock_drawers>
+						<a.checkbox>
 							<span>
 				<.nighttheme :tap.prevent=(do @data.show_languages = !@data.show_languages)>
 					@data.lang:language
@@ -1525,9 +1526,20 @@ export tag Bible
 										<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
 					<article#helpFAQ.search_body tabindex="0">
 						<p style="color: var(--accent-hover-color); font-size: 0.9em;"> @data.lang:faqmsg
+						<h3> @data.lang:content
+						<ul>
+							for q in @data.lang:HB
+								<li> <a href="#{q[0]}"> q[0]
+							if window:innerWidth > 680
+								<li> <a href="#shortcuts"> @data.lang:shortcuts
 						for q in @data.lang:HB
-							<h3> q[0]
+							<h3 id=q[0] > q[0]
 							<p> q[1]
+						if window:innerWidth > 680
+							<div id="shortcuts">
+								<h3> @data.lang:shortcuts
+								for shortcut in @data.lang:shortcuts_list
+									<p> shortcut
 						<address.still_have_questions>
 							@data.lang:still_have_questions
 							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
@@ -1553,9 +1565,9 @@ export tag Bible
 							for tr, key in comparison_parallel
 								if tr[0]:text
 									<a.search_item>
-										<.search_res_verse_text :tap.prevent.getText(tr[0]:translation, tr[0]:book, tr[0]:chapter, tr[0]:verse)>
+										<.search_res_verse_text>
 											for aoeirf in tr
-												<text-as-html[{text: aoeirf:text}]>
+												<search-text-as-html[aoeirf]>
 												' '
 										<.search_res_verse_header>
 											<svg:svg.open_in_parallel :tap.prevent.changeOrder(key, -1) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

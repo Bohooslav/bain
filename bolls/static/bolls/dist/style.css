@@ -423,6 +423,7 @@ main span {
   bottom: -256px;
   width: 100%;
   background: var(--background-color);
+  border-top: 1px solid var(--btn-bg);
   visibility: hidden;
   text-align: center;
   padding: 16px 0;
@@ -970,7 +971,11 @@ aside {
   width: 50%;
 }
 
-.parallel_checkbox {
+.parent_checkbox {
+  opacity: 0.5;
+}
+
+.checkbox {
   min-width: 50px;
   min-height: 30px;
   background: var(--background-color);
@@ -982,7 +987,7 @@ aside {
   cursor: pointer;
 }
 
-.parallel_checkbox span {
+.checkbox span {
   position: absolute;
   min-width: 26px;
   min-height: 26px;
@@ -993,13 +998,12 @@ aside {
   cursor: pointer;
 }
 
-.parallel_checkbox_turned {
-  border-color: var(--accent-hover-color);
+.checkbox_turned {
+  opacity: 1;
 }
 
-.parallel_checkbox_turned span {
+.checkbox_turned span {
   transform: translateX(20px);
-  background-color: var(--accent-hover-color);
 }
 
 .help {
@@ -1021,6 +1025,14 @@ aside {
 
 .nighttheme:hover {
   color: var(--accent-hover-color);
+}
+
+.nighttheme:hover a {
+  border-color: var(--accent-hover-color);
+}
+
+.nighttheme:hover span {
+  background-color: var(--accent-hover-color);
 }
 
 .nighttheme:hover,
@@ -1127,13 +1139,11 @@ aside {
 
 @keyframes history-came {
   0% {
-    opacity: 0;
     bottom: -100%;
     right: -256px;
   }
 
   100% {
-    opacity: 1;
     bottom: 2%;
     right: 3vw;
   }
@@ -1141,13 +1151,11 @@ aside {
 
 @keyframes history-go_out {
   0% {
-    opacity: 1;
     bottom: 2%;
     right: 3vw;
   }
 
   100% {
-    opacity: 0;
     bottom: -100%;
     right: -256px;
   }
@@ -1162,6 +1170,7 @@ aside {
   max-height: 97vh;
   padding: 8px;
   z-index: 4;
+  opacity: 1;
   visibility: hidden;
   -webkit-animation: history-go_out 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
   animation: history-go_out 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
@@ -1172,10 +1181,13 @@ aside {
   top: auto;
   bottom: 2%;
   visibility: visible;
-  opacity: 1;
   transform: none;
   -webkit-animation: history-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
   animation: history-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
+}
+
+.history .nighttheme:hover {
+  color: inherit;
 }
 
 .historylist {
@@ -1450,14 +1462,33 @@ figcaption {
 }
 
 #helpFAQ h3 {
-  margin: 24px 0 12px;
+  margin: 32px 0 12px;
   font-weight: 500;
   color: var(--accent-color);
 }
 
-#helpFAQ p {
-  line-height: 1.5;
+#helpFAQ ul {
+  margin: 16px 0 64px;
 }
+
+#helpFAQ li {
+  margin: 12px;
+}
+
+#helpFAQ a {
+  display: block;
+  color: inherit;
+}
+
+#helpFAQ a:hover {
+  color: var(--accent-hover-color);
+}
+
+#helpFAQ p {
+  line-height: 2;
+  margin: 8px 0;
+}
+
 
 .still_have_questions {
   margin: 128px 0 16px;
@@ -1532,7 +1563,7 @@ address a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 128px;
+  height: 0;
   -webkit-animation: show-notification 2000ms ease both;
   animation: show-notification 2000ms ease both;
   background: transparent;
@@ -1543,4 +1574,6 @@ address a:hover {
   background-color: var(--accent-hover-color);
   padding: 16px 32px;
   border-radius: 16px;
+  position: absolute;
+  top: -96px;
 }
