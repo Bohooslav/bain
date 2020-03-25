@@ -25,6 +25,7 @@ export const en_leng = {
   login: "Log in",
   logout: "Log out",
   help: "Help",
+  feedback: "Feedback",
   signin: "Sign up",
   transitions: "Transitions",
   close: "Close",
@@ -89,7 +90,7 @@ export const en_leng = {
   HB: [
     [
       "Where to find the necessary translation?",
-      "On the desktop, hover your mouse under mostleft edge of window or press the book icon at the up, on mobile phone swipe to right from the left edge of the screen and you will see the books menu, where just click on the translation abbreviation up and you will see all available translations."
+      "On the desktop, hover your mouse under mostleft edge of window or press the book icon at the up, on mobile phone swipe to right from the left edge of the screen and you will see the books menu, where just click on the translation abbreviation up and you will see all available translations. IF you lack some absent here translation, write me and I will add it."
     ],
     [
       "How to download a translation?",
@@ -133,6 +134,7 @@ export const uk_leng = {
   login: "Увійти",
   logout: "Вийти",
   help: "Допомога",
+  feedback: "Написати відгук",
   signin: "Зареєструватися",
   transitions: "Анімації",
   close: "Закрити",
@@ -197,7 +199,7 @@ export const uk_leng = {
   HB: [
     [
       "Де знайти необхідний переклад?",
-      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгорі і ви побачите всі доступні переклади."
+      "На робочому столі наведіть курсор миші над лівим краєм вікна або натисніть значок книги вгорі, на мобільному телефоні проведіть пальцем праворуч від лівого краю екрана, і ви побачите меню книг, де просто натисніть на абревіатуру перекладу вгорі і ви побачите всі доступні переклади. Якщо вам не вистачає якогось відсутнього тут перекладу, напишіть мені, і я додам його."
     ],
     [
       "Як завантажити переклад?",
@@ -241,6 +243,7 @@ export const ru_leng = {
   login: "Войти",
   logout: "Выйти",
   help: "Помощь",
+  feedback: "Написать отзыв",
   signin: "Зарегестрироватся",
   transitions: "Анимации",
   close: "Закрыть",
@@ -305,7 +308,7 @@ export const ru_leng = {
   HB: [
     [
       "Где найти нужный перевод?",
-      "На рабочем столе наведите указатель мыши на крайнюю левую сторону окна или нажмите на значок книги вверху, а на мобильном телефоне проведите вправо от левого края экрана, и вы увидите меню книг, где просто нажмите на аббревиатуру вверху, и вы увидите все доступные переводы."
+      "На рабочем столе наведите указатель мыши на крайнюю левую сторону окна или нажмите на значок книги вверху, а на мобильном телефоне проведите вправо от левого края экрана, и вы увидите меню книг, где просто нажмите на аббревиатуру вверху, и вы увидите все доступные переводы. Если вам не хватает отсутствующего здесь перевода, напишите мне, и я добавлю его, по возможности."
     ],
     [
       "Как скачать перевод?",

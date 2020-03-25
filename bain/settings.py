@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-import sys
 import os
 import psycopg2.extensions
 
@@ -25,21 +24,16 @@ SECRET_KEY = '300lf8rl25%wq$cs$2^k$r-u16@58b7m%ljdsuug_5fy&%eyg='
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
 if os.getenv('GAE_APPLICATION', None):
     DEBUG = False
 else:
     DEBUG = True
 
-
-
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
-
 INSTALLED_APPS = [
-    'bolls.apps.BollsConfig',
+    'bolls',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,17 +79,7 @@ WSGI_APPLICATION = 'bain.wsgi.application'
 # [START db_setup]
 
 if os.getenv('GAE_APPLICATION', None):
-    # Running on production App Engine, so connect to Google Cloud SQL using
-    # the unix socket at /cloudsql/<your-cloudsql-connection string>
-
     DATABASES = {
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.postgresql',
-        #     'HOST': '/cloudsql/bolls-256717:europe-west6:bollsdb',
-        #     'USER': 'postgres',
-        #     'PASSWORD': 'IAvIjOyH3jvczpIK',
-        #     'NAME': 'bain',
-        # }
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'HOST': 'bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com',
@@ -160,7 +144,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'bollsbible@gmail.com'
-EMAIL_HOST_PASSWORD = '4673bCX4Wkv886C'
+EMAIL_HOST_PASSWORD = '9GNmCh?EaA75wx7_E*-_fBC=K@4z!YjW#dLykdQ6W-M-4tdv7rM+HJ7qnU6_da@R'
 EMAIL_PORT = 587
 
-SERVER_EMAIL = 'bollsbible@gmail.com'
+# SERVER_EMAIL = 'bollsbible@gmail.com'

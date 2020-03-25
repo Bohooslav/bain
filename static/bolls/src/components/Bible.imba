@@ -109,7 +109,7 @@ let fonts = [
 
 document:onkeyup = do |e|
 	var e = e || window:event
-	if document.getElementById("search") != document:activeElement
+	if document.getElementById("search") != document:activeElement && document.getSelection == ''
 		if e:code == "ArrowRight" && e:altKey && e:ctrlKey
 			let bible = document:getElementsByClassName("Bible")
 			bible[0]:_tag.nextChapter('true')
@@ -1294,13 +1294,13 @@ export tag Bible
 							<a.book_in_list dir="auto" .active_book=(book:bookid==parallel_text:book) :tap.prevent.showChapters(book:bookid) tabindex="0"> book:name
 							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(book:bookid==show_chapters_of)>
 								for i in Array.from(Array(book:chapters).keys())
-									<li.chapter_number  .active_chapter=((i + 1) == parallel_text:chapter &&book:bookid==parallel_text:book ) :tap.prevent.getParallelText(parallel_text:translation, book:bookid, i+1) tabindex="0"> i+1
+									<li.chapter_number .active_chapter=((i + 1) == parallel_text:chapter &&book:bookid==parallel_text:book ) :tap.prevent.getParallelText(parallel_text:translation, book:bookid, i+1) tabindex="0"> i+1
 					else
 						for book in @books
 							<a.book_in_list dir="auto" .active_book=(book:bookid==settings:book) :tap.prevent.showChapters(book:bookid) tabindex="0"> book:name
 							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(book:bookid==show_chapters_of)>
 								for i in Array.from(Array(book:chapters).keys())
-									<li.chapter_number  .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
+									<li.chapter_number .active_chapter=((i + 1) == settings:chapter && book:bookid==settings:book) :tap.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
 					<.freespace>
 
 			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
@@ -1496,6 +1496,12 @@ export tag Bible
 						<svg:path fill="none" d="M0 0h24v24H0z">
 						<svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
 					@data.lang:help
+				<a.help href="mailto:bpavlisinec@gmail.com">
+					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+						<svg:title> @data.lang:feedback
+						<svg:path d="M0 0h24v24H0V0z" fill="none">
+						<svg:path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17l-.59.59-.58.58V4h16v12zm-9-4h2v2h-2zm0-6h2v4h-2z">
+					@data.lang:feedback
 				<.freespace>
 				<footer>
 					<p style="padding: 16px 0;">

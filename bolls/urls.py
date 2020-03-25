@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -18,8 +17,7 @@ urlpatterns = [
     path('user-logged/', views.userLogged, name="userLogged"),
     path('get-translation/<slug:translation>/', views.getTranslation, name="getTranslation"),
     path('get-paralel-verses/', views.getParallelVerses, name='getParallelVerses'),
-    path('get-searched-bookmarks/<str:query>/',
-         views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),
+    path('get-searched-bookmarks/<str:query>/', views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),
     path('search/<slug:translation>/<str:piece>/', views.search, name='search'),
     path('<slug:translation>/<str:piece>/', views.search, name='search'),
     path('get-text/<slug:translation>/<int:book>/<int:chapter>/',

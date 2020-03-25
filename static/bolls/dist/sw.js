@@ -1,4 +1,4 @@
-var CACHE_NAME = 'v1.2.29';
+var CACHE_NAME = 'v1.2.30';
 var urlsToCache = [
   '/',
   '/static/bolls/dist/client.js',
@@ -23,7 +23,7 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then((resp) => {
       return resp || fetch(event.request).then((response) => {
         var responseClone = response.clone();
-        if (event.request.url.includes("get-text") || event.request.url.includes("search") || event.request.url.includes("DavidLibre") || event.request.url.includes("Tinos") || event.request.url.includes("RobotoSlab") || event.request.url.includes("Bellefair")) {
+        if (event.request.url.includes("get-text") || event.request.url.includes("search") || event.request.destination == "font") {
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseClone);
           });

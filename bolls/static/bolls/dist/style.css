@@ -175,6 +175,10 @@ main span,
 .collection,
 .in_offline,
 .online,
+.mark_grid,
+.collectionshat,
+.collectionsflex,
+#addbuttons,
 .close_colorpicker {
   -webkit-animation: text-came 300ms ease both;
   animation: text-came 300ms ease both;
@@ -308,7 +312,6 @@ nav {
   visibility: hidden;
   opacity: 0;
   overflow: hidden;
-  transform-origin: top center;
   margin: -24px 0 24px;
 }
 
@@ -358,7 +361,7 @@ main {
   width: 32px;
   height: 32px;
   margin: 3vw;
-  fill: var(--btn-bg);
+  fill: var(--btn-bg-hover);
   position: fixed;
   z-index: 1;
   cursor: pointer;
@@ -1469,6 +1472,7 @@ figcaption {
 
 #helpFAQ ul {
   margin: 16px 0 64px;
+  padding-left: 16px;
 }
 
 #helpFAQ li {
@@ -1478,6 +1482,7 @@ figcaption {
 #helpFAQ a {
   display: block;
   color: inherit;
+  text-decoration: underline;
 }
 
 #helpFAQ a:hover {
@@ -1486,7 +1491,6 @@ figcaption {
 
 #helpFAQ p {
   line-height: 2;
-  margin: 8px 0;
 }
 
 
