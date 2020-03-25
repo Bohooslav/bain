@@ -166,12 +166,11 @@ a {
   }
 }
 
-h1,
-main span,
+main section h1,
+main section article,
+.Downloads,
 ._colorpicker,
 .bookmark_in_list,
-.collectionsflex,
-.book_in_list,
 .collection,
 .in_offline,
 .online,
@@ -218,8 +217,39 @@ nav {
   margin-left: 232px;
 }
 
+@keyframes shake {
+  0% {
+    transform: rotateZ(27deg);
+  }
+
+  12% {
+    transform: rotateZ(-27deg);
+  }
+
+  50% {
+    transform: rotateZ(27deg);
+  }
+
+  95% {
+    transform: rotateZ(-27deg);
+  }
+
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
 .download_translations:hover {
   fill: var(--accent-hover-color);
+}
+
+html[data-transitions='true'] .remove_parallel:hover,
+html[data-transitions='true'] .download_translations:hover,
+html[data-transitions='true'] .close_search:hover,
+html[data-transitions='true'] .help:hover .helpsvg,
+html[data-transitions='true'] .save_bookmark:hover {
+  -webkit-animation: shake 300ms ease both;
+  animation: shake 300ms ease both;
 }
 
 .chronological_order {
@@ -236,6 +266,7 @@ nav {
 
 .chronological_order:hover {
   fill: var(--accent-hover-color);
+  transform: rotate(360deg);
 }
 
 .hide_chron_order {
@@ -388,12 +419,23 @@ main h1:hover {
   cursor: pointer;
 }
 
+footer a,
+#helpFAQ a,
 main span {
   cursor: pointer;
+  touch-action: manipulation;
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0px 110%;
+}
+
+html[data-transitions='true'] main span:hover,
+html[data-transitions='true'] footer a:hover,
+html[data-transitions='true'] #helpFAQ a:hover {
+  animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none running link-hover;
 }
 
 .text-ident {
-  height: 0;
   width: 1em;
   display: inline-block;
 }
@@ -407,18 +449,6 @@ main span {
 
 .verse:hover {
   color: var(--accent-hover-color);
-}
-
-.highlighted {
-  text-decoration-line: underline;
-  text-decoration-thickness: 0.125em;
-  text-decoration-style: solid;
-}
-
-.clicked {
-  text-decoration-line: underline;
-  text-decoration-thickness: 0.125em;
-  text-decoration-style: dashed;
 }
 
 .hide {
@@ -551,6 +581,7 @@ main span {
   background-color: var(--btn-bg);
   border-radius: 50%;
   fill: var(--accent-hover-color);
+  transform: rotateZ(360deg);
 }
 
 .arrow_next {
@@ -804,6 +835,28 @@ aside {
 
   100% {
     top: 100%;
+  }
+}
+
+@keyframes link-hover {
+  0% {
+    background-size: 100% 0.2em;
+    background-position: 0px 110%;
+  }
+
+  50% {
+    background-size: 0% 0.2em;
+    background-position: 0px 110%;
+  }
+
+  50.01% {
+    background-size: 0% 0.2em;
+    background-position: right 0px top 110%;
+  }
+
+  100% {
+    background-size: 100% 0.2em;
+    background-position: right 0px top 110%;
   }
 }
 
@@ -1346,7 +1399,7 @@ footer {
 footer a {
   color: #888;
   font-size: 12px;
-  text-decoration: solid underline;
+  background-image: linear-gradient(#888 0px, #888 100%);
 }
 
 footer a:hover {
@@ -1480,19 +1533,13 @@ figcaption {
 }
 
 #helpFAQ a {
-  display: block;
   color: inherit;
-  text-decoration: underline;
-}
-
-#helpFAQ a:hover {
-  color: var(--accent-hover-color);
+  background-image: linear-gradient(var(--text-color) 0px, var(--text-color) 100%);
 }
 
 #helpFAQ p {
   line-height: 2;
 }
-
 
 .still_have_questions {
   margin: 128px 0 16px;

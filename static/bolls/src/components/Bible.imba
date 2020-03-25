@@ -773,11 +773,18 @@ export tag Bible
 
 	def getHighlight verse
 		if choosenid:length && choosenid.find(do |element| return element == verse)
-			return highlight_color
+			let img = 'linear-gradient(to right'
+			for i in [0..96]
+				img += ', '
+				img += i % 8 ? highlight_color : '#0000'
+				img += ' ' + i + '% ' + (i + 4) + '%'
+				i++
+			img += ')'
+			return img
 		else
 			let highlight = @bookmarks.find(do |element| return element:verse == verse)
 			if highlight
-				return highlight:color
+				return  "linear-gradient({highlight:color} 0px, {highlight:color} 100%)"
 			else
 				return ''
 
@@ -1305,9 +1312,8 @@ export tag Bible
 
 			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
-					<header>
-						if @verses:length
-							<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
+					if @verses:length
+						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
 					if @verses:length
 						<article>
 							<.text-ident> " "
@@ -1322,9 +1328,7 @@ export tag Bible
 										tabindex="0"
 										:keydown.enter.sendBookmarksToDjango
 										:tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
-										.highlighted=getHighlight(verse:pk)
-										.clicked=choosenid.find(do |element| return element == verse:pk)
-										css:text-decoration-color=getHighlight(verse:pk)
+										css:background-image=getHighlight(verse:pk)
 									>
 							<.arrows>
 								<a.arrow :tap.prevent.prewChapter() title=@data.lang:prew>
@@ -1343,9 +1347,8 @@ export tag Bible
 							<br>
 							<a.reload :tap=(do window:location.reload(true))> @data.lang:reload
 				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
-					<header>
-						if @parallel_verses:length
-							<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
+					if @parallel_verses:length
+						<h1 style="font-family: {settings:font:family};" :tap.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
 					if @parallel_verses:length
 						<article>
 							<.text-ident> " "
@@ -1358,9 +1361,7 @@ export tag Bible
 									verse:verse
 								<text-as-html[verse]
 									:tap.prevent.addToChoosen(verse:pk, verse:verse, 'second')
-									.highlighted=getParallelHighlight(verse:pk)
-									.clicked=choosenid.find(do |element| return element == verse:pk)
-									css:text-decoration-color=getParallelHighlight(verse:pk)>
+									css:background-image=getHighlight(verse:pk)>
 							<.arrows>
 								<a.arrow :tap.prevent.prewChapter("true")>
 									<svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
