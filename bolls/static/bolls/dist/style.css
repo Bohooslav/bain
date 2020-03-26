@@ -166,19 +166,19 @@ a {
   }
 }
 
-main section h1,
-main section article,
-.Downloads,
-._colorpicker,
-.bookmark_in_list,
-.collection,
-.in_offline,
-.online,
-.mark_grid,
-.collectionshat,
-.collectionsflex,
-#addbuttons,
-.close_colorpicker {
+html[data-transitions='true'] main section h1,
+html[data-transitions='true'] main section article,
+html[data-transitions='true'] .Downloads,
+html[data-transitions='true'] ._colorpicker,
+html[data-transitions='true'] html[data-transitions='true'].bookmark_in_list,
+html[data-transitions='true'] .collection,
+html[data-transitions='true'] .in_offline,
+html[data-transitions='true'] .online,
+html[data-transitions='true'] html[data-transitions='true'].mark_grid,
+html[data-transitions='true'] .collectionshat,
+html[data-transitions='true'] .collectionsflex,
+html[data-transitions='true'] #addbuttons,
+html[data-transitions='true'] .close_colorpicker {
   -webkit-animation: text-came 300ms ease both;
   animation: text-came 300ms ease both;
 }
@@ -226,11 +226,11 @@ nav {
     transform: rotateZ(-27deg);
   }
 
-  50% {
+  36% {
     transform: rotateZ(27deg);
   }
 
-  95% {
+  72% {
     transform: rotateZ(-27deg);
   }
 
@@ -445,6 +445,7 @@ html[data-transitions='true'] #helpFAQ a:hover {
   color: var(--accent-color);
   padding: 0 0.5em 1em 0.5em;
   vertical-align: super;
+  white-space: break-spaces;
 }
 
 .verse:hover {
@@ -564,6 +565,8 @@ html[data-transitions='true'] #helpFAQ a:hover {
   display: flex;
   justify-content: space-between;
   direction: ltr;
+  padding: 24px 8px;
+  overflow: hidden;
 }
 
 .arrow {
@@ -572,7 +575,6 @@ html[data-transitions='true'] #helpFAQ a:hover {
   align-items: center;
   height: 64px;
   width: 64px;
-  margin: 24px 0;
   fill: var(--text-color);
   cursor: pointer;
 }

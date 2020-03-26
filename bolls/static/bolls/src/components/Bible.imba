@@ -248,6 +248,7 @@ export tag Bible
 		if getCookie('theme')
 			settings:theme = getCookie('theme')
 			settings:accent = getCookie('accent') || settings:accent
+			highlight_color = settings:accent
 			let html = document.querySelector('#html')
 			html:dataset:theme = settings:accent + settings:theme
 		else
@@ -776,11 +777,10 @@ export tag Bible
 			let img = 'linear-gradient(to right'
 			for i in [0..96]
 				img += ', '
-				img += i % 8 ? highlight_color : '#0000'
-				img += ' ' + i + '% ' + (i + 4) + '%'
-				i++
-			img += ')'
-			return img
+				img += i % 2 ? '#0000' : highlight_color
+				img += ' ' + i + '% ' + (i + 8) + '%'
+				i+=4
+			return img += ')'
 		else
 			let highlight = @bookmarks.find(do |element| return element:verse == verse)
 			if highlight
@@ -1321,14 +1321,10 @@ export tag Bible
 								if settings:verse_break
 									<br>
 									<.text-ident> " "
-								<a.verse id=verse:verse href="#{verse:verse}">
-									' '
-									verse:verse
+								<a.verse id=verse:verse href="#{verse:verse}"> ' \t', verse:verse
 								<text-as-html[verse]
-										tabindex="0"
-										:keydown.enter.sendBookmarksToDjango
 										:tap.prevent.addToChoosen(verse:pk, verse:verse, 'first')
-										css:background-image=getHighlight(verse:pk)
+										style="background-image:{getHighlight(verse:pk)}"
 									>
 							<.arrows>
 								<a.arrow :tap.prevent.prewChapter() title=@data.lang:prew>
@@ -1356,12 +1352,10 @@ export tag Bible
 								if settings:verse_break
 									<br>
 									<.text-ident> " "
-								<a.verse id="p{verse:verse}" href="#p{verse:verse}">
-									' '
-									verse:verse
+								<a.verse id="p{verse:verse}" href="#p{verse:verse}"> ' \t', verse:verse
 								<text-as-html[verse]
 									:tap.prevent.addToChoosen(verse:pk, verse:verse, 'second')
-									css:background-image=getHighlight(verse:pk)>
+									style="background-image:{getHighlight(verse:pk)}">
 							<.arrows>
 								<a.arrow :tap.prevent.prewChapter("true")>
 									<svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
