@@ -37,11 +37,11 @@ export tag Downloads
         if @link
           <a#download-bolls href=@link rel="noreferrer"> @data.lang:download, " Bolls"
       <#downloads-container>
-        <a.platform-item href="https://storage.googleapis.com/dbbba/bolls-0.1.0.dmg">
-          <svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 49.3 49.2" style="enable-background:new 0 0 49.3 49.2;" xml:space="preserve">
-            <svg:title> @data.lang:download-for, " MacOS"
-            <svg:path class="st0" d="M24.6,0C11,0,0,11,0,24.6s11,24.6,24.6,24.6s24.7-11,24.7-24.6S38.2,0,24.6,0z M26.1,9.9c1.1-1.3,3-2.3,4.6-2.3  c0.2,1.8-0.5,3.6-1.6,4.9c-1.1,1.3-2.9,2.3-4.6,2.2C24.2,13,25.1,11.1,26.1,9.9z M34.9,34.7c-1.3,1.9-2.6,3.8-4.7,3.8  c-2.1,0-2.7-1.2-5.1-1.2S22,38.5,20,38.6s-3.6-2-4.9-3.9c-2.7-3.8-4.7-10.9-2-15.6c1.4-2.4,3.8-3.8,6.4-3.9c2,0,3.9,1.4,5.1,1.4  s3.5-1.7,5.9-1.4c1,0,3.8,0.4,5.7,3.1c-0.1,0.1-3.4,2-3.3,5.9c0,4.7,4.1,6.2,4.2,6.3C37,30.4,36.4,32.6,34.9,34.7z">
-          <p> @data.lang:download-for, " MacOS"
+        # <a.platform-item href="https://storage.googleapis.com/dbbba/bolls-0.1.0.dmg">
+        #   <svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 49.3 49.2" style="enable-background:new 0 0 49.3 49.2;" xml:space="preserve">
+        #     <svg:title> @data.lang:download-for, " MacOS"
+        #     <svg:path class="st0" d="M24.6,0C11,0,0,11,0,24.6s11,24.6,24.6,24.6s24.7-11,24.7-24.6S38.2,0,24.6,0z M26.1,9.9c1.1-1.3,3-2.3,4.6-2.3  c0.2,1.8-0.5,3.6-1.6,4.9c-1.1,1.3-2.9,2.3-4.6,2.2C24.2,13,25.1,11.1,26.1,9.9z M34.9,34.7c-1.3,1.9-2.6,3.8-4.7,3.8  c-2.1,0-2.7-1.2-5.1-1.2S22,38.5,20,38.6s-3.6-2-4.9-3.9c-2.7-3.8-4.7-10.9-2-15.6c1.4-2.4,3.8-3.8,6.4-3.9c2,0,3.9,1.4,5.1,1.4  s3.5-1.7,5.9-1.4c1,0,3.8,0.4,5.7,3.1c-0.1,0.1-3.4,2-3.3,5.9c0,4.7,4.1,6.2,4.2,6.3C37,30.4,36.4,32.6,34.9,34.7z">
+        #   <p> @data.lang:download-for, " MacOS"
         <a.platform-item rel="noreferrer" target="_blank" href="https://www.microsoft.com/store/productId/9PFBQBR77J81">
           <svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
             <svg:title> @data.lang:snapstore, " Windows Store"

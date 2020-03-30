@@ -93,9 +93,7 @@ label {
   margin-top: 16px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"] {
   background: #88f2;
   border: 1px solid #88f4;
   color: var(--text-color);
@@ -103,9 +101,7 @@ input[type="password"] {
   margin-bottom: 4px;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
   background: #88f4;
   border: 1px solid #88f8;
 }
@@ -123,6 +119,7 @@ input[type="submit"] {
   width: 100%;
   font-weight: bold;
 }
+
 input[type="submit"]:hover {
   transform: translateY(-2px);
   -webkit-transform: translateY(-2px);

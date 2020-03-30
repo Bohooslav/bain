@@ -6,17 +6,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Bolls Bible</title>
-  <!-- <script>
-    if (window.location.hostname == 'bolls-256717.appspot.com')
-      window: location = 'https://bolls.life'
-  </script> -->
   <script>
     {% if translation %}
-      window.translation = "{{ translation }}";
-      window.book = "{{ book }}";
-      window.chapter = "{{ chapter }}";
-      {% if verse %} window.verse = "{{ verse }}"; {% endif %}
-    {% else %} window.translation = false; {% endif %}
+    window.translation = "{{ translation }}";
+    window.book = "{{ book }}";
+    window.chapter = "{{ chapter }}"; {% if verse %}
+    window.verse = "{{ verse }}"; {% endif %} {% else %}
+    window.translation = false; {% endif %}
   </script>
   <script src="{% static 'bolls/dist/client.js' %}" async></script>
   <link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/style.css' %}">
@@ -27,7 +23,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
   <link rel="manifest" href="{% static 'site.webmanifest' %}">
   {% if translation %}
-  <link rel="canonical" href="https://bolls.life//{{translation}}/{{book}}/{{chapter}}/">
+  <link rel="canonical" href="https://bolls.life/{{translation}}/{{book}}/{{chapter}}/">
   {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="keywords" content="Bible,Біблія,Библия,read,find,{{translation}},NT,OT">
@@ -51,6 +47,13 @@
         });
       });
     }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162017974-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-162017974-1');
   </script>
 </body>
 

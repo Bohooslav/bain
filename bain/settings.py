@@ -140,11 +140,12 @@ ADMINS = [('Boguslav', 'bpavlisinec@gmail.com')]
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'bollsbible@gmail.com'
 EMAIL_HOST_PASSWORD = '9GNmCh?EaA75wx7_E*-_fBC=K@4z!YjW#dLykdQ6W-M-4tdv7rM+HJ7qnU6_da@R'
 EMAIL_PORT = 587
-
-# SERVER_EMAIL = 'bollsbible@gmail.com'

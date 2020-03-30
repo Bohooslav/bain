@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -15,9 +16,11 @@ urlpatterns = [
     path('save-bookmarks/', views.saveBookmarks, name='saveBookmarks'),
     path('delete-bookmarks/', views.deleteBookmarks, name='deleteBookmarks'),
     path('user-logged/', views.userLogged, name="userLogged"),
-    path('get-translation/<slug:translation>/', views.getTranslation, name="getTranslation"),
+    path('get-translation/<slug:translation>/',
+         views.getTranslation, name="getTranslation"),
     path('get-paralel-verses/', views.getParallelVerses, name='getParallelVerses'),
-    path('get-searched-bookmarks/<str:query>/', views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),
+    path('get-searched-bookmarks/<str:query>/',
+         views.getSearchedProfileBookmarks, name='getSearchedProfileBookmarks'),
     path('search/<slug:translation>/<str:piece>/', views.search, name='search'),
     path('<slug:translation>/<str:piece>/', views.search, name='search'),
     path('get-text/<slug:translation>/<int:book>/<int:chapter>/',
@@ -35,3 +38,5 @@ urlpatterns = [
     path('/<slug:translation>/<int:book>/<int:chapter>/<int:verse>/',
          views.linkToVerse, name='/linkToVerse'),
 ]
+handler404 = views.handler404
+handler500 = views.handler500

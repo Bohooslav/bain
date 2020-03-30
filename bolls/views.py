@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from bolls.forms import SignUpForm
 from .models import Verses, Bookmarks, History
+from django.template import RequestContext
 
 
 def index(request):
@@ -27,7 +28,12 @@ def getTranslation(request, translation):
             "verse": obj.verse,
             "text": obj.text
         })
-    return JsonResponse(d, safe=False)
+    response = JsonResponse(d, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    return response
 
 
 def getText(request, translation, book, chapter):
@@ -40,15 +46,12 @@ def getText(request, translation, book, chapter):
             "verse": obj.verse,
             "text": obj.text
         })
-    return JsonResponse(d, safe=False)
-
-
-def linkToVerse(request, translation, book, chapter, verse):
-    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verse": verse})
-
-
-def linkToChapter(request, translation, book, chapter):
-    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter})
+    response = JsonResponse(d, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    return response
 
 
 def search(request, translation, piece):
@@ -64,7 +67,20 @@ def search(request, translation, piece):
             "verse": obj.verse,
             "text": obj.text
         })
-    return JsonResponse(d, safe=False)
+    response = JsonResponse(d, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    return response
+
+
+def linkToVerse(request, translation, book, chapter, verse):
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verse": verse})
+
+
+def linkToChapter(request, translation, book, chapter):
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter})
 
 
 def signUp(request):
@@ -258,4 +274,16 @@ def sw(request):
     response['Content-Type'] = 'application/javascript'
     response['Content-Disposition'] = 'attachment; filename="%s.js"' \
         % 'whatever'
+    return response
+
+
+def handler404(request, *args, **argv):
+    response = render('404.html', {}, context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render('500.html', {}, context_instance=RequestContext(request))
+    response.status_code = 500
     return response

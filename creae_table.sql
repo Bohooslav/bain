@@ -1,4 +1,5 @@
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/w.csv' DELIMITER ',' CSV HEADER;
+COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/LUT.csv' DELIMITER '  ' CSV HEADER;
 COPY bolls_verses(id, translation, book, chapter, verse, text) FROM '/home/b/data-1583918211969.csv' DELIMITER ',' CSV HEADER;
 
 SELECT * FROM bolls_verses ORDER BY BOOK, CHAPTER, VERSE
@@ -10,7 +11,13 @@ UPDATE bolls_verses SET text = ('') where translation='' and book=66  and chapte
 
 \copy auth_user(id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM '/home/b/data-1583933238173.csv' DELIMITER ',' CSV HEADER;
 
+psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432    --username=postgres    --password    --dbname=bain
+
 \copy bolls_bookmarks(id,color,note,user_id,verse_id,date) FROM '/home/b/Downloads/bolls_bookmarks.csv' DELIMITER ',' CSV HEADER;
+
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/verses.csv' DELIMITER '|' CSV HEADER;
+
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/DNB.csv' DELIMITER E'\t' CSV HEADER;
 
 
 INSERT INTO auth_permission VALUES
@@ -49,10 +56,10 @@ psql -f mydb2dump.sql --host bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com --
 psql -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -p 5432 -U postgres -W #8q^EMgAxWbmLGEp bain
 psql -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -p 5432 -U postgres -d bain
 psql \
-   --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com \
-   --port=5432 \
-   --username=postgres \
-   --password \
-   --dbname=bain
+	--host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com \
+	--port=5432 \
+	--username=postgres \
+	--password \
+	--dbname=bain
 
 $psql bain -U postgres -p 5432 -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -c "\copy bolls_verses(id, translation, book, chapter, verse, text) FROM '/home/b/data-1583918211969.csv' DELIMITER ',' CSV HEADER;"

@@ -45,7 +45,6 @@ export class State
 		checkDownloadedTranslations()
 		checkSavedBookmarks()
 
-
 	def get_cookie name
 		let cookieValue = null
 		if document:cookie && document:cookie !== ''

@@ -1,0 +1,120 @@
+[
+	{
+		"language": "English",
+		"translations": [
+			{
+				"short_name": "YLT",
+				"full_name": "Young's Literal Translation (1898)"
+			},
+			{
+				"short_name": "KJV",
+				"full_name": "King James Version (1769)"
+			},
+			{
+				"short_name": "NASB",
+				"full_name": "New American Standard Bible (1995)"
+			}
+		]
+	},
+	{
+		"language": "Hebrew עברית",
+		"translations": [
+			{
+				"short_name": "WLC",
+				"full_name": "Westminster Leningrad Codex (with Vowels)"
+			},
+			{
+				"short_name": "WLCC",
+				"full_name": "Westminster Leningrad Codex (Consonants)"
+			}
+		]
+	},
+	{
+		"language": "Українська Ukrainian",
+		"translations": [
+			{
+				"short_name": "UBIO",
+				"full_name": "Біблія, Іван Іванович Огієнко 1962"
+			},
+			{
+				"short_name": "UKRK",
+				"full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй,1903"
+			},
+			{
+				"short_name": "HOM",
+				"full_name": "Святе Письмо, Переклад Івана Хоменка, 1963"
+			}
+		]
+	},
+	{
+		"language": "Русский Russian",
+		"translations": [
+			{
+				"short_name": "SYNOD",
+				"full_name": "Русский Синодальный Перевод"
+			}
+		]
+	},
+	{
+		"language": "Ελληνικά Greek",
+		"translations": [
+			{
+				"short_name": "LXX",
+				"full_name": "LXX [A], Accentedq"
+			},
+			{
+				"short_name": "NTGT",
+				"full_name": "Greek NT: Tischendorf 8th Ed."
+			}
+		]
+	},
+	{
+		"language": "Latin Latine",
+		"translations": [
+			{
+				"short_name": "VULG",
+				"full_name": "Biblia Sacra juxta Vulgatam Clementinam"
+			}
+		]
+	},
+	{
+		"language": "Chinese 中文",
+		"translations": [
+			{
+				"short_name": "CUV",
+				"full_name": "Chinese: Union (Traditional) 和合本"
+			}
+		]
+	},
+	{
+		"language": "Postuguese",
+		"translations": [
+			{
+				"short_name": "ARA",
+				"full_name": "Almeida Revista e Atualizada, 1959"
+			}
+		]
+	},
+	{
+		"language": "Deutsch German",
+		"translations": [
+			{
+				"short_name": "LUT",
+				"full_name": "Luther (1912)"
+			},
+			{
+				"short_name": "SCH",
+				"full_name": "Schlachter (1951)"
+			}
+		]
+	},
+	{
+		"language": "Norsk Norwegian",
+		"translations": [
+			{
+				"short_name": "DNB",
+				"full_name": "Det Norsk Bibelselskap (1930)"
+			}
+		]
+	}
+]

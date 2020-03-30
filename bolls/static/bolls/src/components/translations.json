@@ -50,5 +50,21 @@
   {
     "short_name": "CUV",
     "full_name": "Chinese: Union (Traditional)"
+  },
+  {
+    "short_name": "ARA",
+    "full_name": "Almeida Revista e Atualizada, 1959"
+  },
+  {
+    "short_name": "LUT",
+    "full_name": "Luther (1912)"
+  },
+  {
+    "short_name": "SCH",
+    "full_name": "Schlachter (1951)"
+  },
+  {
+    "short_name": "DNB",
+    "full_name": "Det Norsk Bibelselskap (1930)"
   }
 ]

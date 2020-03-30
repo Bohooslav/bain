@@ -1,8 +1,7 @@
 {
   "name": "Bolls Bible",
   "short_name": "Bolls",
-  "icons": [
-    {
+  "icons": [{
       "src": "/static/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"

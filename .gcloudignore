@@ -21,15 +21,15 @@ __pycache__/
 # Node modules
 node_modules/
 static/bolls/node_modules/
-bolls/static/bolls/node_modules
+bolls/static/bolls/node_modules/
 
 # Ignore virtual enviroment
 env/
 
 #...
-/cloud_sql_proxy
-/creae_table.sql
-/links.imba
+cloud_sql_proxy
+creae_table.sql
+links.imba
 
-/bolls/static/
-/static/bolls/package-lock.json
+bolls/static/
+static/bolls/package-lock.json

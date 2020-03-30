@@ -13,6 +13,7 @@
   "scripts": {
     "start": "imba src/server.imba",
     "dev": "webpack-dev-server --hot --content-base dist/",
+    "build": "webpack --mode=production",
     "watch": "webpack --mode=development --watch --progress --colors --display-modules"
   },
   "files": [],
