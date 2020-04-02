@@ -8,8 +8,16 @@
     "full_name": "King James Version (1769)"
   },
   {
+    "short_name": "RSV",
+    "full_name": "Revised Standard Version (1952)"
+  },
+  {
     "short_name": "NASB",
     "full_name": "New American Standard Bible (1995)"
+  },
+  {
+    "short_name": "GNV",
+    "full_name": "Geneva Bible (1599)"
   },
   {
     "short_name": "WLC",
@@ -44,6 +52,10 @@
     "full_name": "Greek NT: Tischendorf 8th Ed."
   },
   {
+    "short_name": "TR",
+    "full_name": "Elzevir Textus Receptus (1624)"
+  },
+  {
     "short_name": "VULG",
     "full_name": "Biblia Sacra juxta Vulgatam Clementinam"
   },
@@ -57,7 +69,7 @@
   },
   {
     "short_name": "LUT",
-    "full_name": "German: Luther (1912)"
+    "full_name": "Luther (1912)"
   },
   {
     "short_name": "SCH",

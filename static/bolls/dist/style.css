@@ -1,104 +1,78 @@
 html[data-theme="loading"] {
-  background-color: #04060C;
+  background-color: #04060c;
   color: #fee;
 }
 
-html[data-theme='bluedark'] {
+html[data-theme="bluedark"], html[data-theme="greendark"], html[data-theme="purpledark"], html[data-theme="golddark"], html[data-theme="reddark"] {
   --background-color: #04060c;
   --text-color: #fee;
-  --accent-color: #8080FF;
-  --accent-hover-color: #96B6F3;
   --btn-bg: #88f2;
   --btn-bg-hover: #88f4;
 }
 
-html[data-theme='bluelight'] {
+html[data-theme="bluelight"], html[data-theme="greenlight"], html[data-theme="purplelight"], html[data-theme="goldlight"], html[data-theme="redlight"] {
   --background-color: #fee;
   --text-color: #04060c;
+  --btn-bg: #47f2;
+  --btn-bg-hover: #47f1;
+}
+
+html[data-theme="bluedark"] {
+  --accent-color: #8080ff;
+  --accent-hover-color: #96b6f3;
+}
+
+html[data-theme="bluelight"] {
   --accent-color: navy;
   --accent-hover-color: #417690;
-  --btn-bg: #47f2;
-  --btn-bg-hover: #47f1;
 }
 
-html[data-theme='greendark'] {
-  --background-color: #04060c;
-  --text-color: #fee;
+html[data-theme="greendark"] {
   --accent-color: olivedrab;
   --accent-hover-color: yellowgreen;
-  --btn-bg: #88f2;
-  --btn-bg-hover: #88f4;
 }
 
-html[data-theme='greenlight'] {
-  --background-color: #fee;
-  --text-color: #04060c;
+html[data-theme="greenlight"] {
   --accent-color: olivedrab;
   --accent-hover-color: yellowgreen;
-  --btn-bg: #47f2;
-  --btn-bg-hover: #47f1;
 }
 
-html[data-theme='purpledark'] {
-  --background-color: #04060c;
-  --text-color: #fee;
+html[data-theme="purpledark"] {
   --accent-color: #984da5;
-  --accent-hover-color: #B171BC;
-  --btn-bg: #88f2;
-  --btn-bg-hover: #88f4;
+  --accent-hover-color: #b171bc;
 }
 
-html[data-theme='purplelight'] {
-  --background-color: #fee;
-  --text-color: #04060c;
-  --accent-color: #66346F;
-  --accent-hover-color: #994EA6;
-  --btn-bg: #47f2;
-  --btn-bg-hover: #47f1;
+html[data-theme="purplelight"] {
+  --accent-color: #66346f;
+  --accent-hover-color: #994ea6;
 }
 
-html[data-theme='golddark'] {
-  --background-color: #04060c;
-  --text-color: #fee;
-  --accent-color: #DAA520;
-  --accent-hover-color: #E7C15F;
-  --btn-bg: #88f2;
-  --btn-bg-hover: #88f4;
+html[data-theme="golddark"] {
+  --accent-color: #daa520;
+  --accent-hover-color: #e7c15f;
 }
 
-html[data-theme='goldlight'] {
-  --background-color: #fee;
-  --text-color: #04060c;
-  --accent-color: #A98019;
-  --accent-hover-color: #E1AF33;
-  --btn-bg: #47f2;
-  --btn-bg-hover: #47f1;
+html[data-theme="goldlight"] {
+  --accent-color: #a98019;
+  --accent-hover-color: #e1af33;
 }
 
-html[data-theme='reddark'] {
-  --background-color: #04060c;
-  --text-color: #fee;
-  --accent-color: #DE5454;
-  --accent-hover-color: #E67A7A;
-  --btn-bg: #88f2;
-  --btn-bg-hover: #88f4;
+html[data-theme="reddark"] {
+  --accent-color: #de5454;
+  --accent-hover-color: #e67a7a;
 }
 
-html[data-theme='redlight'] {
-  --background-color: #fee;
-  --text-color: #04060c;
-  --accent-color: #891A1A;
-  --accent-hover-color: #D93A3A;
-  --btn-bg: #47f2;
-  --btn-bg-hover: #47f1;
+html[data-theme="redlight"] {
+  --accent-color: #891a1a;
+  --accent-hover-color: #d93a3a;
 }
 
-html[data-transitions='true'] * {
+html[data-transitions="true"] * {
   transition: all 300ms ease 0s;
   transition-delay: 0ms;
 }
 
-html[data-transitions='false'] * {
+html[data-transitions="false"] * {
   transition: none;
 }
 
@@ -110,7 +84,7 @@ html[data-transitions='false'] * {
   padding: 0;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 *::selection {
@@ -124,7 +98,7 @@ html[data-transitions='false'] * {
 }
 
 ::-webkit-scrollbar-track {
-  background: #38383D00;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -145,6 +119,7 @@ html {
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
+  touch-action: pan-x pan-y;
 }
 
 ul, li {
@@ -164,7 +139,7 @@ a {
   }
 }
 
-html[data-transitions='true'] main section h1, html[data-transitions='true'] main section article, html[data-transitions='true'] .Downloads, html[data-transitions='true'] ._colorpicker, html[data-transitions='true'] html[data-transitions='true'].bookmark_in_list, html[data-transitions='true'] .collection, html[data-transitions='true'] .in_offline, html[data-transitions='true'] .online, html[data-transitions='true'] html[data-transitions='true'].mark_grid, html[data-transitions='true'] .collectionshat, html[data-transitions='true'] .collectionsflex, html[data-transitions='true'] #addbuttons, html[data-transitions='true'] .close_colorpicker, html[data-transitions='true'] .book_in_list, html[data-transitions='true'] .list_of_chapters {
+html[data-transitions="true"] main section h1, html[data-transitions="true"] main section article, html[data-transitions="true"] .Downloads, html[data-transitions="true"] ._colorpicker, html[data-transitions="true"] .bookmark_in_list, html[data-transitions="true"] .collection, html[data-transitions="true"] .in_offline, html[data-transitions="true"] .online, html[data-transitions="true"] .mark_grid, html[data-transitions="true"] .collectionshat, html[data-transitions="true"] .collectionsflex, html[data-transitions="true"] #addbuttons, html[data-transitions="true"] .close_colorpicker, html[data-transitions="true"] .book_in_list, html[data-transitions="true"] .list_of_chapters {
   -webkit-animation: text-came 300ms ease alternate;
   animation: text-came 300ms ease alternate;
 }
@@ -214,7 +189,7 @@ nav {
     transform: rotateZ(27deg);
   }
   72% {
-    transform: rotateZ(-24deg);
+    transform: rotateZ(-27deg);
   }
   100% {
     transform: rotateZ(0);
@@ -225,7 +200,7 @@ nav {
   fill: var(--accent-hover-color);
 }
 
-html[data-transitions='true'] .remove_parallel:hover, html[data-transitions='true'] .download_translations:hover, html[data-transitions='true'] .close_search:hover, html[data-transitions='true'] .help:hover .helpsvg, html[data-transitions='true'] .save_bookmark:hover {
+html[data-transitions="true"] .remove_parallel:hover, html[data-transitions="true"] .download_translations:hover, html[data-transitions="true"] .close_search:hover, html[data-transitions="true"] .help:hover .helpsvg, html[data-transitions="true"] .save_bookmark:hover {
   -webkit-animation: shake 300ms ease alternate;
   animation: shake 300ms ease alternate;
 }
@@ -366,13 +341,18 @@ html[data-transitions='true'] .remove_parallel:hover, html[data-transitions='tru
   min-height: 128px;
 }
 
-main {
-  display: block;
+.main {
   width: 100%;
   padding: 4vw 3vw;
   color: var(--text-color);
-  line-height: 1.6em;
   margin: auto;
+}
+
+.parallel_text {
+  display: flex;
+  padding: 0 2vw;
+  grid-gap: 1vw;
+  height: 100vh;
 }
 
 nav input[type="search"] {
@@ -394,24 +374,17 @@ nav input[type="search"] {
   fill: var(--accent-hover-color);
 }
 
-.parallel_text {
-  display: flex;
-  padding: 0 2vw;
-  grid-gap: 1vw;
-  height: 100vh;
-}
-
 h1 {
   text-align: center;
   margin: 1em 4px;
 }
 
-main h1:hover {
+.Bible main h1:hover {
   text-decoration: solid underline;
   cursor: pointer;
 }
 
-footer a, #helpFAQ a, main span {
+footer a, #helpFAQ a, .Bible main span {
   cursor: pointer;
   touch-action: manipulation;
   background-repeat: no-repeat;
@@ -419,7 +392,7 @@ footer a, #helpFAQ a, main span {
   background-position: 0px 110%;
 }
 
-html[data-transitions='true'] main span:hover, html[data-transitions='true'] footer a:hover, html[data-transitions='true'] #helpFAQ a:hover {
+html[data-transitions="true"] .Bible main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] #helpFAQ a:hover {
   animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none running link-hover;
 }
 
@@ -466,7 +439,7 @@ html[data-transitions='true'] main span:hover, html[data-transitions='true'] foo
 .close_colorpicker {
   position: absolute;
   bottom: 215px;
-  right: calc((100vw - 320px)/2);
+  right: calc((100vw - 320px) / 2);
   padding: 12px;
   width: 48px;
   height: 48px;
@@ -567,7 +540,7 @@ html[data-transitions='true'] main span:hover, html[data-transitions='true'] foo
   background-color: var(--btn-bg);
   border-radius: 50%;
   fill: var(--accent-hover-color);
-  transform: rotateZ(360deg);
+  transform: rotate(360deg);
 }
 
 .arrow_next {
@@ -710,7 +683,7 @@ aside {
 }
 
 .languages {
-  background: var(--background-color);
+  background-color: var(--background-color);
   position: absolute;
   right: 32px;
   transform: scale(0.95) translateX(36px);
@@ -721,27 +694,35 @@ aside {
 }
 
 .show_languages {
-  transform: translateY(-32px);
+  transform: translateY(-32%);
   visibility: visible;
   opacity: 1;
   z-index: 10000000;
 }
 
 .languages button {
-  background: var(--btn-bg);
+  background-color: transparent;
+  background-image: linear-gradient(#0000, #4477ff0f);
   color: var(--text-color);
   cursor: pointer;
   padding: 8px 16px;
-  margin: 1px;
-  border-radius: 2px;
-  font-size: 16px;
-  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  border: 0.1px solid var(--btn-bg);
   display: block;
   width: 100%;
 }
 
 .languages button:hover {
   background-color: var(--btn-bg-hover);
+}
+
+.font_icon {
+  font-family: "Tinos", serif;
+  font-size: 27px;
+  padding: 0 8px;
+  width: 32px;
+  margin-right: 12px;
 }
 
 .search {
@@ -814,16 +795,6 @@ aside {
   }
 }
 
-@keyframes hiding_search_results {
-  0% {
-    top: 7%;
-    box-shadow: 0 64px 128px rgba(0, 0, 0, 0.3);
-  }
-  100% {
-    top: 100%;
-  }
-}
-
 @keyframes link-hover {
   0% {
     background-size: 100% 0.2em;
@@ -857,8 +828,6 @@ aside {
   padding: 12px 24px;
   visibility: hidden;
   z-index: 2;
-  -webkit-animation: hiding_search_results 300ms ease 0ms alternate;
-  animation: hiding_search_results 300ms ease 0ms alternate;
 }
 
 .search_hat {
@@ -876,6 +845,9 @@ aside {
   top: 7%;
   box-shadow: 0 64px 128px rgba(0, 0, 0, 0.3);
   visibility: visible;
+}
+
+html[data-transitions="true"] .show_search_results {
   -webkit-animation: showing_search_results 300ms ease 0ms alternate;
   animation: showing_search_results 300ms ease 0ms alternate;
 }
@@ -1069,7 +1041,7 @@ aside {
   border-color: var(--accent-hover-color);
 }
 
-.nighttheme:hover span {
+.nighttheme:hover .checkbox span {
   background-color: var(--accent-hover-color);
 }
 
@@ -1091,10 +1063,30 @@ aside {
   transform: translateY(-2px);
 }
 
-.profile_block {
-  max-width: 960px;
-  width: 100%;
-  margin: auto;
+.Profile {
+  padding: 0 calc(50% - 470px);
+}
+
+.change_password {
+  margin: auto 8px auto auto;
+  color: inherit;
+  overflow: hidden;
+  --fill-on-hover: var(--text-color);
+  --span-transform: 150%;
+}
+
+.change_password svg {
+  margin: 0;
+}
+
+.change_password span {
+  transform: translateX(var(--span-transform));
+}
+
+.change_password:hover {
+  color: var(--accent-hover-color);
+  --fill-on-hover: var(--accent-hover-color);
+  --span-transform: 0;
 }
 
 .display_none {
@@ -1123,7 +1115,7 @@ aside {
   margin-left: auto;
   text-align: right;
   opacity: 0.75;
-  font-size: .75em;
+  font-size: 0.75em;
 }
 
 .note {
@@ -1184,17 +1176,6 @@ aside {
   }
 }
 
-@keyframes history-go_out {
-  0% {
-    bottom: 2%;
-    right: 3vw;
-  }
-  100% {
-    bottom: -100%;
-    right: -256px;
-  }
-}
-
 .history {
   position: fixed;
   bottom: -100%;
@@ -1207,8 +1188,6 @@ aside {
   opacity: 1;
   visibility: hidden;
   transform: none;
-  -webkit-animation: history-go_out 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms alternate;
-  animation: history-go_out 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms alternate;
 }
 
 .show_history {
@@ -1217,8 +1196,11 @@ aside {
   bottom: 2%;
   visibility: visible;
   transform: none;
-  -webkit-animation: history-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms alternate;
-  animation: history-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms alternate;
+}
+
+html[data-transitions="true"] .show_history {
+  -webkit-animation: history-came 300ms cubic-bezier(0.39, 0.575, 0.565, 1) 0ms alternate;
+  animation: history-came 300ms cubic-bezier(0.39, 0.575, 0.565, 1) 0ms alternate;
 }
 
 .history .nighttheme:hover {
@@ -1400,11 +1382,11 @@ footer a:hover {
   margin-top: 16px;
   font-size: 1em;
   height: 128px;
-  -webkit-animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 800ms both;
-  animation: text-came 300ms cubic-bezier(0.390, 0.575, 0.565, 1.000) 800ms both;
+  -webkit-animation: text-came 300ms cubic-bezier(0.39, 0.575, 0.565, 1) 800ms both;
+  animation: text-came 300ms cubic-bezier(0.39, 0.575, 0.565, 1) 800ms both;
 }
 
-figcaption {
+.Load div {
   position: absolute;
 }
 
@@ -1481,7 +1463,7 @@ figcaption {
   margin: auto;
   line-height: 1.5;
   opacity: 0.8;
-  padding: 16vh 8px;
+  padding: 16vh 4vw;
 }
 
 .install_on_android a {
@@ -1513,7 +1495,7 @@ figcaption {
 
 #helpFAQ a {
   color: inherit;
-  background-image: linear-gradient(var(--text-color) 0px, var(--text-color) 100%);
+  background-image: linear-gradient( var(--text-color) 0px, var(--text-color) 100%);
 }
 
 #helpFAQ p {
@@ -1549,8 +1531,9 @@ address a:hover {
   }
 }
 
-.hold_by_finger aside, .hold_by_finger nav, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a {
+.hold_by_finger, .hold_by_finger aside, .hold_by_finger nav, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a {
   transition: none;
+  touch-action: none;
 }
 
 .in_offline {
@@ -1565,23 +1548,23 @@ address a:hover {
 @keyframes show-notification {
   0% {
     visibility: hidden;
-    bottom: -128px;
+    top: 0;
   }
   8% {
     visibility: visible;
-    bottom: 0;
+    top: -96px;
   }
   92% {
     visibility: visible;
-    bottom: 0;
+    top: -96px;
   }
   100% {
     visibility: hidden;
-    bottom: -128px;
+    top: 0;
   }
 }
 
-#notification {
+.Notification {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -1590,17 +1573,17 @@ address a:hover {
   justify-content: center;
   align-items: center;
   height: 0;
-  -webkit-animation: show-notification 2000ms ease both;
-  animation: show-notification 2000ms ease both;
   background: transparent;
 }
 
-#notification p {
+.Notification p {
   color: var(--background-color);
   background-color: var(--accent-hover-color);
+  -webkit-animation: show-notification 2000ms ease both;
+  animation: show-notification 2000ms ease both;
   padding: 16px 32px;
   border-radius: 16px;
   position: absolute;
-  top: -96px;
+  top: 0;
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.1);
 }

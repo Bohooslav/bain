@@ -14,14 +14,14 @@ let query = ''
 let loading = no
 let show_options_of = ''
 
-export tag Profile
+export tag Profile < main
 	prop bookmarks default: []
 	prop loaded_bookmarks default: []
 	prop books default: []
 	prop translation default: ''
 	prop categories default: []
 
-	def build
+	def setup
 		limits_of_range:from = 0
 		limits_of_range:to = 32
 		limits_of_range:loaded = 0
@@ -90,17 +90,18 @@ export tag Profile
 
 	def getProfileBookmarks range_from, range_to
 		let url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
-		let data
+		let bookmarksdata
 		if window:navigator:onLine
-			data = await loadData(url)
+			bookmarksdata = await loadData(url)
 		else
-			data = await @data.getBookmarksFromStorage()
-		limits_of_range:loaded += data:length
+			console.log @data
+			bookmarksdata = await @data.getBookmarksFromStorage() || []
+		limits_of_range:loaded += bookmarksdata:length
 		let newItem = {
 			verse: [],
 			text: []
 		}
-		for item, key in data
+		for item, key in bookmarksdata
 			newItem:date = Date.new(item:date)
 			newItem:color = item:color
 			newItem:note = item:note
@@ -161,16 +162,6 @@ export tag Profile
 		setTimeout(&,1200) do
 			window:location:hash = "#{bookmark:verse[0]}"
 
-	def ontouchstart touch
-		self
-
-	def ontouchend touch
-		if touch.dx > 120 && Math.abs(touch.dy) < 24 && document.getSelection == ''
-			if query
-				closeSearch
-			else
-				toBible
-
 	def getSearchedBookmarks category
 		if category
 			query = category
@@ -230,94 +221,68 @@ export tag Profile
 			show_options_of = title
 
 	def deleteBookmark bookmark
-		if window:navigator:onLine
-			window.fetch("/delete-bookmarks/", {
-				method: "POST",
-				cache: "no-cache",
-				headers: {
-					'X-CSRFToken': get_cookie('csrftoken'),
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					verses: JSON.stringify(bookmark:pks),
-				}),
-			})
-			.then(do |response| response.json())
-			.then(do |data| console.log data)
-		else
-			@data.deleteBookmark(bookmark:verse)
-			window:localStorage.setItem('bookmarks-to-delete', JSON.stringify(bookmark:pks))
+		@data.requestDeleteBookmark(bookmark:pks)
 		for verse in bookmark:verse
 			if @bookmarks.find(do |bm| return bm:pks == bookmark:pks)
 				@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
 				Imba.commit
+			if @loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)
+				@loaded_bookmarks.splice(@loaded_bookmarks.indexOf(@loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
+				Imba.commit
+		show_options_of = ''
 		Imba.commit
 
-	def get_cookie name
-		let cookieValue = null
-		if document:cookie && document:cookie !== ''
-			let cookies = document:cookie.split(';')
-			for i in cookies
-				let cookie = i.trim()
-				if (cookie.substring(0, name:length + 1) === (name + '='))
-					cookieValue = window.decodeURIComponent(cookie.substring(name:length + 1))
-					break
-		return cookieValue
-
 	def copyToClipboard bookmark
-		let aux = document.createElement("textarea")
-		let value = '"'
-		value += bookmark:text + '"\n\n' + bookmark:title
-		if getCookie('clear_copy') != 'true'
-			value += ' ' + bookmark:translation + ' ' + "https://bolls.life" + '/'+ bookmark:translation + '/' + bookmark:book + '/' + bookmark:chapter + '/' + bookmark:verse.sort(do |a, b| return a - b)[0]
-		aux:textContent = value
-		document:body.appendChild(aux)
-		aux.select()
-		document.execCommand("copy")
-		document:body.removeChild(aux)
+		@data.copyToClipboard(bookmark)
 		show_options_of = ''
 
 	def render
 		<self :onscroll=scroll>
-			<section.profile_block>
-				<header.profile_hat>
-					if !query
-						<.collectionsflex css:flex-wrap="wrap">
-							<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
-								<svg:title>  @data.lang:back
-								<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-							<h1> user:name.charAt(0).toUpperCase() + user:name.slice(1)
-						<.collectionsflex css:flex-wrap="wrap">
-							for category in @categories
-								if category
-									<p.collection :tap.prevent.getSearchedBookmarks(category)> category
-							<div css:min-width="16px">
-					else
-						<.collectionsflex css:flex-wrap="wrap">
-							<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
-								<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-							<h1> query
-				for bookmark in (query ? @bookmarks : @loaded_bookmarks)
-					<article.bookmark_in_list css:border-color="{bookmark:color}">
-						<text-as-html[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
-						if bookmark:note
-							<p.note> bookmark:note
-						<p.dataflex>
-							<span.booktitle dir="auto"> bookmark:title, ' ', bookmark:translation
-							<time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
-							<svg:svg._options :tap.prevent.showOptions(bookmark:title) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-								<svg:path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z">
-							<.languages css:right="{window:innerWidth > 960 ? (window:innerWidth - 900) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
-								<button :tap.prevent.deleteBookmark(bookmark)> @data.lang:delete
-								<button :tap.prevent.goToBookmark(bookmark)> @data.lang:open
-								<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy
-					<hr.hr>
-				if loading && ((limits_of_range:loaded == limits_of_range:to) || limits_of_range:loaded == 0)
-					<Load css:padding="128px 0">
+			<header.profile_hat>
+				if !query
+					<.collectionsflex css:flex-wrap="wrap">
+						<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
+							<svg:title> @data.lang:back
+							<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
+						<h1> user:name.charAt(0).toUpperCase() + user:name.slice(1)
+						<a.change_password.help href="/accounts/password_change/">
+							<span> @data.lang:change_password
+							<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px">
+								<svg:title> @data.lang:change_password
+								<svg:path d="M0 0h24v24H0z" fill="none">
+								<svg:path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z">
+					<.collectionsflex css:flex-wrap="wrap">
+						for category in @categories
+							if category
+								<p.collection :tap.prevent.getSearchedBookmarks(category)> category
+						<div css:min-width="16px">
 				else
-					<div.freespace>
-				if !@bookmarks:length && !@categories:length
-					<p css:text-align="center"> @data.lang:thereisnobookmarks
+					<.collectionsflex css:flex-wrap="wrap">
+						<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.closeSearch>
+							<svg:title> @data.lang:back
+							<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
+						<h1> query
+			for bookmark in (query ? @bookmarks : @loaded_bookmarks)
+				<article.bookmark_in_list css:border-color="{bookmark:color}">
+					<text-as-html[{text: bookmark:text.join(" ")}].bookmark_text :tap.prevent.goToBookmark(bookmark) dir="auto">
+					if bookmark:note
+						<p.note> bookmark:note
+					<p.dataflex>
+						<span.booktitle dir="auto"> bookmark:title, ' ', bookmark:translation
+						<time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
+						<svg:svg._options :tap.prevent.showOptions(bookmark:title) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+							<svg:path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z">
+						<.languages css:right="{window:innerWidth > 960 ? (window:innerWidth - 900) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
+							<button :tap.prevent.deleteBookmark(bookmark)> @data.lang:delete
+							<button :tap.prevent.goToBookmark(bookmark)> @data.lang:open
+							<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy
+				<hr.hr>
+			if loading && ((limits_of_range:loaded == limits_of_range:to) || limits_of_range:loaded == 0)
+				<Load css:padding="128px 0">
+			else
+				<div.freespace>
+			if !@bookmarks:length && !@categories:length
+				<p css:text-align="center"> @data.lang:thereisnobookmarks
 
 		if !window:navigator:onLine
 			<div style="position: fixed;bottom: 16px;left: 16px;color: var(--text-color);background: var(--background-color);padding: 8px;border-radius: 8px;text-align: center;border: 1px solid var(--btn-bg-hover);z-index: 1000">

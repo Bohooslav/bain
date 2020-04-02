@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Bolls | {% trans "Log in" %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'registration/login_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'registration/registration.css' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
@@ -21,7 +21,7 @@
   </head>
 
   <body>
-    <div class="formflex">
+    <div id="content">
     <h1 style="font-size: 24px; color: var(--text-color);"><a class="tomain" href="/">Bolls</a> | {% trans "Log in" %}</h1>
 
     {% block content %}
@@ -56,7 +56,7 @@
       if (window.localStorage.getItem('theme')){
         var doc = document.querySelector('#html');
         doc.dataset.theme = window.localStorage.getItem('theme');}
-      if (window.navigator.language == "uk"){
+      if (window.navigator.language.slice(2) == "uk"){
         var form = document.getElementsByTagName('form')[0];
         form[3].value = "Увійти";
         if (document.getElementsByClassName('errormessage').length){
@@ -69,7 +69,7 @@
         var create = document.getElementById("create");
         create.innerText = "Зареєструватися";
       }
-      if (window.navigator.language == "ru-RU"){
+      if (window.navigator.language.slice(2) == "ru"){
         var form = document.getElementsByTagName('form')[0];
         form[3].value = "Войти";
         if (document.getElementsByClassName('errormessage').length){

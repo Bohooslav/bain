@@ -1,11 +1,10 @@
-var CACHE_NAME = 'v1.2.40';
+var CACHE_NAME = 'v1.2.43';
 var urlsToCache = [
   '/',
   '/static/bolls/dist/client.js',
   '/static/bolls/dist/style.css',
   '/static/bolls/fonts/fontstylesheet.css',
   '/static/bolls/dist/mobile_styles.css',
-  '/static/bolls/dist/8.jpg',
 ];
 
 self.addEventListener('install', function (event) {

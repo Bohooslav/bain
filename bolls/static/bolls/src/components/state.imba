@@ -12,6 +12,7 @@ export class State
 	prop show_languages
 	prop language
 	prop lang
+	prop notification default: ''
 
 	def initialize
 		@can_work_with_db = yes
@@ -33,6 +34,31 @@ export class State
 					document:lastChild:lang = "ru-RU"
 					if !window:translation
 						setCookie('translation', 'SYNOD')
+				when 'pt'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'ARA')
+				when 'no'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'DNB')
+				when 'de'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'SCH')
+				when 'he'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'WLCC')
+				when 'zh'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'CUV')
 				else
 					@language = 'eng'
 					document:lastChild:lang = "en"
@@ -295,3 +321,42 @@ export class State
 			when 'ru' then @lang = ru_leng
 			else @lang = en_leng
 		setCookie('language', language)
+
+	def copyToClipboard copyobj
+		let aux = document.createElement("textarea")
+		let value = '"'
+		value += copyobj:text + '"\n\n' + copyobj:title
+		if getCookie('clear_copy') != 'true'
+			value += ' ' + copyobj:translation + ' ' + "https://bolls.life" + '/'+ copyobj:translation + '/' + copyobj:book + '/' + copyobj:chapter + '/' + copyobj:verse.sort(do |a, b| return a - b)[0]
+		aux:textContent = value
+		document:body.appendChild(aux)
+		aux.select()
+		document.execCommand("copy")
+		document:body.removeChild(aux)
+		showNotification('copied')
+
+	def showNotification ntfctn
+		@notification = @lang[ntfctn]
+		setTimeout(&, 2000) do
+			if @notification == @lang[ntfctn]
+				@notification = ''
+
+	def requestDeleteBookmark pks
+		if window:navigator:onLine
+			window.fetch("/delete-bookmarks/", {
+				method: "POST",
+				cache: "no-cache",
+				headers: {
+					'X-CSRFToken': get_cookie('csrftoken'),
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					verses: JSON.stringify(pks),
+				}),
+			})
+			.then(do |response| response.json())
+			.then(do |data|
+			showNotification('deleted'))
+		else
+			deleteBookmark(bookmark:verse)
+			setCookie('bookmarks-to-delete', JSON.stringify(pks))

@@ -170,10 +170,32 @@ tag colorpicker < canvas
 	prop rgba
 
 	def build
-		let canvasContext = self:context('2d')
-		let image = Image.new(320, 207)
-		image:onload = do canvasContext.drawImage(image, 0, 0, image:width, image:height)
-		image:src = "/static/bolls/dist/8.jpg"
+		self.width = 320
+		self.height = 207
+		let gradient = self:context('2d').createLinearGradient(0,0,self.width,0)
+		gradient.addColorStop(0, '#ff0000')
+		gradient.addColorStop(1/6, '#ffff00')
+		gradient.addColorStop((1/6)*2, '#00ff00')
+		gradient.addColorStop((1/6)*3, '#00ffff')
+		gradient.addColorStop((1/6)*4, '#0000ff')
+		gradient.addColorStop((1/6)*5, '#ff00ff')
+		gradient.addColorStop(1, '#ff0000')
+		self:context('2d'):fillStyle = gradient
+		self:context('2d').fillRect(0, 0, self.width, self.height)
+
+		gradient = self:context('2d').createLinearGradient(0,0,0,self.height)
+		gradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
+		gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0)')
+		gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+		self:context('2d'):fillStyle = gradient
+		self:context('2d').fillRect(0, 0, self.width, self.height)
+
+		gradient = self:context('2d').createLinearGradient(0,0,0,self.height)
+		gradient.addColorStop(0, 'rgba(0, 0, 0, 0)')
+		gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)')
+		gradient.addColorStop(1, 'rgba(0, 0, 0, 1)')
+		self:context('2d'):fillStyle = gradient
+		self:context('2d').fillRect(0, 0, self.width, self.height)
 
 	def ontouchstart e
 		let offsetX = (window:innerWidth - 320) / 2 + e:_x
@@ -214,7 +236,6 @@ export tag Bible
 	prop categories default: []
 	prop chronorder default: no
 	prop search default: Object.create(null)
-	prop notification default: ''
 
 	def setup
 		if window:translation
@@ -347,7 +368,7 @@ export tag Bible
 			.catch(do |e| console.log(e))
 
 	def loadData url
-		var res = await window.fetch url
+		var res = await window.fetch(url)
 		return res.json
 
 	def getText translation, book, chapter, verse
@@ -492,8 +513,8 @@ export tag Bible
 		show_downloads = no
 		show_translations_for_comparison = no
 		choosen_categories = []
-		if document.getElementById('main')
-			document.getElementById('main').focus()
+		if document.getElementsByTagName('main')[0]
+			document.getElementsByTagName('main')[0].focus()
 		Imba.commit
 
 	def turnHelpBox
@@ -659,10 +680,8 @@ export tag Bible
 		else @show_chapters_of = 0
 
 	def showLanguageTranslations language
-		console.log(language)
 		if language != show_language_of
 			show_language_of = language
-			console.log(language)
 		else show_language_of = ''
 
 	def nameOfBook bookid, parallel
@@ -741,9 +760,9 @@ export tag Bible
 
 	def ontouchupdate touch
 		if inzone
-			if (bible_menu_left < 0 && touch.dx < 300) && mobimenu != 'show_settings_menu'
+			if bible_menu_left < 0 && touch.dx > 0
 				bible_menu_left = touch.dx - 300
-			if (settings_menu_left < 0 && touch.dx > -300) && mobimenu != 'show_bible_menu'
+			if settings_menu_left < 0 && touch.dx < 0
 				settings_menu_left = - 300 - touch.dx
 		else
 			if mobimenu == 'show_bible_menu' && touch.dx < 0
@@ -919,7 +938,7 @@ export tag Bible
 				}),
 			})
 			.then(do |response| response.json())
-			.then(do |data| showNotification('saved'))
+			.then(do |data| @data.showNotification('saved'))
 			.catch(do |e| console.log(e))
 		elif @data.can_work_with_db
 			@data.saveBookmarksToStorageUntillOnline({
@@ -952,23 +971,8 @@ export tag Bible
 		highlights.splice(highlights.indexOf(highlights.find(do |element| return element == color_to_delete)), 1)
 		window:localStorage.setItem("highlights", JSON.stringify(highlights))
 
-	def deleteBookmarks ids
-		if window:navigator:onLine
-			window.fetch("/delete-bookmarks/", {
-				method: "POST",
-				cache: "no-cache",
-				headers: {
-					'X-CSRFToken': get_cookie('csrftoken'),
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					verses: JSON.stringify(ids),
-				}),
-			})
-			.then(do |response| response.json())
-			.then(do |data|	showNotification('deleted'))
-		else
-			setCookie('bookmarks-to-delete', JSON.stringify(ids))
+	def deleteBookmarks pks
+		@data.requestDeleteBookmark(pks)
 		if choosen_parallel == 'second'
 			for verse in choosenid
 				if @parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)
@@ -980,37 +984,34 @@ export tag Bible
 		clearSpace
 
 	def copyToClipboard
-		let aux = document.createElement("textarea")
-		let value = '"'
+		let copyobj = {
+			text: [],
+			verse: [],
+			translation: '',
+			book: 0,
+			chapter: 0
+		}
+		copyobj:title = getHighlightedRow
 		if choosen_parallel == 'second'
 			for verse in parallel_verses
 				if choosenid.find(do |element| return element == verse:pk)
-					value += verse:text
+					copyobj:text.push(verse:text)
+					copyobj:verse.push(verse:verse)
+			copyobj:translation = parallel_text:translation
+			copyobj:book = parallel_text:book
+			copyobj:chapter = parallel_text:chapter
+			console.log(copyobj)
 		else
 			for verse in verses
 				if choosenid.find(do |element| return element == verse:pk)
-					value += verse:text + ' '
-		if choosen_parallel == 'second'
-			value += '"\n\n' + getHighlightedRow
-			if !settings:clear_copy
-				value += ' ' + parallel_text:translation + ', ' + "https://bolls.life" + '/' + parallel_text:translation + '/' + parallel_text:book + '/' + parallel_text:chapter
-		else
-			value += '"\n\n' + getHighlightedRow
-			if !settings:clear_copy
-				value += ' ' + settings:translation + ' ' + "https://bolls.life" + '/'+ settings:translation + '/' + settings:book + '/' + settings:chapter + '/' + choosen.sort(do |a, b| return a - b)[0]
-		aux:textContent = value
-		document:body.appendChild(aux)
-		aux.select()
-		document.execCommand("copy")
-		document:body.removeChild(aux)
+					copyobj:text.push(verse:text)
+					copyobj:verse.push(verse:verse)
+			copyobj:translation = settings:translation
+			copyobj:book = settings:book
+			copyobj:chapter = settings:chapter
+			console.log(copyobj)
+		@data.copyToClipboard(copyobj)
 		clearSpace
-		showNotification('copied')
-
-	def showNotification ntfctn
-		notification = @data.lang[ntfctn]
-		setTimeout(&, 2000) do
-			if notification == @data.lang[ntfctn]
-				notification = ''
 
 	def toProfile from_build = no
 		clearSpace
@@ -1376,7 +1377,7 @@ export tag Bible
 					<.freespace>
 				<input[store:book_search].search type="search" placeholder=@data.lang:search input:aria-label=@data.lang:search>  @data.lang:search
 
-			<main#main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
+			<main.main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					if @verses:length
 						<h1 style="font-family: {settings:font:family};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
@@ -1491,25 +1492,37 @@ export tag Bible
 						<svg:title> @data.lang:parallel
 						<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 				<.nighttheme :click.prevent=(do show_fonts = !show_fonts)>
-					@data.lang:font-family
-					<button.change_language>
-						settings:font:name
+					<span.font_icon> "B"
+					settings:font:name
 					<.languages .show_languages=show_fonts>
 						for font in fonts
 							<button :click.prevent.setFontFamily(font) css:font-family=font:code> font:name
+				<.profile_in_settings>
+					if user:name
+						<a.username :click.prevent.toProfile(no)> user:name.charAt(0).toUpperCase() + user:name.slice(1)
+						<a.prof_btn href="/accounts/logout/"> @data.lang:logout
+					else
+						<a.prof_btn href="/accounts/login/"> @data.lang:login
+						<a.prof_btn.signin href="/signup/"> @data.lang:signin
 				<.help :click.prevent.turnHistory>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:history
 						<svg:path d="M0 0h24v24H0z" fill="none">
 						<svg:path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z">
 					@data.lang:history
-				<.profile_in_settings>
-					if user:name
-						<a.username :click.prevent.toProfile(no)> user:name
-						<a.prof_btn href="/accounts/logout/"> @data.lang:logout
-					else
-						<a.prof_btn href="/accounts/login/"> @data.lang:login, ' '
-						<a.prof_btn.signin href="/signup/"> @data.lang:signin
+				<.nighttheme :click.prevent=(do @data.show_languages = !@data.show_languages)>
+					@data.lang:language
+					<button.change_language>
+						if @data.language == 'ukr'
+							"Українська"
+						if @data.language == 'eng'
+							"English"
+						if @data.language == 'ru'
+							"Русский"
+					<.languages .show_languages=@data.show_languages>
+						<button :click.prevent=(do @data.setLanguage('ukr'))> "Українська"
+						<button :click.prevent=(do @data.setLanguage('ru'))> "Русский"
+						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
 				<.nighttheme.parent_checkbox :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
 					<a.checkbox>
@@ -1527,19 +1540,6 @@ export tag Bible
 						@data.lang:lock_drawers
 						<a.checkbox>
 							<span>
-				<.nighttheme :click.prevent=(do @data.show_languages = !@data.show_languages)>
-					@data.lang:language
-					<button.change_language>
-						if @data.language == 'ukr'
-							"Українська"
-						if @data.language == 'eng'
-							"English"
-						if @data.language == 'ru'
-							"Русский"
-					<.languages .show_languages=@data.show_languages>
-						<button :click.prevent=(do @data.setLanguage('ukr'))> "Українська"
-						<button :click.prevent=(do @data.setLanguage('ru'))> "Русский"
-						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
 				if !on_electron
 					<a.help :click.prevent.toDownloads(no)>
 						<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -1669,22 +1669,29 @@ export tag Bible
 								<svg:title> @data.lang:remove_all_translations
 								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 					<article.search_body tabindex="0">
-						for tr in translations
-							<a.search_res_verse_header>
-								<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
-								if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
-									<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-										<svg:title> @data.lang:loading
-										<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
-								elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
-									<svg:svg.remove_parallel.close_search :click.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
-										<svg:title> @data.lang:delete
-										<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
-								else
-									<svg:svg.remove_parallel.close_search :click.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-										<svg:title> @data.lang:download
-										<svg:path d="M0 0h24v24H0z" fill="none">
-										<svg:path d="{svg_paths:download}">
+						for language in languages
+							<a.book_in_list dir="auto" style="font-weight:600;" .pressed=(language:language == show_language_of) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
+								language:language
+								<svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
+									<svg:title> @data.lang:open
+									<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
+							<ul.list_of_chapters style="padding-left:8px;" dir="auto" .show_list_of_chapters=(language:language == show_language_of)>
+								for tr in language:translations
+									<a.search_res_verse_header>
+										<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
+										if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
+											<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+												<svg:title> @data.lang:loading
+												<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+										elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
+											<svg:svg.remove_parallel.close_search :click.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
+												<svg:title> @data.lang:delete
+												<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
+										else
+											<svg:svg.remove_parallel.close_search :click.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+												<svg:title> @data.lang:download
+												<svg:path d="M0 0h24v24H0z" fill="none">
+												<svg:path d="{svg_paths:download}">
 						<.freespace>
 				else
 					<article.search_hat>
@@ -1853,10 +1860,6 @@ export tag Bible
 									<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 					else
 						<p css:padding="12px"> @data.lang:empty_history
-
-			if notification
-				<section id="notification">
-					<p> notification
 
 			if menuicons
 				<svg:svg.navigation :click.prevent.toggleBibleMenu() style="left: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

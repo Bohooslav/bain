@@ -27,7 +27,7 @@ export tag Load
 
 	def render
 		<self>
-			<figcaption css:transform="scale({scale(2400)}) translateX({translateX(2400)}px) translateY({translateY(2400)}px)">
+			<div css:transform="scale({scale(2400)}) translateX({translateX(2400)}px) translateY({translateY(2400)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(2400)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M5.33 12.77A4 4 0 1 1 3 5.13V5a4 4 0 0 1 5.71-3.62 3.5 3.5 0 0 1 6.26 1.66 2.5 2.5 0 0 1 2 2.08 4 4 0 1 1-2.7 7.49A5.02 5.02 0 0 1 12 14.58V18l2 1v1H6v-1l2-1v-3l-2.67-2.23zM5 10l3 3v-3H5z">
-			<figcaption css:transform="scale({scale(2100)}) translateX({translateX(2100)}px) translateY({translateY(2100)}px)">
+			<div css:transform="scale({scale(2100)}) translateX({translateX(2100)}px) translateY({translateY(2100)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(2100)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M0 0l20 8-8 4-2 8z">
-			<figcaption css:transform="scale({scale(1800)}) translateX({translateX(1800)}px) translateY({translateY(1800)}px)">
+			<div css:transform="scale({scale(1800)}) translateX({translateX(1800)}px) translateY({translateY(1800)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(1800)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M8 1.88V0h2v16h10l-4 4H2l-2-4h8v-2H0v-.26A24.03 24.03 0 0 0 8 1.88zM19.97 14H10v-.36A11.94 11.94 0 0 0 10 .36v-.2A16.01 16.01 0 0 1 19.97 14z">
-			<figcaption css:transform="scale({scale(1500)}) translateX({translateX(1500)}px) translateY({translateY(1500)}px)">
+			<div css:transform="scale({scale(1500)}) translateX({translateX(1500)}px) translateY({translateY(1500)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(1500)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M8.4 12H2.8L1 15H0V5h1l1.8 3h5.6L6 0h2l4.8 8H18a2 2 0 1 1 0 4h-5.2L8 20H6l2.4-8z">
-			<figcaption css:transform="scale({scale(1200)}) translateX({translateX(1200)}px) translateY({translateY(1200)}px)">
+			<div css:transform="scale({scale(1200)}) translateX({translateX(1200)}px) translateY({translateY(1200)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(1200)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-2.25a8 8 0 0 0 4-2.46V9a2 2 0 0 1-2-2V3.07a7.95 7.95 0 0 0-3-1V3a2 2 0 0 1-2 2v1a2 2 0 0 1-2 2v2h3a2 2 0 0 1 2 2v5.75zm-4 0V15a2 2 0 0 1-2-2v-1h-.5A1.5 1.5 0 0 1 4 10.5V8H2.25A8.01 8.01 0 0 0 8 17.75z">
-			<figcaption css:transform="scale({scale(900)}) translateX({translateX(900)}px) translateY({translateY(900)}px)">
+			<div css:transform="scale({scale(900)}) translateX({translateX(900)}px) translateY({translateY(900)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(900)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +75,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M2 2c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v18l-8-4-8 4V2z">
-			<figcaption css:transform="scale({scale(600)}) translateX({translateX(600)}px) translateY({translateY(600)}px)">
+			<div css:transform="scale({scale(600)}) translateX({translateX(600)}px) translateY({translateY(600)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(600)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +83,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7.88 7.88l-3.54 7.78 7.78-3.54 3.54-7.78-7.78 3.54zM10 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2z">
-			<figcaption css:transform="scale({scale(300)}) translateX({translateX(300)}px) translateY({translateY(300)}px)">
+			<div css:transform="scale({scale(300)}) translateX({translateX(300)}px) translateY({translateY(300)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(300)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export tag Load
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M10 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM9 1a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0V1zm6.65 1.94a1 1 0 1 1 1.41 1.41l-1.4 1.4a1 1 0 1 1-1.41-1.41l1.4-1.4zM18.99 9a1 1 0 1 1 0 2h-1.98a1 1 0 1 1 0-2h1.98zm-1.93 6.65a1 1 0 1 1-1.41 1.41l-1.4-1.4a1 1 0 1 1 1.41-1.41l1.4 1.4zM11 18.99a1 1 0 1 1-2 0v-1.98a1 1 0 1 1 2 0v1.98zm-6.65-1.93a1 1 0 1 1-1.41-1.41l1.4-1.4a1 1 0 1 1 1.41 1.41l-1.4 1.4zM1.01 11a1 1 0 1 1 0-2h1.98a1 1 0 1 1 0 2H1.01zm1.93-6.65a1 1 0 1 1 1.41-1.41l1.4 1.4a1 1 0 1 1-1.41 1.41l-1.4-1.4z">
-			<figcaption css:transform="scale({scale(0)}) translateX({translateX(0)}px) translateY({translateY(0)}px)">
+			<div css:transform="scale({scale(0)}) translateX({translateX(0)}px) translateY({translateY(0)}px)">
 				<svg:svg
 						css:transform="rotateY({rotate(0)}deg)"
 						xmlns="http://www.w3.org/2000/svg"

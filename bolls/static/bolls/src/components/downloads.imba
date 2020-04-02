@@ -1,4 +1,4 @@
-export tag Downloads
+export tag Downloads < main
   prop link default: false
 
   def build
