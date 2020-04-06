@@ -272,7 +272,7 @@ export tag Profile < main
 						<time.time time:datetime="bookmark:date"> bookmark:date.toLocaleString()
 						<svg:svg._options :tap.prevent.showOptions(bookmark:title) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
 							<svg:path d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z">
-						<.languages css:right="{window:innerWidth > 960 ? (window:innerWidth - 900) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
+						<.languages css:right="{window:innerWidth > 960 ? (window:innerWidth - 886) / 2 : 32}px" .show_languages=(bookmark:title==show_options_of)>
 							<button :tap.prevent.deleteBookmark(bookmark)> @data.lang:delete
 							<button :tap.prevent.goToBookmark(bookmark)> @data.lang:open
 							<button :tap.prevent.copyToClipboard(bookmark)> @data.lang:copy

@@ -73,7 +73,7 @@ export tag Downloads < main
           <p> @data.lang:snapstore, " Snap Store"
       <text-as-html[{text: @data.lang:install_on_android}].install_on_android>
       <p style="background-color: #04060C; display: flex; height: 100vh;">
-        <svg:svg.background-dark width="1054" height="399" viewBox="0 0 1054 399" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg:svg style="margin: auto; width: 100%;" width="1054" height="399" viewBox="0 0 1054 399" fill="none" xmlns="http://www.w3.org/2000/svg">
           <svg:title> "background-dark from DDG"
           <svg:path d="M903.86 3.80131C875.34 -1.17737 832.11 -6.52446 772.17 40.6435C726.11 76.8982 738.12 109.07 703.28 134.312C630.76 186.847 553.28 111.61 451.86 154.157C373.3 187.116 365.49 257.007 289.56 275.059C220.36 291.509 185.35 216.46 105.86 234.812C47.72 248.234 0 288.581 0 332.095C0 346.035 7.11996 364.695 21.83 377.471C41.83 394.806 65.83 398.112 103.83 398.112H865.83C943.83 398.112 995 363.839 1024.83 310.976C1043.4 278.066 1053.95 240.059 1053.83 201.813C1053.59 117.584 1010.01 22.2821 903.86 3.80131Z" fill="#282828" fill-opacity="0.6">
           <svg:path d="M330.58 367.762H80.3999C65.7399 367.762 53.8599 369.883 53.8599 372.481C53.8599 375.08 65.7399 377.201 80.3999 377.201H330.58C345.24 377.201 357.12 375.09 357.12 372.481C357.12 369.873 345.24 367.762 330.58 367.762Z" fill="#202022">

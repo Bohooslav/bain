@@ -12,7 +12,7 @@ export class State
 	prop show_languages
 	prop language
 	prop lang
-	prop notification default: ''
+	prop notification
 
 	def initialize
 		@can_work_with_db = yes
@@ -323,14 +323,16 @@ export class State
 		setCookie('language', language)
 
 	def copyToClipboard copyobj
-		let aux = document.createElement("textarea")
-		let value = '"'
-		value += copyobj:text + '"\n\n' + copyobj:title
+		let value = '«'
+		value += copyobj:text.join(' ').trim() + '»<br><br>' + copyobj:title
 		if getCookie('clear_copy') != 'true'
 			value += ' ' + copyobj:translation + ' ' + "https://bolls.life" + '/'+ copyobj:translation + '/' + copyobj:book + '/' + copyobj:chapter + '/' + copyobj:verse.sort(do |a, b| return a - b)[0]
-		aux:textContent = value
+		let aux = document.createElement("p")
+		aux:innerHTML = value
 		document:body.appendChild(aux)
-		aux.select()
+		let range = document.createRange()
+		range.selectNode(aux)
+		window.getSelection().addRange(range)
 		document.execCommand("copy")
 		document:body.removeChild(aux)
 		showNotification('copied')

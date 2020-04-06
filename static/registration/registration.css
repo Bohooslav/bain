@@ -59,7 +59,7 @@ html[data-theme='light'] {
 }
 
 #header {
-  display: none;
+  display: none !important;
 }
 
 h1, h1 a, h1 a:visited {

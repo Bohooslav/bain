@@ -119,7 +119,7 @@ html {
   font-size: 18px;
   background: var(--background-color);
   color: var(--text-color);
-  touch-action: pan-x pan-y;
+  touch-action: pan-y;
 }
 
 ul, li {
@@ -149,21 +149,9 @@ button {
 }
 
 nav {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 300px;
-  display: block;
-  background-color: var(--background-color);
   border-right: 1px solid var(--btn-bg);
   padding: 32px 0;
   z-index: 999;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .download_translations {
@@ -251,6 +239,14 @@ html[data-transitions="true"] .remove_parallel:hover, html[data-transitions="tru
   height: 100%;
   visibility: visible;
   opacity: 1;
+}
+
+.translation_info {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin-left: 16px;
 }
 
 .choose_parallel {
@@ -379,20 +375,19 @@ h1 {
   margin: 1em 4px;
 }
 
-.Bible main h1:hover {
+.main h1:hover {
   text-decoration: solid underline;
   cursor: pointer;
 }
 
-footer a, #helpFAQ a, .Bible main span {
+footer a, #helpFAQ a, .main span {
   cursor: pointer;
-  touch-action: manipulation;
   background-repeat: no-repeat;
   background-size: 100% 0.2em;
   background-position: 0px 110%;
 }
 
-html[data-transitions="true"] .Bible main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] #helpFAQ a:hover {
+html[data-transitions="true"] .main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] #helpFAQ a:hover {
   animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none running link-hover;
 }
 
@@ -552,16 +547,18 @@ html[data-transitions="true"] .Bible main span:hover, html[data-transitions="tru
 }
 
 aside {
-  background-color: var(--background-color);
   border-left: 1px solid var(--btn-bg);
-  display: block;
+  padding: 32px 12px;
+  z-index: 4;
+  overflow-y: auto;
+}
+
+nav, aside {
   position: fixed;
   top: 0;
   bottom: 0;
   width: 300px;
-  padding: 32px 12px;
-  z-index: 4;
-  overflow-y: auto;
+  background-color: var(--background-color);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -610,8 +607,8 @@ aside {
 }
 
 .show_accents {
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 24px;
   visibility: visible;
   opacity: 1;
   z-index: 1;
@@ -629,10 +626,7 @@ aside {
 }
 
 .nighttheme {
-  display: flex;
-  align-items: center;
   margin: 24px 0;
-  cursor: default;
   height: 38px;
   cursor: pointer;
 }
@@ -694,7 +688,7 @@ aside {
 }
 
 .show_languages {
-  transform: translateY(-32%);
+  transform: translateY(-42%);
   visibility: visible;
   opacity: 1;
   z-index: 10000000;
@@ -702,7 +696,7 @@ aside {
 
 .languages button {
   background-color: transparent;
-  background-image: linear-gradient(#0000, #4477ff0f);
+  background-image: linear-gradient(#0000, #4477ff0b);
   color: var(--text-color);
   cursor: pointer;
   padding: 8px 16px;
@@ -714,7 +708,7 @@ aside {
 }
 
 .languages button:hover {
-  background-color: var(--btn-bg-hover);
+  box-shadow: inset 0px 0px 32px var(--btn-bg-hover);
 }
 
 .font_icon {
@@ -775,7 +769,7 @@ aside {
 }
 
 .username {
-  padding: 5px 0;
+  padding: 4px 0;
   cursor: pointer;
   color: var(--text-color);
   word-break: break-word;
@@ -981,31 +975,29 @@ html[data-transitions="true"] .show_search_results {
   width: 50%;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+}
+
 .parent_checkbox {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .checkbox {
-  min-width: 50px;
-  min-height: 30px;
-  background: var(--background-color);
-  border-radius: 18px;
-  position: relative;
+  width: 50px;
+  height: 30px;
   border: 2px solid var(--text-color);
   border-radius: 40px;
   margin-left: auto;
-  cursor: pointer;
 }
 
 .checkbox span {
-  position: absolute;
-  min-width: 26px;
-  min-height: 26px;
+  display: block;
+  width: 26px;
+  height: 26px;
   background: var(--text-color);
   border-radius: 14px;
-  box-sizing: border-box;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.04), 0 3px 8px rgba(0, 0, 0, 0.16);
-  cursor: pointer;
 }
 
 .checkbox_turned {
@@ -1037,7 +1029,7 @@ html[data-transitions="true"] .show_search_results {
   color: var(--accent-hover-color);
 }
 
-.nighttheme:hover a {
+.nighttheme:hover p {
   border-color: var(--accent-hover-color);
 }
 
@@ -1514,11 +1506,6 @@ address a:hover {
   color: var(--accent-hover-color);
 }
 
-.background-dark {
-  margin: auto;
-  width: 100%;
-}
-
 .show {
   visibility: visible;
   opacity: 1;
@@ -1531,9 +1518,19 @@ address a:hover {
   }
 }
 
-.hold_by_finger, .hold_by_finger aside, .hold_by_finger nav, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a {
+.hold_by_finger, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a {
   transition: none;
   touch-action: none;
+}
+
+.hold_nav {
+  transition: none !important;
+  will-change: left;
+}
+
+.hold_aside {
+  transition: none !important;
+  will-change: right;
 }
 
 .in_offline {

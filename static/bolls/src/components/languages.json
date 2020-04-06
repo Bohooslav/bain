@@ -4,23 +4,28 @@
 		"translations": [
 			{
 				"short_name": "YLT",
-				"full_name": "Young's Literal Translation (1898)"
+				"full_name": "Young's Literal Translation (1898)",
+				"info": "https://wikipedia.org/wiki/Young%27s_Literal_Translation"
 			},
 			{
 				"short_name": "KJV",
-				"full_name": "King James Version (1769)"
+				"full_name": "King James Version (1769)",
+				"info": "https://wikipedia.org/wiki/King_James_Version"
 			},
 			{
 				"short_name": "RSV",
-				"full_name": "Revised Standard Version (1952)"
+				"full_name": "Revised Standard Version (1952)",
+				"info": "https://wikipedia.org/wiki/Revised_Standard_Version"
 			},
 			{
 				"short_name": "NASB",
-				"full_name": "New American Standard Bible (1995)"
+				"full_name": "New American Standard Bible (1995)",
+				"info": "https://wikipedia.org/wiki/New_American_Standard_Bible"
 			},
 			{
 				"short_name": "GNV",
-				"full_name": "Geneva Bible (1599)"
+				"full_name": "Geneva Bible (1599)",
+				"info": "https://wikipedia.org/wiki/Geneva_Bible"
 			}
 		]
 	},
@@ -29,11 +34,13 @@
 		"translations": [
 			{
 				"short_name": "WLC",
-				"full_name": "Westminster Leningrad Codex (with Vowels)"
+				"full_name": "Westminster Leningrad Codex (with Vowels)",
+				"info": "https://wikipedia.org/wiki/Leningrad_Codex"
 			},
 			{
 				"short_name": "WLCC",
-				"full_name": "Westminster Leningrad Codex (Consonants)"
+				"full_name": "Westminster Leningrad Codex (Consonants)",
+				"info": "https://wikipedia.org/wiki/Leningrad_Codex"
 			}
 		]
 	},
@@ -42,15 +49,18 @@
 		"translations": [
 			{
 				"short_name": "UBIO",
-				"full_name": "Біблія, Іван Іванович Огієнко 1962"
+				"full_name": "Біблія, Іван Іванович Огієнко 1962",
+				"info": "https://uk.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4_%D0%91%D1%96%D0%B1%D0%BB%D1%96%D1%97_%D0%86%D0%B2%D0%B0%D0%BD%D0%B0_%D0%9E%D0%B3%D1%96%D1%94%D0%BD%D0%BA%D0%B0"
 			},
 			{
 				"short_name": "UKRK",
-				"full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй,1903"
+				"full_name": "Біблія. Пантелеймон Александрович Куліш, Іван Семенович Нечуй-Левицький, Іван Павлович Пулюй,1903",
+				"info": "https://uk.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8_%D0%91%D1%96%D0%B1%D0%BB%D1%96%D1%97_%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%BE%D1%8E_%D0%BC%D0%BE%D0%B2%D0%BE%D1%8E#%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4_%D0%9F%D0%B0%D0%BD%D1%82%D0%B5%D0%BB%D0%B5%D0%B9%D0%BC%D0%BE%D0%BD%D0%B0_%D0%9A%D1%83%D0%BB%D1%96%D1%88%D0%B0,_%D0%86%D0%B2%D0%B0%D0%BD%D0%B0_%D0%9F%D1%83%D0%BB%D1%8E%D1%8F,_%D0%86%D0%B2%D0%B0%D0%BD%D0%B0_%D0%9D%D0%B5%D1%87%D1%83%D0%B9-%D0%9B%D0%B5%D0%B2%D0%B8%D1%86%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE"
 			},
 			{
 				"short_name": "HOM",
-				"full_name": "Святе Письмо, Переклад Івана Хоменка, 1963"
+				"full_name": "Святе Письмо, Переклад Івана Хоменка, 1963",
+				"info": "https://uk.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4%D0%B8_%D0%91%D1%96%D0%B1%D0%BB%D1%96%D1%97_%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%BE%D1%8E_%D0%BC%D0%BE%D0%B2%D0%BE%D1%8E#%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4_%D0%86%D0%B2%D0%B0%D0%BD%D0%B0_%D0%A5%D0%BE%D0%BC%D0%B5%D0%BD%D0%BA%D0%B0"
 			}
 		]
 	},
@@ -59,7 +69,8 @@
 		"translations": [
 			{
 				"short_name": "SYNOD",
-				"full_name": "Русский Синодальный Перевод"
+				"full_name": "Русский Синодальный Перевод",
+				"info": "https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BD%D0%BE%D0%B4%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4"
 			}
 		]
 	},
@@ -68,15 +79,18 @@
 		"translations": [
 			{
 				"short_name": "LXX",
-				"full_name": "LXX [A], Accentedq"
+				"full_name": "LXX [A], Accentedq",
+				"info": "https://wikipedia.org/wiki/Septuagint"
 			},
 			{
 				"short_name": "NTGT",
-				"full_name": "Greek NT: Tischendorf 8th Ed."
+				"full_name": "Greek NT: Tischendorf 8th Ed.",
+				"info": "https://en.wikipedia.org/wiki/Constantin_von_Tischendorf"
 			},
 			{
 				"short_name": "TR",
-				"full_name": "Elzevir Textus Receptus (1624)"
+				"full_name": "Elzevir Textus Receptus (1624)",
+				"info": "https://wikipedia.org/wiki/Textus_Receptus"
 			}
 		]
 	},
@@ -85,7 +99,8 @@
 		"translations": [
 			{
 				"short_name": "VULG",
-				"full_name": "Biblia Sacra juxta Vulgatam Clementinam"
+				"full_name": "Biblia Sacra juxta Vulgatam Clementinam",
+				"info": "https://en.wikipedia.org/wiki/Vulgate"
 			}
 		]
 	},
@@ -94,7 +109,8 @@
 		"translations": [
 			{
 				"short_name": "CUV",
-				"full_name": "Chinese: Union (Traditional) 和合本"
+				"full_name": "Chinese: Union (Traditional) 和合本",
+				"info": "https://en.wikipedia.org/wiki/Chinese_Union_Version"
 			}
 		]
 	},
@@ -103,7 +119,8 @@
 		"translations": [
 			{
 				"short_name": "ARA",
-				"full_name": "Almeida Revista e Atualizada, 1959"
+				"full_name": "Almeida Revista e Atualizada, 1959",
+				"info": "https://pt.wikipedia.org/wiki/Almeida_Revista_e_Atualizada"
 			}
 		]
 	},
@@ -112,11 +129,13 @@
 		"translations": [
 			{
 				"short_name": "LUT",
-				"full_name": "Luther (1912)"
+				"full_name": "Luther (1912)",
+				"info": "https://wikipedia.org/wiki/Luther_Bible"
 			},
 			{
 				"short_name": "SCH",
-				"full_name": "Schlachter (1951)"
+				"full_name": "Schlachter (1951)",
+				"info": "https://wikipedia.org/wiki/Schlachter_Bible"
 			}
 		]
 	},
@@ -125,7 +144,8 @@
 		"translations": [
 			{
 				"short_name": "DNB",
-				"full_name": "Det Norsk Bibelselskap (1930)"
+				"full_name": "Det Norsk Bibelselskap (1930)",
+				"info": "https://nn.wikipedia.org/wiki/Det_Norske_Bibelselskap"
 			}
 		]
 	}

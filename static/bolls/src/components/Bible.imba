@@ -5,13 +5,13 @@ import {Profile} from './Profile'
 import {Load} from "./loading.imba"
 import {Downloads} from "./downloads.imba"
 
-let on_electron = false
+let on_electron = no
 if window:process
-	on_electron = true
+	on_electron = yes
 	console.log window:process:versions:electron
 
 let settings = {
-	theme: 'dark',
+	theme: 'light',
 	accent: 'blue',
 	translation: 'YLT',
 	book: 1,
@@ -39,7 +39,6 @@ let parallel_text = {
 let user = {
 	name: ''
 }
-let mobimenu = ''
 let inzone = no
 let onzone = no
 let bible_menu_left = -300
@@ -243,7 +242,7 @@ export tag Bible
 				setCookie('translation', window:translation)
 				setCookie('book', window:book)
 				setCookie('chapter', window:chapter)
-			document:title += " | " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
+			document:title += " " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
 			if window:verse
 				document:title += ':' + window:verse
 			document:title += ' ' + window:translation
@@ -368,7 +367,7 @@ export tag Bible
 			.catch(do |e| console.log(e))
 
 	def loadData url
-		var res = await window.fetch(url)
+		let res = await window.fetch(url)
 		return res.json
 
 	def getText translation, book, chapter, verse
@@ -393,7 +392,7 @@ export tag Bible
 				)
 			onpopstate = no
 			clearSpace
-			document:title = "Bolls Bible " + " | " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
+			document:title = "Bolls Bible " + " " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
 			if @chronorder
 				@chronorder = !@chronorder
 				toggleChronorder
@@ -500,7 +499,6 @@ export tag Bible
 		settings_menu_left = -300
 		search:search_div = no
 		show_history = no
-		mobimenu = ''
 		dropFilter
 		choosen = []
 		choosenid = []
@@ -619,7 +617,6 @@ export tag Bible
 		settings_menu_left = -300
 		if document.getElementById('search')
 			document.getElementById('search').blur()
-		mobimenu = ''
 
 	def addFilter book
 		search:is_filter = yes
@@ -739,23 +736,20 @@ export tag Bible
 					getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
 	def onmousemove e
-		if window:innerWidth > 600 && !settings:lock_drawers
+		if !settings:lock_drawers
 			if e.x < 32
 				bible_menu_left = 0
-				mobimenu = 'show_bible_menu'
 			elif e.x > window:innerWidth - 32
 				settings_menu_left = 0
-				mobimenu = 'show_settings_menu'
 			elif 300 < e.x < window:innerWidth - 300
 				bible_menu_left = -300
 				settings_menu_left = -300
-				mobimenu = ''
 
 	def ontouchstart touch
 		if touch.x < 32 || touch.x > window:innerWidth - 32
-			inzone = true
-		elif mobimenu
-			onzone = true
+			inzone = yes
+		elif bible_menu_left > -300 || settings_menu_left > -300
+			onzone = yes
 		self
 
 	def ontouchupdate touch
@@ -765,43 +759,30 @@ export tag Bible
 			if settings_menu_left < 0 && touch.dx < 0
 				settings_menu_left = - 300 - touch.dx
 		else
-			if mobimenu == 'show_bible_menu' && touch.dx < 0
+			if bible_menu_left > -300 && touch.dx < 0
 				bible_menu_left = touch.dx
-			if mobimenu == 'show_settings_menu' && touch.dx > 0
+			if settings_menu_left > -300 && touch.dx > 0
 				settings_menu_left = - touch.dx
 		Imba.commit
 
 	def ontouchend touch
-		if inzone && mobimenu == ''
-			if touch.dx > 64 && mobimenu != 'show_settings_menu'
+		if inzone && !bible_menu_left && !settings_menu_left
+			if touch.dx > 64
 				bible_menu_left = 0
-				mobimenu = 'show_bible_menu'
-			elif touch.dx < -64 && mobimenu != 'show_bible_menu'
+			elif touch.dx < -64
 				settings_menu_left = 0
-				mobimenu = 'show_settings_menu'
 			else
 				settings_menu_left = -300
 				bible_menu_left = -300
-				mobimenu = ''
-		elif mobimenu == 'show_bible_menu'
-			if touch.dx < -64
-				bible_menu_left = -300
-				mobimenu = ''
-			else bible_menu_left = 0
-		elif mobimenu == 'show_settings_menu'
-			if touch.dx > 64
-				settings_menu_left = -300
-				mobimenu = ''
-			else settings_menu_left = 0
-		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !mobimenu && !search:search_div && !show_history && !choosenid:length
+		elif bible_menu_left > -300
+			touch.dx < -64 ? bible_menu_left = -300 : bible_menu_left = 0
+		elif settings_menu_left > -300
+			touch.dx > 64 ? settings_menu_left = -300 : settings_menu_left = 0
+		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !search:search_div && !show_history && !choosenid:length
 			if touch.dx < -16
-				if parallel_text:display && touch.y > window:innerHeight / 2
-					nextChapter("true")
-				else nextChapter
+				parallel_text:display && touch.y > window:innerHeight / 2 ? nextChapter("true") : nextChapter
 			elif touch.dx > 16
-				if parallel_text:display && touch.y > window:innerHeight / 2
-					prewChapter("true")
-				else prewChapter
+				parallel_text:display && touch.y > window:innerHeight / 2 ? prewChapter("true") : prewChapter
 		inzone = no
 		onzone = no
 		Imba.commit
@@ -1000,7 +981,6 @@ export tag Bible
 			copyobj:translation = parallel_text:translation
 			copyobj:book = parallel_text:book
 			copyobj:chapter = parallel_text:chapter
-			console.log(copyobj)
 		else
 			for verse in verses
 				if choosenid.find(do |element| return element == verse:pk)
@@ -1009,7 +989,6 @@ export tag Bible
 			copyobj:translation = settings:translation
 			copyobj:book = settings:book
 			copyobj:chapter = settings:chapter
-			console.log(copyobj)
 		@data.copyToClipboard(copyobj)
 		clearSpace
 
@@ -1038,7 +1017,7 @@ export tag Bible
 				"downloads",
 				"/downloads/"
 			)
-		document:title = "Bolls " + " " + @data.lang:download
+		document:title = "Bolls " + @data.lang:download
 		Imba.mount <Downloads[@data]>
 
 	def getNameOfBookFromHistory translation, bookid
@@ -1051,7 +1030,6 @@ export tag Bible
 	def turnHistory
 		show_history = !show_history
 		settings_menu_left = -300
-		mobimenu = ''
 
 	def clearHistory
 		turnHistory
@@ -1131,23 +1109,19 @@ export tag Bible
 		if bible_menu_left
 			bible_menu_left = 0
 			settings_menu_left = -300
-			mobimenu = 'show_bible_menu'
 			if parallel
 				parallel_text:edited_version = parallel_text:translation
 			else
 				parallel_text:edited_version = settings:translation
 		else
 			bible_menu_left = -300
-			mobimenu = ''
 
 	def toggleSettingsMenu
 		if settings_menu_left
 			settings_menu_left = 0
 			bible_menu_left = -300
-			mobimenu = 'show_settings_menu'
 		else
 			settings_menu_left = -300
-			mobimenu = ''
 
 	def toggleChronorder
 		if @chronorder
@@ -1288,9 +1262,7 @@ export tag Bible
 			setCookie('font-weight', settings:font:weight)
 
 	def boxShadow grade
-		if settings:theme == 'light'
-			return "box-shadow: 0 0 {(grade + 300) / 4}px #0001;"
-		else return ''
+		settings:theme == 'light' ? "box-shadow: 0 0 {(grade + 300) / 4}px #0001;" : ''
 
 	def featherSearch feather, haystack
 		feather = feather.toLowerCase()
@@ -1299,7 +1271,7 @@ export tag Bible
 		let featherLength = feather:length
 
 		if featherLength > haystackLength
-			return false
+			return no
 
 		if featherLength is haystackLength
 			return feather is haystack
@@ -1307,18 +1279,18 @@ export tag Bible
 		let featherLetter = 0
 		while featherLetter < featherLength
 			let haystackLetter = 0
-			let match = false
+			let match = no
 			var featherLetterCode = feather.charCodeAt(featherLetter++)
 
 			while haystackLetter < haystackLength
 				if haystack.charCodeAt(haystackLetter++) is featherLetterCode
-					break match = true
+					break match = yes
 
 			continue if match
-			return false
-		return true
+			return no
+		return yes
 
-	def filteredSongs books
+	def filteredBooks books
 		let filtered = []
 		for book in self[books]()
 			if featherSearch(store:book_search, book:name)
@@ -1327,7 +1299,7 @@ export tag Bible
 
 	def render
 		<self .hold_by_finger=(inzone || onzone)>
-			<nav .display_none=(settings_menu_left > -300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)}">
+			<nav .hold_nav=(bible_menu_left > - 300 && (inzone || onzone)) .display_none=(settings_menu_left > - 300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)}">
 				if parallel_text:display
 					<.choose_parallel>
 						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :click.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -1355,24 +1327,30 @@ export tag Bible
 								<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 						<ul.list_of_chapters dir="auto" .show_list_of_chapters=(language:language == show_language_of)>
 							for translation in language:translations
-								<li.book_in_list .active=currentTranslation(translation:short_name) :click.prevent.changeTranslation(translation:short_name) tabindex="0" style="padding: 12px 8px 12px 24px;"> translation:full_name
+								<li.book_in_list .active=currentTranslation(translation:short_name) tabindex="0" style="display: flex;">
+									<span :click.prevent.changeTranslation(translation:short_name)> translation:full_name
+									<a href=translation:info title=translation:info target="_blank" rel="noreferrer">
+										<svg:svg.translation_info xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+											<svg:title> translation:info
+											<svg:path d="M0 0h24v24H0V0z" fill="none">
+											<svg:path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z">
 					<.freespace>
 				<.books-container dir="auto" .lower=(parallel_text:display)>
 					if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-						for book in filteredSongs('parallel_books')
+						for book in filteredBooks('parallel_books')
 							<a.book_in_list dir="auto" .active=(book:bookid==parallel_text:book) :click.prevent.showChapters(book:bookid) tabindex="0"> book:name
 							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(book:bookid==show_chapters_of)>
 								for i in [0..book:chapters]
 									<li.chapter_number .active=((i + 1) == parallel_text:chapter &&book:bookid==parallel_text:book ) :click.prevent.getParallelText(parallel_text:translation, book:bookid, i+1) tabindex="0"> i+1
-						if !filteredSongs('parallel_books'):length
+						if !filteredBooks('parallel_books'):length
 							<p.book_in_list style="white-space: pre;"> "(ಠ╭╮ಠ)    ¯\\_(ツ)_/¯   ノ( ゜-゜ノ)"
 					else
-						for book in filteredSongs('books')
+						for book in filteredBooks('books')
 							<a.book_in_list dir="auto" .active=(book:bookid==settings:book) :click.prevent.showChapters(book:bookid) tabindex="0"> book:name
 							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(book:bookid==show_chapters_of)>
 								for i in [0..book:chapters]
 									<li.chapter_number .active=((i + 1) == settings:chapter && book:bookid==settings:book) :click.prevent.getText(settings:translation, book:bookid, i+1)  tabindex="0"> i+1
-						if !filteredSongs('books'):length
+						if !filteredBooks('books'):length
 							<p.book_in_list style="white-space: pre;"> "(ಠ╭╮ಠ)    ¯\\_(ツ)_/¯   ノ( ゜-゜ノ)"
 					<.freespace>
 				<input[store:book_search].search type="search" placeholder=@data.lang:search input:aria-label=@data.lang:search>  @data.lang:search
@@ -1380,13 +1358,12 @@ export tag Bible
 			<main.main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					if @verses:length
-						<h1 style="font-family: {settings:font:family};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, false), ' ', settings:chapter
-					if @verses:length
+						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, no), ' ', settings:chapter
 						<article>
 							for verse in @verses
 								if settings:verse_break
 									<br>
-								<a.verse id=verse:verse href="#{verse:verse}"> ' \t', verse:verse
+								<a.verse id=verse:verse href="#{verse:verse}"> '\t', verse:verse
 								<text-as-html[verse]
 										:click.prevent.addToChoosen(verse:pk, verse:verse, 'first')
 										style="background-image:{getHighlight(verse:pk, 'bookmarks')}"
@@ -1406,16 +1383,15 @@ export tag Bible
 						<p.in_offline>
 							@data.lang:this_translation_is_unavailable
 							<br>
-							<a.reload :tap=(do window:location.reload(true))> @data.lang:reload
+							<a.reload :tap=(do window:location.reload(yes))> @data.lang:reload
 				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
 					if @parallel_verses:length
-						<h1 style="font-family: {settings:font:family};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, true), ' ', parallel_text:chapter
-					if @parallel_verses:length
+						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, yes), ' ', parallel_text:chapter
 						<article>
 							for verse in @parallel_verses
 								if settings:verse_break
 									<br>
-								<a.verse id="p{verse:verse}" href="#p{verse:verse}"> ' \t', verse:verse
+								<a.verse id="p{verse:verse}" href="#p{verse:verse}"> '\t', verse:verse
 								<text-as-html[verse]
 									:click.prevent.addToChoosen(verse:pk, verse:verse, 'second')
 									style="background-image:{getHighlight(verse:pk, 'parallel_bookmarks')}">
@@ -1433,7 +1409,7 @@ export tag Bible
 					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
-			<aside .display_none=(bible_menu_left > -300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)}">
+			<aside .hold_aside=(settings_menu_left > - 300 && (inzone || onzone)) .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)}">
 				<p.settings_header>
 					@data.lang:other
 					<#current_accent .blur_current_accent=show_accents :click.prevent=(do show_accents = !show_accents)>
@@ -1510,7 +1486,7 @@ export tag Bible
 						<svg:path d="M0 0h24v24H0z" fill="none">
 						<svg:path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z">
 					@data.lang:history
-				<.nighttheme :click.prevent=(do @data.show_languages = !@data.show_languages)>
+				<.nighttheme.flex :click.prevent=(do @data.show_languages = !@data.show_languages)>
 					@data.lang:language
 					<button.change_language>
 						if @data.language == 'ukr'
@@ -1523,22 +1499,22 @@ export tag Bible
 						<button :click.prevent=(do @data.setLanguage('ukr'))> "Українська"
 						<button :click.prevent=(do @data.setLanguage('ru'))> "Русский"
 						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
-				<.nighttheme.parent_checkbox :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
+				<.nighttheme.parent_checkbox.flex :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
-					<a.checkbox>
+					<p.checkbox>
 						<span>
-				<.nighttheme.parent_checkbox :click.prevent.toggleVerseBreak() .checkbox_turned=settings:verse_break>
+				<.nighttheme.parent_checkbox.flex :click.prevent.toggleVerseBreak() .checkbox_turned=settings:verse_break>
 					@data.lang:verse_break
-					<a.checkbox>
+					<p.checkbox>
 						<span>
-				<.nighttheme.parent_checkbox :click.prevent.toggleClearCopy() .checkbox_turned=settings:clear_copy>
+				<.nighttheme.parent_checkbox.flex title=@data.lang:clear_copy_explain :click.prevent.toggleClearCopy() .checkbox_turned=settings:clear_copy>
 					@data.lang:clear_copy
-					<a.checkbox>
+					<p.checkbox>
 						<span>
 				if window:innerWidth > 680
-					<.nighttheme.parent_checkbox :click.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
+					<.nighttheme.parent_checkbox.flex :click.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
 						@data.lang:lock_drawers
-						<a.checkbox>
+						<p.checkbox>
 							<span>
 				if !on_electron
 					<a.help :click.prevent.toDownloads(no)>
@@ -1571,10 +1547,10 @@ export tag Bible
 						<a href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
 						"© "
-						<time time:datetime="2020-03-27T17:44"> "2019-2020"
+						<time time:datetime="2020-04-02T17:44"> "2019-present"
 						" Павлишинець Богуслав"
 
-			<section.search_results .display_none=(mobimenu && !(search:search_div || show_help || show_compare || show_downloads)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
+			<section.search_results .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(search:search_div || show_help || show_compare || show_downloads)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
 				if what_to_show == 'show_help'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1754,7 +1730,7 @@ export tag Bible
 								<p css:padding="32px 0px 8px"> @data.lang:translation, search:search_result_translation
 								<button.more_results :click.prevent.showTranslations> @data.lang:change_translation
 
-			<section.hide  .display_none=(mobimenu && !(choosenid:length)) .without_padding=show_collections .choosen_verses=choosenid:length>
+			<section.hide  .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(choosenid:length)) .without_padding=show_collections .choosen_verses=choosenid:length>
 				if show_collections
 					<.collectionshat>
 						<svg:svg.svgBack xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :click.prevent.turnCollections>
@@ -1837,8 +1813,8 @@ export tag Bible
 							<svg:title> @data.lang:create
 							<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
 
-			<section.history.filters .display_none=(mobimenu && !(show_history)) .show_history=show_history>
-				<.nighttheme css:margin="0">
+			<section.history.filters .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(show_history)) .show_history=show_history>
+				<.nighttheme.flex css:margin="0">
 					<svg:svg.close_search :click.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
