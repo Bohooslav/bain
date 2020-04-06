@@ -322,19 +322,41 @@ export class State
 			else @lang = en_leng
 		setCookie('language', language)
 
+	def fallbackCopyTextToClipboard text
+		let textArea = document.createElement("textarea")
+		textArea:value = text
+		textArea:style:top = "0"
+		textArea:style:left = "0"
+		textArea:style:position = "fixed"
+
+		document:body.appendChild(textArea)
+		textArea.focus()
+		textArea.select()
+
+		try
+			let successful = document.execCommand('copy')
+			let msg = successful ? 'successful' : 'unsuccessful'
+			console.log('Fallback: Copying text command was ' + msg)
+		catch err
+			console.error('Fallback: Oops, unable to copy', err)
+
+		document:body.removeChild(textArea)
+
+	def copyTextToClipboard text
+		if !window:navigator:clipboard
+			fallbackCopyTextToClipboard(text)
+			return
+		window:navigator:clipboard.writeText(text).then(
+			do console.log('Async: Copying to clipboard was successful!')
+		).catch err
+			console.error('Async: Could not copy text: ', err)
+
 	def copyToClipboard copyobj
-		let value = '«'
-		value += copyobj:text.join(' ').trim() + '»<br><br>' + copyobj:title
+		let text = '«'
+		text += copyobj:text.join(' ').trim() + '»\n\n' + copyobj:title
 		if getCookie('clear_copy') != 'true'
-			value += ' ' + copyobj:translation + ' ' + "https://bolls.life" + '/'+ copyobj:translation + '/' + copyobj:book + '/' + copyobj:chapter + '/' + copyobj:verse.sort(do |a, b| return a - b)[0]
-		let aux = document.createElement("p")
-		aux:innerHTML = value
-		document:body.appendChild(aux)
-		let range = document.createRange()
-		range.selectNode(aux)
-		window.getSelection().addRange(range)
-		document.execCommand("copy")
-		document:body.removeChild(aux)
+			text += ' ' + copyobj:translation + ' ' + "https://bolls.life" + '/'+ copyobj:translation + '/' + copyobj:book + '/' + copyobj:chapter + '/' + copyobj:verse.sort(do |a, b| return a - b)[0]
+		copyTextToClipboard(text)
 		showNotification('copied')
 
 	def showNotification ntfctn

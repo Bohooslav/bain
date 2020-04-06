@@ -358,9 +358,9 @@ nav input[type="search"] {
 
 .navigation {
   top: 0;
-  width: 32px;
-  height: 32px;
-  margin: 3vw;
+  width: calc(32px + 6vw);
+  height: calc(32px + 6vw);
+  padding: 3vw;
   fill: var(--btn-bg-hover);
   position: fixed;
   cursor: pointer;
@@ -680,11 +680,10 @@ nav, aside {
   background-color: var(--background-color);
   position: absolute;
   right: 32px;
-  transform: scale(0.95) translateX(36px);
+  transform: translateX(32px);
   border-radius: 4px;
   visibility: hidden;
   opacity: 0;
-  z-index: calc(inherit + 1);
 }
 
 .show_languages {
@@ -1582,5 +1581,6 @@ address a:hover {
   border-radius: 16px;
   position: absolute;
   top: 0;
+  font-weight: bold;
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.1);
 }
