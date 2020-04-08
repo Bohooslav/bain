@@ -804,6 +804,510 @@
     ]
   },
   {
+    "id": "WEB",
+    "description": "World English Bible",
+    "books": [
+      {
+        "bookid": 1,
+        "chronorder": 1,
+        "name": "Genesis",
+        "chapters": 50
+      },
+      {
+        "bookid": 2,
+        "chronorder": 3,
+        "name": "Exodus",
+        "chapters": 40
+      },
+      {
+        "bookid": 3,
+        "chronorder": 4,
+        "name": "Leviticus",
+        "chapters": 27
+      },
+      {
+        "bookid": 4,
+        "chronorder": 5,
+        "name": "Numbers",
+        "chapters": 36
+      },
+      {
+        "bookid": 5,
+        "chronorder": 6,
+        "name": "Deuteronomy",
+        "chapters": 34
+      },
+      {
+        "bookid": 6,
+        "chronorder": 7,
+        "name": "Joshua",
+        "chapters": 24
+      },
+      {
+        "bookid": 7,
+        "chronorder": 8,
+        "name": "Judges",
+        "chapters": 21
+      },
+      {
+        "bookid": 8,
+        "chronorder": 9,
+        "name": "Ruth",
+        "chapters": 4
+      },
+      {
+        "bookid": 9,
+        "chronorder": 10,
+        "name": "1 Samuel",
+        "chapters": 31
+      },
+      {
+        "bookid": 10,
+        "chronorder": 11,
+        "name": "2 Samuel",
+        "chapters": 24
+      },
+      {
+        "bookid": 11,
+        "chronorder": 15,
+        "name": "1 Kings",
+        "chapters": 22
+      },
+      {
+        "bookid": 12,
+        "chronorder": 28,
+        "name": "2 Kings",
+        "chapters": 25
+      },
+      {
+        "bookid": 13,
+        "chronorder": 12,
+        "name": "1 Chronicles",
+        "chapters": 29
+      },
+      {
+        "bookid": 14,
+        "chronorder": 16,
+        "name": "2 Chronicles",
+        "chapters": 36
+      },
+      {
+        "bookid": 15,
+        "chronorder": 37,
+        "name": "Ezra",
+        "chapters": 10
+      },
+      {
+        "bookid": 16,
+        "chronorder": 38,
+        "name": "Nehemiah",
+        "chapters": 13
+      },
+      {
+        "bookid": 17,
+        "chronorder": 36,
+        "name": "Esther",
+        "chapters": 10
+      },
+      {
+        "bookid": 18,
+        "chronorder": 2,
+        "name": "Job",
+        "chapters": 42
+      },
+      {
+        "bookid": 19,
+        "chronorder": 13,
+        "name": "Psalms",
+        "chapters": 151
+      },
+      {
+        "bookid": 20,
+        "chronorder": 17,
+        "name": "Proverbs",
+        "chapters": 31
+      },
+      {
+        "bookid": 21,
+        "chronorder": 18,
+        "name": "Ecclesiastes",
+        "chapters": 12
+      },
+      {
+        "bookid": 22,
+        "chronorder": 14,
+        "name": "Song of Solomon",
+        "chapters": 8
+      },
+      {
+        "bookid": 23,
+        "chronorder": 25,
+        "name": "Isaiah",
+        "chapters": 66
+      },
+      {
+        "bookid": 24,
+        "chronorder": 29,
+        "name": "Jeremiah",
+        "chapters": 52
+      },
+      {
+        "bookid": 25,
+        "chronorder": 30,
+        "name": "Lamentations",
+        "chapters": 5
+      },
+      {
+        "bookid": 26,
+        "chronorder": 32,
+        "name": "Ezekiel",
+        "chapters": 48
+      },
+      {
+        "bookid": 27,
+        "chronorder": 33,
+        "name": "Daniel",
+        "chapters": 14
+      },
+      {
+        "bookid": 28,
+        "chronorder": 23,
+        "name": "Hosea",
+        "chapters": 14
+      },
+      {
+        "bookid": 29,
+        "chronorder": 20,
+        "name": "Joel",
+        "chapters": 3
+      },
+      {
+        "bookid": 30,
+        "chronorder": 21,
+        "name": "Amos",
+        "chapters": 9
+      },
+      {
+        "bookid": 31,
+        "chronorder": 31,
+        "name": "Obadiah",
+        "chapters": 1
+      },
+      {
+        "bookid": 32,
+        "chronorder": 19,
+        "name": "Jonah",
+        "chapters": 4
+      },
+      {
+        "bookid": 33,
+        "chronorder": 22,
+        "name": "Micah",
+        "chapters": 7
+      },
+      {
+        "bookid": 34,
+        "chronorder": 24,
+        "name": "Nahum",
+        "chapters": 3
+      },
+      {
+        "bookid": 35,
+        "chronorder": 27,
+        "name": "Habakkuk",
+        "chapters": 3
+      },
+      {
+        "bookid": 36,
+        "chronorder": 26,
+        "name": "Zephaniah",
+        "chapters": 3
+      },
+      {
+        "bookid": 37,
+        "chronorder": 34,
+        "name": "Haggai",
+        "chapters": 2
+      },
+      {
+        "bookid": 38,
+        "chronorder": 35,
+        "name": "Zechariah",
+        "chapters": 14
+      },
+      {
+        "bookid": 39,
+        "chronorder": 39,
+        "name": "Malachi",
+        "chapters": 4
+      },
+      {
+        "bookid": 40,
+        "chronorder": 40,
+        "name": "Matthew",
+        "chapters": 28
+      },
+      {
+        "bookid": 41,
+        "chronorder": 58,
+        "name": "Mark",
+        "chapters": 16
+      },
+      {
+        "bookid": 42,
+        "chronorder": 52,
+        "name": "Luke",
+        "chapters": 24
+      },
+      {
+        "bookid": 43,
+        "chronorder": 66,
+        "name": "John",
+        "chapters": 21
+      },
+      {
+        "bookid": 44,
+        "chronorder": 54,
+        "name": "Acts",
+        "chapters": 28
+      },
+      {
+        "bookid": 45,
+        "chronorder": 48,
+        "name": "Romans",
+        "chapters": 5
+      },
+      {
+        "bookid": 46,
+        "chronorder": 56,
+        "name": "1 Corinthians",
+        "chapters": 5
+      },
+      {
+        "bookid": 47,
+        "chronorder": 60,
+        "name": "2 Corinthians",
+        "chapters": 3
+      },
+      {
+        "bookid": 48,
+        "chronorder": 61,
+        "name": "Galatians",
+        "chapters": 5
+      },
+      {
+        "bookid": 49,
+        "chronorder": 62,
+        "name": "Ephesians",
+        "chapters": 1
+      },
+      {
+        "bookid": 50,
+        "chronorder": 63,
+        "name": "Philippians",
+        "chapters": 1
+      },
+      {
+        "bookid": 51,
+        "chronorder": 64,
+        "name": "Colossians",
+        "chapters": 1
+      },
+      {
+        "bookid": 52,
+        "chronorder": 45,
+        "name": "1 Thessalonians",
+        "chapters": 16
+      },
+      {
+        "bookid": 53,
+        "chronorder": 44,
+        "name": "2 Thessalonians",
+        "chapters": 16
+      },
+      {
+        "bookid": 54,
+        "chronorder": 45,
+        "name": "1 Timothy",
+        "chapters": 13
+      },
+      {
+        "bookid": 55,
+        "chronorder": 41,
+        "name": "2 Timothy",
+        "chapters": 6
+      },
+      {
+        "bookid": 56,
+        "chronorder": 47,
+        "name": "Titus",
+        "chapters": 6
+      },
+      {
+        "bookid": 57,
+        "chronorder": 49,
+        "name": "Philemon",
+        "chapters": 4
+      },
+      {
+        "bookid": 58,
+        "chronorder": 50,
+        "name": "Hebrews",
+        "chapters": 4
+      },
+      {
+        "bookid": 59,
+        "chronorder": 42,
+        "name": "James",
+        "chapters": 5
+      },
+      {
+        "bookid": 60,
+        "chronorder": 43,
+        "name": "1 Peter",
+        "chapters": 3
+      },
+      {
+        "bookid": 61,
+        "chronorder": 55,
+        "name": "2 Peter",
+        "chapters": 6
+      },
+      {
+        "bookid": 62,
+        "chronorder": 59,
+        "name": "1 John",
+        "chapters": 4
+      },
+      {
+        "bookid": 63,
+        "chronorder": 57,
+        "name": "2 John",
+        "chapters": 3
+      },
+      {
+        "bookid": 64,
+        "chronorder": 51,
+        "name": "3 John",
+        "chapters": 1
+      },
+      {
+        "bookid": 65,
+        "chronorder": 53,
+        "name": "Jude",
+        "chapters": 13
+      },
+      {
+        "bookid": 66,
+        "chronorder": 66,
+        "name": "Revelation",
+        "chapters": 22
+      },
+      {
+        "bookid": 67,
+        "chronorder": 67,
+        "name": "1 Esdras",
+        "chapters": 9
+      },
+      {
+        "bookid": 77,
+        "chronorder": 77,
+        "name": "2 Esdras",
+        "chapters": 16
+      },
+      {
+        "bookid": 74,
+        "chronorder": 74,
+        "name": "1 Maccabees",
+        "chapters": 16
+      },
+      {
+        "bookid": 75,
+        "chronorder": 75,
+        "name": "2 Maccabees",
+        "chapters": 15
+      },
+      {
+        "bookid": 76,
+        "chronorder": 76,
+        "name": "3 Maccabees",
+        "chapters": 7
+      },
+      {
+        "bookid": 80,
+        "chronorder": 80,
+        "name": "4 Maccabees",
+        "chapters": 18
+      },
+      {
+        "bookid": 68,
+        "chronorder": 68,
+        "name": "Tobit",
+        "chapters": 14
+      },
+      {
+        "bookid": 69,
+        "chronorder": 69,
+        "name": "Judith",
+        "chapters": 16
+      },
+      {
+        "bookid": 70,
+        "chronorder": 70,
+        "name": "Wisdom of Solomon",
+        "chapters": 19
+      },
+      {
+        "bookid": 71,
+        "chronorder": 71,
+        "name": "Sirach",
+        "chapters": 51
+      },
+      {
+        "bookid": 72,
+        "chronorder": 72,
+        "name": "Jeremy’s Letter",
+        "chapters": 1
+      },
+      {
+        "bookid": 73,
+        "chronorder": 73,
+        "name": "Baruch",
+        "chapters": 5
+      },
+      {
+        "bookid": 78,
+        "chronorder": 78,
+        "name": "Susanna",
+        "chapters": 1
+      },
+      {
+        "bookid": 79,
+        "chronorder": 79,
+        "name": "Bel and the Dragon",
+        "chapters": 1
+      },
+      {
+        "bookid": 81,
+        "chronorder": 81,
+        "name": "Greek Additions to Esther",
+        "chapters": 16
+      },
+      {
+        "bookid": 82,
+        "chronorder": 82,
+        "name": "3 Holy Children's Song",
+        "chapters": 1
+      },
+      {
+        "bookid": 83,
+        "chronorder": 83,
+        "name": "Prayer of Manasses",
+        "chapters": 1
+      }
+    ]
+  },
+  {
     "id": "NASB",
     "description": "New American Standard Bible (1995)",
     "books": [
@@ -2944,340 +3448,466 @@
     "description": "Русский Синодальный Перевод",
     "books": [
       {
-        "book_id": 1,
-        "chronological_order": 1,
-        "name": "Genesis",
+        "bookid": 1,
+        "chronorder": 1,
+        "name": "Бытие",
         "chapters": 50
       },
       {
-        "book_id": 2,
-        "chronological_order": 3,
-        "name": "Exodus",
+        "bookid": 2,
+        "chronorder": 3,
+        "name": "Исход",
         "chapters": 40
       },
       {
-        "book_id": 3,
-        "chronological_order": 4,
-        "name": "Leviticus",
+        "bookid": 3,
+        "chronorder": 4,
+        "name": "Левит",
         "chapters": 27
       },
       {
-        "book_id": 4,
-        "chronological_order": 5,
-        "name": "Numbers",
+        "bookid": 4,
+        "chronorder": 5,
+        "name": "Числа",
         "chapters": 36
       },
       {
-        "book_id": 5,
-        "chronological_order": 6,
-        "name": "Deuteronomy",
+        "bookid": 5,
+        "chronorder": 6,
+        "name": "Второзаконие",
         "chapters": 34
       },
       {
-        "book_id": 6,
-        "chronological_order": 7,
-        "name": "Joshua",
+        "bookid": 6,
+        "chronorder": 7,
+        "name": "Иисус Навин",
         "chapters": 24
       },
       {
-        "book_id": 7,
-        "chronological_order": 8,
-        "name": "Judges",
+        "bookid": 7,
+        "chronorder": 8,
+        "name": "Книга Судей",
         "chapters": 21
       },
       {
-        "book_id": 8,
-        "chronological_order": 9,
-        "name": "Ruth",
+        "bookid": 8,
+        "chronorder": 9,
+        "name": "Руфь",
         "chapters": 4
       },
       {
-        "book_id": 9,
-        "chronological_order": 10,
-        "name": "1 Samuel",
+        "bookid": 9,
+        "chronorder": 10,
+        "name": "1-я Царств",
         "chapters": 31
       },
       {
-        "book_id": 10,
-        "chronological_order": 11,
-        "name": "2 Samuel",
+        "bookid": 10,
+        "chronorder": 11,
+        "name": "2-я Царств",
         "chapters": 24
       },
       {
-        "book_id": 11,
-        "chronological_order": 15,
-        "name": "1 Kings",
+        "bookid": 11,
+        "chronorder": 15,
+        "name": "3-я Царств",
         "chapters": 22
       },
       {
-        "book_id": 12,
-        "chronological_order": 28,
-        "name": "2 Kings",
+        "bookid": 12,
+        "chronorder": 28,
+        "name": "4-я Царств",
         "chapters": 25
       },
       {
-        "book_id": 13,
-        "chronological_order": 12,
-        "name": "1 Chronicles",
+        "bookid": 13,
+        "chronorder": 12,
+        "name": "1-я Паралипоменон",
         "chapters": 29
       },
       {
-        "book_id": 14,
-        "chronological_order": 16,
-        "name": "2 Chronicles",
+        "bookid": 14,
+        "chronorder": 16,
+        "name": "2-я Паралипоменон",
         "chapters": 36
       },
       {
-        "book_id": 15,
-        "chronological_order": 37,
-        "name": "Ezra",
+        "bookid": 15,
+        "chronorder": 37,
+        "name": "Ездра",
         "chapters": 10
       },
       {
-        "book_id": 16,
-        "chronological_order": 38,
-        "name": "Nehemiah",
+        "bookid": 16,
+        "chronorder": 38,
+        "name": "Неемия",
         "chapters": 13
       },
       {
-        "book_id": 17,
-        "chronological_order": 36,
-        "name": "Esther",
+        "bookid": 17,
+        "chronorder": 36,
+        "name": "Есфирь",
         "chapters": 10
       },
       {
-        "book_id": 18,
-        "chronological_order": 2,
-        "name": "Job",
+        "bookid": 18,
+        "chronorder": 2,
+        "name": "Иов",
         "chapters": 42
       },
       {
-        "book_id": 19,
-        "chronological_order": 13,
-        "name": "Psalm",
-        "chapters": 150
+        "bookid": 19,
+        "chronorder": 13,
+        "name": "Псалтирь",
+        "chapters": 151
       },
       {
-        "book_id": 20,
-        "chronological_order": 17,
-        "name": "Proverbs",
+        "bookid": 20,
+        "chronorder": 17,
+        "name": "Притчи",
         "chapters": 31
       },
       {
-        "book_id": 21,
-        "chronological_order": 18,
-        "name": "Ecclesiastes",
+        "bookid": 21,
+        "chronorder": 18,
+        "name": "Екклесиаст",
         "chapters": 12
       },
       {
-        "book_id": 22,
-        "chronological_order": 14,
-        "name": "Song of Solomon",
+        "bookid": 22,
+        "chronorder": 14,
+        "name": "Песни Песней",
         "chapters": 8
       },
       {
-        "book_id": 23,
-        "chronological_order": 25,
-        "name": "Isaiah",
+        "bookid": 23,
+        "chronorder": 25,
+        "name": "Исаия",
         "chapters": 66
       },
       {
-        "book_id": 24,
-        "chronological_order": 29,
-        "name": "Jeremiah",
+        "bookid": 24,
+        "chronorder": 29,
+        "name": "Иеремия",
         "chapters": 52
       },
       {
-        "book_id": 25,
-        "chronological_order": 30,
-        "name": "Lamentations",
+        "bookid": 25,
+        "chronorder": 30,
+        "name": "Плач Иеремии",
         "chapters": 5
       },
       {
-        "book_id": 26,
-        "chronological_order": 32,
-        "name": "Ezekiel",
+        "bookid": 26,
+        "chronorder": 32,
+        "name": "Иезекииль",
         "chapters": 48
       },
       {
-        "book_id": 27,
-        "chronological_order": 33,
-        "name": "Daniel",
-        "chapters": 12
-      },
-      {
-        "book_id": 28,
-        "chronological_order": 23,
-        "name": "Hosea",
+        "bookid": 27,
+        "chronorder": 33,
+        "name": "Даниил",
         "chapters": 14
       },
       {
-        "book_id": 29,
-        "chronological_order": 20,
-        "name": "Joel",
+        "bookid": 28,
+        "chronorder": 23,
+        "name": "Осия",
+        "chapters": 14
+      },
+      {
+        "bookid": 29,
+        "chronorder": 20,
+        "name": "Иоиль",
         "chapters": 3
       },
       {
-        "book_id": 30,
-        "chronological_order": 21,
-        "name": "Amos",
+        "bookid": 30,
+        "chronorder": 21,
+        "name": "Амос",
         "chapters": 9
       },
       {
-        "book_id": 31,
-        "chronological_order": 31,
-        "name": "Obadiah",
+        "bookid": 31,
+        "chronorder": 31,
+        "name": "Авдий",
         "chapters": 1
       },
       {
-        "book_id": 32,
-        "chronological_order": 19,
-        "name": "Jonah",
+        "bookid": 32,
+        "chronorder": 19,
+        "name": "Иона",
         "chapters": 4
       },
       {
-        "book_id": 33,
-        "chronological_order": 22,
-        "name": "Micah",
+        "bookid": 33,
+        "chronorder": 22,
+        "name": "Михей",
         "chapters": 7
       },
       {
-        "book_id": 34,
-        "chronological_order": 24,
-        "name": "Nahum",
+        "bookid": 34,
+        "chronorder": 24,
+        "name": "Наум",
         "chapters": 3
       },
       {
-        "book_id": 35,
-        "chronological_order": 27,
-        "name": "Habakkuk",
+        "bookid": 35,
+        "chronorder": 27,
+        "name": "Аввакум",
         "chapters": 3
       },
       {
-        "book_id": 36,
-        "chronological_order": 26,
-        "name": "Zephaniah",
+        "bookid": 36,
+        "chronorder": 26,
+        "name": "Софония",
         "chapters": 3
       },
       {
-        "book_id": 37,
-        "chronological_order": 34,
-        "name": "Haggai",
+        "bookid": 37,
+        "chronorder": 34,
+        "name": "Аггей",
         "chapters": 2
       },
       {
-        "book_id": 38,
-        "chronological_order": 35,
-        "name": "Zechariah",
+        "bookid": 38,
+        "chronorder": 35,
+        "name": "Захария",
         "chapters": 14
       },
       {
-        "book_id": 39,
-        "chronological_order": 39,
-        "name": "Malachi",
-        "chapters": 3
+        "bookid": 39,
+        "chronorder": 39,
+        "name": "Малахия",
+        "chapters": 4
       },
       {
-        "book_id": 67,
-        "chronological_order": 67,
-        "name": "Tobit",
-        "chapters": 14
+        "bookid": 40,
+        "chronorder": 40,
+        "name": "От Матфея",
+        "chapters": 28
       },
       {
-        "book_id": 68,
-        "chronological_order": 58,
-        "name": "Judith",
+        "bookid": 41,
+        "chronorder": 58,
+        "name": "От Марка",
         "chapters": 16
       },
       {
-        "book_id": 69,
-        "chronological_order": 59,
-        "name": "Esther, Greek",
-        "chapters": 10
+        "bookid": 42,
+        "chronorder": 52,
+        "name": "От Луки",
+        "chapters": 24
       },
       {
-        "book_id": 70,
-        "chronological_order": 66,
-        "name": "Wisdom of Solomon",
-        "chapters": 19
+        "bookid": 43,
+        "chronorder": 66,
+        "name": "От Иоанна",
+        "chapters": 21
       },
       {
-        "book_id": 71,
-        "chronological_order": 71,
-        "name": "Ecclesiasticus (Sira",
-        "chapters": 51
+        "bookid": 44,
+        "chronorder": 54,
+        "name": "Деяния",
+        "chapters": 28
       },
       {
-        "book_id": 72,
-        "chronological_order": 72,
-        "name": "Baruch",
+        "bookid": 59,
+        "chronorder": 48,
+        "name": "Иакова",
         "chapters": 5
       },
       {
-        "book_id": 73,
-        "chronological_order": 73,
-        "name": "Epistle of Jeremiah",
+        "bookid": 60,
+        "chronorder": 56,
+        "name": "1-е Петра",
+        "chapters": 5
+      },
+      {
+        "bookid": 61,
+        "chronorder": 60,
+        "name": "2-е Петра",
+        "chapters": 3
+      },
+      {
+        "bookid": 62,
+        "chronorder": 61,
+        "name": "1-е Иоанна",
+        "chapters": 5
+      },
+      {
+        "bookid": 63,
+        "chronorder": 62,
+        "name": "2-е Иоанна",
         "chapters": 1
       },
       {
-        "book_id": 75,
-        "chronological_order": 75,
-        "name": "Susanna",
+        "bookid": 64,
+        "chronorder": 63,
+        "name": "3-е Иоанна",
         "chapters": 1
       },
       {
-        "book_id": 76,
-        "chronological_order": 76,
-        "name": "Bel and the Dragon",
+        "bookid": 65,
+        "chronorder": 64,
+        "name": "Иуда",
         "chapters": 1
       },
       {
-        "book_id": 77,
-        "chronological_order": 77,
-        "name": "1 Maccabees",
+        "bookid": 45,
+        "chronorder": 45,
+        "name": "К Римлянам",
         "chapters": 16
       },
       {
-        "book_id": 78,
-        "chronological_order": 78,
-        "name": "2 Maccabees",
-        "chapters": 15
+        "bookid": 46,
+        "chronorder": 44,
+        "name": "1-е Коринфянам",
+        "chapters": 16
       },
       {
-        "book_id": 79,
-        "chronological_order": 79,
-        "name": "3 Maccabees",
-        "chapters": 7
+        "bookid": 47,
+        "chronorder": 45,
+        "name": "2-е Коринфянам",
+        "chapters": 13
       },
       {
-        "book_id": 80,
-        "chronological_order": 80,
-        "name": "4 Maccabees",
-        "chapters": 18
+        "bookid": 48,
+        "chronorder": 41,
+        "name": "К Галатам",
+        "chapters": 6
       },
       {
-        "book_id": 81,
-        "chronological_order": 81,
-        "name": "1 Esdras",
-        "chapters": 9
+        "bookid": 49,
+        "chronorder": 47,
+        "name": "К Ефесянам",
+        "chapters": 6
       },
       {
-        "book_id": 83,
-        "chronological_order": 83,
-        "name": "Prayer of Manasseh",
+        "bookid": 50,
+        "chronorder": 49,
+        "name": "К Филиппийцам",
+        "chapters": 4
+      },
+      {
+        "bookid": 51,
+        "chronorder": 50,
+        "name": "К Колоссянам",
+        "chapters": 4
+      },
+      {
+        "bookid": 52,
+        "chronorder": 42,
+        "name": "1-е Фессалоникийцам",
+        "chapters": 5
+      },
+      {
+        "bookid": 53,
+        "chronorder": 43,
+        "name": "2-е Фессалоникийцам",
+        "chapters": 3
+      },
+      {
+        "bookid": 54,
+        "chronorder": 55,
+        "name": "1-е Тимофею",
+        "chapters": 6
+      },
+      {
+        "bookid": 55,
+        "chronorder": 59,
+        "name": "2-е Тимофею",
+        "chapters": 4
+      },
+      {
+        "bookid": 56,
+        "chronorder": 57,
+        "name": "К Титу",
+        "chapters": 3
+      },
+      {
+        "bookid": 57,
+        "chronorder": 51,
+        "name": "К Филимону",
         "chapters": 1
       },
       {
-        "book_id": 85,
-        "chronological_order": 85,
-        "name": "Psalm of Solomon",
-        "chapters": 18
+        "bookid": 58,
+        "chronorder": 53,
+        "name": "К Евреям",
+        "chapters": 13
       },
       {
-        "book_id": 86,
-        "chronological_order": 86,
-        "name": "Odes",
+        "bookid": 66,
+        "chronorder": 66,
+        "name": "Откровение",
+        "chapters": 22
+      },
+      {
+        "bookid": 67,
+        "chronorder": 67,
+        "name": "2 кн. Ездры",
+        "chapters": 9
+      },
+      {
+        "bookid": 68,
+        "chronorder": 68,
+        "name": "Товит",
         "chapters": 14
+      },
+      {
+        "bookid": 69,
+        "chronorder": 69,
+        "name": "Иудифь",
+        "chapters": 16
+      },
+      {
+        "bookid": 70,
+        "chronorder": 70,
+        "name": "Премудрость Соломона",
+        "chapters": 19
+      },
+      {
+        "bookid": 71,
+        "chronorder": 71,
+        "name": "Сирах",
+        "chapters": 51
+      },
+      {
+        "bookid": 72,
+        "chronorder": 72,
+        "name": "Послание Иеремии",
+        "chapters": 1
+      },
+      {
+        "bookid": 73,
+        "chronorder": 73,
+        "name": "Варух",
+        "chapters": 5
+      },
+      {
+        "bookid": 74,
+        "chronorder": 74,
+        "name": "1 кн. Маккавейская",
+        "chapters": 16
+      },
+      {
+        "bookid": 75,
+        "chronorder": 75,
+        "name": "2 кн. Маккавейская",
+        "chapters": 15
+      },
+      {
+        "bookid": 76,
+        "chronorder": 76,
+        "name": "3 кн. Маккавейская",
+        "chapters": 7
+      },
+      {
+        "bookid": 77,
+        "chronorder": 77,
+        "name": "3 кн. Ездры",
+        "chapters": 16
       }
     ]
   },
@@ -3286,466 +3916,340 @@
     "description": "LXX [A], Accentedq",
     "books": [
       {
-        "book_id": 1,
-        "chronological_order": 1,
-        "name": "Бытие",
+        "bookid": 1,
+        "chronorder": 1,
+        "name": "Genesis",
         "chapters": 50
       },
       {
-        "book_id": 2,
-        "chronological_order": 3,
-        "name": "Исход",
+        "bookid": 2,
+        "chronorder": 3,
+        "name": "Exodus",
         "chapters": 40
       },
       {
-        "book_id": 3,
-        "chronological_order": 4,
-        "name": "Левит",
+        "bookid": 3,
+        "chronorder": 4,
+        "name": "Leviticus",
         "chapters": 27
       },
       {
-        "book_id": 4,
-        "chronological_order": 5,
-        "name": "Числа",
+        "bookid": 4,
+        "chronorder": 5,
+        "name": "Numbers",
         "chapters": 36
       },
       {
-        "book_id": 5,
-        "chronological_order": 6,
-        "name": "Второзаконие",
+        "bookid": 5,
+        "chronorder": 6,
+        "name": "Deuteronomy",
         "chapters": 34
       },
       {
-        "book_id": 6,
-        "chronological_order": 7,
-        "name": "Иисус Навин",
+        "bookid": 6,
+        "chronorder": 7,
+        "name": "Joshua",
         "chapters": 24
       },
       {
-        "book_id": 7,
-        "chronological_order": 8,
-        "name": "Книга Судей",
+        "bookid": 7,
+        "chronorder": 8,
+        "name": "Judges",
         "chapters": 21
       },
       {
-        "book_id": 8,
-        "chronological_order": 9,
-        "name": "Руфь",
+        "bookid": 8,
+        "chronorder": 9,
+        "name": "Ruth",
         "chapters": 4
       },
       {
-        "book_id": 9,
-        "chronological_order": 10,
-        "name": "1-я Царств",
+        "bookid": 9,
+        "chronorder": 10,
+        "name": "1 Samuel",
         "chapters": 31
       },
       {
-        "book_id": 10,
-        "chronological_order": 11,
-        "name": "2-я Царств",
+        "bookid": 10,
+        "chronorder": 11,
+        "name": "2 Samuel",
         "chapters": 24
       },
       {
-        "book_id": 11,
-        "chronological_order": 15,
-        "name": "3-я Царств",
+        "bookid": 11,
+        "chronorder": 15,
+        "name": "1 Kings",
         "chapters": 22
       },
       {
-        "book_id": 12,
-        "chronological_order": 28,
-        "name": "4-я Царств",
+        "bookid": 12,
+        "chronorder": 28,
+        "name": "2 Kings",
         "chapters": 25
       },
       {
-        "book_id": 13,
-        "chronological_order": 12,
-        "name": "1-я Паралипоменон",
+        "bookid": 13,
+        "chronorder": 12,
+        "name": "1 Chronicles",
         "chapters": 29
       },
       {
-        "book_id": 14,
-        "chronological_order": 16,
-        "name": "2-я Паралипоменон",
+        "bookid": 14,
+        "chronorder": 16,
+        "name": "2 Chronicles",
         "chapters": 36
       },
       {
-        "book_id": 15,
-        "chronological_order": 37,
-        "name": "Ездра",
+        "bookid": 15,
+        "chronorder": 37,
+        "name": "Ezra",
         "chapters": 10
       },
       {
-        "book_id": 16,
-        "chronological_order": 38,
-        "name": "Неемия",
+        "bookid": 16,
+        "chronorder": 38,
+        "name": "Nehemiah",
         "chapters": 13
       },
       {
-        "book_id": 17,
-        "chronological_order": 36,
-        "name": "Есфирь",
+        "bookid": 17,
+        "chronorder": 36,
+        "name": "Esther",
         "chapters": 10
       },
       {
-        "book_id": 18,
-        "chronological_order": 2,
-        "name": "Иов",
+        "bookid": 18,
+        "chronorder": 2,
+        "name": "Job",
         "chapters": 42
       },
       {
-        "book_id": 19,
-        "chronological_order": 13,
-        "name": "Псалтирь",
-        "chapters": 151
+        "bookid": 19,
+        "chronorder": 13,
+        "name": "Psalm",
+        "chapters": 150
       },
       {
-        "book_id": 20,
-        "chronological_order": 17,
-        "name": "Притчи",
+        "bookid": 20,
+        "chronorder": 17,
+        "name": "Proverbs",
         "chapters": 31
       },
       {
-        "book_id": 21,
-        "chronological_order": 18,
-        "name": "Екклесиаст",
+        "bookid": 21,
+        "chronorder": 18,
+        "name": "Ecclesiastes",
         "chapters": 12
       },
       {
-        "book_id": 22,
-        "chronological_order": 14,
-        "name": "Песни Песней",
+        "bookid": 22,
+        "chronorder": 14,
+        "name": "Song of Solomon",
         "chapters": 8
       },
       {
-        "book_id": 23,
-        "chronological_order": 25,
-        "name": "Исаия",
+        "bookid": 23,
+        "chronorder": 25,
+        "name": "Isaiah",
         "chapters": 66
       },
       {
-        "book_id": 24,
-        "chronological_order": 29,
-        "name": "Иеремия",
+        "bookid": 24,
+        "chronorder": 29,
+        "name": "Jeremiah",
         "chapters": 52
       },
       {
-        "book_id": 25,
-        "chronological_order": 30,
-        "name": "Плач Иеремии",
+        "bookid": 25,
+        "chronorder": 30,
+        "name": "Lamentations",
         "chapters": 5
       },
       {
-        "book_id": 26,
-        "chronological_order": 32,
-        "name": "Иезекииль",
+        "bookid": 26,
+        "chronorder": 32,
+        "name": "Ezekiel",
         "chapters": 48
       },
       {
-        "book_id": 27,
-        "chronological_order": 33,
-        "name": "Даниил",
+        "bookid": 27,
+        "chronorder": 33,
+        "name": "Daniel",
+        "chapters": 12
+      },
+      {
+        "bookid": 28,
+        "chronorder": 23,
+        "name": "Hosea",
         "chapters": 14
       },
       {
-        "book_id": 28,
-        "chronological_order": 23,
-        "name": "Осия",
-        "chapters": 14
-      },
-      {
-        "book_id": 29,
-        "chronological_order": 20,
-        "name": "Иоиль",
+        "bookid": 29,
+        "chronorder": 20,
+        "name": "Joel",
         "chapters": 3
       },
       {
-        "book_id": 30,
-        "chronological_order": 21,
-        "name": "Амос",
+        "bookid": 30,
+        "chronorder": 21,
+        "name": "Amos",
         "chapters": 9
       },
       {
-        "book_id": 31,
-        "chronological_order": 31,
-        "name": "Авдий",
+        "bookid": 31,
+        "chronorder": 31,
+        "name": "Obadiah",
         "chapters": 1
       },
       {
-        "book_id": 32,
-        "chronological_order": 19,
-        "name": "Иона",
+        "bookid": 32,
+        "chronorder": 19,
+        "name": "Jonah",
         "chapters": 4
       },
       {
-        "book_id": 33,
-        "chronological_order": 22,
-        "name": "Михей",
+        "bookid": 33,
+        "chronorder": 22,
+        "name": "Micah",
         "chapters": 7
       },
       {
-        "book_id": 34,
-        "chronological_order": 24,
-        "name": "Наум",
+        "bookid": 34,
+        "chronorder": 24,
+        "name": "Nahum",
         "chapters": 3
       },
       {
-        "book_id": 35,
-        "chronological_order": 27,
-        "name": "Аввакум",
+        "bookid": 35,
+        "chronorder": 27,
+        "name": "Habakkuk",
         "chapters": 3
       },
       {
-        "book_id": 36,
-        "chronological_order": 26,
-        "name": "Софония",
+        "bookid": 36,
+        "chronorder": 26,
+        "name": "Zephaniah",
         "chapters": 3
       },
       {
-        "book_id": 37,
-        "chronological_order": 34,
-        "name": "Аггей",
+        "bookid": 37,
+        "chronorder": 34,
+        "name": "Haggai",
         "chapters": 2
       },
       {
-        "book_id": 38,
-        "chronological_order": 35,
-        "name": "Захария",
+        "bookid": 38,
+        "chronorder": 35,
+        "name": "Zechariah",
         "chapters": 14
       },
       {
-        "book_id": 39,
-        "chronological_order": 39,
-        "name": "Малахия",
-        "chapters": 4
-      },
-      {
-        "book_id": 40,
-        "chronological_order": 40,
-        "name": "От Матфея",
-        "chapters": 28
-      },
-      {
-        "book_id": 41,
-        "chronological_order": 58,
-        "name": "От Марка",
-        "chapters": 16
-      },
-      {
-        "book_id": 42,
-        "chronological_order": 52,
-        "name": "От Луки",
-        "chapters": 24
-      },
-      {
-        "book_id": 43,
-        "chronological_order": 66,
-        "name": "От Иоанна",
-        "chapters": 21
-      },
-      {
-        "book_id": 44,
-        "chronological_order": 54,
-        "name": "Деяния",
-        "chapters": 28
-      },
-      {
-        "book_id": 59,
-        "chronological_order": 48,
-        "name": "Иакова",
-        "chapters": 5
-      },
-      {
-        "book_id": 60,
-        "chronological_order": 56,
-        "name": "1-е Петра",
-        "chapters": 5
-      },
-      {
-        "book_id": 61,
-        "chronological_order": 60,
-        "name": "2-е Петра",
+        "bookid": 39,
+        "chronorder": 39,
+        "name": "Malachi",
         "chapters": 3
       },
       {
-        "book_id": 62,
-        "chronological_order": 61,
-        "name": "1-е Иоанна",
-        "chapters": 5
-      },
-      {
-        "book_id": 63,
-        "chronological_order": 62,
-        "name": "2-е Иоанна",
-        "chapters": 1
-      },
-      {
-        "book_id": 64,
-        "chronological_order": 63,
-        "name": "3-е Иоанна",
-        "chapters": 1
-      },
-      {
-        "book_id": 65,
-        "chronological_order": 64,
-        "name": "Иуда",
-        "chapters": 1
-      },
-      {
-        "book_id": 45,
-        "chronological_order": 45,
-        "name": "К Римлянам",
-        "chapters": 16
-      },
-      {
-        "book_id": 46,
-        "chronological_order": 44,
-        "name": "1-е Коринфянам",
-        "chapters": 16
-      },
-      {
-        "book_id": 47,
-        "chronological_order": 45,
-        "name": "2-е Коринфянам",
-        "chapters": 13
-      },
-      {
-        "book_id": 48,
-        "chronological_order": 41,
-        "name": "К Галатам",
-        "chapters": 6
-      },
-      {
-        "book_id": 49,
-        "chronological_order": 47,
-        "name": "К Ефесянам",
-        "chapters": 6
-      },
-      {
-        "book_id": 50,
-        "chronological_order": 49,
-        "name": "К Филиппийцам",
-        "chapters": 4
-      },
-      {
-        "book_id": 51,
-        "chronological_order": 50,
-        "name": "К Колоссянам",
-        "chapters": 4
-      },
-      {
-        "book_id": 52,
-        "chronological_order": 42,
-        "name": "1-е Фессалоникийцам",
-        "chapters": 5
-      },
-      {
-        "book_id": 53,
-        "chronological_order": 43,
-        "name": "2-е Фессалоникийцам",
-        "chapters": 3
-      },
-      {
-        "book_id": 54,
-        "chronological_order": 55,
-        "name": "1-е Тимофею",
-        "chapters": 6
-      },
-      {
-        "book_id": 55,
-        "chronological_order": 59,
-        "name": "2-е Тимофею",
-        "chapters": 4
-      },
-      {
-        "book_id": 56,
-        "chronological_order": 57,
-        "name": "К Титу",
-        "chapters": 3
-      },
-      {
-        "book_id": 57,
-        "chronological_order": 51,
-        "name": "К Филимону",
-        "chapters": 1
-      },
-      {
-        "book_id": 58,
-        "chronological_order": 53,
-        "name": "К Евреям",
-        "chapters": 13
-      },
-      {
-        "book_id": 66,
-        "chronological_order": 66,
-        "name": "Откровение",
-        "chapters": 22
-      },
-      {
-        "book_id": 67,
-        "chronological_order": 67,
-        "name": "2 кн. Ездры",
-        "chapters": 9
-      },
-      {
-        "book_id": 68,
-        "chronological_order": 68,
-        "name": "Товит",
+        "bookid": 67,
+        "chronorder": 67,
+        "name": "Tobit",
         "chapters": 14
       },
       {
-        "book_id": 69,
-        "chronological_order": 69,
-        "name": "Иудифь",
+        "bookid": 68,
+        "chronorder": 58,
+        "name": "Judith",
         "chapters": 16
       },
       {
-        "book_id": 70,
-        "chronological_order": 70,
-        "name": "Премудрость Соломона",
+        "bookid": 69,
+        "chronorder": 59,
+        "name": "Esther, Greek",
+        "chapters": 10
+      },
+      {
+        "bookid": 70,
+        "chronorder": 66,
+        "name": "Wisdom of Solomon",
         "chapters": 19
       },
       {
-        "book_id": 71,
-        "chronological_order": 71,
-        "name": "Сирах",
+        "bookid": 71,
+        "chronorder": 71,
+        "name": "Ecclesiasticus (Sirach)",
         "chapters": 51
       },
       {
-        "book_id": 72,
-        "chronological_order": 72,
-        "name": "Послание Иеремии",
-        "chapters": 1
-      },
-      {
-        "book_id": 73,
-        "chronological_order": 73,
-        "name": "Варух",
+        "bookid": 72,
+        "chronorder": 72,
+        "name": "Baruch",
         "chapters": 5
       },
       {
-        "book_id": 74,
-        "chronological_order": 74,
-        "name": "1 кн. Маккавейская",
+        "bookid": 73,
+        "chronorder": 73,
+        "name": "Epistle of Jeremiah",
+        "chapters": 1
+      },
+      {
+        "bookid": 75,
+        "chronorder": 75,
+        "name": "Susanna",
+        "chapters": 1
+      },
+      {
+        "bookid": 76,
+        "chronorder": 76,
+        "name": "Bel and the Dragon",
+        "chapters": 1
+      },
+      {
+        "bookid": 77,
+        "chronorder": 77,
+        "name": "1 Maccabees",
         "chapters": 16
       },
       {
-        "book_id": 75,
-        "chronological_order": 75,
-        "name": "2 кн. Маккавейская",
+        "bookid": 78,
+        "chronorder": 78,
+        "name": "2 Maccabees",
         "chapters": 15
       },
       {
-        "book_id": 76,
-        "chronological_order": 76,
-        "name": "3 кн. Маккавейская",
+        "bookid": 79,
+        "chronorder": 79,
+        "name": "3 Maccabees",
         "chapters": 7
       },
       {
-        "book_id": 77,
-        "chronological_order": 77,
-        "name": "3 кн. Ездры",
-        "chapters": 16
+        "bookid": 80,
+        "chronorder": 80,
+        "name": "4 Maccabees",
+        "chapters": 18
+      },
+      {
+        "bookid": 81,
+        "chronorder": 81,
+        "name": "1 Esdras",
+        "chapters": 9
+      },
+      {
+        "bookid": 83,
+        "chronorder": 83,
+        "name": "Prayer of Manasseh",
+        "chapters": 1
+      },
+      {
+        "bookid": 85,
+        "chronorder": 85,
+        "name": "Psalm of Solomon",
+        "chapters": 18
+      },
+      {
+        "bookid": 86,
+        "chronorder": 86,
+        "name": "Odes",
+        "chapters": 14
       }
     ]
   },

@@ -18,7 +18,6 @@ export tag Profile < main
 	prop bookmarks default: []
 	prop loaded_bookmarks default: []
 	prop books default: []
-	prop translation default: ''
 	prop categories default: []
 
 	def setup
@@ -60,21 +59,13 @@ export tag Profile < main
 		var res = await window.fetch url
 		return res.json
 
-	def switchTranslationBooks translation
-		if @translation != translation
-			@translation = translation
-			@books = BOOKS[translation]
-
-	def nameOfBook bookid
-		for book in @books
+	def nameOfBook bookid, translation
+		for book in BOOKS[translation]
 			if book:bookid == bookid
 				return book:name
 
 	def getTitleRow translation, book, chapter, verses
-		switchTranslationBooks translation
-		let row
-		row = nameOfBook book
-		row += ' ' + chapter + ':'
+		let row = nameOfBook(book, translation) + ' ' + chapter + ':'
 		for id, key in verses.sort(do |a, b| return a - b)
 			if id == verses[key - 1] + 1
 				if id == verses[key+1] - 1
@@ -209,7 +200,7 @@ export tag Profile < main
 	def closeSearch
 		query = ''
 
-	def scroll
+	def onscroll
 		if (dom:clientHeight - 512 < window:scrollY + window:innerHeight) && !loading
 			loading = yes
 			getMoreBookmarks
@@ -225,10 +216,8 @@ export tag Profile < main
 		for verse in bookmark:verse
 			if @bookmarks.find(do |bm| return bm:pks == bookmark:pks)
 				@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
-				Imba.commit
 			if @loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)
 				@loaded_bookmarks.splice(@loaded_bookmarks.indexOf(@loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
-				Imba.commit
 		show_options_of = ''
 		Imba.commit
 
@@ -237,7 +226,7 @@ export tag Profile < main
 		show_options_of = ''
 
 	def render
-		<self :onscroll=scroll>
+		<self :onscroll=onscroll>
 			<header.profile_hat>
 				if !query
 					<.collectionsflex css:flex-wrap="wrap">

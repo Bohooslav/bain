@@ -13,6 +13,11 @@
 				"info": "https://wikipedia.org/wiki/King_James_Version"
 			},
 			{
+				"short_name": "WEB",
+				"full_name": "World English Bible",
+				"info": "https://en.wikipedia.org/wiki/World_English_Bible"
+			},
+			{
 				"short_name": "RSV",
 				"full_name": "Revised Standard Version (1952)",
 				"info": "https://wikipedia.org/wiki/Revised_Standard_Version"

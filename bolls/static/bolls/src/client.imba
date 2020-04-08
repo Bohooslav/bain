@@ -7,8 +7,8 @@ Imba.mount <Bible[Data]>
 
 tag Notification < section
 	def render
-		<self>
-			if @data.notification
-				<p id="notification"> @data.notification
+		<self> if @data.notifications:length
+			for notification in @data.notifications
+				<p> notification
 
 Imba.mount <Notification[Data]>

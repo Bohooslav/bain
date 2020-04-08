@@ -12,7 +12,8 @@ export class State
 	prop show_languages
 	prop language
 	prop lang
-	prop notification
+	prop notifications default: []
+	prop lastPushedNotificationWasAt
 
 	def initialize
 		@can_work_with_db = yes
@@ -360,10 +361,13 @@ export class State
 		showNotification('copied')
 
 	def showNotification ntfctn
-		@notification = @lang[ntfctn]
-		setTimeout(&, 2000) do
-			if @notification == @lang[ntfctn]
-				@notification = ''
+		@notifications.push(@lang[ntfctn])
+		@lastPushedNotificationWasAt = Date.now()
+		setTimeout(&, 3000) do
+			console.log Date.now() - @lastPushedNotificationWasAt
+			if Date.now() - @lastPushedNotificationWasAt > 2000
+				@notifications = []
+				Imba.commit
 
 	def requestDeleteBookmark pks
 		if window:navigator:onLine

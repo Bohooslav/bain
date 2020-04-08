@@ -8,6 +8,10 @@
     "full_name": "King James Version (1769)"
   },
   {
+    "short_name": "WEB",
+    "full_name": "World English Bible"
+  },
+  {
     "short_name": "RSV",
     "full_name": "Revised Standard Version (1952)"
   },

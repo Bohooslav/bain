@@ -184,6 +184,21 @@ nav {
   }
 }
 
+@keyframes man-up {
+  0% {
+    transform: none;
+  }
+  42% {
+    transform: translateY(-4px);
+  }
+  72% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: none;
+  }
+}
+
 .download_translations:hover {
   fill: var(--accent-hover-color);
 }
@@ -191,6 +206,10 @@ nav {
 html[data-transitions="true"] .remove_parallel:hover, html[data-transitions="true"] .download_translations:hover, html[data-transitions="true"] .close_search:hover, html[data-transitions="true"] .help:hover .helpsvg, html[data-transitions="true"] .save_bookmark:hover {
   -webkit-animation: shake 300ms ease alternate;
   animation: shake 300ms ease alternate;
+}
+
+html[data-transitions="true"] .animated-man:hover .helpsvg {
+  animation-name: man-up;
 }
 
 .chronological_order {
@@ -358,9 +377,9 @@ nav input[type="search"] {
 
 .navigation {
   top: 0;
-  width: 32px;
-  height: 32px;
-  margin: 3vw;
+  width: calc(32px + 6vw);
+  height: calc(32px + 6vw);
+  padding: 3vw;
   fill: var(--btn-bg-hover);
   position: fixed;
   cursor: pointer;
@@ -380,14 +399,14 @@ h1 {
   cursor: pointer;
 }
 
-footer a, #helpFAQ a, .main span {
+footer a, .helpFAQ a, .main span {
   cursor: pointer;
   background-repeat: no-repeat;
   background-size: 100% 0.2em;
   background-position: 0px 110%;
 }
 
-html[data-transitions="true"] .main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] #helpFAQ a:hover {
+html[data-transitions="true"] .main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] .helpFAQ a:hover {
   animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none running link-hover;
 }
 
@@ -542,7 +561,7 @@ html[data-transitions="true"] .main span:hover, html[data-transitions="true"] fo
   transform: rotate(-90deg) scale(2);
 }
 
-.arrow_prew {
+.arrow_prev {
   transform: rotate(90deg) scale(2);
 }
 
@@ -680,15 +699,14 @@ nav, aside {
   background-color: var(--background-color);
   position: absolute;
   right: 32px;
-  transform: scale(0.95) translateX(36px);
+  transform: translateX(32px);
   border-radius: 4px;
   visibility: hidden;
   opacity: 0;
-  z-index: calc(inherit + 1);
 }
 
 .show_languages {
-  transform: translateY(-42%);
+  transform: translateY(-42px);
   visibility: visible;
   opacity: 1;
   z-index: 10000000;
@@ -864,7 +882,7 @@ html[data-transitions="true"] .show_search_results {
 }
 
 .animated_downloading {
-  animation: 1.5s linear 0s infinite normal both running loading !important;
+  animation: 800ms linear 0s infinite normal both running loading;
 }
 
 .remove_parallel {
@@ -1466,31 +1484,33 @@ footer a:hover {
   color: var(--accent-hover-color);
 }
 
-#helpFAQ {
+.helpFAQ {
   text-indent: 4vw;
 }
 
-#helpFAQ h3 {
+.helpFAQ h3 {
   margin: 32px 0 12px;
   font-weight: 500;
   color: var(--accent-color);
 }
 
-#helpFAQ ul {
+.helpFAQ ul {
   margin: 16px 0 64px;
-  padding-left: 16px;
+  padding-left: 32px;
 }
 
-#helpFAQ li {
+.helpFAQ li {
   margin: 12px;
+  text-indent: 0;
+  list-style: hebrew;
 }
 
-#helpFAQ a {
+.helpFAQ a {
   color: inherit;
   background-image: linear-gradient( var(--text-color) 0px, var(--text-color) 100%);
 }
 
-#helpFAQ p {
+.helpFAQ p {
   line-height: 2;
 }
 
@@ -1518,19 +1538,9 @@ address a:hover {
   }
 }
 
-.hold_by_finger, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a {
+.hold_by_finger, .hold_by_finger .nighttheme, .hold_by_finger .help, .hold_by_finger .cbtn, .hold_by_finger .chapter_number, .hold_by_finger .book_in_list, .hold_by_finger button, .hold_by_finger a, .hold_by_finger * {
   transition: none;
   touch-action: none;
-}
-
-.hold_nav {
-  transition: none !important;
-  will-change: left;
-}
-
-.hold_aside {
-  transition: none !important;
-  will-change: right;
 }
 
 .in_offline {
@@ -1544,20 +1554,24 @@ address a:hover {
 
 @keyframes show-notification {
   0% {
-    visibility: hidden;
+    visibility: visible;
     top: 0;
   }
-  8% {
+  16% {
     visibility: visible;
     top: -96px;
   }
-  92% {
+  82% {
     visibility: visible;
     top: -96px;
+    transform: none;
+    opacity: 1;
   }
   100% {
     visibility: hidden;
-    top: 0;
+    top: -96px;
+    transform: scale(0.75);
+    opacity: 0;
   }
 }
 
@@ -1568,9 +1582,8 @@ address a:hover {
   left: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 0;
-  background: transparent;
+  z-index: 1;
 }
 
 .Notification p {

@@ -25,6 +25,7 @@ export const en_leng = {
   login: "Log in",
   logout: "Log out",
   help: "Help",
+  support: "Support this app",
   feedback: "Feedback",
   signin: "Sign up",
   transitions: "Transitions",
@@ -46,7 +47,7 @@ export const en_leng = {
   clear_copy_explain: "Copying without link to site",
   addtocollection: "Add to collection",
   create: "Create",
-  prew: 'Prew',
+  prev: 'Prev',
   next: 'Next',
   addfilter: 'Add filter',
   nighttheme: 'Turn on night theme',
@@ -83,12 +84,20 @@ export const en_leng = {
   shortcuts: "Shortcuts",
   shortcuts_list: [
     "Next chapter: Ctrl + Right Arrow",
-    "Prew chapter: Ctrl + Left Arrow",
+    "Prev chapter: Ctrl + Left Arrow",
     "Next chapter of parallel translation: Ctrl + Alt + Right Arrow",
-    "Prew chapter of parallel translation: Ctrl + Alt + Left Arrow",
+    "Prev chapter of parallel translation: Ctrl + Alt + Left Arrow",
     "Back to reading: Esc",
     "Hide menu icons: Ctrl + Alt + H"
   ]
+  ycdtitnw: "You can support this app in the next way:",
+  SUPPORT: [
+    "Just share it -=> bolls.life",
+    "Write a feedback.",
+    "Submit an idea)",
+    "Translate its interface to a new language. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a> to do this.",
+    "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Donate</a>. This app is not free. There is always a need for money for hosting, development, distribution to new platforms and development time...",
+  ],
   HB: [
     [
       "Where to find the necessary translation?",
@@ -136,6 +145,7 @@ export const uk_leng = {
   login: "Увійти",
   logout: "Вийти",
   help: "Допомога",
+  support: "Підтримати додаток",
   feedback: "Написати відгук",
   signin: "Зареєструватися",
   transitions: "Анімації",
@@ -157,7 +167,7 @@ export const uk_leng = {
   clear_copy_explain: "Копіювання без посилання на сайт",
   addtocollection: "Додайти до колекції",
   create: "Створити",
-  prew: 'Попередня глава',
+  prev: 'Попередня глава',
   next: 'Наступна глава',
   addfilter: 'Додати фільтр',
   nighttheme: 'Увімкнути нічну тему',
@@ -200,6 +210,14 @@ export const uk_leng = {
     "Повернутися до читання: Esc",
     "Сховати іконки меню: Ctrl + Alt + H"
   ]
+  ycdtitnw: "Ви можете підтримати даний додаток наступним чином:",
+  SUPPORT: [
+    "Просто поширьте його -=> bolls.life",
+    "Напишіть відгук.",
+    "Запропонуйте ідею)",
+    "Перекладіть інтерфейс додатку на нову мову. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Зв'яжіться зі мною</a> для цього.",
+    "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Цей додаток не є безкоштовним. Завжди є потреба в грошах для хостингу, для розробки, поширення на нові платформи та часу на розробку...",
+  ],
   HB: [
     [
       "Де знайти необхідний переклад?",
@@ -247,6 +265,7 @@ export const ru_leng = {
   login: "Войти",
   logout: "Выйти",
   help: "Помощь",
+  support: "Поддержать приложение",
   feedback: "Написать отзыв",
   signin: "Зарегестрироватся",
   transitions: "Анимации",
@@ -268,7 +287,7 @@ export const ru_leng = {
   clear_copy_explain: "Копирование без ссылки на сайт",
   addtocollection: "Добавить к коллекции",
   create: "Создать",
-  prew: 'Предыдущая глава',
+  prev: 'Предыдущая глава',
   next: 'Следущая глава',
   addfilter: 'Добавить фильтр',
   nighttheme: 'Включить ночную тему',
@@ -311,6 +330,14 @@ export const ru_leng = {
     "Вернутся к чтению: Esc",
     "Спрятать иконки меню: Ctrl + Alt + H"
   ]
+  ycdtitnw: "Вы можете поддержать даное приложение так:",
+  SUPPORT: [
+    "Просто поделитесь им -=> bolls.life",
+    "Напишите отзыв.",
+    "Предложите идею)",
+    "Переведите интерфейт приолжения на новый язык. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Свяжитесь со мной</a> для этого.",
+    "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Это приложение не есть безплатное. Всегда есть потребность в деньгах для хостинга, для разработки, распространения на новые платформы и времени на разработку...",
+  ],
   HB: [
     [
       "Где найти нужный перевод?",

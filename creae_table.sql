@@ -1,6 +1,8 @@
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/w.csv' DELIMITER ',' CSV HEADER;
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/LUT.csv' DELIMITER '  ' CSV HEADER;
 COPY bolls_verses(id, translation, book, chapter, verse, text) FROM '/home/b/data-1583918211969.csv' DELIMITER ',' CSV HEADER;
+COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/web.csv' DELIMITER '|' CSV HEADER;
+
 
 SELECT * FROM bolls_verses ORDER BY BOOK, CHAPTER, VERSE
 
@@ -13,9 +15,12 @@ UPDATE bolls_verses SET text = ('') where translation='' and book=66  and chapte
 
 psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432    --username=postgres    --password    --dbname=bain
 
+#8q^EMgAxWbmLGEp
+
 \copy bolls_bookmarks(id,color,note,user_id,verse_id,date) FROM '/home/b/Downloads/bolls_bookmarks.csv' DELIMITER ',' CSV HEADER;
 
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/verses.csv' DELIMITER '|' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/web.csv' DELIMITER '|' CSV HEADER;
 
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/DNB.csv' DELIMITER E'\t' CSV HEADER;
 
@@ -49,17 +54,5 @@ INSERT INTO auth_permission VALUES
 (30,'Can change verses',8,'change_verses'),
 (31,'Can delete verses',8,'delete_verses'),
 (32,'Can view verses',8,'view_verses');
-
-
-psql -f mydb2dump.sql --host bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com --port 5432 --username postgres --password #8q^EMgAxWbmLGEp --dbname bain
-
-psql -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -p 5432 -U postgres -W #8q^EMgAxWbmLGEp bain
-psql -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -p 5432 -U postgres -d bain
-psql \
-	--host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com \
-	--port=5432 \
-	--username=postgres \
-	--password \
-	--dbname=bain
 
 $psql bain -U postgres -p 5432 -h bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com -c "\copy bolls_verses(id, translation, book, chapter, verse, text) FROM '/home/b/data-1583918211969.csv' DELIMITER ',' CSV HEADER;"

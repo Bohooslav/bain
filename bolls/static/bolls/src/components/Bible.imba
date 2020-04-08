@@ -60,6 +60,7 @@ let menuicons = yes
 let show_fonts = no
 let show_accents = no
 let show_help = no
+let show_support = no
 let show_compare = no
 let show_downloads = no
 let show_language_of = ''
@@ -73,6 +74,7 @@ let compare_parallel_of_chapter
 let compare_parallel_of_book
 let highlighted_title = ''
 let svg_paths = {
+	copy: "M395.25,0h-306c-28.05,0-51,22.95-51,51v357h51V51h306V0z M471.75,102h-280.5c-28.05,0-51,22.95-51,51v357	c0,28.05,22.95,51,51,51h280.5c28.05,0,51-22.95,51-51V153C522.75,124.95,499.8,102,471.75,102z M471.75,510h-280.5V153h280.5V510 z",
 	loading: "M7.979 1.055a1.474 1.474 0 0 0-.27.025c-3 .16-5.627 2.222-6.451 5.129A7.13 7.13 0 0 0 4.5 14.037a7.13 7.13 0 0 0 8.4-1.105 7.13 7.13 0 0 0 1.106-8.4c1.507 2.725 1.032 6.162-1.135 8.37-2.228 2.148-5.654 2.577-8.33 1.065-2.618-1.576-3.914-4.73-3.18-7.672-.708 2.948.623 6.072 3.221 7.601 2.654 1.471 6.026 1.005 8.174-1.109 2.094-2.168 2.514-5.528 1.037-8.133 1.453 2.618.992 5.956-1.096 8.075-2.137 2.067-5.464 2.484-8.033 1.025C2.146 12.244.888 9.182 1.6 6.357c-.685 2.832.604 5.863 3.103 7.327 2.547 1.417 5.821.963 7.88-1.07 2.014-2.078 2.42-5.34.997-7.837 1.4 2.51.951 5.75-1.056 7.778-2.048 1.988-5.276 2.391-7.737.986C2.37 12.098 1.15 9.125 1.838 6.418c-.662 2.714.59 5.655 2.988 7.053 2.439 1.363 5.614.923 7.582-1.032 1.935-1.987 2.329-5.152.96-7.54 1.345 2.402.91 5.544-1.018 7.482-1.958 1.908-5.089 2.299-7.442.947C2.59 11.951 1.411 9.071 2.076 6.48c-.639 2.598.574 5.446 2.873 6.778 2.331 1.31 5.408.882 7.286-.992 1.855-1.898 2.235-4.963.92-7.245 1.292 2.295.869 5.338-.979 7.186-1.867 1.829-4.9 2.206-7.145.908-2.219-1.31-3.36-4.1-2.718-6.574-.616 2.48.56 5.238 2.76 6.504 2.223 1.256 5.2.842 6.988-.953 1.775-1.807 2.143-4.774.88-6.947 1.239 2.187.83 5.13-.939 6.888-1.777 1.75-4.71 2.114-6.847.87-2.12-1.246-3.223-3.943-2.604-6.3-.593 2.364.544 5.03 2.645 6.229 2.115 1.203 4.993.801 6.69-.914 1.697-1.717 2.051-4.585.843-6.65 1.184 2.08.788 4.924-.9 6.591-1.688 1.67-4.522 2.021-6.551.83-2.02-1.179-3.085-3.785-2.489-6.025-.57 2.247.53 4.822 2.53 5.955 2.007 1.15 4.786.76 6.394-.875 1.616-1.627 1.958-4.395.803-6.353 1.131 1.971.747 4.717-.861 6.295-1.597 1.59-4.332 1.927-6.254.79-1.92-1.113-2.947-3.628-2.373-5.751-.547 2.13.513 4.614 2.414 5.681 1.9 1.096 4.58.72 6.097-.836 1.537-1.536 1.865-4.206.764-6.056 1.077 1.864.707 4.51-.822 5.998-1.507 1.51-4.143 1.835-5.957.752-1.82-1.047-2.808-3.47-2.258-5.477-.524 2.013.498 4.405 2.299 5.406 1.792 1.042 4.373.68 5.8-.797 1.457-1.446 1.773-4.016.725-5.76 1.024 1.757.666 4.305-.783 5.702-1.417 1.43-3.953 1.742-5.66.713-1.721-.981-2.672-3.314-2.145-5.203-.5 1.896.484 4.197 2.186 5.132 1.684.989 4.166.64 5.504-.757 1.377-1.357 1.68-3.828.685-5.463.97 1.649.626 4.097-.744 5.404-1.326 1.35-3.764 1.65-5.363.674-1.621-.915-2.534-3.155-2.03-4.928-.477 1.78.47 3.988 2.07 4.858 1.578.934 3.96.598 5.208-.72 1.297-1.266 1.587-3.638.646-5.165.917 1.54.585 3.89-.705 5.107-1.236 1.271-3.575 1.557-5.066.635-1.522-.849-2.395-2.999-1.914-4.654-.455 1.662.453 3.779 1.955 4.582 1.469.88 3.752.557 4.908-.68 1.217-1.176 1.494-3.447.607-4.865.875 1.425.577 3.685-.636 4.836-1.15 1.213-3.411 1.51-4.836.636-1.47-.797-2.343-2.904-1.867-4.507.39-1.626 2.197-3.013 3.869-2.97V4a1.474 1.474 0 0 0 .002 0 1.474 1.474 0 0 0 1.472-1.473 1.474 1.474 0 0 0-1.472-1.472 1.474 1.474 0 0 0-.002 0z",
 	download: "M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z",
 	columnssvg: "m 35.947269,15.059556 c -7.96909,0.761819 -16.598173,3.661819 -16.598173,5.578181 0,0.283637 -0.409098,0.516366 -0.9091,0.516366 -0.498179,0 -1.332722,0.650908 -1.854541,1.445453 -0.520001,0.794545 -2.256364,2.158182 -3.856366,3.03091 -4.285453,2.334544 -5.9854532,4.496361 -7.5981802,9.663636 -0.7927282,2.536363 -1.6272727,4.750909 -1.858182,4.921819 -0.2290916,0.170908 -1.0600004,2.521818 -1.8454543,5.225454 L 0,50.355921 V 169.00683 287.65774 l 1.4272725,4.91455 c 0.7854539,2.70181 1.6163627,5.05454 1.8454543,5.22545 0.2309093,0.17092 1.0654538,2.38545 1.858182,4.92182 1.612727,5.16726 3.3127272,7.32728 7.5981802,9.66363 1.600002,0.87272 3.336365,2.23636 3.856366,3.03092 0.521819,0.79452 1.356362,1.44362 1.854541,1.44362 0.500002,0 0.9091,0.23274 0.9091,0.51819 0,0.97455 6.109083,3.84182 10.278172,4.82544 7.17819,1.69457 80.296372,1.94183 87.632732,0.29821 6.04365,-1.35455 8.16364,-2.48183 9.22727,-4.90546 0.40182,-0.9109 0.87272,-1.79637 1.04909,-1.96547 5.33636,-5.12908 5.2909,-24.29272 -0.0655,-26.3327 -0.29454,-0.11269 -0.53818,-0.51092 -0.53818,-0.88365 0,-1.3 -2.77638,-4.72909 -4.30183,-5.31455 -5.89455,-2.25456 -9.98909,-2.5109 -40.25998,-2.5109 -36.860001,0 -34.947277,0.51454 -36.567284,-9.83638 -0.858176,-5.48545 -0.858176,-198.001813 0,-203.489086 1.620007,-10.350909 -0.292717,-9.836364 36.567284,-9.836364 30.27089,0 34.36543,-0.254545 40.25998,-2.510908 1.52545,-0.583637 4.30183,-4.012727 4.30183,-5.312727 0,-0.374545 0.24364,-0.772727 0.53818,-0.885455 5.35636,-2.04 5.40181,-21.203636 0.0655,-26.332727 -0.17637,-0.16909 -0.64727,-1.052729 -1.04909,-1.965455 -1.05091,-2.392728 -3.17091,-3.545455 -8.92001,-4.845456 -5.51091,-1.245455 -69.73089,-1.650909 -81.619991,-0.512726 m 246.099981,0.529091 c -5.69089,1.21091 -7.93817,2.427274 -8.91452,4.829091 -0.37091,0.912726 -1.60183,3.692727 -2.73819,6.18 -4.27455,9.361817 0.24001,27.027273 7.3291,28.67091 8.94546,2.072725 10.49999,2.156362 40.21634,2.156362 36.34002,0 34.19274,-0.58909 35.82365,9.836364 0.85818,5.487273 0.85818,198.003636 0,203.489086 -1.63091,10.42546 0.51637,9.83638 -35.82365,9.83638 -29.71635,0 -31.27088,0.0836 -40.21634,2.15818 -7.08909,1.64182 -11.60365,19.30728 -7.3291,28.6709 1.13636,2.48545 2.36728,5.26729 2.73819,6.17819 2.17818,5.35636 7.25091,5.97636 48.99091,5.98726 47.96181,0.011 53.39271,-0.65817 60,-7.39999 1.30546,-1.33091 3.97272,-3.35817 5.92728,-4.50365 5.00909,-2.93636 5.34181,-3.44362 7.8509,-12.03272 1.23455,-4.22727 2.63636,-8.98183 3.11636,-10.56728 1.30909,-4.31999 1.30909,-235.82181 0,-240.143628 -0.48,-1.585453 -1.88181,-6.340002 -3.11636,-10.565455 -2.50909,-8.589091 -2.84181,-9.098182 -7.8509,-12.032726 -1.95456,-1.147273 -4.62182,-3.172728 -5.92728,-4.505456 -6.62545,-6.759999 -12.08,-7.425455 -60.30728,-7.359999 -30.57273,0.03999 -35.33819,0.174545 -39.76911,1.118181 M 87.376365,80.170465 c -4.607281,1.176365 -8.121816,2.990911 -9.203634,4.752728 -0.27636,0.44909 -2.036369,1.681818 -3.910908,2.740001 -5.672728,3.203638 -7.954555,10.047268 -6.37819,19.130916 0.736366,4.23454 3.161817,9.64908 4.325463,9.64908 0.30363,0 2.779992,1.52728 5.505453,3.39273 8.1709,5.59637 11.061814,6.05454 35.805451,5.66182 l 56.45636,-0.32 5.72727,-2.60364 c 7.41637,-3.37091 9.73092,-5.63089 13.21092,-12.89272 3.3909,-7.07273 3.38726,-7.00365 0.48909,-13.678187 -2.98546,-6.872727 -6.95455,-10.823637 -14.29275,-14.223636 l -5.09272,-2.36 -57.0909,-0.24 C 93.743646,78.957738 91.839989,79.032284 87.376365,80.170465 M 241.08363,79.512283 c -6.49817,0.452729 -11.56727,2.516364 -15.91091,6.474546 -1.22364,1.116365 -2.97454,2.685455 -3.89091,3.487273 -1.76363,1.540005 -6.18547,10.963628 -6.1509,13.103648 0.10547,6.45272 7.52182,15.68726 15.91999,19.81998 l 5.64364,2.7782 49.26727,0.30908 c 24.90001,0.38364 28.70364,-0.17455 35.30363,-5.16909 2.17092,-1.64362 4.80001,-3.34182 5.84364,-3.77272 7.77637,-3.22182 7.46546,-24.098185 -0.41817,-28.092735 -1.69818,-0.861818 -4.38547,-2.790907 -5.97272,-4.290908 -4.51637,-4.265455 -7.36,-4.769092 -27.79638,-4.927273 -9.29818,-0.07091 -48.62546,0.05455 -51.83818,0.279999 M 84.821812,148.3941 c -16.609086,1.92911 -23.163629,22.64728 -11.147262,35.23274 6.041815,6.32908 5.400001,6.20544 34.03271,6.47818 33.53273,0.31999 74.59455,-0.45455 77.58363,-6.79637 0.68002,-1.44182 2.23455,-4.10182 3.45275,-5.91092 3.30727,-4.90544 3.30727,-11.87635 0,-16.7818 -1.2182,-1.8091 -2.77273,-4.47092 -3.45275,-5.91274 -2.89271,-6.13636 -43.69271,-6.93272 -74.3418,-6.82 -12.341809,0.0454 -24.098174,0.27455 -26.127278,0.51091 m 148.270908,0.0309 c -1.52181,0.30546 -3.65453,0.71456 -4.73818,0.90909 -1.86183,0.33274 -6.94364,4.48182 -6.94364,5.66728 0,0.29636 -1.24546,2.43272 -2.76544,4.74908 -2.71274,4.1291 -2.76728,4.31274 -2.76728,9.25636 0,4.94365 0.0545,5.12546 2.76728,9.25455 1.51998,2.31638 2.76544,4.44183 2.76544,4.72184 0,0.8418 4.18183,4.75817 5.67818,5.31999 6.85637,2.57273 87.83092,2.74544 92.66909,0.21091 17.19273,-9.00365 17.19273,-29.98365 0,-39.02183 -2.79635,-1.46909 -80.21455,-2.36727 -86.66545,-1.06727 M 87.438188,213.56136 c -3.589094,0.91636 -5.980006,2.05274 -9.718182,4.61273 -2.727273,1.86727 -5.20728,3.39456 -5.51091,3.39456 -1.163646,0 -3.589097,5.41452 -4.325463,9.65091 -1.576365,9.08362 0.705462,15.92726 6.37819,19.12908 1.874539,1.05818 3.634548,2.2909 3.910908,2.73999 3.005456,4.89819 10.938184,6.20002 35.379999,5.81273 l 56.48909,-0.31818 5.07999,-2.35455 c 7.32544,-3.39453 11.29818,-7.34908 14.28183,-14.22 2.89817,-6.67272 2.90181,-6.60364 -0.48909,-13.67635 -3.48,-7.26546 -5.79455,-9.52181 -13.22183,-12.90002 l -5.74001,-2.60909 -57.05998,-0.23999 c -19.069101,-0.22 -21.067263,-0.14363 -25.454542,0.97818 m 153.645442,-0.62182 c -6.73272,0.44726 -13.41273,3.35091 -18.27818,7.94727 -2.64363,2.4982 -7.63273,11.95275 -7.67454,14.54728 -0.0345,2.14 4.38727,11.56364 6.1509,13.10546 0.91637,0.80181 2.70909,2.40909 3.98364,3.57091 1.27455,1.16181 4.41636,3.1109 6.98181,4.32909 l 4.66364,2.21455 50.3891,0.0545 c 25.75637,0.0654 28.65817,-0.35455 33.4109,-4.84727 1.59092,-1.50366 4.28183,-3.43821 5.98001,-4.29821 7.88363,-3.99454 8.19454,-24.87271 0.41817,-28.09271 -1.04363,-0.43272 -3.67272,-2.12911 -5.84181,-3.77273 -6.75273,-5.11092 -52.11091,-6.62546 -80.18364,-4.75819"
@@ -116,13 +118,13 @@ document:onkeyup = do |e|
 			bible[0]:_tag.nextChapter('true')
 		elif e:code == "ArrowLeft" && e:altKey && e:ctrlKey
 			let bible = document:getElementsByClassName("Bible")
-			bible[0]:_tag.prewChapter('true')
+			bible[0]:_tag.prevChapter('true')
 		elif e:code == "ArrowRight" && e:ctrlKey
 			let bible = document:getElementsByClassName("Bible")
 			bible[0]:_tag.nextChapter
 		elif e:code == "ArrowLeft" && e:ctrlKey
 			let bible = document:getElementsByClassName("Bible")
-			bible[0]:_tag.prewChapter
+			bible[0]:_tag.prevChapter
 	if e:code == "Escape"
 		let bible = document:getElementsByClassName("Bible")
 		bible[0]:_tag.clearSpace
@@ -387,12 +389,12 @@ export tag Bible
 						parallel-chapter: parallel_text:chapter,
 						parallel-verse: 0,
 					},
-					nameOfBook(settings:book, false) + ' ' + settings:chapter,
+					nameOfBook(settings:book, settings:translation) + ' ' + settings:chapter,
 					window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
 				)
 			onpopstate = no
 			clearSpace
-			document:title = "Bolls Bible " + " " + nameOfBook(book) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
+			document:title = "Bolls Bible " + " " + nameOfBook(book, translation) + ' ' + chapter + ' ' + translations.find(do |element| return element:short_name == translation):full_name
 			if @chronorder
 				@chronorder = !@chronorder
 				toggleChronorder
@@ -450,7 +452,7 @@ export tag Bible
 						parallel-chapter: chapter,
 						parallel-verse: verse,
 					},
-					nameOfBook(settings:book, no) + ' ' + settings:chapter,
+					nameOfBook(settings:book, settings:translation) + ' ' + settings:chapter,
 					null
 				)
 			onpopstate = no
@@ -507,6 +509,7 @@ export tag Bible
 		show_collections = no
 		choosen_parallel = no
 		show_help = no
+		show_support = no
 		show_compare = no
 		show_downloads = no
 		show_translations_for_comparison = no
@@ -522,6 +525,14 @@ export tag Bible
 			clearSpace
 			show_help = !show_help
 			what_to_show = 'show_help'
+
+	def turnSupport
+		if show_support
+			clearSpace
+		else
+			clearSpace
+			show_support = !show_support
+			what_to_show = 'show_support'
 
 	def toggleParallelMode parallel
 		if !parallel
@@ -681,17 +692,10 @@ export tag Bible
 			show_language_of = language
 		else show_language_of = ''
 
-	def nameOfBook bookid, parallel
-		if parallel && @parallel_books != undefined
-			if @parallel_books:length
-				for book in @parallel_books
-					if book:bookid == bookid
-						return book:name
-		elif @books != undefined
-			for book in @books
-				if book:bookid == bookid
-					return book:name
-		else ''
+	def nameOfBook bookid, translation
+		for book in BOOKS[translation]
+			if book:bookid == bookid
+				return book:name
 
 	def chaptersOfCurrentBook parallel
 		if parallel
@@ -719,7 +723,7 @@ export tag Bible
 				if books[current_index + 1]
 					getText(settings:translation, books[current_index+1]:bookid, 1)
 
-	def prewChapter parallel
+	def prevChapter parallel
 		if parallel == 'true'
 			if parallel_text:chapter - 1 > 0
 				getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter - 1)
@@ -736,7 +740,7 @@ export tag Bible
 					getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
 	def onmousemove e
-		if !settings:lock_drawers
+		if !settings:lock_drawers && window:innerWidth > 680
 			if e.x < 32
 				bible_menu_left = 0
 			elif e.x > window:innerWidth - 32
@@ -757,7 +761,7 @@ export tag Bible
 			if bible_menu_left < 0 && touch.dx > 0
 				bible_menu_left = touch.dx - 300
 			if settings_menu_left < 0 && touch.dx < 0
-				settings_menu_left = - 300 - touch.dx
+				settings_menu_left = - touch.dx - 300
 		else
 			if bible_menu_left > -300 && touch.dx < 0
 				bible_menu_left = touch.dx
@@ -767,22 +771,22 @@ export tag Bible
 
 	def ontouchend touch
 		if inzone && !bible_menu_left && !settings_menu_left
-			if touch.dx > 64
+			if touch.dx > 128
 				bible_menu_left = 0
-			elif touch.dx < -64
+			elif touch.dx < -128
 				settings_menu_left = 0
 			else
 				settings_menu_left = -300
 				bible_menu_left = -300
 		elif bible_menu_left > -300
-			touch.dx < -64 ? bible_menu_left = -300 : bible_menu_left = 0
+			touch.dx < -128 ? bible_menu_left = -300 : bible_menu_left = 0
 		elif settings_menu_left > -300
-			touch.dx > 64 ? settings_menu_left = -300 : settings_menu_left = 0
+			touch.dx > 128 ? settings_menu_left = -300 : settings_menu_left = 0
 		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !search:search_div && !show_history && !choosenid:length
-			if touch.dx < -16
+			if touch.dx < -32
 				parallel_text:display && touch.y > window:innerHeight / 2 ? nextChapter("true") : nextChapter
-			elif touch.dx > 16
-				parallel_text:display && touch.y > window:innerHeight / 2 ? prewChapter("true") : prewChapter
+			elif touch.dx > 32
+				parallel_text:display && touch.y > window:innerHeight / 2 ? prevChapter("true") : prevChapter
 		inzone = no
 		onzone = no
 		Imba.commit
@@ -852,31 +856,26 @@ export tag Bible
 					clearSpace
 				show_collections = no
 		if choosenid:length
-			highlighted_title = getHighlightedRow
+			if choosen_parallel == 'first'
+				highlighted_title = getHighlightedRow(settings:translation, settings:book, settings:chapter, choosen)
+			else
+				highlighted_title = getHighlightedRow(parallel_text:translation, parallel_text:book, parallel_text:chapter, choosen)
 
 	def changeHighlightColor color
 		show_color_picker = no
 		highlight_color = color
 
-	def getHighlightedRow
-		let row
-		if choosen_parallel == 'first'
-			row = nameOfBook settings:book
-			row += ' ' + settings:chapter + ':'
-		else
-			row = nameOfBook parallel_text:book, yes
-			row += ' ' + parallel_text:chapter + ':'
-		for id, key in choosen.sort(do |a, b| return a - b)
-			if id == choosen[key - 1] + 1
-				if id == choosen[key+1] - 1
+	def getHighlightedRow translation, book, chapter, verses
+		let row = nameOfBook(book, translation) + ' ' + chapter + ':'
+		for id, key in verses.sort(do |a, b| return a - b)
+			if id == verses[key - 1] + 1
+				if id == verses[key+1] - 1
 					continue
-				else
-					row += '-' + id
+				else row += '-' + id
 			else
 				if !key
 					row += id
-				else
-					row += ',' + id
+				else row += ',' + id
 		return row
 
 	def get_cookie name
@@ -903,6 +902,7 @@ export tag Bible
 				notes += " | "
 		if !user:name
 			window:location:pathname = "/signup/"
+			return
 		if window:navigator:onLine
 			window.fetch("/save-bookmarks/", {
 				method: "POST",
@@ -972,7 +972,10 @@ export tag Bible
 			book: 0,
 			chapter: 0
 		}
-		copyobj:title = getHighlightedRow
+		if choosen_parallel == 'first'
+			copyobj:title = getHighlightedRow(settings:translation, settings:book, settings:chapter, choosen)
+		else
+			copyobj:title = getHighlightedRow(parallel_text:translation, parallel_text:book, parallel_text:chapter, choosen)
 		if choosen_parallel == 'second'
 			for verse in parallel_verses
 				if choosenid.find(do |element| return element == verse:pk)
@@ -1297,9 +1300,34 @@ export tag Bible
 				filtered.push(book)
 		return filtered
 
+	def copyToClipboardFromParallel tr
+		let copyobj = {
+			text: [],
+			translation: tr[0]:translation,
+			book: tr[0]:book,
+			chapter: tr[0]:chapter,
+			verse: [],
+		}
+		for t in tr
+			copyobj:text.push(t:text)
+			copyobj:verse.push(t:verse)
+		copyobj:title = getHighlightedRow(copyobj:translation, copyobj:book, copyobj:chapter, copyobj:verse)
+		@data.copyToClipboard(copyobj)
+
+	def copyToClipboardFromSerach obj
+		let copyobj = {
+			text: [obj:text],
+			translation: obj:translation,
+			book: obj:book,
+			chapter: obj:chapter,
+			verse: [obj:verse],
+			title: getHighlightedRow(obj:translation, obj:book, obj:chapter, [obj:verse])
+		}
+		@data.copyToClipboard(copyobj)
+
 	def render
 		<self .hold_by_finger=(inzone || onzone)>
-			<nav .hold_nav=(bible_menu_left > - 300 && (inzone || onzone)) .display_none=(settings_menu_left > - 300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)}">
+			<nav .display_none=(settings_menu_left > - 300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)} {bible_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: left;' : ''}">
 				if parallel_text:display
 					<.choose_parallel>
 						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :click.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -1317,7 +1345,7 @@ export tag Bible
 					<svg:svg.download_translations .hide_chron_order=@show_list_of_translations :click.prevent.toggleDownloads() xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:download
 						<svg:path d="M0 0h24v24H0z" fill="none">
-						<svg:path d="{svg_paths:download}">
+						<svg:path d=svg_paths:download>
 				<.translations_list .show_translations_list=@show_list_of_translations>
 					for language in languages
 						<a.book_in_list dir="auto" .pressed=(language:language == show_language_of) .active=(language:translations.find(do |translation| currentTranslation(translation:short_name))) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
@@ -1358,7 +1386,7 @@ export tag Bible
 			<main.main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					if @verses:length
-						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, no), ' ', settings:chapter
+						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, settings:translation), ' ', settings:chapter
 						<article>
 							for verse in @verses
 								if settings:verse_break
@@ -1369,9 +1397,9 @@ export tag Bible
 										style="background-image:{getHighlight(verse:pk, 'bookmarks')}"
 									>
 							<.arrows>
-								<a.arrow :click.prevent.prewChapter() title=@data.lang:prew>
-									<svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
-										<svg:title> @data.lang:prew
+								<a.arrow :click.prevent.prevChapter() title=@data.lang:prev>
+									<svg:svg.arrow_prev xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
+										<svg:title> @data.lang:prev
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 								<a.arrow :click.prevent.nextChapter() title=@data.lang:next>
 									<svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -1386,7 +1414,7 @@ export tag Bible
 							<a.reload :tap=(do window:location.reload(yes))> @data.lang:reload
 				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
 					if @parallel_verses:length
-						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, yes), ' ', parallel_text:chapter
+						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, parallel_text:translation), ' ', parallel_text:chapter
 						<article>
 							for verse in @parallel_verses
 								if settings:verse_break
@@ -1396,9 +1424,9 @@ export tag Bible
 									:click.prevent.addToChoosen(verse:pk, verse:verse, 'second')
 									style="background-image:{getHighlight(verse:pk, 'parallel_bookmarks')}">
 							<.arrows>
-								<a.arrow :click.prevent.prewChapter("true")>
-									<svg:svg.arrow_prew xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
-										<svg:title> @data.lang:prew
+								<a.arrow :click.prevent.prevChapter("true")>
+									<svg:svg.arrow_prev xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
+										<svg:title> @data.lang:prev
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 								<a.arrow :click.prevent.nextChapter("true")>
 									<svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
@@ -1409,7 +1437,7 @@ export tag Bible
 					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
-			<aside .hold_aside=(settings_menu_left > - 300 && (inzone || onzone)) .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)}">
+			<aside .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
 				<p.settings_header>
 					@data.lang:other
 					<#current_accent .blur_current_accent=show_accents :click.prevent=(do show_accents = !show_accents)>
@@ -1466,7 +1494,7 @@ export tag Bible
 								d="m 35.947276,15.059555 c -7.969093,0.761817 -16.59819,3.661819 -16.59819,5.578181 0,0.283637 -0.409086,0.516365 -0.909082,0.516365 -0.498182,0 -1.332726,0.650909 -1.85455,1.445454 -0.52,0.794546 -2.256363,2.158182 -3.856362,3.030909 -4.2854562,2.334545 -5.9854559,4.496363 -7.5981831,9.663636 -0.7927271,2.536365 -1.6272721,4.750909 -1.8581814,4.921819 -0.2290909,0.170909 -1.0600003,2.521818 -1.845455,5.225455 L 0,50.355918 v 118.650912 118.6509 l 1.4272725,4.91455 c 0.7854547,2.70182 1.6163641,5.05454 1.845455,5.22545 0.2309093,0.17092 1.0654543,2.38546 1.8581814,4.92182 1.6127272,5.16727 3.3127269,7.32727 7.5981831,9.66364 1.599999,0.87273 3.336362,2.23636 3.856362,3.03091 0.521824,0.79455 1.356368,1.44363 1.85455,1.44363 0.499996,0 0.909082,0.23273 0.909082,0.51818 0,0.97456 6.109095,3.84182 10.278187,4.82546 7.178184,1.69455 80.296367,1.94181 87.632717,0.29818 6.04365,-1.35454 8.16365,-2.48181 9.22729,-4.90545 0.40182,-0.91091 0.87272,-1.79637 1.04909,-1.96545 5.33636,-5.1291 5.29091,-24.29273 -0.0654,-26.33274 -0.29454,-0.11268 -0.53818,-0.5109 -0.53818,-0.88363 0,-1.30001 -2.77637,-4.72909 -4.30182,-5.31454 -5.89454,-2.25456 -9.98909,-2.51091 -40.25999,-2.51091 -36.860011,0 -34.947285,0.51454 -36.567285,-9.83638 -0.858181,-5.48544 -0.858181,-198.0018 0,-203.48908 1.62,-10.350906 -0.292726,-9.83636 36.567285,-9.83636 30.2709,0 34.36545,-0.254546 40.25999,-2.51091 1.52545,-0.583635 4.30182,-4.012727 4.30182,-5.312726 0,-0.374547 0.24364,-0.772729 0.53818,-0.885456 5.35637,-2.039999 5.40182,-21.203635 0.0654,-26.332727 -0.17637,-0.16909 -0.64727,-1.052727 -1.04909,-1.965455 -1.05091,-2.392726 -3.17092,-3.545454 -8.92,-4.845453 -5.51091,-1.245455 -69.73091,-1.65091 -81.620004,-0.512728 m 246.100004,0.529091 c -5.69091,1.21091 -7.93818,2.427273 -8.91455,4.82909 -0.37092,0.912728 -1.60181,3.692727 -2.73818,6.18 -4.27454,9.361819 0.24,27.027274 7.32909,28.67091 8.94545,2.072727 10.5,2.156364 40.21636,2.156364 36.34,0 34.19273,-0.589092 35.82364,9.83636 0.85818,5.48728 0.85818,198.00364 0,203.48908 -1.63091,10.42547 0.51636,9.83638 -35.82364,9.83638 -29.71636,0 -31.27091,0.0837 -40.21636,2.15817 -7.08909,1.64183 -11.60363,19.30728 -7.32909,28.67092 1.13637,2.48545 2.36726,5.26727 2.73818,6.17818 2.17818,5.35635 7.25091,5.97636 48.9909,5.98727 47.96183,0.0107 53.39273,-0.65818 60.00001,-7.4 1.30545,-1.33091 3.97273,-3.35819 5.92728,-4.50364 5.00908,-2.93635 5.34181,-3.44363 7.8509,-12.03272 1.23454,-4.22727 2.63637,-8.98183 3.11636,-10.56727 1.30909,-4.32001 1.30909,-235.821822 0,-240.14364 -0.47999,-1.585454 -1.88182,-6.34 -3.11636,-10.565454 -2.50909,-8.589091 -2.84182,-9.098182 -7.8509,-12.032728 -1.95455,-1.147272 -4.62183,-3.172727 -5.92728,-4.505454 -6.62546,-6.76 -12.08,-7.425455 -60.30728,-7.36 -30.57272,0.04 -35.33817,0.174546 -39.76908,1.118182 M 87.376365,80.17046 c -4.607268,1.17637 -8.121822,2.99091 -9.203631,4.75273 -0.276368,0.44909 -2.036365,1.68182 -3.910922,2.74 -5.672718,3.20364 -7.954534,10.04727 -6.37817,19.13091 0.736355,4.23455 3.161809,9.6491 4.325448,9.6491 0.303645,0 2.779999,1.52726 5.505457,3.39272 8.17091,5.59636 101.970903,6.05455 126.714543,5.66182 l 107.36546,-0.32001 5.72727,-2.60363 c 7.41637,-3.3709 9.73092,-5.63091 13.21091,-12.89273 3.39091,-7.07272 3.38727,-7.00363 0.48909,-13.67818 -2.98545,-6.87273 -6.95454,-10.82363 -14.29273,-14.22363 l -5.09272,-2.36 -108.00001,-0.24 C 184.65273,78.95774 91.839996,79.03228 87.376365,80.17046 m -2.554545,68.22365 c -16.609096,1.92908 -23.163632,22.64726 -11.147273,35.23271 6.041822,6.3291 5.400003,6.20546 34.032723,6.47819 33.53273,0.32 214.32191,2.93417 217.311,-3.40764 0.68001,-1.44182 4.32537,-7.49055 5.54355,-9.29964 3.30727,-4.90545 3.30727,-11.87637 0,-16.78181 -1.21818,-1.8091 -2.77273,-4.47091 -3.45272,-5.91273 -2.89273,-6.13636 -94.60182,-6.93273 -125.25091,-6.82 -12.34183,0.0454 -115.007284,0.27454 -117.03637,0.51092 m 2.616365,65.16725 c -3.589093,0.91638 -5.980003,2.05274 -9.718185,4.61274 -2.727272,1.86726 -5.207265,3.39454 -5.51091,3.39454 -1.163639,0 -3.589093,5.41455 -4.325448,9.65091 -1.576364,9.08363 0.705452,15.92727 6.37817,19.12909 1.874557,1.05818 3.634554,2.29091 3.910922,2.74 3.005453,4.89818 101.847266,6.2 126.289086,5.81273 l 107.39819,-0.31818 5.08,-2.35455 c 7.32544,-3.39454 11.29817,-7.34909 14.28181,-14.22 2.89818,-6.67272 2.90182,-6.60364 -0.48909,-13.67637 -3.47999,-7.26545 -5.79454,-9.52181 -13.22182,-12.89999 l -5.74,-2.6091 -107.96909,-0.24 c -19.0691,-0.22 -111.976369,-0.14363 -116.363635,0.97818">
 					<svg:svg.cbtn :click.prevent.toggleParallelMode(yes) style="padding: 8px;" viewBox="0 0 400 338">
 						<svg:title> @data.lang:parallel
-						<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+						<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 				<.nighttheme :click.prevent=(do show_fonts = !show_fonts)>
 					<span.font_icon> "B"
 					settings:font:name
@@ -1521,7 +1549,7 @@ export tag Bible
 						<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 							<svg:title> @data.lang:download
 							<svg:path d="M0 0h24v24H0z" fill="none">
-							<svg:path d="{svg_paths:download}">
+							<svg:path d=svg_paths:download>
 						@data.lang:download
 				<a.help :click.prevent.turnHelpBox()>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -1535,6 +1563,12 @@ export tag Bible
 						<svg:path d="M0 0h24v24H0V0z" fill="none">
 						<svg:path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17l-.59.59-.58.58V4h16v12zm-9-4h2v2h-2zm0-6h2v4h-2z">
 					@data.lang:feedback
+				<a.help.animated-man :click.prevent.turnSupport()>
+					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+						<svg:title> @data.lang:support
+						<svg:path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+						<svg:path d="M0 0h24v24H0z" fill="none">
+					@data.lang:support
 				<.freespace>
 				<footer>
 					<p style="padding: 16px 0;">
@@ -1550,7 +1584,7 @@ export tag Bible
 						<time time:datetime="2020-04-02T17:44"> "2019-present"
 						" Павлишинець Богуслав"
 
-			<section.search_results .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(search:search_div || show_help || show_compare || show_downloads)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads)>
+			<section.search_results .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(search:search_div || show_help || show_compare || show_downloads || show_support)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
 				if what_to_show == 'show_help'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1563,7 +1597,7 @@ export tag Bible
 								<svg:g>
 										<svg:path d="M16 2L0 7l3.5 2.656L14.563 2.97 5.25 10.656l4.281 3.156z">
 										<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
-					<article#helpFAQ.search_body tabindex="0">
+					<article.helpFAQ.search_body tabindex="0">
 						<p style="color: var(--accent-hover-color); font-size: 0.9em;"> @data.lang:faqmsg
 						<h3> @data.lang:content
 						<ul>
@@ -1602,10 +1636,10 @@ export tag Bible
 						if compare_translations:length
 							for tr, key in comparison_parallel
 								if tr[0]:text
-									<a.search_item>
+									<p.search_item>
 										<.search_res_verse_text>
-											for aoeirf in tr
-												<search-text-as-html[aoeirf]>
+											for aoefv in tr
+												<search-text-as-html[aoefv]>
 												' '
 										<.search_res_verse_header>
 											<svg:svg.open_in_parallel :click.prevent.changeOrder(key, -1) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -1615,9 +1649,12 @@ export tag Bible
 												<svg:title> @data.lang:move_down
 												<svg:path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z">
 											<span> tr[0]:translation
-											<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :click.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
+											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromParallel(tr) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
+												<svg:title> @data.lang:copy
+												<svg:path d=svg_paths:copy>
+											<svg:svg.open_in_parallel style="margin: 0 8px;" viewBox="0 0 400 338" :click.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
 												<svg:title> @data.lang:open_in_parallel
-												<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+												<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 											<svg:svg.remove_parallel.close_search :click.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
 												<svg:title> @data.lang:delete
 												<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
@@ -1639,7 +1676,7 @@ export tag Bible
 						if @data:deleting_of_all_transllations()
 							<svg:svg.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 								<svg:title> @data.lang:loading
-								<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+								<svg:path d=svg_paths:loading style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
 						else
 							<svg:svg.close_search :click.prevent=(do @data.clearVersesTable()) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 								<svg:title> @data.lang:remove_all_translations
@@ -1658,7 +1695,7 @@ export tag Bible
 										if @data:downloading_of_this_translations().find(do |translation| return translation == tr:short_name)
 											<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 												<svg:title> @data.lang:loading
-												<svg:path d="{svg_paths:loading}" style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
+												<svg:path d=svg_paths:loading style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
 										elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
 											<svg:svg.remove_parallel.close_search :click.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 												<svg:title> @data.lang:delete
@@ -1667,8 +1704,24 @@ export tag Bible
 											<svg:svg.remove_parallel.close_search :click.prevent=(do @data.downloadTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 												<svg:title> @data.lang:download
 												<svg:path d="M0 0h24v24H0z" fill="none">
-												<svg:path d="{svg_paths:download}">
+												<svg:path d=svg_paths:download>
 						<.freespace>
+				elif what_to_show == 'show_support'
+					<article.search_hat>
+						<svg:svg.close_search :click.prevent.turnSupport() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
+							<svg:title> @data.lang:close
+							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
+						<h1> @data.lang:support
+						<a href="mailto:bpavlisinec@gmail.com">
+							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+								<svg:title> @data.lang:help
+								<svg:g>
+										<svg:path d="M16 2L0 7l3.5 2.656L14.563 2.97 5.25 10.656l4.281 3.156z">
+										<svg:path d="M3 8.5v6.102l2.83-2.475-.66-.754L4 12.396V8.5z" color="#000" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill-rule="evenodd">
+					<article.helpFAQ.search_body>
+						<h3> @data.lang:ycdtitnw
+						<ul> for i in @data.lang:SUPPORT
+							<li> <text-as-html[{text: i}]>
 				else
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.closeSearch(true) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1695,17 +1748,20 @@ export tag Bible
 									<a.search_item>
 										<search-text-as-html[verse].search_res_verse_text>
 										<.search_res_verse_header>
-											<span> nameOfBook(verse:book, choosen_parallel), ' '
+											<span> nameOfBook(verse:book, (parallel_text:display ? parallel_text:edited_version : settings:translation)), ' '
 											<span> verse:chapter, ':'
 											<span> verse:verse
+											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromSerach(verse) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
+												<svg:title> @data.lang:copy
+												<svg:path d=svg_paths:copy>
 											<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :click.prevent.backInHistory({translation: @search:translation, book: verse:book, chapter: verse:chapter,verse: verse:verse}, yes)>
 												<svg:title> @data.lang:open_in_parallel
-												<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+												<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 									if key > search:counter
 										<button.more_results :click.prevent=(do search:counter += 50) tabindex="0"> @data.lang:more_results
 										break
 								<div css:padding='12px 0px' css:text-align="center">
-									@data.lang:filter_name, ' ', nameOfBook search:filter, choosen_parallel
+									@data.lang:filter_name, ' ', nameOfBook(search:filter, (parallel_text:display ? parallel_text:edited_version : settings:translation))
 									<br>
 									<a.more_results css:display="inline-block" css:margin-top="12px" :click.prevent.dropFilter> @data.lang:drop_filter
 							else
@@ -1714,12 +1770,15 @@ export tag Bible
 									<a.search_item>
 										<search-text-as-html[verse].search_res_verse_text>
 										<.search_res_verse_header>
-											<span> nameOfBook(verse:book, choosen_parallel), ' '
+											<span> nameOfBook(verse:book, (parallel_text:display ? parallel_text:edited_version : settings:translation)), ' '
 											<span> verse:chapter, ':'
 											<span> verse:verse
+											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromSerach(verse) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
+												<svg:title> @data.lang:copy
+												<svg:path d=svg_paths:copy>
 											<svg:svg.open_in_parallel style="margin-left: 4px;" viewBox="0 0 400 338" :click.prevent.backInHistory({translation: @search:translation, book: verse:book, chapter: verse:chapter,verse: verse:verse}, yes)>
 												<svg:title> @data.lang:open_in_parallel
-												<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+												<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 									if key > search:counter
 										<button.more_results :click.prevent=(do search:counter += 50) tabindex="0" style="margin: auto; display: flex;"> @data.lang:more_results
 										break
@@ -1801,7 +1860,7 @@ export tag Bible
 							<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 						<svg:svg.save_bookmark :click.prevent.copyToClipboard() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
 							<svg:title> @data.lang:copy
-							<svg:path d="M395.25,0h-306c-28.05,0-51,22.95-51,51v357h51V51h306V0z M471.75,102h-280.5c-28.05,0-51,22.95-51,51v357	c0,28.05,22.95,51,51,51h280.5c28.05,0,51-22.95,51-51V153C522.75,124.95,499.8,102,471.75,102z M471.75,510h-280.5V153h280.5V510 z">
+							<svg:path d=svg_paths:copy>
 						<svg:svg.save_bookmark :click.prevent.toggleCompare() version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="580.125px" height="580.125px" viewBox="0 0 580.125 580.125" style="enable-background:new 0 0 580.125 580.125; transform: rotate(90deg);" xml:space="preserve">
 							<svg:title> @data.lang:compare
 							<svg:path d="M573.113,298.351l-117.301-117.3c-3.824-3.825-10.199-5.1-15.299-2.55c-5.102,2.55-8.926,7.65-8.926,12.75v79.05    c-38.25,0-70.125,6.375-96.9,19.125V145.35h73.951c6.375,0,11.475-3.825,12.75-8.925c2.549-5.1,1.273-11.475-2.551-15.3    L301.537,3.825C298.988,1.275,295.162,0,291.338,0c-3.825,0-7.65,1.275-10.2,3.825l-118.575,117.3    c-3.825,3.825-5.1,10.2-2.55,15.3c2.55,5.1,7.65,8.925,12.75,8.925h75.225v142.8c-26.775-12.75-58.65-19.125-98.175-19.125v-79.05    c0-6.375-3.825-11.475-8.925-12.75c-5.1-2.55-11.475-1.275-15.3,2.55l-117.3,117.3c-2.55,2.55-3.825,6.375-3.825,10.2    s1.275,7.649,3.825,10.2l117.3,117.3c3.825,3.825,10.2,5.1,15.3,2.55c5.1-2.55,8.925-7.65,8.925-12.75v-66.3    c72.675,0,96.9,24.225,96.9,98.175v79.05c0,24.226,19.125,43.351,42.075,44.625h2.55c22.949-1.274,42.074-20.399,42.074-44.625    v-79.05c0-73.95,22.951-98.175,96.9-98.175v66.3c0,6.375,3.826,11.475,8.926,12.75c5.1,2.55,11.475,1.275,15.299-2.55    l117.301-117.3c2.551-2.551,3.824-6.375,3.824-10.2S575.662,300.9,573.113,298.351z">
@@ -1833,7 +1892,7 @@ export tag Bible
 									' ', h:translation
 								<svg:svg.open_in_parallel viewBox="0 0 400 338" :click.prevent.backInHistory(h, yes)>
 									<svg:title> @data.lang:open_in_parallel
-									<svg:path d="{svg_paths:columnssvg}" style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
+									<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
 					else
 						<p css:padding="12px"> @data.lang:empty_history
 
