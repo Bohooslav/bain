@@ -77,7 +77,6 @@ export const en_leng = {
   snapstore: "Get it from the",
   exhortation: "A web app for reading the Bible with full emphasis on the God`s Word only. Sola scriptura!",
   faqmsg: "Here you can find answers to FAQ",
-  wanna_help: "Whant to support / colaborate? Write to me here => ",
   still_have_questions: "Still have questions or some ideas? Write me and I will answer you as soon as I can:",
   install_on_android: ' * This web app is also can be installed via Google Chrome. Find plus icon on the address line and press it. After that the app will be installed like a native app.<br/><br/> * You can also install this web app on your phone or tablet running on <b>Android</b>. For that go to Google Chrome and open <a href="https://bolls.life">bolls.life</a> in the address line or found in Google "Bolls Bible". Then you should see a message at the bottom of your screen "Add Bolls to home screen". Tap on this message and submit. Then wait a moment and this app will be installed on your phone as a native app. If the message is not showing to you, find "Add to home screen" in the site menu in chrome or in other browser and the effect will be the same.<br/><br/>* On iPhone with iOS <= 12 you also can add the app on your home screen and it will be like a native app, just press the share icon below and found the "Add to home screen" option.',
   content: "Content",
@@ -97,6 +96,7 @@ export const en_leng = {
     "Submit an idea)",
     "Translate its interface to a new language. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a> to do this.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Donate</a>. This app is not free. There is always a need for money for hosting, development, distribution to new platforms and development time...",
+    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [
@@ -197,7 +197,6 @@ export const uk_leng = {
   snapstore: "Отримати через",
   exhortation: "Веб-додаток для читання Біблії з повним акцентом лише на Божому Cлові. Sola scriptura!",
   faqmsg: "Тут ви зможете знайти відповіді на питання що часто задаються",
-  wanna_help: "Хочете підтримати / співпрацювати? Напишіть мені тут => ",
   still_have_questions: "Все ще маєш запитання чи ідеї? Напиши мені, і я відповім як тільки зможу:",
   install_on_android: ' * Цей веб-додаток також можна встановити через Google Chrome. Знайдіть значок плюса у адресному рядку та натисніть на нього. Після цього додаток буде встановлено як звичайний додаток. <br/><br/> * Ви також можете встановити цей веб-додаток на свій телефон або планшет, який працює на <b> Android</b>. Для цього перейдіть до Google Chrome та відкрийте <a href="https://bolls.life"> bolls.life </a> у адресному рядку або знайдіть у Google "Bolls Bible". Тоді ви побачите повідомлення внизу екрана "Додати Bolls на головний екран". Натисніть на це повідомлення та підтвердіть. Потім зачекайте мить, і ця програма буде встановлена на ваш телефон як нативна програма. Якщо повідомлення не відображається для вас, знайдіть "Додати на головний екран" в меню сайту в хромі або іншому браузері, і ефект буде таким же. <br/><br/> * На iPhone з iOS <= 12 ви також можете додати цей додаток на ваш головний екран, і він буде як рідний додаток, просто натисніть значок <i>поділитися</i> внизу та знайдіть опцію "Додати на головний екран".',
   content: "Зміст",
@@ -217,6 +216,7 @@ export const uk_leng = {
     "Запропонуйте ідею)",
     "Перекладіть інтерфейс додатку на нову мову. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Зв'яжіться зі мною</a> для цього.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Цей додаток не є безкоштовним. Завжди є потреба в грошах для хостингу, для розробки, поширення на нові платформи та часу на розробку...",
+    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [
@@ -317,7 +317,6 @@ export const ru_leng = {
   snapstore: "Получить через",
   exhortation: "Веб-приложение для чтения Библии с полным акцентом только на Божьем Cлове. Sola scriptura!",
   faqmsg: "Здесь вы сможете найти ответы на часто задаваемые вопросы",
-  wanna_help: "Хотите поддержать / сотрудничать? Напишите мне здесь =>",
   still_have_questions: "Все еще есть вопросы или идеи? Напиши мне, и я отвечу, как только смогу:",
   install_on_android: ' * Это веб-приложение также можно установить через Google Chrome. Найдите значок плюса в адресной строке и нажмите него. После этого приложение будет установлено как родное приложение.<br/><br/> * Вы также можете установить это веб-приложение на свой телефон или планшет под <b> Android </b>. Для этого перейдите в Google Chrome и откройте <a href="https://bolls.life"> bolls.life </a> в адресной строке или найдите в Google "Bolls Bible". Затем в нижней части экрана должно появиться сообщение «Добавить приложение на главный экран». Нажмите на это сообщение и подтвердите. Затем подождите немного, и это приложение будет установлено на вашем телефоне как родное приложение. Если сообщение не отображается, найдите «Добавить на главный экран» в меню сайта в Chrome или в другом браузере, и эффект будет таким же. <br/><br/> * На iPhone с iOS <= 12 вы также можете добавить приложение на главном экране, и оно будет как обычное приложение, просто нажмите значок поделится внизу и найдите параметр «Добавить на главный экран».',
   content: "Содержание",
@@ -337,6 +336,7 @@ export const ru_leng = {
     "Предложите идею)",
     "Переведите интерфейт приолжения на новый язык. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Свяжитесь со мной</a> для этого.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Это приложение не есть безплатное. Всегда есть потребность в деньгах для хостинга, для разработки, распространения на новые платформы и времени на разработку...",
+    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [

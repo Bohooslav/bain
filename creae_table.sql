@@ -23,6 +23,7 @@ psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432  
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/web.csv' DELIMITER '|' CSV HEADER;
 
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/DNB.csv' DELIMITER E'\t' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/LXX.csv' DELIMITER E'|' CSV HEADER;
 
 
 INSERT INTO auth_permission VALUES

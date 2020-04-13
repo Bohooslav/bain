@@ -1,4 +1,4 @@
-var CACHE_NAME = 'v1.2.52';
+var CACHE_NAME = 'v1.2.54';
 var urlsToCache = [
   '/',
   '/static/bolls/dist/client.js',
@@ -13,6 +13,9 @@ self.addEventListener('install', function (event) {
     .then(function (cache) {
       console.log('👷', 'Opened cache');
       return cache.addAll(urlsToCache);
+    })
+    .then(() => {
+      return self.skipWaiting();
     })
   );
 });
@@ -47,4 +50,5 @@ self.addEventListener('activate', (event) => {
     })
   );
   console.log('👷', 'SW is activated');
+  return self.clients.claim();
 });

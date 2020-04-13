@@ -6,8 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Bolls Bible</title>
-  <script>
-    {% if translation %}
+  <script>{% if translation %}
     window.translation = "{{ translation }}";
     window.book = "{{ book }}";
     window.chapter = "{{ chapter }}"; {% if verse %}
@@ -36,19 +35,20 @@
 </head>
 
 <body>
-  <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register("/sw.js").then(function (registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          registration.update();
         }, function (err) {
           console.log('ServiceWorker registration failed: ', err);
         });
       });
     }
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162017974-1"></script>
+  <noscript>{% trans "Unfortunately, this site requires JavaScript that is disabled in your browser :(" %}</noscript>
+  <script async rel="preconnect" src="https://www.googletagmanager.com/gtag/js?id=UA-162017974-1"></script>
   <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-162017974-1');</script>
 </body>
 

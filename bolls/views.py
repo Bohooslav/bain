@@ -273,7 +273,7 @@ def sw(request):
     response = HttpResponse(content=sw_file)
     response['Content-Type'] = 'application/javascript'
     response['Content-Disposition'] = 'attachment; filename="%s.js"' \
-        % 'whatever'
+        % 'sw'
     return response
 
 

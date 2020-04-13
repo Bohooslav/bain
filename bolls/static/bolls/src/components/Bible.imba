@@ -29,7 +29,7 @@ let settings = {
 	lock_drawers: no,
 	transitions: yes
 }
-let parallel_text = {
+let settingsp = {
 	display: no,
 	translation: 'WLCC',
 	book: 1,
@@ -163,7 +163,7 @@ window:onpopstate = do |event|
 			if state:parallel-translation && state:parallel-book && state:parallel-chapter
 				bible[0]:_tag.getParallelText(state:parallel-translation, state:parallel-book, state:parallel-chapter, state:parallel-verse)
 			bible[0]:_tag.getText(state:translation, state:book, state:chapter, state:verse)
-			parallel_text:display = state:parallel_display
+			settingsp:display = state:parallel_display
 			window:localStorage.setItem('parallel_display', state:parallel_display)
 
 tag colorpicker < canvas
@@ -301,7 +301,7 @@ export tag Bible
 		highlights = JSON.parse(getCookie("highlights")) || []
 		menuicons = !(getCookie('menuicons') == 'false')
 		compare_translations.push(settings:translation)
-		compare_translations.push(parallel_text:translation)
+		compare_translations.push(settingsp:translation)
 		compare_translations = JSON.parse(getCookie("compare_translations")) || []
 		@search = {
 				search_div: no,
@@ -337,12 +337,11 @@ export tag Bible
 
 	def switchTranslation translation, parallel
 		if parallel
-			if parallel_text:translation != translation || !@parallel_books:length
+			if settingsp:translation != translation || !@parallel_books:length
 				@parallel_books = BOOKS[translation]
 		else
 			if settings:translation != translation || !@books:length
 				@books = BOOKS[translation]
-		Imba.commit
 
 	def saveToHistory translation, book, chapter, verse, parallel
 		if getCookie("history")
@@ -365,7 +364,7 @@ export tag Bible
 					})
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log(data))
+			.then(do |data| undefined)
 			.catch(do |e| console.log(e))
 
 	def loadData url
@@ -383,10 +382,10 @@ export tag Bible
 						chapter: chapter,
 						verse: verse,
 						parallel: no,
-						parallel_display: parallel_text:display
-						parallel-translation: parallel_text:translation,
-						parallel-book: parallel_text:book,
-						parallel-chapter: parallel_text:chapter,
+						parallel_display: settingsp:display
+						parallel-translation: settingsp:translation,
+						parallel-book: settingsp:book,
+						parallel-chapter: settingsp:chapter,
 						parallel-verse: 0,
 					},
 					nameOfBook(settings:book, settings:translation) + ' ' + settings:chapter,
@@ -438,7 +437,7 @@ export tag Bible
 			else foundVerse id
 
 	def getParallelText translation, book, chapter, verse
-		if !(translation == parallel_text:translation && book == parallel_text:book && chapter == parallel_text:chapter) || !@parallel_verses:length || !parallel_text:display
+		if !(translation == settingsp:translation && book == settingsp:book && chapter == settingsp:chapter) || !@parallel_verses:length || !settingsp:display
 			if !onpopstate && @verses
 				window:history.pushState({
 						translation: settings:translation,
@@ -446,7 +445,7 @@ export tag Bible
 						chapter: settings:chapter,
 						verse: settings:verse,
 						parallel: yes,
-						parallel_display: parallel_text:display
+						parallel_display: settingsp:display
 						parallel-translation: translation,
 						parallel-book: book,
 						parallel-chapter: chapter,
@@ -460,10 +459,10 @@ export tag Bible
 				@chronorder = !@chronorder
 				toggleChronorder
 			switchTranslation translation, yes
-			parallel_text:translation = translation
-			parallel_text:edited_version = translation
-			parallel_text:book = book
-			parallel_text:chapter = chapter
+			settingsp:translation = translation
+			settingsp:edited_version = translation
+			settingsp:book = book
+			settingsp:chapter = chapter
 			clearSpace
 			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
 			@parallel_verses = []
@@ -488,7 +487,7 @@ export tag Bible
 							verseids.push(verse:pk)
 						@parallel_bookmarks = await @data.getBookmarksFromStorage(verseids)
 			Imba.commit
-			setCookie('parallel_display', parallel_text:display)
+			setCookie('parallel_display', settingsp:display)
 			saveToHistory translation, book, chapter, 0, yes
 			setCookie('parallel_translation', translation)
 			setCookie('parallel_book', book)
@@ -536,36 +535,36 @@ export tag Bible
 
 	def toggleParallelMode parallel
 		if !parallel
-			parallel_text:display = no
+			settingsp:display = no
 			clearSpace
 		else
 			if getCookie('parallel_translation')
-				parallel_text:translation = getCookie('parallel_translation')
+				settingsp:translation = getCookie('parallel_translation')
 			if getCookie('parallel_book')
-				parallel_text:book = parseInt(getCookie('parallel_book'))
+				settingsp:book = parseInt(getCookie('parallel_book'))
 			if getCookie('parallel_chapter')
-				parallel_text:chapter = parseInt(getCookie('parallel_chapter'))
-			getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter)
-			parallel_text:display = yes
-		setCookie('parallel_display', parallel_text:display)
+				settingsp:chapter = parseInt(getCookie('parallel_chapter'))
+			getParallelText(settingsp:translation, settingsp:book, settingsp:chapter)
+			settingsp:display = yes
+		setCookie('parallel_display', settingsp:display)
 
 	def changeEditedParallel translation
-		parallel_text:edited_version = translation
+		settingsp:edited_version = translation
 		if @search:change_translation
 			getSearchText
 			@search:change_translation = no
 		@show_list_of_translations = no
 
 	def changeTranslation translation
-		if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+		if settingsp:edited_version == settingsp:translation && settingsp:display
 			switchTranslation translation, yes
-			if @parallel_books.find(do |element| return element:bookid == parallel_text:book)
-				getParallelText(translation, parallel_text:book, parallel_text:chapter)
+			if @parallel_books.find(do |element| return element:bookid == settingsp:book)
+				getParallelText(translation, settingsp:book, settingsp:chapter)
 			else
 				getParallelText(translation, @parallel_books[0]:bookid, 1)
-				parallel_text:book = @parallel_books[0]:bookid
-				parallel_text:chapter = 1
-			parallel_text:translation = translation
+				settingsp:book = @parallel_books[0]:bookid
+				settingsp:chapter = 1
+			settingsp:translation = translation
 			setCookie('translation', translation)
 		else
 			switchTranslation translation, no
@@ -589,10 +588,10 @@ export tag Bible
 			clearSpace
 			loading = yes
 			let url
-			if parallel_text:edited_version == parallel_text:translation && parallel_text:display
-				@search:translation = parallel_text:edited_version
-				url = '/search/' + parallel_text:edited_version + '/' + search:search_input + '/'
-				search:search_result_translation = parallel_text:edited_version
+			if settingsp:edited_version == settingsp:translation && settingsp:display
+				@search:translation = settingsp:edited_version
+				url = '/search/' + settingsp:edited_version + '/' + search:search_input + '/'
+				search:search_result_translation = settingsp:edited_version
 			else
 				@search:translation = settings:translation
 				url = '/search/' + settings:translation + '/' + search:search_input + '/'
@@ -700,7 +699,7 @@ export tag Bible
 	def chaptersOfCurrentBook parallel
 		if parallel
 			for book in @parallel_books
-				if book:bookid == parallel_text:book
+				if book:bookid == settingsp:book
 					return book:chapters
 		else
 			for book in books
@@ -709,12 +708,12 @@ export tag Bible
 
 	def nextChapter parallel
 		if parallel == 'true'
-			if parallel_text:chapter + 1 <= chaptersOfCurrentBook parallel
-				getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter + 1)
+			if settingsp:chapter + 1 <= chaptersOfCurrentBook parallel
+				getParallelText(settingsp:translation, settingsp:book, settingsp:chapter + 1)
 			else
-				let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == parallel_text:book))
+				let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == settingsp:book))
 				if @parallel_books[current_index + 1]
-					getParallelText(parallel_text:translation, @parallel_books[current_index+1]:bookid, 1)
+					getParallelText(settingsp:translation, @parallel_books[current_index+1]:bookid, 1)
 		else
 			if settings:chapter + 1 <= chaptersOfCurrentBook parallel
 				getText(settings:translation, settings:book, settings:chapter + 1)
@@ -725,12 +724,12 @@ export tag Bible
 
 	def prevChapter parallel
 		if parallel == 'true'
-			if parallel_text:chapter - 1 > 0
-				getParallelText(parallel_text:translation, parallel_text:book, parallel_text:chapter - 1)
+			if settingsp:chapter - 1 > 0
+				getParallelText(settingsp:translation, settingsp:book, settingsp:chapter - 1)
 			else
-				let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == parallel_text:book))
+				let current_index = @parallel_books.indexOf(@parallel_books.find(do |element| return element:bookid == settingsp:book))
 				if @parallel_books[current_index - 1]
-					getParallelText(parallel_text:translation, @parallel_books[current_index - 1]:bookid, @parallel_books[current_index - 1]:chapters)
+					getParallelText(settingsp:translation, @parallel_books[current_index - 1]:bookid, @parallel_books[current_index - 1]:chapters)
 		else
 			if settings:chapter - 1 > 0
 				getText(settings:translation, settings:book, settings:chapter - 1)
@@ -784,9 +783,9 @@ export tag Bible
 			touch.dx > 128 ? settings_menu_left = -300 : settings_menu_left = 0
 		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !search:search_div && !show_history && !choosenid:length
 			if touch.dx < -32
-				parallel_text:display && touch.y > window:innerHeight / 2 ? nextChapter("true") : nextChapter
+				settingsp:display && touch.y > window:innerHeight / 2 ? nextChapter("true") : nextChapter
 			elif touch.dx > 32
-				parallel_text:display && touch.y > window:innerHeight / 2 ? prevChapter("true") : prevChapter
+				settingsp:display && touch.y > window:innerHeight / 2 ? prevChapter("true") : prevChapter
 		inzone = no
 		onzone = no
 		Imba.commit
@@ -859,7 +858,7 @@ export tag Bible
 			if choosen_parallel == 'first'
 				highlighted_title = getHighlightedRow(settings:translation, settings:book, settings:chapter, choosen)
 			else
-				highlighted_title = getHighlightedRow(parallel_text:translation, parallel_text:book, parallel_text:chapter, choosen)
+				highlighted_title = getHighlightedRow(settingsp:translation, settingsp:book, settingsp:chapter, choosen)
 
 	def changeHighlightColor color
 		show_color_picker = no
@@ -975,15 +974,15 @@ export tag Bible
 		if choosen_parallel == 'first'
 			copyobj:title = getHighlightedRow(settings:translation, settings:book, settings:chapter, choosen)
 		else
-			copyobj:title = getHighlightedRow(parallel_text:translation, parallel_text:book, parallel_text:chapter, choosen)
+			copyobj:title = getHighlightedRow(settingsp:translation, settingsp:book, settingsp:chapter, choosen)
 		if choosen_parallel == 'second'
 			for verse in parallel_verses
 				if choosenid.find(do |element| return element == verse:pk)
 					copyobj:text.push(verse:text)
 					copyobj:verse.push(verse:verse)
-			copyobj:translation = parallel_text:translation
-			copyobj:book = parallel_text:book
-			copyobj:chapter = parallel_text:chapter
+			copyobj:translation = settingsp:translation
+			copyobj:book = settingsp:book
+			copyobj:chapter = settingsp:chapter
 		else
 			for verse in verses
 				if choosenid.find(do |element| return element == verse:pk)
@@ -1051,7 +1050,8 @@ export tag Bible
 					})
 			})
 			.then(do |response| response.json())
-			.then(do |data| console.log(data))
+			.then(do |data| undefined)
+			.catch(do |error| console.log(error))
 
 	def turnCollections
 		if addcollection
@@ -1100,9 +1100,9 @@ export tag Bible
 		window:localStorage.setItem('categories', JSON.stringify(@categories))
 
 	def currentTranslation translation
-		if parallel_text:display
-			if parallel_text:edited_version == parallel_text:translation
-				return translation == parallel_text:translation
+		if settingsp:display
+			if settingsp:edited_version == settingsp:translation
+				return translation == settingsp:translation
 			else
 				return translation == settings:translation
 		else
@@ -1113,9 +1113,9 @@ export tag Bible
 			bible_menu_left = 0
 			settings_menu_left = -300
 			if parallel
-				parallel_text:edited_version = parallel_text:translation
+				settingsp:edited_version = settingsp:translation
 			else
-				parallel_text:edited_version = settings:translation
+				settingsp:edited_version = settings:translation
 		else
 			bible_menu_left = -300
 
@@ -1144,8 +1144,8 @@ export tag Bible
 	def backInHistory h, parallel
 		if parallel != undefined
 			getParallelText(h:translation, h:book, h:chapter, h:verse)
-			parallel_text:display = yes
-			setCookie('parallel_display', parallel_text:display)
+			settingsp:display = yes
+			setCookie('parallel_display', settingsp:display)
 		else
 			getText(h:translation, h:book, h:chapter, h:verse)
 
@@ -1177,8 +1177,8 @@ export tag Bible
 		if choosen:length
 			choosen_for_comparison = choosen
 		if choosen_parallel == 'second'
-			compare_parallel_of_chapter = parallel_text:chapter
-			compare_parallel_of_book = parallel_text:book
+			compare_parallel_of_chapter = settingsp:chapter
+			compare_parallel_of_book = settingsp:book
 		else
 			compare_parallel_of_chapter = settings:chapter
 			compare_parallel_of_book = settings:book
@@ -1328,12 +1328,12 @@ export tag Bible
 	def render
 		<self .hold_by_finger=(inzone || onzone)>
 			<nav .display_none=(settings_menu_left > - 300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)} {bible_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: left;' : ''}">
-				if parallel_text:display
+				if settingsp:display
 					<.choose_parallel>
-						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(parallel_text:edited_version == settings:translation) :click.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
-						<p.translation_name title=translationFullName(parallel_text:translation) a:role="button" .current_translation=(parallel_text:edited_version == parallel_text:translation) :click.prevent.changeEditedParallel(parallel_text:translation) tabindex="0"> parallel_text:translation
-					if parallel_text:edited_version == parallel_text:translation
-						<p.translation_name title=@data.lang:change_translation :click.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> parallel_text:edited_version
+						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(settingsp:edited_version == settings:translation) :click.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
+						<p.translation_name title=translationFullName(settingsp:translation) a:role="button" .current_translation=(settingsp:edited_version == settingsp:translation) :click.prevent.changeEditedParallel(settingsp:translation) tabindex="0"> settingsp:translation
+					if settingsp:edited_version == settingsp:translation
+						<p.translation_name title=@data.lang:change_translation :click.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settingsp:edited_version
 					else
 						<p.translation_name title=@data.lang:change_translation :click.prevent=(do @show_list_of_translations = !@show_list_of_translations) tabindex="0"> settings:translation
 				else
@@ -1363,13 +1363,13 @@ export tag Bible
 											<svg:path d="M0 0h24v24H0V0z" fill="none">
 											<svg:path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z">
 					<.freespace>
-				<.books-container dir="auto" .lower=(parallel_text:display)>
-					if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+				<.books-container dir="auto" .lower=(settingsp:display)>
+					if settingsp:edited_version == settingsp:translation && settingsp:display
 						for book in filteredBooks('parallel_books')
-							<a.book_in_list dir="auto" .active=(book:bookid==parallel_text:book) :click.prevent.showChapters(book:bookid) tabindex="0"> book:name
+							<a.book_in_list dir="auto" .active=(book:bookid==settingsp:book) :click.prevent.showChapters(book:bookid) tabindex="0"> book:name
 							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(book:bookid==show_chapters_of)>
 								for i in [0..book:chapters]
-									<li.chapter_number .active=((i + 1) == parallel_text:chapter &&book:bookid==parallel_text:book ) :click.prevent.getParallelText(parallel_text:translation, book:bookid, i+1) tabindex="0"> i+1
+									<li.chapter_number .active=((i + 1) == settingsp:chapter &&book:bookid==settingsp:book ) :click.prevent.getParallelText(settingsp:translation, book:bookid, i+1) tabindex="0"> i+1
 						if !filteredBooks('parallel_books'):length
 							<p.book_in_list style="white-space: pre;"> "(ಠ╭╮ಠ)    ¯\\_(ツ)_/¯   ノ( ゜-゜ノ)"
 					else
@@ -1383,8 +1383,8 @@ export tag Bible
 					<.freespace>
 				<input[store:book_search].search type="search" placeholder=@data.lang:search input:aria-label=@data.lang:search>  @data.lang:search
 
-			<main.main tabindex="0" .parallel_text=parallel_text:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
-				<section .parallel=parallel_text:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
+			<main.main tabindex="0" .parallel_text=settingsp:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
+				<section .parallel=settingsp:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
 					if @verses:length
 						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu() title=translationFullName(settings:translation)> nameOfBook(settings:book, settings:translation), ' ', settings:chapter
 						<article>
@@ -1412,9 +1412,9 @@ export tag Bible
 							@data.lang:this_translation_is_unavailable
 							<br>
 							<a.reload :tap=(do window:location.reload(yes))> @data.lang:reload
-				<section.display_none.parallel .show_parallel=parallel_text:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
+				<section.display_none.parallel .show_parallel=settingsp:display dir="auto" style="margin: auto;max-width: {settings:font:max-width}em;">
 					if @parallel_verses:length
-						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(parallel_text:translation)> nameOfBook(parallel_text:book, parallel_text:translation), ' ', parallel_text:chapter
+						<h1 style="font-family: {settings:font:family}; font-weight: {settings:font:weight + 200};" :click.prevent.toggleBibleMenu(yes) title=translationFullName(settingsp:translation)> nameOfBook(settingsp:book, settingsp:translation), ' ', settingsp:chapter
 						<article>
 							for verse in @parallel_verses
 								if settings:verse_break
@@ -1434,7 +1434,7 @@ export tag Bible
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 							if choosenid:length
 								<.freespace>
-					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == parallel_text:translation) && !(@parallel_verses:length)
+					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settingsp:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
 			<aside .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
@@ -1571,9 +1571,6 @@ export tag Bible
 					@data.lang:support
 				<.freespace>
 				<footer>
-					<p style="padding: 16px 0;">
-						@data.lang:wanna_help
-						<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
 					<p.footer_links>
 						<a href="https://www.patreon.com/bolls"> "Patreon "
 						<a href="http://t.me/Boguslavv"> "Telegram "
@@ -1734,7 +1731,7 @@ export tag Bible
 					<article#search_body.search_body tabindex="0">
 						if @search_verses:length
 							<.filters .show=search:show_filters>
-								if parallel_text:edited_version == parallel_text:translation && parallel_text:display
+								if settingsp:edited_version == settingsp:translation && settingsp:display
 									if search:is_filter then <a.book_in_list :click.prevent.dropFilter> @data.lang:drop_filter
 									for book in @parallel_books
 										<a.book_in_list.book_in_filter dir="auto" :click.prevent.addFilter(book:bookid)> book:name
@@ -1748,7 +1745,7 @@ export tag Bible
 									<a.search_item>
 										<search-text-as-html[verse].search_res_verse_text>
 										<.search_res_verse_header>
-											<span> nameOfBook(verse:book, (parallel_text:display ? parallel_text:edited_version : settings:translation)), ' '
+											<span> nameOfBook(verse:book, (settingsp:display ? settingsp:edited_version : settings:translation)), ' '
 											<span> verse:chapter, ':'
 											<span> verse:verse
 											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromSerach(verse) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
@@ -1761,7 +1758,7 @@ export tag Bible
 										<button.more_results :click.prevent=(do search:counter += 50) tabindex="0"> @data.lang:more_results
 										break
 								<div css:padding='12px 0px' css:text-align="center">
-									@data.lang:filter_name, ' ', nameOfBook(search:filter, (parallel_text:display ? parallel_text:edited_version : settings:translation))
+									@data.lang:filter_name, ' ', nameOfBook(search:filter, (settingsp:display ? settingsp:edited_version : settings:translation))
 									<br>
 									<a.more_results css:display="inline-block" css:margin-top="12px" :click.prevent.dropFilter> @data.lang:drop_filter
 							else
@@ -1770,7 +1767,7 @@ export tag Bible
 									<a.search_item>
 										<search-text-as-html[verse].search_res_verse_text>
 										<.search_res_verse_header>
-											<span> nameOfBook(verse:book, (parallel_text:display ? parallel_text:edited_version : settings:translation)), ' '
+											<span> nameOfBook(verse:book, (settingsp:display ? settingsp:edited_version : settings:translation)), ' '
 											<span> verse:chapter, ':'
 											<span> verse:verse
 											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromSerach(verse) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>

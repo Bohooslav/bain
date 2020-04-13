@@ -144,6 +144,10 @@ html[data-transitions="true"] main section h1, html[data-transitions="true"] mai
   animation: text-came 300ms ease alternate;
 }
 
+.Bible {
+  min-height: 100vh;
+}
+
 button {
   border: none;
 }

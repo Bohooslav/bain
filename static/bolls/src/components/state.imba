@@ -160,7 +160,7 @@ export class State
 						}),
 					})
 					.then(do |response| response.json())
-					.then(do |data| console.log data)
+					.then(do |data| undefined)
 					.catch(do |e| console.log(e))
 				)
 				@db.transaction('rw', @db:bookmarks, do
@@ -201,20 +201,19 @@ export class State
 				Imba.commit
 			)
 		).catch(do |e|
-			console.log e
+			console.log(e)
 		)
 
 	def deleteBookmark pks
 		let begtime = Date.now()
 		@db.transaction("rw", @db:bookmarks, do
 			const res = await Promise.all(pks.map(do |pk|
-				console.log(pk)
 				@db:bookmarks.where({verse: pk}).delete().then(do |deleteCount|
 					console.log( "Deleted ", deleteCount, " objects. Time: ", (Date.now() - begtime) / 1000)
 				)
 			))
 		).catch(do |e|
-			console.log e
+			console.log(e)
 		)
 
 	def clearVersesTable
@@ -227,7 +226,7 @@ export class State
 			@deleting_of_all_transllations = no
 			Imba.commit
 		).catch(do |e|
-			console.log e
+			console.log(e)
 		)
 
 	def saveBookmarksToStorageUntillOnline bookmarkobj
@@ -266,7 +265,7 @@ export class State
 			else
 				return []
 		).catch(do |e|
-			console.log e
+			console.log(e)
 			return []
 		)
 
@@ -277,7 +276,7 @@ export class State
 					const wait_for_verses = await @db:verses.get({translation: translation, book: compare_parallel_of_book, chapter: compare_parallel_of_chapter, verse: verse})
 					return wait_for_verses ? wait_for_verses : {"translation": translation}
 				).catch(do |e|
-					console.log e
+					console.log(e)
 					return {"translation": translation}
 				)))
 			return finded_verses
@@ -295,7 +294,7 @@ export class State
 			else
 				return []
 		).catch(do |e|
-			console.log e
+			console.log(e)
 			return []
 		)
 
@@ -349,8 +348,7 @@ export class State
 			return
 		window:navigator:clipboard.writeText(text).then(
 			do console.log('Async: Copying to clipboard was successful!')
-		).catch err
-			console.error('Async: Could not copy text: ', err)
+		).catch(do |err| console.error('Async: Could not copy text: ', err))
 
 	def copyToClipboard copyobj
 		let text = '«'
@@ -364,7 +362,6 @@ export class State
 		@notifications.push(@lang[ntfctn])
 		@lastPushedNotificationWasAt = Date.now()
 		setTimeout(&, 3000) do
-			console.log Date.now() - @lastPushedNotificationWasAt
 			if Date.now() - @lastPushedNotificationWasAt > 2000
 				@notifications = []
 				Imba.commit
