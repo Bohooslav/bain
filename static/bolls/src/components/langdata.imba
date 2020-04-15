@@ -82,12 +82,13 @@ export const en_leng = {
   content: "Content",
   shortcuts: "Shortcuts",
   shortcuts_list: [
-    "Next chapter: Ctrl + Right Arrow",
-    "Prev chapter: Ctrl + Left Arrow",
-    "Next chapter of parallel translation: Ctrl + Alt + Right Arrow",
-    "Prev chapter of parallel translation: Ctrl + Alt + Left Arrow",
-    "Back to reading: Esc",
-    "Hide menu icons: Ctrl + Alt + H"
+    "Next chapter: <b>Ctrl + Right Arrow</b>",
+    "Prev chapter: <b>Ctrl + Left Arrow</b>",
+    "Next chapter of parallel translation: <b>Ctrl + Alt + Right Arrow</b>",
+    "Prev chapter of parallel translation: <b>Ctrl + Alt + Left Arrow</b>",
+    "Back to reading: <b>Esc</b>",
+    "Hide menu icons: <b>Ctrl + Alt + H</b>",
+    "Full screen: <b>f11</b>"
   ]
   ycdtitnw: "You can support this app in the next way:",
   SUPPORT: [
@@ -202,12 +203,13 @@ export const uk_leng = {
   content: "Зміст",
   shortcuts: "Гярячі клавіші",
   shortcuts_list: [
-    "Наступна глава: Ctrl + Права Стрілка",
-    "Попередня глава: Ctrl + Ліва Стрілка",
-    "Наступна глава паралельного перекладу: Ctrl + Alt + Права Стрілка",
-    "Попередня глава паралельного перекладу: Ctrl + Alt + Ліва Стрілка",
-    "Повернутися до читання: Esc",
-    "Сховати іконки меню: Ctrl + Alt + H"
+    "Наступна глава: <b>Ctrl + Права Стрілка</b>",
+    "Попередня глава: <b>Ctrl + Ліва Стрілка</b>",
+    "Наступна глава паралельного перекладу: <b>Ctrl + Alt + Права Стрілка</b>",
+    "Попередня глава паралельного перекладу: <b>Ctrl + Alt + Ліва Стрілка</b>",
+    "Повернутися до читання: <b>Esc</b>",
+    "Сховати іконки меню: <b>Ctrl + Alt + H</b>",
+    "Повноекранний режим: <b>f11</b>"
   ]
   ycdtitnw: "Ви можете підтримати даний додаток наступним чином:",
   SUPPORT: [
@@ -322,12 +324,13 @@ export const ru_leng = {
   content: "Содержание",
   shortcuts: "Горячие клавиши",
   shortcuts_list: [
-    "Следущая глава: Ctrl + Правая Стрелка",
-    "Пдедыдущая глава: Ctrl + Левая Стрелка",
-    "Следущая глава паралельного перевода: Ctrl + Alt + Правая Стрелка",
-    "Пдедыдущая глава паралельного перевода: Ctrl + Alt + Левая Стрелка",
-    "Вернутся к чтению: Esc",
-    "Спрятать иконки меню: Ctrl + Alt + H"
+    "Следущая глава: <b>Ctrl + Правая Стрелка</b>",
+    "Пдедыдущая глава: <b>Ctrl + Левая Стрелка</b>",
+    "Следущая глава паралельного перевода: <b>Ctrl + Alt + Правая Стрелка</b>",
+    "Пдедыдущая глава паралельного перевода: <b>Ctrl + Alt + Левая Стрелка</b>",
+    "Вернутся к чтению: E<b>sc</b>",
+    "Спрятать иконки меню: <b>Ctrl + Alt + H</b>",
+    "Полноэкранный редим: <b>f11</b>"
   ]
   ycdtitnw: "Вы можете поддержать даное приложение так:",
   SUPPORT: [

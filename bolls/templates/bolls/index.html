@@ -8,8 +8,9 @@
   <title>Bolls Bible</title>
   <script>{% if translation %}
     window.translation = "{{ translation }}";
-    window.book = "{{ book }}";
-    window.chapter = "{{ chapter }}"; {% if verse %}
+    window.book = {{ book }};
+    window.chapter = {{ chapter }};
+    window.verses = {{ verses|safe }} {% if verse %}
     window.verse = "{{ verse }}"; {% endif %} {% else %}
     window.translation = false; {% endif %}
   </script>

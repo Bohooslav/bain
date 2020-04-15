@@ -282,7 +282,7 @@ export class State
 			return finded_verses
 		))
 
-	def getSearchedTextFromStorage
+	def getSearchedTextFromStorage search
 		let begtime = Date.now()
 		@db.transaction("r", @db:verses, do
 			let data = await @db:verses.where({translation: search:search_result_translation}).filter(do |verse|

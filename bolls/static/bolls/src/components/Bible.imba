@@ -109,6 +109,33 @@ let fonts = [
 		code: "monospace"
 	},
 ]
+let accents = [
+	{
+		name: "green",
+		light: '#9acd32',
+		dark: '#9acd32'
+	},
+	{
+		name: "blue",
+		light: '#8080FF',
+		dark: '#417690'
+	},
+	{
+		name: "purple",
+		light: '#984da5',
+		dark: '#994EA6'
+	},
+	{
+		name: "gold",
+		light: '#DAA520',
+		dark: '#E1AF33'
+	},
+	{
+		name: "red",
+		light: '#DE5454',
+		dark: '#D93A3A'
+	},
+]
 
 document:onkeyup = do |e|
 	var e = e || window:event
@@ -244,24 +271,16 @@ export tag Bible
 				setCookie('translation', window:translation)
 				setCookie('book', window:book)
 				setCookie('chapter', window:chapter)
+				settings:translation = window:translation
+				settings:book = window:book
+				settings:chapter = window:chapter
 			document:title += " " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
+			@verses = window:verses
 			if window:verse
 				document:title += ':' + window:verse
+				setTimeout(&, 200) do
+					foundVerse(window:verse, "#{window:verse}")
 			document:title += ' ' + window:translation
-		if window:navigator:onLine
-			try
-				let data = await loadData("/user-logged/")
-				if data:username
-					user:name = data:username
-					setCookie('username', user:name)
-					let url = "/get-history/"
-					try
-						let data = await loadData(url)
-						@history = JSON.parse(data:history)
-						window:localStorage.setItem("history", JSON.stringify(@history))
-			catch error
-				console.error('Error: ', error)
-		else user:name = getCookie('username') || ''
 		if getCookie('theme')
 			settings:theme = getCookie('theme')
 			settings:accent = getCookie('accent') || settings:accent
@@ -288,8 +307,22 @@ export tag Bible
 		settings:book = parseInt(getCookie('book')) || settings:book
 		settings:chapter = parseInt(getCookie('chapter')) || settings:chapter
 		switchTranslation(settings:translation, no)
-		getText(settings:translation, settings:book, settings:chapter, window:verse)
+		getText(settings:translation, settings:book, settings:chapter)
 		show_chapters_of = settings:book
+		if window:navigator:onLine
+			try
+				let data = await loadData("/user-logged/")
+				if data:username
+					user:name = data:username
+					setCookie('username', user:name)
+					let url = "/get-history/"
+					try
+						let data = await loadData(url)
+						@history = JSON.parse(data:history)
+						window:localStorage.setItem("history", JSON.stringify(@history))
+			catch error
+				console.error('Error: ', error)
+		else user:name = getCookie('username') || ''
 		if window:location:pathname == '/profile/'
 			toProfile yes
 		elif window:location:pathname == '/downloads/'
@@ -389,7 +422,7 @@ export tag Bible
 						parallel-verse: 0,
 					},
 					nameOfBook(settings:book, settings:translation) + ' ' + settings:chapter,
-					window:location:origin + '//' + translation + '/' + book + '/' + chapter + '/'
+					window:location:origin + '/' + translation + '/' + book + '/' + chapter + '/'
 				)
 			onpopstate = no
 			clearSpace
@@ -426,7 +459,7 @@ export tag Bible
 						@bookmarks = await @data.getBookmarksFromStorage(@verses.map(do |verse| return verse:pk))
 			Imba.commit
 			if verse
-				foundVerse verse, "#{verse}"
+				foundVerse(verse, "#{verse}")
 		else clearSpace
 
 	def foundVerse id, hash
@@ -584,7 +617,7 @@ export tag Bible
 	def getSearchText
 		search:search_input = search:search_input.replace(/\//g, '')
 		search:search_input = search:search_input.replace(/\\/g, '')
-		if search:search_input != '' && (search:search_result_header != search:search_input || !@search:search_div)
+		if search:search_input:length > 1 && (search:search_result_header != search:search_input || !@search:search_div)
 			clearSpace
 			loading = yes
 			let url
@@ -608,7 +641,7 @@ export tag Bible
 				Imba.commit
 			catch error
 				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == search:search_result_translation)
-					@search_verses = await @data.getSearchedTextFromStorage()
+					@search_verses = await @data.getSearchedTextFromStorage(search)
 					@search:bookid_of_results = []
 					for verse in @search_verses
 						if !@search:bookid_of_results.find(do |element| return element == verse:book)
@@ -1440,13 +1473,10 @@ export tag Bible
 			<aside .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
 				<p.settings_header>
 					@data.lang:other
-					<#current_accent .blur_current_accent=show_accents :click.prevent=(do show_accents = !show_accents)>
+					<.current_accent .blur_current_accent=show_accents :click.prevent=(do show_accents = !show_accents)>
 					<.accents .show_accents=show_accents>
-						<.accent :click.prevent.changeAccent('green') style="background-color: {settings:theme == 'dark' ? '#9acd32' : '#9acd32'};">
-						<.accent :click.prevent.changeAccent('blue') style="background-color: {settings:theme == 'dark' ? '#8080FF' : '#417690'};">
-						<.accent :click.prevent.changeAccent('purple') style="background-color: {settings:theme == 'dark' ? '#984da5' : '#994EA6'};">
-						<.accent :click.prevent.changeAccent('gold') style="background-color: {settings:theme == 'dark' ? '#DAA520' : '#E1AF33'};">
-						<.accent :click.prevent.changeAccent('red') style="background-color: {settings:theme == 'dark' ? '#DE5454' : '#D93A3A'};">
+						for accent in accents when accent:name != settings:accent
+							<.accent :click.prevent.changeAccent(accent:name) style="background-color: {settings:theme == 'dark' ? accent:light : accent:dark};">
 				<input[search:search_input].search id='search' type='search' placeholder=@data.lang:search input:aria-label=@data.lang:search :keydown.enter.prevent.getSearchText> @data.lang:search
 				<.btnbox>
 					<svg:svg.cbtn :click.prevent.changeTheme("dark") style="padding: 8px;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
@@ -1609,7 +1639,7 @@ export tag Bible
 							<div id="shortcuts">
 								<h3> @data.lang:shortcuts
 								for shortcut in @data.lang:shortcuts_list
-									<p> shortcut
+									<p> <text-as-html[{text: shortcut}]>
 						<address.still_have_questions>
 							@data.lang:still_have_questions
 							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
@@ -1627,7 +1657,7 @@ export tag Bible
 						<p.search_results_total> @data.lang:add_translations_msg
 						<.filters .show=show_translations_for_comparison>
 							if compare_translations:length == translations:length
-								@data.lang:nothing_else
+								<p style="padding:12px 8px"> @data.lang:nothing_else
 							for translation in translations when !compare_translations.find(do |element| return element == translation:short_name)
 									<a.book_in_list.book_in_filter dir="auto" :click.prevent.addTranslation(translation)> translation:short_name, ', ', translation:full_name
 						if compare_translations:length

@@ -156,6 +156,7 @@ nav {
   border-right: 1px solid var(--btn-bg);
   padding: 32px 0;
   z-index: 999;
+  transition-property: left !important;
 }
 
 .download_translations {
@@ -384,7 +385,7 @@ nav input[type="search"] {
   width: calc(32px + 6vw);
   height: calc(32px + 6vw);
   padding: 3vw;
-  fill: var(--btn-bg-hover);
+  fill: var(--btn-bg);
   position: fixed;
   cursor: pointer;
 }
@@ -442,6 +443,7 @@ html[data-transitions="true"] .main span:hover, html[data-transitions="true"] fo
   bottom: 0;
   z-index: 999;
   visibility: visible;
+  transition-property: bottom;
 }
 
 ._colorpicker {
@@ -574,6 +576,7 @@ aside {
   padding: 32px 12px;
   z-index: 4;
   overflow-y: auto;
+  transition-property: right !important;
 }
 
 nav, aside {
@@ -597,7 +600,7 @@ nav, aside {
   position: relative;
 }
 
-#current_accent {
+.current_accent {
   position: absolute;
   top: 0.1em;
   right: 0.1em;
@@ -609,14 +612,14 @@ nav, aside {
 }
 
 .blur_current_accent {
-  filter: blur(4px);
-  opacity: 0.5;
+  height: 32px;
+  width: 32px;
 }
 
 .accents {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.1em;
+  right: 2px;
   border-radius: 23%;
   display: flex;
   flex-direction: column;
@@ -626,12 +629,10 @@ nav, aside {
   z-index: -1;
   transform: scale(0.8);
   transform-origin: top right;
-  filter: blur(4px);
 }
 
 .show_accents {
-  top: 24px;
-  right: 24px;
+  top: 36px;
   visibility: visible;
   opacity: 1;
   z-index: 1;
@@ -639,13 +640,17 @@ nav, aside {
   filter: none;
 }
 
-.accent {
+.accents .accent {
   border-radius: 23%;
   height: 32px;
   width: 32px;
-  margin: 2px 0;
+  margin: -8px 0;
   cursor: pointer;
   border: 1px solid var(--btn-bg-hover);
+}
+
+.show_accents .accent {
+  margin: 2px 0;
 }
 
 .nighttheme {
@@ -1387,7 +1392,7 @@ footer a:hover {
 }
 
 .footer_links a {
-  margin-right: 8px;
+  margin: 0 15px 0 0;
 }
 
 .Load {
@@ -1587,7 +1592,7 @@ address a:hover {
   display: flex;
   justify-content: center;
   height: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .Notification p {

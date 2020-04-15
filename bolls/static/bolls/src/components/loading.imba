@@ -74,12 +74,12 @@ export tag Load
 						viewBox="0 0 20 20"
 					>
 					<svg:title> "loading animation"
-					<svg:path d="M2 2c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v18l-8-4-8 4V2z">
+					<svg:path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
 			<div css:transform="scale({scale(600)}) translateX({translateX(600)}px) translateY({translateY(600)}px)">
 				<svg:svg
-						css:transform="rotateY({rotate(600)}deg)"
 						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 20 20"
+						css:transform="rotateY({rotate(600)}deg)"
+						viewBox="0 0 24 24"
 					>
 					<svg:title> "loading animation"
 					<svg:path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7.88 7.88l-3.54 7.78 7.78-3.54 3.54-7.78-7.78 3.54zM10 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2z">

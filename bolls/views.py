@@ -1,7 +1,9 @@
 import os
 import ast
+import math
 import json
 from django.db.models import Count
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
@@ -36,7 +38,7 @@ def getTranslation(request, translation):
     return response
 
 
-def getText(request, translation, book, chapter):
+def getChapter(translation, book, chapter):
     all_objects = Verses.objects.filter(
         book=book, chapter=chapter, translation=translation).order_by('verse')
     d = []
@@ -46,7 +48,11 @@ def getText(request, translation, book, chapter):
             "verse": obj.verse,
             "text": obj.text
         })
-    response = JsonResponse(d, safe=False)
+    return d
+
+
+def getText(request, translation, book, chapter):
+    response = JsonResponse(getChapter(translation, book, chapter), safe=False)
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
@@ -55,8 +61,27 @@ def getText(request, translation, book, chapter):
 
 
 def search(request, translation, piece):
-    results_of_search = Verses.objects.filter(
-        translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
+    if len(piece) > 3:
+        results_of_exec_search = Verses.objects.filter(
+            translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
+
+    rank_threshold = 1 - math.exp(-0.002 * (len(piece) - 2) ** (2))
+
+    vector = SearchVector('text')
+    query = SearchQuery(piece)
+    results_of_rank = Verses.objects.annotate(rank=SearchRank(
+        vector, query)).filter(translation=translation, rank__gt=(rank_threshold*0.25)).order_by('-rank')
+
+    results_of_similarity = Verses.objects.annotate(rank=TrigramSimilarity(
+        'text', piece)).filter(translation=translation, rank__gt=rank_threshold).order_by('-rank')
+    results_of_search = list(results_of_similarity) + \
+        list(set(results_of_rank) - set(results_of_similarity))
+
+    results_of_search.sort(key=lambda verse: verse.rank, reverse=True)
+
+    if len(results_of_exec_search) > 0:
+        results_of_search = list(results_of_exec_search) + results_of_search
+
     d = []
     for obj in results_of_search:
         d.append({
@@ -76,11 +101,11 @@ def search(request, translation, piece):
 
 
 def linkToVerse(request, translation, book, chapter, verse):
-    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verse": verse})
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verse": verse, "verses": json.dumps(getChapter(translation, book, chapter))})
 
 
 def linkToChapter(request, translation, book, chapter):
-    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter})
+    return render(request, 'bolls/index.html', {"translation": translation, "book": book, "chapter": chapter, "verses": json.dumps(getChapter(translation, book, chapter))})
 
 
 def signUp(request):
@@ -255,7 +280,7 @@ def userLogged(request):
 
 def robots(request):
     filename = "robots.txt"
-    content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/mapofsite.xml"
+    content = "User-agent: *\nDisallow: /admin/\nAllow: /\nSitemap: http://bolls.life/static/all_chapters.xml"
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename)
