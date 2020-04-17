@@ -334,7 +334,7 @@ export tag Bible
 		menuicons = !(getCookie('menuicons') == 'false')
 		compare_translations.push(settings:translation)
 		compare_translations.push(settingsp:translation)
-		compare_translations = JSON.parse(getCookie("compare_translations")) || []
+		compare_translations = JSON.parse(getCookie("compare_translations")) || compare_translations
 		@search = {
 				search_div: no,
 				search_input: '',
@@ -1225,6 +1225,7 @@ export tag Bible
 			what_to_show = 'show_compare'
 			Imba.commit()
 		else
+			log compare_translations
 			window.fetch("/get-paralel-verses/", {
 				method: "POST",
 				cache: "no-cache",
