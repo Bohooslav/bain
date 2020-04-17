@@ -8,7 +8,7 @@ import {Downloads} from "./downloads.imba"
 let on_electron = no
 if window:process
 	on_electron = yes
-	console.log window:process:versions:electron
+	console.log(window:process:versions:electron)
 
 let settings = {
 	theme: 'light',
@@ -291,9 +291,8 @@ export tag Bible
 			html:dataset:theme = settings:accent + settings:theme
 		if getCookie('transitions') == 'false'
 			settings:transitions = no
-		else
 			let html = document.querySelector('#html')
-			html:dataset:transitions = "true"
+			html:dataset:transitions = "false"
 		settings:font:size = parseInt(getCookie('font')) || settings:font:size
 		settings:font:family = getCookie('font-family') || settings:font:family
 		settings:font:name = getCookie('font-name') || settings:font:name
@@ -615,21 +614,22 @@ export tag Bible
 		@show_list_of_translations = no
 
 	def getSearchText
-		search:search_input = search:search_input.replace(/\//g, '')
-		search:search_input = search:search_input.replace(/\\/g, '')
-		if search:search_input:length > 1 && (search:search_result_header != search:search_input || !@search:search_div)
+		let query = search:search_input.replace(/\//g, '')
+		query = query.replace(/\\/g, '')
+		if query:length > 1 && (search:search_result_header != query || !@search:search_div)
 			clearSpace
 			loading = yes
 			let url
 			if settingsp:edited_version == settingsp:translation && settingsp:display
 				@search:translation = settingsp:edited_version
-				url = '/search/' + settingsp:edited_version + '/' + search:search_input + '/'
+				url = '/search/' + settingsp:edited_version + '/' + query
 				search:search_result_translation = settingsp:edited_version
 			else
 				@search:translation = settings:translation
-				url = '/search/' + settings:translation + '/' + search:search_input + '/'
+				url = '/search/' + settings:translation + '/' + query
 				search:search_result_translation = settings:translation
 			@search_verses = Object.create(null)
+			log url
 			try
 				@search_verses = await loadData(url)
 				@search:bookid_of_results = []
@@ -1206,6 +1206,7 @@ export tag Bible
 	def toggleCompare
 		if !user:name
 			window:location = "/signup/"
+			return undefined
 		let book, chapter
 		if choosen:length
 			choosen_for_comparison = choosen
@@ -1710,12 +1711,12 @@ export tag Bible
 								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 					<article.search_body tabindex="0">
 						for language in languages
-							<a.book_in_list dir="auto" style="font-weight:600;" .pressed=(language:language == show_language_of) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
+							<a.book_in_list dir="auto" style="padding: 12px 8px 12px 0px;font-weight:600;" .pressed=(language:language == show_language_of) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
 								language:language
 								<svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
 									<svg:title> @data.lang:open
 									<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
-							<ul.list_of_chapters style="padding-left:8px;" dir="auto" .show_list_of_chapters=(language:language == show_language_of)>
+							<ul.list_of_chapters dir="auto" .show_list_of_chapters=(language:language == show_language_of)>
 								for tr in language:translations
 									<a.search_res_verse_header>
 										<.search_res_verse_text style="margin-right: auto;text-align: left;"> tr:short_name, ', ', tr:full_name
