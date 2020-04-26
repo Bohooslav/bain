@@ -1,11 +1,9 @@
-from django.db.models import Q
 import os
 import ast
 import math
 import json
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
@@ -63,27 +61,30 @@ def getText(request, translation, book, chapter):
 
 def search(request, translation, piece):
     results_of_exec_search = []
-    if len(piece) > 3:
+    if len(piece) > 2:
         results_of_exec_search = Verses.objects.filter(
             translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
 
-    rank_threshold = 1 - math.exp(-0.002 * (len(piece) - 2) ** (2))
+    if len(results_of_exec_search) < 1024:
+        rank_threshold = 1 - math.exp(-0.001 * (len(piece) + 2) ** (2))
 
-    vector = SearchVector('text')
-    query = SearchQuery(piece)
-    results_of_rank = Verses.objects.annotate(rank=SearchRank(
-        vector, query)).filter(translation=translation, rank__gt=(rank_threshold*0.5)).order_by('-rank')
+        vector = SearchVector('text')
+        query = SearchQuery(piece)
+        results_of_rank = Verses.objects.annotate(rank=SearchRank(
+            vector, query)).filter(translation=translation, rank__gt=(rank_threshold*0.5)).order_by('-rank')
 
-    results_of_similarity = Verses.objects.annotate(rank=TrigramSimilarity(
-        'text', piece)).filter(translation=translation, rank__gt=rank_threshold).order_by('-rank')
-    results_of_search = list(results_of_similarity) + \
-        list(set(results_of_rank) - set(results_of_similarity))
+        results_of_similarity = Verses.objects.annotate(rank=TrigramSimilarity(
+            'text', piece)).filter(translation=translation, rank__gt=rank_threshold).order_by('-rank')
+        results_of_search = list(results_of_similarity) + \
+            list(set(results_of_rank) - set(results_of_similarity))
 
-    results_of_search.sort(key=lambda verse: verse.rank, reverse=True)
+        results_of_search.sort(key=lambda verse: verse.rank, reverse=True)
 
-    if len(results_of_exec_search) > 0:
-        results_of_search = list(results_of_exec_search) + \
-            list(set(results_of_search) - set(results_of_exec_search))
+        if len(results_of_exec_search) > 0:
+            results_of_search = list(results_of_exec_search) + \
+                list(set(results_of_search) - set(results_of_exec_search))
+    else:
+        results_of_search = results_of_exec_search
 
     d = []
     for obj in results_of_search:
@@ -126,25 +127,25 @@ def signUp(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-@login_required
 def getBookmarks(request, translation, book, chapter):
-    all_objects = Verses.objects.filter(
-        book=book, chapter=chapter, translation=translation).order_by('verse')
+    if request.user.is_authenticated:
+        all_objects = Verses.objects.filter(
+            book=book, chapter=chapter, translation=translation).order_by('verse')
+        bookmarks = []
+        for obj in all_objects:
+            if list(obj.bookmarks_set.all().filter(user=request.user)):
+                for bookmark in obj.bookmarks_set.all():
+                    bookmarks.append({
+                        "verse": bookmark.verse.pk,
+                        "date": bookmark.date,
+                        "color": bookmark.color,
+                        "note": bookmark.note,
+                    })
+        return JsonResponse(bookmarks, safe=False)
+    else:
+        return JsonResponse([], safe=False)
 
-    bookmarks = []
-    for obj in all_objects:
-        if list(obj.bookmarks_set.all().filter(user=request.user)):
-            for bookmark in obj.bookmarks_set.all():
-                bookmarks.append({
-                    "verse": bookmark.verse.pk,
-                    "date": bookmark.date,
-                    "color": bookmark.color,
-                    "note": bookmark.note,
-                })
-    return JsonResponse(bookmarks, safe=False)
 
-
-@login_required
 def getProfileBookmarks(request, range_from, range_to):
     user = request.user
     bookmarks = []
@@ -168,7 +169,6 @@ def getProfileBookmarks(request, range_from, range_to):
     return JsonResponse(bookmarks, safe=False)
 
 
-@login_required
 def getSearchedProfileBookmarks(request, query):
     user = request.user
     bookmarks = []
@@ -189,7 +189,6 @@ def getSearchedProfileBookmarks(request, query):
     return JsonResponse(bookmarks, safe=False)
 
 
-@login_required
 def getCategories(request):
     user = request.user
     all_objects = user.bookmarks_set.values('note').annotate(
@@ -197,7 +196,6 @@ def getCategories(request):
     return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
 
-@login_required
 def getParallelVerses(request):
     received_json_data = json.loads(request.body)
     chapter = received_json_data["chapter"]
@@ -235,48 +233,50 @@ def getParallelVerses(request):
     return JsonResponse(response, safe=False)
 
 
-@login_required
 def saveBookmarks(request):
-    received_json_data = json.loads(request.body)
-    user = request.user
-    for verseid in ast.literal_eval(received_json_data["verses"]):
-        verse = Verses.objects.get(pk=verseid)
-        try:
-            obj = user.bookmarks_set.get(user=user, verse=verse)
-            obj.date = received_json_data["date"]
-            obj.color = received_json_data["color"]
-            obj.note = received_json_data["notes"]
-            obj.save()
-        except Bookmarks.DoesNotExist:
-            user.bookmarks_set.create(
-                verse=verse, date=received_json_data["date"], color=received_json_data["color"], note=received_json_data["notes"])
+    if request.user.is_authenticated:
+        received_json_data = json.loads(request.body)
+        user = request.user
+        for verseid in ast.literal_eval(received_json_data["verses"]):
+            verse = Verses.objects.get(pk=verseid)
+            try:
+                obj = user.bookmarks_set.get(user=user, verse=verse)
+                obj.date = received_json_data["date"]
+                obj.color = received_json_data["color"]
+                obj.note = received_json_data["notes"]
+                obj.save()
+            except Bookmarks.DoesNotExist:
+                user.bookmarks_set.create(
+                    verse=verse, date=received_json_data["date"], color=received_json_data["color"], note=received_json_data["notes"])
     return JsonResponse({"response": "200"}, safe=False)
 
 
-@login_required
 def saveHistory(request):
-    received_json_data = json.loads(request.body)
-    user = request.user
-    try:
-        obj = user.history_set.get(user=user)
-        obj.history = received_json_data["history"]
-        obj.save()
-    except History.DoesNotExist:
-        user.history_set.create(history=received_json_data["history"])
-    return JsonResponse({"response": "200"}, safe=False)
+    if request.user.is_authenticated:
+        received_json_data = json.loads(request.body)
+        user = request.user
+        try:
+            obj = user.history_set.get(user=user)
+            obj.history = received_json_data["history"]
+            obj.save()
+        except History.DoesNotExist:
+            user.history_set.create(history=received_json_data["history"])
+        return JsonResponse({"response": "200"}, safe=False)
+    else:
+        return JsonResponse({"response": "200"}, safe=False)
 
 
-@login_required
 def getHistory(request):
-    user = request.user
-    try:
-        obj = user.history_set.get(user=user)
-        return JsonResponse({"history": obj.history}, safe=False)
-    except History.DoesNotExist:
-        return JsonResponse({"history": "[]"}, safe=False)
+    if request.user.is_authenticated:
+        try:
+            obj = request.user.history_set.get(user=request.user)
+            return JsonResponse({"history": obj.history}, safe=False)
+        except History.DoesNotExist:
+            return JsonResponse({"history": "[]"}, safe=False)
+    else:
+        JsonResponse({"history": "[]"}, safe=False)
 
 
-@login_required
 def deleteBookmarks(request):
     received_json_data = json.loads(request.body)
     user = request.user

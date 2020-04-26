@@ -1,7 +1,7 @@
 # [START django_app]
 runtime: python37
 
-default_expiration: "4d 5h"
+# default_expiration: "4d 5h"
 
 handlers:
 # This configures Google App Engine to serve the files in the app's static

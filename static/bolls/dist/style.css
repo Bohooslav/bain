@@ -3,14 +3,14 @@ html[data-theme="loading"] {
   color: #fee;
 }
 
-html[data-theme="bluedark"], html[data-theme="greendark"], html[data-theme="purpledark"], html[data-theme="golddark"], html[data-theme="reddark"] {
+html[data-light="dark"] {
   --background-color: #04060c;
   --text-color: #fee;
   --btn-bg: #88f2;
   --btn-bg-hover: #88f4;
 }
 
-html[data-theme="bluelight"], html[data-theme="greenlight"], html[data-theme="purplelight"], html[data-theme="goldlight"], html[data-theme="redlight"] {
+html[data-light="light"] {
   --background-color: #fee;
   --text-color: #04060c;
   --btn-bg: #47f2;
@@ -139,9 +139,14 @@ a {
   }
 }
 
-html[data-transitions="true"] main section h1, html[data-transitions="true"] main section article, html[data-transitions="true"] .Downloads, html[data-transitions="true"] ._colorpicker, html[data-transitions="true"] .bookmark_in_list, html[data-transitions="true"] .collection, html[data-transitions="true"] .in_offline, html[data-transitions="true"] .online, html[data-transitions="true"] .mark_grid, html[data-transitions="true"] .collectionshat, html[data-transitions="true"] .collectionsflex, html[data-transitions="true"] #addbuttons, html[data-transitions="true"] .close_colorpicker, html[data-transitions="true"] .book_in_list, html[data-transitions="true"] .list_of_chapters {
-  -webkit-animation: text-came 300ms ease alternate;
-  animation: text-came 300ms ease alternate;
+html[data-transitions="true"] .Downloads, html[data-transitions="true"] ._colorpicker, html[data-transitions="true"] .bookmark_in_list, html[data-transitions="true"] .collection, html[data-transitions="true"] .in_offline, html[data-transitions="true"] .online, html[data-transitions="true"] .mark_grid, html[data-transitions="true"] .collectionshat, html[data-transitions="true"] .collectionsflex, html[data-transitions="true"] #addbuttons, html[data-transitions="true"] .close_colorpicker, html[data-transitions="true"] .book_in_list, html[data-transitions="true"] .list_of_chapters {
+  -webkit-animation: text-came 300ms ease;
+  animation: text-came 300ms ease;
+}
+
+html[data-transitions="true"] main section h1, html[data-transitions="true"] main section article {
+  -webkit-animation: text-came 300ms ease forwards;
+  animation: text-came 300ms ease forwards;
 }
 
 .Bible {
@@ -209,8 +214,8 @@ nav {
 }
 
 html[data-transitions="true"] .remove_parallel:hover, html[data-transitions="true"] .download_translations:hover, html[data-transitions="true"] .close_search:hover, html[data-transitions="true"] .help:hover .helpsvg, html[data-transitions="true"] .save_bookmark:hover {
-  -webkit-animation: shake 300ms ease alternate;
-  animation: shake 300ms ease alternate;
+  -webkit-animation: shake 300ms ease forwards;
+  animation: shake 300ms ease forwards;
 }
 
 html[data-transitions="true"] .animated-man:hover .helpsvg {
@@ -254,7 +259,7 @@ html[data-transitions="true"] .animated-man:hover .helpsvg {
   height: 32px;
   opacity: 0;
   visibility: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .show_translations_list {
@@ -358,7 +363,7 @@ html[data-transitions="true"] .animated-man:hover .helpsvg {
 }
 
 .freespace {
-  min-height: 128px;
+  min-height: 64px;
 }
 
 .main {
@@ -412,7 +417,7 @@ footer a, .helpFAQ a, .main span {
 }
 
 html[data-transitions="true"] .main span:hover, html[data-transitions="true"] footer a:hover, html[data-transitions="true"] .helpFAQ a:hover {
-  animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none running link-hover;
+  animation: 0.4s cubic-bezier(0.58, 0.3, 0.005, 1) 0s 1 normal none link-hover;
 }
 
 .verse {
@@ -438,8 +443,11 @@ html[data-transitions="true"] .main span:hover, html[data-transitions="true"] fo
   padding: 16px 0;
 }
 
-.choosen_verses {
+html[data-light="light"] .choosen_verses {
   box-shadow: 0 0 64px rgba(0, 0, 0, 0.1);
+}
+
+.choosen_verses {
   bottom: 0;
   z-index: 999;
   visibility: visible;
@@ -862,9 +870,12 @@ nav, aside {
   margin: 0;
 }
 
+html[data-light="light"] .show_search_results {
+  box-shadow: 0 64px 128px rgba(0, 0, 0, 0.3);
+}
+
 .show_search_results {
   top: 7%;
-  box-shadow: 0 64px 128px rgba(0, 0, 0, 0.3);
   visibility: visible;
 }
 
@@ -891,7 +902,7 @@ html[data-transitions="true"] .show_search_results {
 }
 
 .animated_downloading {
-  animation: 800ms linear 0s infinite normal both running loading;
+  animation: 800ms linear 0s infinite normal both loading;
 }
 
 .remove_parallel {
@@ -1434,7 +1445,7 @@ footer a:hover {
 }
 
 #download-bolls {
-  margin: 64px auto 128px;
+  margin: 64px auto;
   padding: 12px 16px;
   display: inline-block;
   background-color: var(--accent-color);

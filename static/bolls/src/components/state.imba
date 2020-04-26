@@ -1,7 +1,11 @@
-import "./translations.json" as translations
+import "./languages.json" as languages
 import en_leng, uk_leng, ru_leng from "./langdata.imba"
 let Dexie = require 'dexie'
 Dexie = Dexie:default
+
+let translations = []
+for language in languages
+	translations = translations.concat(language:translations)
 
 export class State
 	prop downloaded_translations
@@ -35,6 +39,11 @@ export class State
 					document:lastChild:lang = "ru-RU"
 					if !window:translation
 						setCookie('translation', 'SYNOD')
+				when 'es'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'RV1960')
 				when 'pt'
 					@language = 'eng'
 					document:lastChild:lang = "en"

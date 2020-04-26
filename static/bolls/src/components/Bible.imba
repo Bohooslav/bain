@@ -1,14 +1,12 @@
 import "./translations_books.json" as BOOKS
-import "./translations.json" as translations
 import "./languages.json" as languages
 import {Profile} from './Profile'
 import {Load} from "./loading.imba"
 import {Downloads} from "./downloads.imba"
 
-let on_electron = no
-if window:process
-	on_electron = yes
-	console.log(window:process:versions:electron)
+let translations = []
+for language in languages
+	translations = translations.concat(language:translations)
 
 let settings = {
 	theme: 'light',
@@ -274,21 +272,26 @@ export tag Bible
 				settings:translation = window:translation
 				settings:book = window:book
 				settings:chapter = window:chapter
-			document:title += " " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
-			@verses = window:verses
-			if window:verse
-				document:title += ':' + window:verse
-				setTimeout(&, 200) do
+				document:title += " " + getNameOfBookFromHistory(window:translation, window:book) + ' ' + window:chapter
+				if window:verses
+					@verses = window:verses
+					getBookmarks("/get-bookmarks/" + window:translation + '/' + window:book + '/' + window:chapter + '/')
+				if window:verse
+					document:title += ':' + window:verse
 					foundVerse(window:verse, "#{window:verse}")
-			document:title += ' ' + window:translation
+				document:title += ' ' + window:translation
 		if getCookie('theme')
 			settings:theme = getCookie('theme')
 			settings:accent = getCookie('accent') || settings:accent
 			let html = document.querySelector('#html')
 			html:dataset:theme = settings:accent + settings:theme
+			html:dataset:light = settings:theme
 		else
 			let html = document.querySelector('#html')
+			html:dataset:light = settings:theme
 			html:dataset:theme = settings:accent + settings:theme
+		if window:location:pathname == '/profile/' then toProfile yes
+		elif window:location:pathname == '/downloads/'then toDownloads yes
 		if getCookie('transitions') == 'false'
 			settings:transitions = no
 			let html = document.querySelector('#html')
@@ -305,9 +308,10 @@ export tag Bible
 		settings:translation = getCookie('translation') || settings:translation
 		settings:book = parseInt(getCookie('book')) || settings:book
 		settings:chapter = parseInt(getCookie('chapter')) || settings:chapter
+		show_chapters_of = settings:book
 		switchTranslation(settings:translation, no)
 		getText(settings:translation, settings:book, settings:chapter)
-		show_chapters_of = settings:book
+		user:name = getCookie('username') || ''
 		if window:navigator:onLine
 			try
 				let data = await loadData("/user-logged/")
@@ -318,14 +322,10 @@ export tag Bible
 					try
 						let data = await loadData(url)
 						@history = JSON.parse(data:history)
-						window:localStorage.setItem("history", JSON.stringify(@history))
+						if @history:length then window:localStorage.setItem("history", JSON.stringify(@history))
+				else user:name = ''
 			catch error
 				console.error('Error: ', error)
-		else user:name = getCookie('username') || ''
-		if window:location:pathname == '/profile/'
-			toProfile yes
-		elif window:location:pathname == '/downloads/'
-			toDownloads yes
 		if getCookie('parallel_display') == 'true'
 			toggleParallelMode("build")
 		if getCookie('chronorder') == 'true'
@@ -403,6 +403,15 @@ export tag Bible
 		let res = await window.fetch(url)
 		return res.json
 
+	def getBookmarks url
+		@bookmarks = []
+		try
+			@bookmarks = await loadData(url)
+		catch error
+			if @data.can_work_with_db
+				@bookmarks = await @data.getBookmarksFromStorage(@verses.map(do |verse| return verse:pk))
+		Imba.commit
+
 	def getText translation, book, chapter, verse
 		if !(translation == settings:translation && book == settings:book && chapter == settings:chapter) || !@verses:length
 			loading = yes
@@ -437,9 +446,8 @@ export tag Bible
 			setCookie('translation', translation)
 			saveToHistory translation, book, chapter, verse, no
 			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
-			@bookmarks = []
-			@verses = []
 			try
+				@verses = []
 				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == translation)
 					@verses = await @data.getChapterFromDB(translation, book, chapter, verse)
 				else
@@ -449,14 +457,7 @@ export tag Bible
 			catch error
 				loading = no
 				console.error('Error: ', error)
-			if user:name
-				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
-				try
-					@bookmarks = await loadData(url)
-				catch error
-					if @data.can_work_with_db
-						@bookmarks = await @data.getBookmarksFromStorage(@verses.map(do |verse| return verse:pk))
-			Imba.commit
+			getBookmarks("/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/')
 			if verse
 				foundVerse(verse, "#{verse}")
 		else clearSpace
@@ -629,7 +630,6 @@ export tag Bible
 				url = '/search/' + settings:translation + '/' + query
 				search:search_result_translation = settings:translation
 			@search_verses = Object.create(null)
-			log url
 			try
 				@search_verses = await loadData(url)
 				@search:bookid_of_results = []
@@ -679,6 +679,7 @@ export tag Bible
 		let html = document.querySelector('#html')
 		settings:theme = theme
 		html:dataset:theme = settings:accent + settings:theme
+		html:dataset:light = settings:theme
 		setCookie('theme', theme)
 
 	def changeAccent accent
@@ -802,18 +803,16 @@ export tag Bible
 		Imba.commit
 
 	def ontouchend touch
-		if inzone && !bible_menu_left && !settings_menu_left
-			if touch.dx > 128
-				bible_menu_left = 0
-			elif touch.dx < -128
-				settings_menu_left = 0
+		if bible_menu_left > -300
+			if inzone
+				touch.dx > 64 ? bible_menu_left = 0 : bible_menu_left = -300
 			else
-				settings_menu_left = -300
-				bible_menu_left = -300
-		elif bible_menu_left > -300
-			touch.dx < -128 ? bible_menu_left = -300 : bible_menu_left = 0
+				touch.dx < -64 ? bible_menu_left = -300 : bible_menu_left = 0
 		elif settings_menu_left > -300
-			touch.dx > 128 ? settings_menu_left = -300 : settings_menu_left = 0
+			if inzone
+				touch.dx < -64 ? settings_menu_left = 0 : settings_menu_left = -300
+			else
+				touch.dx > 64 ? settings_menu_left = -300 : settings_menu_left = 0
 		elif document.getSelection == '' && Math.abs(touch.dy) < 36 && !search:search_div && !show_history && !choosenid:length
 			if touch.dx < -32
 				settingsp:display && touch.y > window:innerHeight / 2 ? nextChapter("true") : nextChapter
@@ -827,9 +826,7 @@ export tag Bible
 		if choosenid:length && choosenid.find(do |element| return element == verse)
 			let img = 'linear-gradient(to right'
 			for i in [0..96]
-				img += ', '
-				img += i % 2 ? '#0000' : highlight_color
-				img += ' ' + i + '% ' + (i + 8) + '%'
+				img += ', ' + (i % 2 ? '#0000' : highlight_color) + ' ' + i + '% ' + (i + 8) + '%'
 				i+=4
 			return img += ')'
 		else
@@ -1225,7 +1222,6 @@ export tag Bible
 			what_to_show = 'show_compare'
 			Imba.commit()
 		else
-			log compare_translations
 			window.fetch("/get-paralel-verses/", {
 				method: "POST",
 				cache: "no-cache",
@@ -1361,8 +1357,8 @@ export tag Bible
 		@data.copyToClipboard(copyobj)
 
 	def render
-		<self .hold_by_finger=(inzone || onzone)>
-			<nav .display_none=(settings_menu_left > - 300) style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)} {bible_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: left;' : ''}">
+		<self>
+			<nav style="left: {bible_menu_left}px; {boxShadow(bible_menu_left)} {bible_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: left;' : ''}">
 				if settingsp:display
 					<.choose_parallel>
 						<p.translation_name title=translationFullName(settings:translation) a:role="button" .current_translation=(settingsp:edited_version == settings:translation) :click.prevent.changeEditedParallel(settings:translation) tabindex="0"> settings:translation
@@ -1472,7 +1468,7 @@ export tag Bible
 					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settingsp:translation) && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
-			<aside .display_none=(bible_menu_left > - 300) style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
+			<aside style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
 				<p.settings_header>
 					@data.lang:other
 					<.current_accent .blur_current_accent=show_accents :click.prevent=(do show_accents = !show_accents)>
@@ -1571,18 +1567,17 @@ export tag Bible
 					@data.lang:clear_copy
 					<p.checkbox>
 						<span>
-				if window:innerWidth > 680
+				if window:innerWidth > 1024
 					<.nighttheme.parent_checkbox.flex :click.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
 						@data.lang:lock_drawers
 						<p.checkbox>
 							<span>
-				if !on_electron
-					<a.help :click.prevent.toDownloads(no)>
-						<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-							<svg:title> @data.lang:download
-							<svg:path d="M0 0h24v24H0z" fill="none">
-							<svg:path d=svg_paths:download>
-						@data.lang:download
+				<a.help :click.prevent.toDownloads(no)>
+					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+						<svg:title> @data.lang:download
+						<svg:path d="M0 0h24v24H0z" fill="none">
+						<svg:path d=svg_paths:download>
+					@data.lang:download
 				<a.help :click.prevent.turnHelpBox()>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:help
@@ -1601,19 +1596,17 @@ export tag Bible
 						<svg:path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
 						<svg:path d="M0 0h24v24H0z" fill="none">
 					@data.lang:support
-				<.freespace>
 				<footer>
 					<p.footer_links>
-						<a href="https://www.patreon.com/bolls"> "Patreon "
-						<a href="http://t.me/Boguslavv"> "Telegram "
+						<a href="http://www.patreon.com/bolls"> "Patreon "
+						<a href="http://t.me/bollsbible"> "Telegram "
 						<a href="/api"> "API "
 						<a href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© "
-						<time time:datetime="2020-04-02T17:44"> "2019-present"
+						"© ",	<time time:datetime="2020-04-26T12:27"> "2019-present"
 						" Павлишинець Богуслав"
 
-			<section.search_results .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(search:search_div || show_help || show_compare || show_downloads || show_support)) .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
+			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
 				if what_to_show == 'show_help'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.turnHelpBox() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1632,12 +1625,12 @@ export tag Bible
 						<ul>
 							for q in @data.lang:HB
 								<li> <a href="#{q[0]}"> q[0]
-							if window:innerWidth > 680
+							if window:innerWidth > 1024
 								<li> <a href="#shortcuts"> @data.lang:shortcuts
 						for q in @data.lang:HB
 							<h3 id=q[0] > q[0]
 							<p> q[1]
-						if window:innerWidth > 680
+						if window:innerWidth > 1024
 							<div id="shortcuts">
 								<h3> @data.lang:shortcuts
 								for shortcut in @data.lang:shortcuts_list
@@ -1712,7 +1705,7 @@ export tag Bible
 								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">
 					<article.search_body tabindex="0">
 						for language in languages
-							<a.book_in_list dir="auto" style="padding: 12px 8px 12px 0px;font-weight:600;" .pressed=(language:language == show_language_of) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
+							<a.book_in_list dir="auto" style="padding: 12px 8px 12px 0px;" .pressed=(language:language == show_language_of) :click.prevent.showLanguageTranslations(language:language) tabindex="0">
 								language:language
 								<svg:svg.arrow_next xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
 									<svg:title> @data.lang:open
@@ -1818,7 +1811,7 @@ export tag Bible
 								<p css:padding="32px 0px 8px"> @data.lang:translation, search:search_result_translation
 								<button.more_results :click.prevent.showTranslations> @data.lang:change_translation
 
-			<section.hide  .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(choosenid:length)) .without_padding=show_collections .choosen_verses=choosenid:length>
+			<section.hide .without_padding=show_collections .choosen_verses=choosenid:length>
 				if show_collections
 					<.collectionshat>
 						<svg:svg.svgBack xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :click.prevent.turnCollections>
@@ -1901,7 +1894,7 @@ export tag Bible
 							<svg:title> @data.lang:create
 							<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
 
-			<section.history.filters .display_none=((bible_menu_left > -300 || settings_menu_left > -300) && !(show_history)) .show_history=show_history>
+			<section.history.filters .show_history=show_history>
 				<.nighttheme.flex css:margin="0">
 					<svg:svg.close_search :click.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
 							<svg:title> @data.lang:close

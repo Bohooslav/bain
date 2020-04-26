@@ -1,21 +1,19 @@
-var CACHE_NAME = 'v1.2.59';
+var CACHE_NAME = "v1.3.5";
 var urlsToCache = [
   '/',
-  '/static/bolls/dist/client.js',
-  '/static/bolls/dist/style.css',
+  '/static/bolls/dist/index.js',
+  '/static/bolls/dist/index.css',
   '/static/bolls/fonts/fontstylesheet.css',
   '/static/bolls/dist/mobile_styles.css',
 ];
 
 self.addEventListener('install', function (event) {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
     .then(function (cache) {
-      console.log('👷', 'Opened cache');
+      console.log('👷', 'Opened cache ', CACHE_NAME);
       return cache.addAll(urlsToCache);
-    })
-    .then(() => {
-      return self.skipWaiting();
     })
   );
 });
@@ -39,16 +37,17 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  var cacheKeeplist = [CACHE_NAME];
+  const expectedCaches = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => {
-        if (cacheKeeplist.indexOf(key) === -1) {
+    caches.keys().then(keys => Promise.all(
+      keys.map(key => {
+        if (!expectedCaches.includes(key)) {
           return caches.delete(key);
         }
-      }));
+      })
+    )).then(() => {
+      console.log('👷 SW is activated and now ready to handle fetches!. ', CACHE_NAME);
+      return self.clients.claim();
     })
   );
-  console.log('👷', 'SW is activated');
-  return self.clients.claim();
 });

@@ -13,10 +13,7 @@ export tag Load
 		return Math.cos(((Date.now - @genesis - delay) / @period + 0.25)*2*Math.PI) + 2
 
 	def translateX delay
-		if window:innerWidth < 360
-			return 64 * Math.cos(((Date.now - @genesis - delay) / @period)*2*Math.PI)
-		else
-			return 82 * Math.cos(((Date.now - @genesis - delay) / @period)*2*Math.PI)
+		return 64 * Math.cos(((Date.now - @genesis - delay) / @period)*2*Math.PI)
 
 	def translateY delay
 		return 32 * Math.sin(((Date.now - @genesis - delay) / @period)*2*Math.PI)

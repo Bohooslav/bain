@@ -8,9 +8,9 @@ module.exports = {
 	resolve: {
 		extensions: [".imba", ".js", ".json"]
 	},
-	entry: "./src/client.imba",
+	entry: "./src/index.imba",
 	output: {
 		path: __dirname + '/dist',
-		filename: "client.js"
+		filename: "index.js"
 	}
 }

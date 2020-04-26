@@ -97,7 +97,6 @@ export const en_leng = {
     "Submit an idea)",
     "Translate its interface to a new language. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a> to do this.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Donate</a>. This app is not free. There is always a need for money for hosting, development, distribution to new platforms and development time...",
-    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [
@@ -218,7 +217,6 @@ export const uk_leng = {
     "Запропонуйте ідею)",
     "Перекладіть інтерфейс додатку на нову мову. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Зв'яжіться зі мною</a> для цього.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Цей додаток не є безкоштовним. Завжди є потреба в грошах для хостингу, для розробки, поширення на нові платформи та часу на розробку...",
-    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [
@@ -330,7 +328,7 @@ export const ru_leng = {
     "Пдедыдущая глава паралельного перевода: <b>Ctrl + Alt + Левая Стрелка</b>",
     "Вернутся к чтению: E<b>sc</b>",
     "Спрятать иконки меню: <b>Ctrl + Alt + H</b>",
-    "Полноэкранный редим: <b>f11</b>"
+    "Полноэкранный режим: <b>f11</b>"
   ]
   ycdtitnw: "Вы можете поддержать даное приложение так:",
   SUPPORT: [
@@ -339,7 +337,6 @@ export const ru_leng = {
     "Предложите идею)",
     "Переведите интерфейт приолжения на новый язык. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Свяжитесь со мной</a> для этого.",
     "<a target='_blank' relnoreferrer href='https://www.patreon.com/bolls'>Пожертвуйте</a>. Это приложение не есть безплатное. Всегда есть потребность в деньгах для хостинга, для разработки, распространения на новые платформы и времени на разработку...",
-    "If you are a developer you can help me to develop this app. <a target='_blank' rel='noreferrer' href='http://t.me/Boguslavv'>Contact me</a>"
   ],
   HB: [
     [

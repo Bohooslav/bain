@@ -65,7 +65,7 @@
   },
   {
     "short_name": "CUV",
-    "full_name": "Chinese: Union (Traditional)"
+    "full_name": "Chinese Union (Traditional) 和合本"
   },
   {
     "short_name": "ARA",
@@ -82,5 +82,21 @@
   {
     "short_name": "DNB",
     "full_name": "Det Norsk Bibelselskap (1930)"
+  },
+  {
+    "short_name": "RV1960",
+    "full_name": "Reina-Valera 1960"
+  },
+  {
+    "short_name": "RV2004",
+    "full_name": "Reina Valera Gómez 2004"
+  },
+  {
+    "short_name": "PDT",
+    "full_name": "Palabra de Dios para Todos"
+  },
+  {
+    "short_name": "NVI",
+    "full_name": "Nueva Versión Internacional"
   }
 ]
