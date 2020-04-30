@@ -25,6 +25,7 @@ bolls/static/bolls/node_modules/
 
 # Ignore virtual enviroment
 env/
+bainenv/
 
 #...
 cloud_sql_proxy

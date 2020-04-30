@@ -101,6 +101,7 @@ public
 
 ########### MY ###########
 env/
+bainenv/
 
 node_modules/
 bolls/static/bolls/node_modules/

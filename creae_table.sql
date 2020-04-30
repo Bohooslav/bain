@@ -20,4 +20,7 @@ psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432  
 
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/verses.csv' DELIMITER '|' CSV HEADER;
 
-\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/DNB.csv' DELIMITER E'\t' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/verses.csv' DELIMITER ';' CSV HEADER;
+
+
+\copy (Select * From bolls_verses) To '/home/b/test.csv' With CSV DELIMITER '|';

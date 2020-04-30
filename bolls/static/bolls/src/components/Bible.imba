@@ -1584,7 +1584,7 @@ export tag Bible
 						<svg:path fill="none" d="M0 0h24v24H0z">
 						<svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
 					@data.lang:help
-				<a.help href="mailto:bpavlisinec@gmail.com">
+				<a.help target="_blank" href="mailto:bpavlisinec@gmail.com">
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:feedback
 						<svg:path d="M0 0h24v24H0V0z" fill="none">
@@ -1598,10 +1598,10 @@ export tag Bible
 					@data.lang:support
 				<footer>
 					<p.footer_links>
-						<a href="http://www.patreon.com/bolls"> "Patreon "
-						<a href="http://t.me/bollsbible"> "Telegram "
-						<a href="/api"> "API "
-						<a href="/static/privacy_policy.html"> "Privacy Policy"
+						<a target="_blank" href="http://www.patreon.com/bolls"> "Patreon "
+						<a target="_blank" href="http://t.me/bollsbible"> "Telegram "
+						<a target="_blank" href="/api"> "API "
+						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
 						"© ",	<time time:datetime="2020-04-26T12:27"> "2019-present"
 						" Павлишинець Богуслав"
@@ -1613,7 +1613,7 @@ export tag Bible
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
 						<h1> @data.lang:help
-						<a href="mailto:bpavlisinec@gmail.com">
+						<a target="_blank" href="mailto:bpavlisinec@gmail.com">
 							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 								<svg:title> @data.lang:help
 								<svg:g>
@@ -1637,7 +1637,7 @@ export tag Bible
 									<p> <text-as-html[{text: shortcut}]>
 						<address.still_have_questions>
 							@data.lang:still_have_questions
-							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
+							<a target="_blank" href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
 				elif what_to_show == 'show_compare'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1734,7 +1734,7 @@ export tag Bible
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
 						<h1> @data.lang:support
-						<a href="mailto:bpavlisinec@gmail.com">
+						<a target="_blank" href="mailto:bpavlisinec@gmail.com">
 							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 								<svg:title> @data.lang:help
 								<svg:g>
