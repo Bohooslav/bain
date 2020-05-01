@@ -121,7 +121,8 @@ bin/
 build/
 develop-eggs/
 dist/
-static/
+/static/
+# static/
 eggs/
 lib/
 lib64/
