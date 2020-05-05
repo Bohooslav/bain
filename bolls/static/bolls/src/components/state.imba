@@ -186,17 +186,28 @@ export class State
 			Imba.commit
 			let begtime = Date.now()
 			let url = '/get-translation/' + translation + '/'
-			const array_of_verses = await loadData(url)
-			console.log("Translation is downloaded. Time: ", (Date.now() - begtime) / 1000, "s")
-			@db.transaction("rw", @db:verses, do
-				await @db:verses.bulkPut(array_of_verses)
-				@downloaded_translations.push(translation)
-				@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
-				console.log("Translation is saved. Time: ", (Date.now() - begtime) / 1000, "s")
-				Imba.commit
-			).catch (do |e|
-				console.error(e:stack)
-			)
+			let array_of_verses = null
+			try
+				array_of_verses = await loadData(url)
+				console.log("Translation is downloaded. Time: ", (Date.now() - begtime) / 1000, "s")
+			catch e
+				console.error(e)
+				handleDownloadingError(translation)
+			if array_of_verses
+				@db.transaction("rw", @db:verses, do
+					await @db:verses.bulkPut(array_of_verses)
+					@downloaded_translations.push(translation)
+					@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
+					console.log("Translation is saved. Time: ", (Date.now() - begtime) / 1000, "s")
+					Imba.commit
+				).catch (do |e|
+					handleDownloadingError(translation)
+					console.error(e)
+				)
+
+	def handleDownloadingError translation
+		@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
+		showNotification('error')
 
 	def deleteTranslation translation
 		@downloading_of_this_translations.push(translation)

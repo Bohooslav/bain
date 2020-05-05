@@ -3,6 +3,9 @@ import "./languages.json" as languages
 import {Profile} from './Profile'
 import {Load} from "./loading.imba"
 import {Downloads} from "./downloads.imba"
+require "./compare-draggable-item"
+require './search-text-as-html'
+require './text-as-html'
 
 let translations = []
 for language in languages
@@ -66,6 +69,7 @@ let what_to_show = 'search'
 let deleting_of_all_transllations = no
 let choosen_for_comparison = []
 let comparison_parallel = []
+let new_comparison_parallel = []
 let show_translations_for_comparison = no
 let compare_translations = []
 let compare_parallel_of_chapter
@@ -334,7 +338,7 @@ export tag Bible
 		menuicons = !(getCookie('menuicons') == 'false')
 		compare_translations.push(settings:translation)
 		compare_translations.push(settingsp:translation)
-		compare_translations = JSON.parse(getCookie("compare_translations")) || compare_translations
+		compare_translations = (JSON.parse(getCookie("compare_translations")):length ? JSON.parse(getCookie("compare_translations")) : no) || compare_translations
 		@search = {
 				search_div: no,
 				search_input: '',
@@ -1203,10 +1207,9 @@ export tag Bible
 	def toggleCompare
 		if !user:name
 			window:location = "/signup/"
-			return undefined
+			return
 		let book, chapter
-		if choosen:length
-			choosen_for_comparison = choosen
+		if choosen:length then choosen_for_comparison = choosen
 		if choosen_parallel == 'second'
 			compare_parallel_of_chapter = settingsp:chapter
 			compare_parallel_of_book = settingsp:book
@@ -1222,6 +1225,7 @@ export tag Bible
 			what_to_show = 'show_compare'
 			Imba.commit()
 		else
+			comparison_parallel = []
 			window.fetch("/get-paralel-verses/", {
 				method: "POST",
 				cache: "no-cache",
@@ -1238,7 +1242,6 @@ export tag Bible
 			})
 			.then(do |response| response.json())
 			.then(do |data|
-					comparison_parallel = []
 					comparison_parallel = data
 					loading = no
 					show_compare = yes
@@ -1252,20 +1255,12 @@ export tag Bible
 			toggleCompare
 		else
 			compare_translations.splice(compare_translations.indexOf(compare_translations.find(do |element| return element == translation:short_name)), 1)
-			comparison_parallel.splice(comparison_parallel.indexOf(comparison_parallel.find(do |element| return element[0]:translation == translation:short_name)), 1)
+			document.getElementById("compare_{translation:short_name}"):style:animation = "the-element-left-us 300ms ease forwards"
+			setTimeout(&, 300) do
+				document.getElementById("compare_{translation:short_name}"):style:animation = ""
+				document.getElementById("compare_{translation:short_name}").remove()
 		window:localStorage.setItem("compare_translations", JSON.stringify(compare_translations))
 		show_translations_for_comparison = no
-
-	def changeOrder key, value
-		if !((key == 0 && value < 0) || (key == compare_translations:length - 1 && value > 0))
-			let tmp = comparison_parallel[key]
-			comparison_parallel[key] = comparison_parallel[key + value]
-			comparison_parallel[key + value] = tmp
-			tmp = compare_translations[key]
-			compare_translations[key] = compare_translations[key + value]
-			compare_translations[key + value] = tmp
-			Imba.commit
-			window:localStorage.setItem("compare_translations", JSON.stringify(compare_translations))
 
 	def changeLineHeight increase
 		if increase && settings:font:line-height < 2.6
@@ -1346,15 +1341,19 @@ export tag Bible
 		@data.copyToClipboard(copyobj)
 
 	def copyToClipboardFromSerach obj
-		let copyobj = {
+		@data.copyToClipboard({
 			text: [obj:text],
 			translation: obj:translation,
 			book: obj:book,
 			chapter: obj:chapter,
 			verse: [obj:verse],
 			title: getHighlightedRow(obj:translation, obj:book, obj:chapter, [obj:verse])
-		}
-		@data.copyToClipboard(copyobj)
+		})
+
+	def onsavechangestocomparetranslations arr
+		compare_translations = arr:_data
+		window:localStorage.setItem("compare_translations", JSON.stringify(arr:_data))
+
 
 	def render
 		<self>
@@ -1584,7 +1583,7 @@ export tag Bible
 						<svg:path fill="none" d="M0 0h24v24H0z">
 						<svg:path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z">
 					@data.lang:help
-				<a.help target="_blank" href="mailto:bpavlisinec@gmail.com">
+				<a.help href="mailto:bpavlisinec@gmail.com">
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:feedback
 						<svg:path d="M0 0h24v24H0V0z" fill="none">
@@ -1603,7 +1602,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-04-26T12:27"> "2019-present"
+						"© ",	<time time:datetime="2020-05-05T18:17"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
@@ -1613,7 +1612,7 @@ export tag Bible
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
 						<h1> @data.lang:help
-						<a target="_blank" href="mailto:bpavlisinec@gmail.com">
+						<a href="mailto:bpavlisinec@gmail.com">
 							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 								<svg:title> @data.lang:help
 								<svg:g>
@@ -1637,7 +1636,7 @@ export tag Bible
 									<p> <text-as-html[{text: shortcut}]>
 						<address.still_have_questions>
 							@data.lang:still_have_questions
-							<a target="_blank" href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
+							<a href="mailto:bpavlisinec@gmail.com"> " bpavlisinec@gmail.com"
 				elif what_to_show == 'show_compare'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1655,40 +1654,12 @@ export tag Bible
 								<p style="padding:12px 8px"> @data.lang:nothing_else
 							for translation in translations when !compare_translations.find(do |element| return element == translation:short_name)
 									<a.book_in_list.book_in_filter dir="auto" :click.prevent.addTranslation(translation)> translation:short_name, ', ', translation:full_name
-						if compare_translations:length
+						<ul> if compare_translations:length
 							for tr, key in comparison_parallel
-								if tr[0]:text
-									<p.search_item>
-										<.search_res_verse_text>
-											for aoefv in tr
-												<search-text-as-html[aoefv]>
-												' '
-										<.search_res_verse_header>
-											<svg:svg.open_in_parallel :click.prevent.changeOrder(key, -1) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-												<svg:title> @data.lang:move_up
-												<svg:path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z">
-											<svg:svg.open_in_parallel :click.prevent.changeOrder(key, 1) style="margin-right: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-												<svg:title> @data.lang:move_down
-												<svg:path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z">
-											<span> tr[0]:translation
-											<svg:svg.open_in_parallel :click.prevent.copyToClipboardFromParallel(tr) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 561" alt=@data.lang:copy>
-												<svg:title> @data.lang:copy
-												<svg:path d=svg_paths:copy>
-											<svg:svg.open_in_parallel style="margin: 0 8px;" viewBox="0 0 400 338" :click.prevent.backInHistory({translation: tr[0]:translation, book: tr[0]:book, chapter: tr[0]:chapter,verse: tr[0]:verse}, yes)>
-												<svg:title> @data.lang:open_in_parallel
-												<svg:path d=svg_paths:columnssvg style="fill:inherit;fill-rule:evenodd;stroke:none;stroke-width:1.81818187">
-											<svg:svg.remove_parallel.close_search :click.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
-												<svg:title> @data.lang:delete
-												<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
-								else
-									<p style="padding: 16px 0;display: flex; align-items: center;">
-										@data.lang:the_verse_is_not_available, tr[0]:translation, tr[0]:text
-										<svg:svg.remove_parallel.close_search style="margin: -8px 8px 0 auto;" :click.prevent.addTranslation({short_name: tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data.lang:delete>
-											<svg:title> @data.lang:delete
-											<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data.lang:delete>
-							<.freespace>
+								<compare-draggable-item[{tr: tr, key: key, lang: @data.lang, svg_paths: svg_paths}]>
 						else
 							<button.more_results style="margin: 16px auto; display: flex;" :click.prevent=(do show_translations_for_comparison = !show_translations_for_comparison)> @data.lang:add_translation_btn
+						<.freespace>
 				elif what_to_show == 'show_downloads'
 					<article.search_hat>
 						<svg:svg.close_search :click.prevent.clearSpace() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0">
@@ -1734,7 +1705,7 @@ export tag Bible
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" css:margin="auto">
 						<h1> @data.lang:support
-						<a target="_blank" href="mailto:bpavlisinec@gmail.com">
+						<a href="mailto:bpavlisinec@gmail.com">
 							<svg:svg.filter_search xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 								<svg:title> @data.lang:help
 								<svg:g>
@@ -1928,39 +1899,3 @@ export tag Bible
 
 			if loading
 				<Load style="position: fixed; top: 50%; left: 50%;">
-
-tag text-as-html < span
-	prop thegiventext default: ""
-
-	def mount
-		schedule(events: yes)
-		dom:innerHTML = @data:text
-		@thegiventext = @data:text
-
-	def tick
-		if @data:text != @thegiventext
-			dom:innerHTML = @data:text
-			@thegiventext = @data:text
-			render
-
-	def render
-		<self>
-
-tag search-text-as-html < span
-	def mount
-		schedule(events: yes)
-		dom:innerHTML = @data:text
-
-	def tick
-		if @data:text != dom:innerHTML
-			dom:innerHTML = @data:text
-			render
-
-	def onclick event
-		if event:_event:ctrlKey
-			window.open("/{@data:translation}/{@data:book}/{@data:chapter}/{@data:verse}", '_blank')
-		else
-			trigger('gettext', @data)
-
-	def render
-		<self>

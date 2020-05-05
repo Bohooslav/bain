@@ -270,7 +270,7 @@ export tag Profile < main
 				<Load css:padding="128px 0">
 			else
 				<div.freespace>
-			if !@bookmarks:length && !@categories:length
+			if !@loaded_bookmarks:length && !@categories:length
 				<p css:text-align="center"> @data.lang:thereisnobookmarks
 
 		if !window:navigator:onLine

@@ -37,8 +37,6 @@ export const en_leng = {
   verse_break: "Verse wrap",
   lock_drawers: "Lock drawers",
   compare: "Compare",
-  move_up: "Move up",
-  move_down: "Move down",
   add_translations_msg: "Translations for comparison",
   add_translation_btn: "Add translation",
   the_verse_is_not_available: "The verse is not available in translation: ",
@@ -89,7 +87,8 @@ export const en_leng = {
     "Back to reading: <b>Esc</b>",
     "Hide menu icons: <b>Ctrl + Alt + H</b>",
     "Full screen: <b>f11</b>"
-  ]
+  ],
+  error: "Error. Try again later)",
   ycdtitnw: "You can support this app in the next way:",
   SUPPORT: [
     "Just share it -=> bolls.life",
@@ -157,10 +156,8 @@ export const uk_leng = {
   verse_break: "Перенос віршів",
   lock_drawers: "Закріпити панелі",
   compare: "Порівняти",
-  move_up: "Підняти",
-  move_down: "Опустити",
   add_translations_msg: "Переклади для порівняння",
-  add_translation_btn: "Добавити переклад",
+  add_translation_btn: "Додати переклад",
   the_verse_is_not_available: "Цей вірш недоступний у перекладі: ",
   copy: "Копіювати",
   clear_copy: "Чисте копіювання",
@@ -209,7 +206,8 @@ export const uk_leng = {
     "Повернутися до читання: <b>Esc</b>",
     "Сховати іконки меню: <b>Ctrl + Alt + H</b>",
     "Повноекранний режим: <b>f11</b>"
-  ]
+  ],
+  error: "Помилка. Спробуйте ще раз пізніше)",
   ycdtitnw: "Ви можете підтримати даний додаток наступним чином:",
   SUPPORT: [
     "Просто поширьте його -=> bolls.life",
@@ -277,8 +275,6 @@ export const ru_leng = {
   verse_break: "Перенос стихов",
   lock_drawers: "Закрепить панели",
   compare: "Савнить",
-  move_up: "Поднять",
-  move_down: "Опустить",
   add_translations_msg: "Переводы для сравнения",
   add_translation_btn: "Добавить перевод",
   the_verse_is_not_available: "Этот стих недоступен в переводе: ",
@@ -329,7 +325,8 @@ export const ru_leng = {
     "Вернутся к чтению: E<b>sc</b>",
     "Спрятать иконки меню: <b>Ctrl + Alt + H</b>",
     "Полноэкранный режим: <b>f11</b>"
-  ]
+  ],
+  error: "Ошибка. Попробуйте ещё раз позже)",
   ycdtitnw: "Вы можете поддержать даное приложение так:",
   SUPPORT: [
     "Просто поделитесь им -=> bolls.life",
