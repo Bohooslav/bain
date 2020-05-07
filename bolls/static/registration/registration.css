@@ -153,7 +153,7 @@ a {
 
 .tomain {
   font: inherit;
-  text-decoration: none;
+  text-decoration: 3px underline;
 }
 
 .help, p.help, form p.help, div.help, form div.help, div.help li {

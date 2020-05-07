@@ -6,6 +6,8 @@ import {Downloads} from "./downloads.imba"
 require "./compare-draggable-item"
 require './search-text-as-html'
 require './text-as-html'
+import {thanks_to} from './thanks_to'
+
 
 let translations = []
 for language in languages
@@ -338,7 +340,7 @@ export tag Bible
 		menuicons = !(getCookie('menuicons') == 'false')
 		compare_translations.push(settings:translation)
 		compare_translations.push(settingsp:translation)
-		compare_translations = (JSON.parse(getCookie("compare_translations")):length ? JSON.parse(getCookie("compare_translations")) : no) || compare_translations
+		if JSON.parse(getCookie("compare_translations")) then compare_translations = (JSON.parse(getCookie("compare_translations")):length ? JSON.parse(getCookie("compare_translations")) : no) || compare_translations
 		@search = {
 				search_div: no,
 				search_input: '',
@@ -1354,6 +1356,12 @@ export tag Bible
 		compare_translations = arr:_data
 		window:localStorage.setItem("compare_translations", JSON.stringify(arr:_data))
 
+	def currentLanguage
+		switch @data.language
+			when 'ukr' then "Українська"
+			when 'ru' then "Русский"
+			when 'pt' then "Portuguese"
+			else "English"
 
 	def render
 		<self>
@@ -1543,34 +1551,25 @@ export tag Bible
 					@data.lang:history
 				<.nighttheme.flex :click.prevent=(do @data.show_languages = !@data.show_languages)>
 					@data.lang:language
-					<button.change_language>
-						if @data.language == 'ukr'
-							"Українська"
-						if @data.language == 'eng'
-							"English"
-						if @data.language == 'ru'
-							"Русский"
+					<button.change_language> currentLanguage()
 					<.languages .show_languages=@data.show_languages>
 						<button :click.prevent=(do @data.setLanguage('ukr'))> "Українська"
 						<button :click.prevent=(do @data.setLanguage('ru'))> "Русский"
 						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
+						<button :click.prevent=(do @data.setLanguage('pt'))> "Portuguese"
 				<.nighttheme.parent_checkbox.flex :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
-					<p.checkbox>
-						<span>
+					<p.checkbox> <span>
 				<.nighttheme.parent_checkbox.flex :click.prevent.toggleVerseBreak() .checkbox_turned=settings:verse_break>
 					@data.lang:verse_break
-					<p.checkbox>
-						<span>
+					<p.checkbox> <span>
 				<.nighttheme.parent_checkbox.flex title=@data.lang:clear_copy_explain :click.prevent.toggleClearCopy() .checkbox_turned=settings:clear_copy>
 					@data.lang:clear_copy
-					<p.checkbox>
-						<span>
+					<p.checkbox> <span>
 				if window:innerWidth > 1024
 					<.nighttheme.parent_checkbox.flex :click.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
 						@data.lang:lock_drawers
-						<p.checkbox>
-							<span>
+						<p.checkbox> <span>
 				<a.help :click.prevent.toDownloads(no)>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:download
@@ -1597,8 +1596,8 @@ export tag Bible
 					@data.lang:support
 				<footer>
 					<p.footer_links>
-						<a target="_blank" href="http://www.patreon.com/bolls"> "Patreon "
-						<a target="_blank" href="http://t.me/bollsbible"> "Telegram "
+						<a target="_blank" rel="noreferrer" href="http://www.patreon.com/bolls"> "Patreon "
+						<a target="_blank" rel="noreferrer" href="http://t.me/bollsbible"> "Telegram "
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
@@ -1714,6 +1713,9 @@ export tag Bible
 					<article.helpFAQ.search_body>
 						<h3> @data.lang:ycdtitnw
 						<ul> for i in @data.lang:SUPPORT
+							<li> <text-as-html[{text: i}]>
+						<h3> @data.lang:bgthnkst, ":"
+						<ul> for i in thanks_to
 							<li> <text-as-html[{text: i}]>
 				else
 					<article.search_hat>

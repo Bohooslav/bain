@@ -41,15 +41,11 @@ export tag Profile < main
 				console.error('Error: ', error)
 
 	def mount
-		let bible = document:getElementsByClassName("Bible")
-		if bible[0]
-			bible[0]:classList.add("display_none")
+		@data.hideBible()
 		window:addEventListener('scroll', do render)
 
 	def unmount
-		let bible = document:getElementsByClassName("Bible")
-		bible[0]:classList.remove("display_none")
-		flag("display_none")
+		@data.showBible()
 		window:removeEventListener('scroll', do render)
 
 	def getCookie c_name

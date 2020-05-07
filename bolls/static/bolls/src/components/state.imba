@@ -1,5 +1,5 @@
 import "./languages.json" as languages
-import en_leng, uk_leng, ru_leng from "./langdata.imba"
+import en_lang, uk_lang, ru_lang, pt_lang from "./langdata.imba"
 let Dexie = require 'dexie'
 Dexie = Dexie:default
 
@@ -45,8 +45,8 @@ export class State
 					if !window:translation
 						setCookie('translation', 'RV1960')
 				when 'pt'
-					@language = 'eng'
-					document:lastChild:lang = "en"
+					@language = 'pt'
+					document:lastChild:lang = "pt"
 					if !window:translation
 						setCookie('translation', 'ARA')
 				when 'no'
@@ -337,9 +337,10 @@ export class State
 	def setLanguage language
 		@language = language
 		switch language
-			when 'ukr' then @lang = uk_leng
-			when 'ru' then @lang = ru_leng
-			else @lang = en_leng
+			when 'ukr' then @lang = uk_lang
+			when 'ru' then @lang = ru_lang
+			when 'pt' then @lang = pt_lang
+			else @lang = en_lang
 		setCookie('language', language)
 
 	def fallbackCopyTextToClipboard text
@@ -405,3 +406,12 @@ export class State
 		else
 			deleteBookmark(bookmark:verse)
 			setCookie('bookmarks-to-delete', JSON.stringify(pks))
+
+	def hideBible
+		let bible = document:getElementsByClassName("Bible")
+		if bible[0]
+			bible[0]:classList.add("display_none")
+
+	def showBible
+		let bible = document:getElementsByClassName("Bible")
+		bible[0]:classList.remove("display_none")
