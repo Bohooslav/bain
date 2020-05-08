@@ -1,6 +1,6 @@
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/w.csv' DELIMITER ',' CSV HEADER;
 COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/LUT.csv' DELIMITER '	' CSV HEADER;
-COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/web.csv' DELIMITER '|' CSV HEADER;
+COPY bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/web.csv' DELIMITER '|' CSV HEADER;
 
 
 SELECT * FROM bolls_verses ORDER BY BOOK, CHAPTER, VERSE
@@ -18,9 +18,20 @@ psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432  
 
 \copy bolls_bookmarks(id,color,note,user_id,verse_id,date) FROM '/home/b/Downloads/bolls_bookmarks.csv' DELIMITER ',' CSV HEADER;
 
-\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/imba/Bibles/verses.csv' DELIMITER '|' CSV HEADER;
-
-\copy bolls_verses(id, translation, book, chapter, verse, text) FROM '/home/b/test.csv' DELIMITER '|' CSV HEADER;
-
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/btx.csv' DELIMITER '|' CSV HEADER;
 
 \copy (Select * From bolls_verses) To '/home/b/test.csv' With CSV DELIMITER '|';
+
+
+-- Fix broken sequences
+CREATE OR REPLACE FUNCTION "reset_sequence" (tablename text, columnname text)
+RETURNS "pg_catalog"."void" AS
+$body$
+DECLARE
+BEGIN
+    EXECUTE 'SELECT setval( pg_get_serial_sequence(''' || tablename || ''', ''' || columnname || '''),
+    (SELECT COALESCE(MAX(id)+1,1) FROM ' || tablename || '), false)';
+END;
+$body$  LANGUAGE 'plpgsql';
+
+select table_name || '_' || column_name || '_seq', reset_sequence(table_name, column_name) from information_schema.columns where column_default like 'nextval%';

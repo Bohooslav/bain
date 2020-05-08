@@ -1361,6 +1361,7 @@ export tag Bible
 			when 'ukr' then "Українська"
 			when 'ru' then "Русский"
 			when 'pt' then "Portuguese"
+			when 'es' then "Español"
 			else "English"
 
 	def render
@@ -1557,6 +1558,7 @@ export tag Bible
 						<button :click.prevent=(do @data.setLanguage('ru'))> "Русский"
 						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
 						<button :click.prevent=(do @data.setLanguage('pt'))> "Portuguese"
+						<button :click.prevent=(do @data.setLanguage('es'))> "Español"
 				<.nighttheme.parent_checkbox.flex :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
 					<p.checkbox> <span>
@@ -1601,7 +1603,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-05-05T18:17"> "2019-present"
+						"© ",	<time time:datetime="2020-05-08T19:21"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
@@ -1781,7 +1783,7 @@ export tag Bible
 						else
 							<div style="display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center">
 								<p css:margin-top="32px" css:text-align="center"> @data.lang:nothing
-								<p css:padding="32px 0px 8px"> @data.lang:translation, search:search_result_translation
+								<p css:padding="32px 0px 8px"> @data.lang:translation, ' ', search:search_result_translation
 								<button.more_results :click.prevent.showTranslations> @data.lang:change_translation
 
 			<section.hide .without_padding=show_collections .choosen_verses=choosenid:length>

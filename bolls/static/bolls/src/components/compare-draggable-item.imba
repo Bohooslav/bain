@@ -110,7 +110,7 @@ tag compare-draggable-item
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data:lang:delete>
 			else
 				<li.search_res_verse_header style="padding: 16px 0;display: flex; align-items: center;">
-					@data:lang:the_verse_is_not_available, @data:tr[0]:translation, @data:tr[0]:text
+					@data:lang:the_verse_is_not_available, ' ', @data:tr[0]:translation, @data:tr[0]:text
 					<svg:svg.remove_parallel.close_search style="margin: -8px 8px 0 auto;" :click.prevent.addTranslation({short_name: @data:tr[0]:translation}) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" alt=@data:lang:delete>
 						<svg:title> @data:lang:delete
 						<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" alt=@data:lang:delete>

@@ -1,5 +1,12 @@
 import "./languages.json" as languages
-import en_lang, uk_lang, ru_lang, pt_lang from "./langdata.imba"
+# import './languages/english.json' as en_lang
+# import './languages/ukrainian.json' as uk_lang
+# import './languages/russian.json' as ru_lang
+# import './languages/portuguese.json' as pt_lang
+# import './languages/espanol.json' as es_lang
+import en_lang, uk_lang, ru_lang, pt_lang, es_lang from './langdata'
+
+
 let Dexie = require 'dexie'
 Dexie = Dexie:default
 
@@ -40,10 +47,10 @@ export class State
 					if !window:translation
 						setCookie('translation', 'SYNOD')
 				when 'es'
-					@language = 'eng'
-					document:lastChild:lang = "en"
+					@language = 'es'
+					document:lastChild:lang = "es"
 					if !window:translation
-						setCookie('translation', 'RV1960')
+						setCookie('translation', 'BTX3')
 				when 'pt'
 					@language = 'pt'
 					document:lastChild:lang = "pt"
@@ -340,6 +347,7 @@ export class State
 			when 'ukr' then @lang = uk_lang
 			when 'ru' then @lang = ru_lang
 			when 'pt' then @lang = pt_lang
+			when 'es' then @lang = es_lang
 			else @lang = en_lang
 		setCookie('language', language)
 
