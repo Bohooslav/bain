@@ -123,6 +123,16 @@
 		"language": "🇩🇪 Deutsch German",
 		"translations": [
 			{
+				"full_name": "Menge-Bibel",
+				"short_name": "MB",
+				"info": "https://de.wikipedia.org/wiki/Hermann_Menge"
+			},
+			{
+				"full_name": "Elberfelder Bibel, 1871",
+				"short_name": "ELB",
+				"info": "https://de.wikipedia.org/wiki/Elberfelder_Bibel"
+			},
+			{
 				"short_name": "SCH",
 				"full_name": "Schlachter (1951)",
 				"info": "https://wikipedia.org/wiki/Schlachter_Bible"

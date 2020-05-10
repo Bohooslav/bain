@@ -8,7 +8,6 @@ require './search-text-as-html'
 require './text-as-html'
 import {thanks_to} from './thanks_to'
 
-
 let translations = []
 for language in languages
 	translations = translations.concat(language:translations)
@@ -38,9 +37,6 @@ let settingsp = {
 	book: 1,
 	chapter: 1,
 	edited_version: settings:translatoin,
-}
-let user = {
-	name: ''
 }
 let inzone = no
 let onzone = no
@@ -317,19 +313,15 @@ export tag Bible
 		show_chapters_of = settings:book
 		switchTranslation(settings:translation, no)
 		getText(settings:translation, settings:book, settings:chapter)
-		user:name = getCookie('username') || ''
 		if window:navigator:onLine
 			try
 				let data = await loadData("/user-logged/")
 				if data:username
-					user:name = data:username
-					setCookie('username', user:name)
-					let url = "/get-history/"
-					try
-						let data = await loadData(url)
-						@history = JSON.parse(data:history)
-						if @history:length then window:localStorage.setItem("history", JSON.stringify(@history))
-				else user:name = ''
+					@data.user = data:username
+					setCookie('username', @data.user)
+					@history = JSON.parse(data:history)
+					if @history:length then window:localStorage.setItem("history", JSON.stringify(@history))
+				else @data.user = ''
 			catch error
 				console.error('Error: ', error)
 		if getCookie('parallel_display') == 'true'
@@ -389,7 +381,7 @@ export tag Bible
 		@history.push({"translation": translation, "book": book, "chapter": chapter, "verse": verse, "parallel": parallel})
 		window:localStorage.setItem("history", JSON.stringify(@history))
 
-		if user:name && window:navigator:onLine
+		if @data.user && window:navigator:onLine
 			window.fetch("/save-history/", {
 				method: "POST",
 				cache: "no-cache",
@@ -454,7 +446,7 @@ export tag Bible
 			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
 			try
 				@verses = []
-				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == translation)
+				if @data.can_work_with_db && @data.downloaded_translations.indexOf(translation) != -1
 					@verses = await @data.getChapterFromDB(translation, book, chapter, verse)
 				else
 					@verses = await loadData(url)
@@ -506,14 +498,14 @@ export tag Bible
 			let url = "/get-text/" + translation + '/' + book + '/' + chapter + '/'
 			@parallel_verses = []
 			try
-				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == translation)
+				if @data.can_work_with_db && @data.downloaded_translations.indexOf(translation) != -1
 					@parallel_verses = await @data.getChapterFromDB(translation, book, chapter, verse)
 				else
 					@parallel_verses = await loadData(url)
 				Imba.commit
 			catch error
 				console.error('Error: ', error)
-			if user:name
+			if @data.user
 				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
 				@parallel_bookmarks = []
 				try
@@ -646,7 +638,7 @@ export tag Bible
 				what_to_show = ''
 				Imba.commit
 			catch error
-				if @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == search:search_result_translation)
+				if @data.can_work_with_db && @data.downloaded_translations.indexOf(search:search_result_translation) != -1
 					@search_verses = await @data.getSearchedTextFromStorage(search)
 					@search:bookid_of_results = []
 					for verse in @search_verses
@@ -935,7 +927,7 @@ export tag Bible
 			notes += category
 			if key + 1 < choosen_categories:length
 				notes += " | "
-		if !user:name
+		if !@data.user
 			window:location:pathname = "/signup/"
 			return
 		if window:navigator:onLine
@@ -984,19 +976,27 @@ export tag Bible
 		clearSpace
 
 	def deleteColor color_to_delete
-		highlights.splice(highlights.indexOf(highlights.find(do |element| return element == color_to_delete)), 1)
+		highlights.splice(highlights.indexOf(color_to_delete), 1)
 		window:localStorage.setItem("highlights", JSON.stringify(highlights))
 
 	def deleteBookmarks pks
-		@data.requestDeleteBookmark(pks)
-		if choosen_parallel == 'second'
-			for verse in choosenid
-				if @parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)
-					@parallel_bookmarks.splice(@parallel_bookmarks.indexOf(@parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)), 1)
-		else
-			for verse in choosenid
-				if @bookmarks.find(do |bookmark| return bookmark:verse == verse)
-					@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bookmark| return bookmark:verse == verse)), 1)
+		let should_to_delete = no
+		let indexes_of_bookmarks = parallel_bookmarks.map(do |x| x:verse)
+		indexes_of_bookmarks = indexes_of_bookmarks.concat(bookmarks.map(do |x| x:verse))
+		for pk in pks
+			if indexes_of_bookmarks.indexOf(pk) != -1
+				should_to_delete = yes
+				break
+		if @data.user && should_to_delete
+			@data.requestDeleteBookmark(pks)
+			if choosen_parallel == 'second'
+				for verse in choosenid
+					if @parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)
+						@parallel_bookmarks.splice(@parallel_bookmarks.indexOf(@parallel_bookmarks.find(do |bookmark| return bookmark:verse == verse)), 1)
+			else
+				for verse in choosenid
+					if @bookmarks.find(do |bookmark| return bookmark:verse == verse)
+						@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bookmark| return bookmark:verse == verse)), 1)
 		clearSpace
 
 	def copyToClipboard
@@ -1041,7 +1041,7 @@ export tag Bible
 				"profile",
 				"/profile/"
 			)
-		document:title = "Bolls " + " | " + user:name
+		document:title = "Bolls " + " | " + @data.user
 		Imba.mount <Profile[@data]>
 
 	def toDownloads from_build
@@ -1073,7 +1073,7 @@ export tag Bible
 		turnHistory
 		@history = []
 		window:localStorage.setItem("history", "[]")
-		if user:name
+		if @data.user
 			window.fetch("/save-history/", {
 				method: "POST",
 				cache: "no-cache",
@@ -1095,7 +1095,7 @@ export tag Bible
 		else
 			show_collections = !show_collections
 			show_color_picker = no
-			if show_collections && user:name
+			if show_collections && @data.user
 				let url = "/get-categories/"
 				if window:navigator:onLine
 					let data = await loadData(url)
@@ -1207,7 +1207,7 @@ export tag Bible
 		translations.find(do |translation| return translation:short_name == tr):full_name
 
 	def toggleCompare
-		if !user:name
+		if !@data.user
 			window:location = "/signup/"
 			return
 		let book, chapter
@@ -1220,7 +1220,7 @@ export tag Bible
 			compare_parallel_of_book = settings:book
 		clearSpace()
 		loading = yes
-		if !window:navigator:onLine && @data.can_work_with_db && @data.downloaded_translations.find(do |element| return element == settings:translation)
+		if !window:navigator:onLine && @data.can_work_with_db && @data.downloaded_translations.indexOf(settings:translation) != -1
 			comparison_parallel = await @data.getParallelVersesFromStorage()
 			loading = no
 			show_compare = yes
@@ -1446,7 +1446,7 @@ export tag Bible
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 							if choosen:length
 								<.freespace>
-					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settings:translation) && !(@verses:length)
+					if !window:navigator:onLine && @data.downloaded_translations.indexOf(settings:translation) == -1 && !(@verses:length)
 						<p.in_offline>
 							@data.lang:this_translation_is_unavailable
 							<br>
@@ -1473,7 +1473,7 @@ export tag Bible
 										<svg:polygon points="4,3 1,0 0,1 4,5 8,1 7,0">
 							if choosenid:length
 								<.freespace>
-					if !window:navigator:onLine && !@data.downloaded_translations.find(do |element| return element == settingsp:translation) && !(@parallel_verses:length)
+					if !window:navigator:onLine && @data.downloaded_translations.indexOf(settingsp:translation) == -1 && !(@parallel_verses:length)
 						<p.in_offline> @data.lang:this_translation_is_unavailable
 
 			<aside style="right: {settings_menu_left}px; {boxShadow(settings_menu_left)} {settings_menu_left > - 300 && (inzone || onzone) ? 'transition: none;will-change: right;' : ''}">
@@ -1496,30 +1496,30 @@ export tag Bible
 						<svg:title> @data.lang:lighttheme
 						<svg:path d="M10 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM9 1a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0V1zm6.65 1.94a1 1 0 1 1 1.41 1.41l-1.4 1.4a1 1 0 1 1-1.41-1.41l1.4-1.4zM18.99 9a1 1 0 1 1 0 2h-1.98a1 1 0 1 1 0-2h1.98zm-1.93 6.65a1 1 0 1 1-1.41 1.41l-1.4-1.4a1 1 0 1 1 1.41-1.41l1.4 1.4zM11 18.99a1 1 0 1 1-2 0v-1.98a1 1 0 1 1 2 0v1.98zm-6.65-1.93a1 1 0 1 1-1.41-1.41l1.4-1.4a1 1 0 1 1 1.41 1.41l-1.4 1.4zM1.01 11a1 1 0 1 1 0-2h1.98a1 1 0 1 1 0 2H1.01zm1.93-6.65a1 1 0 1 1 1.41-1.41l1.4 1.4a1 1 0 1 1-1.41 1.41l-1.4-1.4z">
 				<.btnbox>
-					<a.cbtn style="padding: 12px; font-size: 20px;" :click.prevent.decreaseFontSize title=@data.lang:decrease_font-size> "B-"
-					<a.cbtn style="padding: 8px; font-size: 24px;" :click.prevent.increaseFontSize title=@data.lang:increase_font-size> "B+"
+					<a.cbtn style="padding: 12px; font-size: 20px;" :click.prevent.decreaseFontSize title=@data.lang:decrease_font_size> "B-"
+					<a.cbtn style="padding: 8px; font_size: 24px;" :click.prevent.increaseFontSize title=@data.lang:increase_font_size> "B+"
 				<.btnbox>
-					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 100;" :click.prevent.changeFontWeight(-100) title=@data.lang:decrease_font-weight> "B"
-					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 900;" :click.prevent.changeFontWeight(100) title=@data.lang:increase_font-weight> "B"
+					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 100;" :click.prevent.changeFontWeight(-100) title=@data.lang:decrease_font_weight> "B"
+					<a.cbtn style="padding: 8px; font-size: 24px; font-weight: 900;" :click.prevent.changeFontWeight(100) title=@data.lang:increase_font_weight> "B"
 				<.btnbox>
 					<svg:svg.cbtn :click.prevent.changeLineHeight(no) xmlns="http://www.w3.org/2000/svg" width="38" height="14" viewBox="0 0 38 14" fill="context-fill" style="padding: calc(42px - 26px) 0;">
-						<svg:title> @data.lang:decrease_line-height
+						<svg:title> @data.lang:decrease_line_height
 						<svg:rect x="0" y="0" width="28" height="2">
 						<svg:rect x="0" y="6" width="38" height="2">
 						<svg:rect x="0" y="12" width="18" height="2">
 					<svg:svg.cbtn :click.prevent.changeLineHeight(yes) xmlns="http://www.w3.org/2000/svg" width="38" height="24" viewBox="0 0 38 24" fill="context-fill" style="padding: calc(42px - 32px) 0;">
-						<svg:title> @data.lang:increase_line-height
+						<svg:title> @data.lang:increase_line_height
 						<svg:rect x="0" y="0" width="28" height="2">
 						<svg:rect x="0" y="11" width="38" height="2">
 						<svg:rect x="0" y="22" width="18" height="2">
 				if window:innerWidth > 600
 					<.btnbox>
 						<svg:svg.cbtn :click.prevent.changeMaxWidth(no) xmlns="http://www.w3.org/2000/svg" width="42" height="16" viewBox="0 0 42 16" fill="context-fill" style="padding: calc(42px - 28px) 0;">
-							<svg:title> @data.lang:increase_max-width
+							<svg:title> @data.lang:increase_max_width
 							<svg:path d="M14.5,7 L8.75,1.25 L10,-1.91791433e-15 L18,8 L17.375,8.625 L10,16 L8.75,14.75 L14.5,9 L1.13686838e-13,9 L1.13686838e-13,7 L14.5,7 Z">
 							<svg:path d="M38.5,7 L32.75,1.25 L34,6.58831647e-15 L42,8 L41.375,8.625 L34,16 L32.75,14.75 L38.5,9 L24,9 L24,7 L38.5,7 Z" transform="translate(33.000000, 8.000000) scale(-1, 1) translate(-33.000000, -8.000000)">
 						<svg:svg.cbtn :click.prevent.changeMaxWidth(yes) xmlns="http://www.w3.org/2000/svg" width="44" height="16" viewBox="0 0 44 16" fill="context-fill" style="padding: calc(42px - 28px) 0;">
-							<svg:title> @data.lang:decrease_max-width
+							<svg:title> @data.lang:decrease_max_width
 							<svg:path d="M14.5,7 L8.75,1.25 L10,-1.91791433e-15 L18,8 L17.375,8.625 L10,16 L8.75,14.75 L14.5,9 L1.13686838e-13,9 L1.13686838e-13,7 L14.5,7 Z" transform="translate(9.000000, 8.000000) scale(-1, 1) translate(-9.000000, -8.000000)">
 							<svg:path d="M40.5,7 L34.75,1.25 L36,-5.17110888e-16 L44,8 L43.375,8.625 L36,16 L34.75,14.75 L40.5,9 L26,9 L26,7 L40.5,7 Z">
 				<.btnbox>
@@ -1538,8 +1538,8 @@ export tag Bible
 						for font in fonts
 							<button :click.prevent.setFontFamily(font) css:font-family=font:code> font:name
 				<.profile_in_settings>
-					if user:name
-						<a.username :click.prevent.toProfile(no)> user:name.charAt(0).toUpperCase() + user:name.slice(1)
+					if @data.user
+						<a.username :click.prevent.toProfile(no)> @data.user.charAt(0).toUpperCase() + @data.user.slice(1)
 						<a.prof_btn href="/accounts/logout/"> @data.lang:logout
 					else
 						<a.prof_btn href="/accounts/login/"> @data.lang:login
@@ -1603,7 +1603,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-05-08T19:21"> "2019-present"
+						"© ",	<time time:datetime="2020-05-10T17:13"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
@@ -1690,7 +1690,7 @@ export tag Bible
 											<svg:svg.remove_parallel.close_search.animated_downloading xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
 												<svg:title> @data.lang:loading
 												<svg:path d=svg_paths:loading style="marker:none" color="#000" overflow="visible" fill="var(--text-color)">
-										elif @data:downloaded_translations().find(do |translation| return translation == tr:short_name)
+										elif @data:downloaded_translations().indexOf(tr:short_name) != -1
 											<svg:svg.remove_parallel.close_search :click.prevent=(do @data.deleteTranslation(tr:short_name)) xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" alt=@data.lang:delete>
 												<svg:title> @data.lang:delete
 												<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M11 2H9C9 1.45 8.55 1 8 1H5C4.45 1 4 1.45 4 2H2C1.45 2 1 2.45 1 3V4C1 4.55 1.45 5 2 5V14C2 14.55 2.45 15 3 15H10C10.55 15 11 14.55 11 14V5C11.55 5 12 4.55 12 4V3C12 2.45 11.55 2 11 2ZM10 14H3V5H4V13H5V5H6V13H7V5H8V13H9V5H10V14ZM11 4H2V3H11V4Z">

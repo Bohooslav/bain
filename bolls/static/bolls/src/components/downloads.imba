@@ -41,9 +41,9 @@ export tag Downloads < main
 			<#downloads-container>
 				# <a.platform-item href="https://storage.googleapis.com/dbbba/bolls-0.1.0.dmg">
 				# 	<svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 49.3 49.2" style="enable-background:new 0 0 49.3 49.2;" xml:space="preserve">
-				# 		<svg:title> @data.lang:download-for, " MacOS"
+				# 		<svg:title> @data.lang:download_for, " MacOS"
 				# 		<svg:path d="M24.6,0C11,0,0,11,0,24.6s11,24.6,24.6,24.6s24.7-11,24.7-24.6S38.2,0,24.6,0z M26.1,9.9c1.1-1.3,3-2.3,4.6-2.3  c0.2,1.8-0.5,3.6-1.6,4.9c-1.1,1.3-2.9,2.3-4.6,2.2C24.2,13,25.1,11.1,26.1,9.9z M34.9,34.7c-1.3,1.9-2.6,3.8-4.7,3.8  c-2.1,0-2.7-1.2-5.1-1.2S22,38.5,20,38.6s-3.6-2-4.9-3.9c-2.7-3.8-4.7-10.9-2-15.6c1.4-2.4,3.8-3.8,6.4-3.9c2,0,3.9,1.4,5.1,1.4  s3.5-1.7,5.9-1.4c1,0,3.8,0.4,5.7,3.1c-0.1,0.1-3.4,2-3.3,5.9c0,4.7,4.1,6.2,4.2,6.3C37,30.4,36.4,32.6,34.9,34.7z">
-				# 	<p> @data.lang:download-for, " MacOS"
+				# 	<p> @data.lang:download_for, <br>, " MacOS"
 				<a.platform-item rel="noreferrer" target="_blank" href="https://play.google.com/store/apps/details?id=life.bolls.bolls">
 					<svg:svg.platforms_svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 505.499 505.499" style="enable-background:new 0 0 505.499 505.499;" xml:space="preserve">
 						<svg:title> @data.lang:snapstore, " Google Play"
@@ -52,7 +52,7 @@ export tag Downloads < main
 							<svg:polygon points="363.785,172.301 262.453,113.803 40.375,0 291.203,242.471">
 							<svg:polygon points="44.063,505.499 262.834,384.988 357.268,330.473 291.203,266.604">
 							<svg:polygon points="25.559,9.815 25.324,499.486 278.721,254.533">
-					<p> @data.lang:snapstore, " Google Play"
+					<p> @data.lang:snapstore, <br>, " Google Play"
 				<a.platform-item rel="noreferrer" target="_blank" href="https://bolls.life">
 					<svg:svg.platforms_svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
 						<svg:title> "firefox"
@@ -66,27 +66,22 @@ export tag Downloads < main
 							<svg:path d="M5384.1,1700.4c0-63,114.3-149.7,256.1-189.1c200.9-55.2,425.5-240.3,508.2-417.6c35.4-78.8,63-232.4,63-378.2c0-228.5,3.9-240.3,90.6-228.5c82.8,11.8,86.7,27.6,74.9,327c-7.9,224.6-35.5,346.7-90.6,437.3c-86.7,141.8-291.5,307.3-457,374.3C5687.5,1684.6,5384.1,1735.8,5384.1,1700.4z">
 							<svg:path d="M4659.2,1499.4c-370.3-248.2-492.4-504.3-496.4-1047.9c0-366.4,0-366.4,98.5-366.4s98.5,3.9,98.5,366.4c0,264,19.7,405.8,74.8,520c74.8,169.4,334.9,429.4,472.7,472.7c67,19.7,74.8,39.4,43.3,102.4C4895.6,1645.2,4879.8,1641.3,4659.2,1499.4z">
 							<svg:path d="M6920.5,258.5C6132.6,97,4415-245.8,2193.1-687c-508.2-102.4-1024.3-204.8-1142.5-228.5l-216.7-47.3v-2537.1V-6033l728.8-149.7c401.8-78.8,1465.5-291.5,2363.7-468.8c898.2-177.3,2115.5-417.6,2698.6-535.8c587-118.2,1103.1-212.7,1150.4-212.7c51.2,0,342.8,98.5,650,220.6c311.2,122.2,602.8,236.4,654,256.1l86.7,35.5l-7.9,3435.3L9146.4-13.3l-177.3,59.1c-98.5,31.5-386.1,130-642.1,224.6c-256.1,94.5-484.6,165.4-512.1,165.4C7787.2,431.8,7385.4,353,6920.5,258.5z M6065.6-1423.7c63-43.3,67-137.9,59.1-973.1l-11.8-925.8H4990.1H3867.4l-11.8,748.5l-7.9,752.4L4899.5-1601c583.1,122.1,1067.6,224.5,1079.4,224.5C5990.8-1372.5,6030.2-1396.1,6065.6-1423.7z M3690.1-2593.7v-748.5H2981h-709.1v606.7v606.7l386.1,67c327,59.1,992.8,197,1024.3,212.7C3686.1-1849.2,3690.1-2180.1,3690.1-2593.7z M3690.1-4220.8v-764.3l-264,51.2c-149.7,31.5-468.8,90.6-709.1,137.9l-445.2,86.7v626.4v622.4H2981h709.1V-4220.8z M6124.7-4453.2c7.9-910,4-977-59.1-977c-39.4,0-555.5,90.6-1142.5,204.9l-1075.5,204.8v752.5c0,417.6,11.8,768.2,27.6,780c15.8,15.8,524,23.6,1130.6,19.7l1107-11.8L6124.7-4453.2z">
-					<p> @data.lang:snapstore, " Windows Store"
+					<p> @data.lang:snapstore, <br>, " Windows Store"
 				<a.platform-item href="https://storage.googleapis.com/dbbba/BollsSetup.exe">
 					<svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 49.2 49.2" style="enable-background:new 0 0 49.2 49.2;" xml:space="preserve">
-						<svg:title> @data.lang:download-for, " Windows"
+						<svg:title> @data.lang:download_for, " Windows"
 						<svg:path d="M24.6,0C11,0,0,11,0,24.6s11,24.6,24.6,24.6s24.6-11,24.6-24.6S38.2,0,24.6,0z M21.3,36.3l-11.2-1.6v-9.1h11.2  V36.3z M21.3,24H10.1v-9.1l11.2-1.7V24z M37.9,38.7l-15.1-2.2v-11h15.1V38.7z M37.9,24h-15V13l15-2.2V24z">
-					<p> @data.lang:download-for, " Windows"
+					<p> @data.lang:download_for, <br>, " Windows"
 				<a.platform-item rel="noreferrer" target="_blank" href="https://snapcraft.io/bolls">
-					<svg:svg.platforms_svg id="svg3957" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="64.558mm" width="64.558mm" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 244 244.00001">
+					<svg:svg.platforms_svg viewBox="0 0 244 244.00001" version="1.1">
 						<svg:title> @data.lang:snapstore, " Snap Store"
-						<svg:g id="Page-1" fill="none" transform="scale(5.5455)">
-							<svg:g id="snapcraft-primary-icon--dark">
-							<svg:circle id="Oval" cy="22" cx="22" r="22" fill="#252525">
-							<svg:g id="snapcraft-logo--web" transform="translate(7,8)">
-								<svg:path id="Combined-Shape" fill="#82bfa1" d="m18.06 7.28 6.92 3.08-6.92 6.92zm-13.22 23.22l8.49-15.92 3.73 3.7zm-4.84-30 17.47 6.32v11.05z">
-								<svg:polygon id="Shape" points="28.53 6.82 18.46 6.82 31.4 12.57" fill="#fa6340">
-					<p> @data.lang:snapstore, " Snap Store"
+						<svg:path d="M 121.69531 0 A 122.00036 122.00036 0 0 0 0 122 A 122.00036 122.00036 0 0 0 122 244 A 122.00036 122.00036 0 0 0 244 122 A 122.00036 122.00036 0 0 0 122 0 A 122.00036 122.00036 0 0 0 121.69531 0 z M 38.818359 47.136719 L 135.69727 82.183594 L 135.69727 143.46094 L 38.818359 47.136719 z M 141.1875 82.183594 L 197.03125 82.183594 L 212.94531 114.07031 L 141.1875 82.183594 z M 138.96875 84.734375 L 177.34375 101.81445 L 138.96875 140.18945 L 138.96875 84.734375 z M 112.74023 125.2168 L 133.42383 145.73438 L 65.658203 213.5 L 112.74023 125.2168 z ">
+					<p> @data.lang:snapstore, <br>, " Snap Store"
 				<a.platform-item href="https://storage.googleapis.com/dbbba/bolls-0.1.1.AppImage">
 					<svg:svg.platforms_svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-						<svg:title> @data.lang:download-for, " Linux"
+						<svg:title> @data.lang:download_for, " Linux"
 						<svg:path d="M256,512C114.6,512,0,397.4,0,256S114.6,0,256,0s256,114.6,256,256S397.4,512,256,512z M237,128.5  c-119.4,9.6-87.7,135.7-89.5,178c-1.6,22.3-9,49.7-19.5,77.5h32.3c3.3-11.8,5.8-23.4,6.8-34.5c1.9,1.4,4,2.7,6.2,3.9  c3.6,2.1,6.7,5,10,8c7.7,7,16.4,14.9,33.4,15.9c1.1,0.1,2.3,0.1,3.4,0.1c17.2,0,29-7.5,38.5-13.6c4.5-2.9,8.5-5.4,12.1-6.6  c10.5-3.3,19.6-8.6,26.5-15.3c1.1-1.1,2.1-2.1,3-3.2c3.8,14,9,29.7,14.8,45.4h69c-16.5-25.6-33.6-50.6-33.3-82.5  C351.4,238.3,357.9,118.9,237,128.5z M287.7,290.9c-5.5-2.4-10-4-13.6-5.3c2-4,3.3-8.9,3.4-14.3l0,0c0.3-13.1-6.3-23.7-14.7-23.8  c-8.4,0-15.5,10.6-15.8,23.7l0,0c0,0.4,0,0.9,0,1.3c-5.2-2.4-10.3-4.1-15.3-5.2c0-0.5-0.1-1-0.1-1.5l0,0  c-0.5-23.9,14.1-43.6,32.7-44.1c18.5-0.5,34,18.4,34.4,42.3l0,0c0.2,10.8-2.7,20.7-7.6,28.4C290.1,291.9,288.9,291.4,287.7,290.9z   M267.3,298.7c4,1.4,8.6,3,14.7,5.6h0.1c5.7,2.3,12.5,6.6,12.2,13.7c-0.5,10.9-14.7,21.1-27.9,25.3h-0.1c-5.5,1.8-10.4,4.9-15.5,8.2  c-8.7,5.6-17.7,11.3-30.6,11.3c-0.9,0-1.7,0-2.6-0.1c-11.9-0.7-17.4-5.8-24.5-12.2c-3.7-3.4-7.5-6.9-12.5-9.8l-0.1-0.1  c-10.7-6-17.3-13.5-17.7-20c-0.2-3.2,1.2-6.1,4.3-8.4c6.7-5,11.1-8.3,14.1-10.4c3.3-2.4,4.3-3.1,5-3.8c0.5-0.5,1.1-1,1.7-1.6  c6.1-5.9,16.3-15.9,32-15.9c9.6,0,20.2,3.7,31.5,11C256.8,295,261.4,296.6,267.3,298.7z M217.6,320.7c-15.3-1.1-27.5-5.3-32.9-8.9  c-3.3-2.3-7.8-1.4-10.1,1.9s-1.4,7.9,1.9,10.1c8.7,5.9,24,10.2,40,11.4c2.7,0.2,5.7,0.3,8.9,0.3c13.9,0,31.7-1.3,50.6-10.1  c3.6-1.7,5.2-6,3.5-9.7c-1.7-3.6-6-5.2-9.7-3.5C249.4,321.7,230.4,321.6,217.6,320.7z M196,271.5L196,271.5  c-1.1-11.7-7.4-20.6-14-19.7c-6.6,0.8-11,10.9-9.8,22.6c0.5,5.1,2,9.7,4,13.1c-0.5,0.4-1.9,1.5-3.6,2.7c-1.3,0.9-2.8,2-4.6,3.4  c-5-6.5-8.4-15.9-9-26.5l0,0c-1.2-20.6,8.7-38,22-38.7c13.4-0.8,25.1,15.3,26.3,35.9l0,0c0.1,1.1,0.1,2.2,0.1,3.3  c-4.2,1.1-8,2.6-11.5,4.4C196,271.8,196,271.7,196,271.5z">
-					<p> @data.lang:download-for, " Linux"
+					<p> @data.lang:download_for, <br>, " Linux"
 
 			<text-as-html[{text: @data.lang:install_on_android}].install_on_android>
 			<p style="background-color: #04060C; display: flex; height: 100vh;">

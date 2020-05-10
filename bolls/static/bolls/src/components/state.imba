@@ -6,7 +6,6 @@ import "./languages.json" as languages
 # import './languages/espanol.json' as es_lang
 import en_lang, uk_lang, ru_lang, pt_lang, es_lang from './langdata'
 
-
 let Dexie = require 'dexie'
 Dexie = Dexie:default
 
@@ -25,6 +24,7 @@ export class State
 	prop lang
 	prop notifications default: []
 	prop lastPushedNotificationWasAt
+	prop user
 
 	def initialize
 		@can_work_with_db = yes
@@ -32,6 +32,7 @@ export class State
 		@downloading_of_this_translations = []
 		@deleting_of_all_transllations = no
 		@show_languages = no
+		@user = getCookie('username') || ''
 		if getCookie('language')
 			setLanguage(getCookie('language'))
 		else
@@ -65,7 +66,7 @@ export class State
 					@language = 'eng'
 					document:lastChild:lang = "en"
 					if !window:translation
-						setCookie('translation', 'SCH')
+						setCookie('translation', 'MB')
 				when 'he'
 					@language = 'eng'
 					document:lastChild:lang = "en"

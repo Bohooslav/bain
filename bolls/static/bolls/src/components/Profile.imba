@@ -1,9 +1,6 @@
 import "./translations_books.json" as BOOKS
-import {Load} from "./loading.imba"
+import {Load} from "./loading"
 
-let user = {
-	name: '',
-}
 let limits_of_range = {
 	from: 0,
 	to: 32,
@@ -32,13 +29,6 @@ export tag Profile < main
 		getProfileBookmarks(limits_of_range:from, limits_of_range:to)
 		if window:navigator:onLine
 			getCategories
-		if window:navigator:onLine
-			try
-				let data = await loadData("/user-logged/")
-				if data:username
-					user:name = data:username
-			catch error
-				console.error('Error: ', error)
 
 	def mount
 		@data.hideBible()
@@ -69,21 +59,10 @@ export tag Profile < main
 				else
 					row += '-' + id
 			else
-				if !key
-					row += id
-				else
-					row += ',' + id
+				!key ? (row += id) : (row += ',' + id)
 		return row
 
-	def getProfileBookmarks range_from, range_to
-		let url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
-		let bookmarksdata
-		if window:navigator:onLine
-			bookmarksdata = await loadData(url)
-		else
-			console.log @data
-			bookmarksdata = await @data.getBookmarksFromStorage() || []
-		limits_of_range:loaded += bookmarksdata:length
+	def parseBookmarks bookmarksdata, bookmarkstype
 		let newItem = {
 			verse: [],
 			text: []
@@ -98,26 +77,37 @@ export tag Profile < main
 			newItem:verse = [item:verse:verse]
 			newItem:pks = [item:verse:verse_id]
 			newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
-			if @loaded_bookmarks[@loaded_bookmarks:length - 1]
-				if item:date == @loaded_bookmarks[@loaded_bookmarks:length - 1]:date.getTime
-					@loaded_bookmarks[@loaded_bookmarks:length - 1]:verse.push(item:verse:verse)
-					@loaded_bookmarks[@loaded_bookmarks:length - 1]:pks.push(item:verse:verse_id)
-					@loaded_bookmarks[@loaded_bookmarks:length - 1]:text.push(item:verse:text)
-					@loaded_bookmarks[@loaded_bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @loaded_bookmarks[@loaded_bookmarks:length - 1]:verse
+			if self[bookmarkstype]()[self[bookmarkstype]():length - 1]
+				if item:date == self[bookmarkstype]()[self[bookmarkstype]():length - 1]:date.getTime
+					self[bookmarkstype]()[self[bookmarkstype]():length - 1]:verse.push(item:verse:verse)
+					self[bookmarkstype]()[self[bookmarkstype]():length - 1]:pks.push(item:verse:verse_id)
+					self[bookmarkstype]()[self[bookmarkstype]():length - 1]:text.push(item:verse:text)
+					self[bookmarkstype]()[self[bookmarkstype]():length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, self[bookmarkstype]()[self[bookmarkstype]():length - 1]:verse
 				else
 					newItem:text.push(item:verse:text)
-					@loaded_bookmarks.push(newItem)
+					self[bookmarkstype]().push(newItem)
 					newItem = {
 						verse: [],
 						text: []
 					}
 			else
 				newItem:text.push(item:verse:text)
-				@loaded_bookmarks.push(newItem)
+				self[bookmarkstype]().push(newItem)
 				newItem = {
 						verse: [],
 						text: []
 					}
+
+
+	def getProfileBookmarks range_from, range_to
+		let url = "/get-profile-bookmarks/" + range_from + '/' + range_to + '/'
+		let bookmarksdata
+		if window:navigator:onLine
+			bookmarksdata = await loadData(url)
+		else
+			bookmarksdata = await @data.getBookmarksFromStorage() || []
+		limits_of_range:loaded += bookmarksdata:length
+		parseBookmarks(bookmarksdata, 'loaded_bookmarks')
 		loading = no
 		limits_of_range:from = range_from
 		limits_of_range:to = range_to
@@ -155,38 +145,7 @@ export tag Profile < main
 			@bookmarks = []
 			let url = "/get-searched-bookmarks/" + category + '/'
 			let data = await loadData(url)
-			let newItem = {
-				verse: [],
-				text: []
-			}
-			for item, key in data
-				newItem:date = Date.new(item:date)
-				newItem:color = item:color
-				newItem:note = item:note
-				newItem:translation = item:verse:translation
-				newItem:book = item:verse:book
-				newItem:chapter = item:verse:chapter
-				newItem:verse = [item:verse:verse]
-				newItem:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, newItem:verse
-				if @bookmarks[@bookmarks:length - 1]
-					if item:date == @bookmarks[@bookmarks:length - 1]:date.getTime
-						@bookmarks[@bookmarks:length - 1]:verse.push(item:verse:verse)
-						@bookmarks[@bookmarks:length - 1]:text.push(item:verse:text)
-						@bookmarks[@bookmarks:length - 1]:title = getTitleRow newItem:translation, newItem:book, newItem:chapter, @bookmarks[@bookmarks:length - 1]:verse
-					else
-						newItem:text.push(item:verse:text)
-						@bookmarks.push(newItem)
-						newItem = {
-							verse: [],
-							text: []
-						}
-				else
-					newItem:text.push(item:verse:text)
-					@bookmarks.push(newItem)
-					newItem = {
-							verse: [],
-							text: []
-						}
+			parseBookmarks(data, 'bookmarks')
 			if !bookmarks:length
 				let meg = document.getElementById('defaultmassage')
 				meg:innerHTML = @data.lang:nothing
@@ -202,18 +161,15 @@ export tag Profile < main
 			getMoreBookmarks
 
 	def showOptions title
-		if show_options_of == title
-			show_options_of = ''
-		else
-			show_options_of = title
+		show_options_of == title ? (show_options_of = '') : (show_options_of = title)
 
 	def deleteBookmark bookmark
 		@data.requestDeleteBookmark(bookmark:pks)
-		for verse in bookmark:verse
-			if @bookmarks.find(do |bm| return bm:pks == bookmark:pks)
-				@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
-			if @loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)
-				@loaded_bookmarks.splice(@loaded_bookmarks.indexOf(@loaded_bookmarks.find(do |bm| return bm:pks == bookmark:pks)), 1)
+		for pk in bookmark:pks
+			if @bookmarks.find(do |bm| return bm:pks == pk)
+				@bookmarks.splice(@bookmarks.indexOf(@bookmarks.find(do |bm| return bm:pks == pk)), 1)
+			if @loaded_bookmarks.find(do |bm| return bm:pks == pk)
+				@loaded_bookmarks.splice(@loaded_bookmarks.indexOf(@loaded_bookmarks.find(do |bm| return bm:pks == pk)), 1)
 		show_options_of = ''
 		Imba.commit
 
@@ -229,7 +185,7 @@ export tag Profile < main
 						<svg:svg.svgBack.backInProfile xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" :tap.prevent.toBible>
 							<svg:title> @data.lang:back
 							<svg:path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z">
-						<h1> user:name.charAt(0).toUpperCase() + user:name.slice(1)
+						<h1> @data.user.charAt(0).toUpperCase() + @data.user.slice(1)
 						<a.change_password.help href="/accounts/password_change/">
 							<span> @data.lang:change_password
 							<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px">

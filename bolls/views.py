@@ -266,17 +266,6 @@ def saveHistory(request):
         return JsonResponse({"response": "200"}, safe=False)
 
 
-def getHistory(request):
-    if request.user.is_authenticated:
-        try:
-            obj = request.user.history_set.get(user=request.user)
-            return JsonResponse({"history": obj.history}, safe=False)
-        except History.DoesNotExist:
-            return JsonResponse({"history": "[]"}, safe=False)
-    else:
-        JsonResponse({"history": "[]"}, safe=False)
-
-
 def deleteBookmarks(request):
     received_json_data = json.loads(request.body)
     user = request.user
@@ -286,8 +275,23 @@ def deleteBookmarks(request):
     return JsonResponse({"response": "200"}, safe=False)
 
 
+def historyOf(user):
+    if user.is_authenticated:
+        try:
+            obj = user.history_set.get(user=user)
+            return obj.history
+        except History.DoesNotExist:
+            return []
+    else:
+        return []
+
+
+def getHistory(request):
+    return JsonResponse({"history": historyOf(request.user)}, safe=False)
+
+
 def userLogged(request):
-    return JsonResponse({"username": request.user.username}, safe=False)
+    return JsonResponse({"username": request.user.username, "history": historyOf(request.user)}, safe=False)
 
 
 def robots(request):
