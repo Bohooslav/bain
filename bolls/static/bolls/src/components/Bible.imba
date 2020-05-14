@@ -19,10 +19,10 @@ let settings = {
 	book: 1,
 	chapter: 1,
 	font: {
-		size: 24,
+		size: window:innerWidth > 512 ? 24 : 20,
 		family: "sans, sans-serif",
 		name: "Sans Serif",
-		line-height: 2,
+		line-height: window:innerWidth > 512 ? 2 : 1.8,
 		weight: 400,
 		max-width: 30,
 	},
@@ -781,7 +781,7 @@ export tag Bible
 				settings_menu_left = -300
 
 	def ontouchstart touch
-		if touch.x < 32 || touch.x > window:innerWidth - 32
+		if touch.x < 16 || touch.x > window:innerWidth - 16
 			inzone = yes
 		elif bible_menu_left > -300 || settings_menu_left > -300
 			onzone = yes
@@ -1603,7 +1603,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-05-10T17:13"> "2019-present"
+						"© ",	<time time:datetime="2020-05-14T17:13"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>

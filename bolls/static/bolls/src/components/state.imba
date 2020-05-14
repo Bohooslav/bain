@@ -378,7 +378,10 @@ export class State
 			return
 		window:navigator:clipboard.writeText(text).then(
 			do console.log('Async: Copying to clipboard was successful!')
-		).catch(do |err| console.error('Async: Could not copy text: ', err))
+		).catch(do |err|
+			console.error('Async: Could not copy text: ', err)
+			fallbackCopyTextToClipboard(text)
+		)
 
 	def copyToClipboard copyobj
 		let text = '«'
