@@ -297,7 +297,7 @@ export class State
 			return []
 		)
 
-	def getParallelVersesFromStorage
+	def getParallelVersesFromStorage compare_translations, choosen_for_comparison, compare_parallel_of_book, compare_parallel_of_chapter
 		return await Promise.all(compare_translations.map(do |translation|
 			const finded_verses = await Promise.all(choosen_for_comparison.map(do |verse|
 				@db.transaction("r", @db:verses, do
@@ -394,6 +394,7 @@ export class State
 	def showNotification ntfctn
 		@notifications.push(@lang[ntfctn])
 		@lastPushedNotificationWasAt = Date.now()
+		Imba.commit
 		setTimeout(&, 3000) do
 			if Date.now() - @lastPushedNotificationWasAt > 2000
 				@notifications = []
@@ -413,8 +414,7 @@ export class State
 				}),
 			})
 			.then(do |response| response.json())
-			.then(do |data|
-			showNotification('deleted'))
+			.then(do |data| showNotification('deleted'))
 		else
 			deleteBookmark(bookmark:verse)
 			setCookie('bookmarks-to-delete', JSON.stringify(pks))

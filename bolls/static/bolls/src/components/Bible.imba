@@ -152,6 +152,12 @@ document:onkeyup = do |e|
 		elif e:code == "ArrowLeft" && e:ctrlKey
 			let bible = document:getElementsByClassName("Bible")
 			bible[0]:_tag.prevChapter
+		elif e:code == "KeyN" && e:altKey
+			let bible = document:getElementsByClassName("Bible")
+			bible[0]:_tag.nextBook
+		elif e:code == "KeyP" && e:altKey
+			let bible = document:getElementsByClassName("Bible")
+			bible[0]:_tag.prevBook
 	if e:code == "Escape"
 		let bible = document:getElementsByClassName("Bible")
 		bible[0]:_tag.clearSpace
@@ -324,6 +330,7 @@ export tag Bible
 				else @data.user = ''
 			catch error
 				console.error('Error: ', error)
+				@data.showNotification('error')
 		if getCookie('parallel_display') == 'true'
 			toggleParallelMode("build")
 		if getCookie('chronorder') == 'true'
@@ -395,7 +402,9 @@ export tag Bible
 			})
 			.then(do |response| response.json())
 			.then(do |data| undefined)
-			.catch(do |e| console.log(e))
+			.catch(do |e|
+				console.log(e)
+				@data.showNotification('error'))
 
 	def loadData url
 		let res = await window.fetch(url)
@@ -455,6 +464,7 @@ export tag Bible
 			catch error
 				loading = no
 				console.error('Error: ', error)
+				@data.showNotification('error')
 			getBookmarks("/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/')
 			if verse
 				foundVerse(verse, "#{verse}")
@@ -505,6 +515,7 @@ export tag Bible
 				Imba.commit
 			catch error
 				console.error('Error: ', error)
+				@data.showNotification('error')
 			if @data.user
 				url = "/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/'
 				@parallel_bookmarks = []
@@ -770,6 +781,16 @@ export tag Bible
 				if books[current_index - 1]
 					getText(settings:translation, books[current_index - 1]:bookid, books[current_index - 1]:chapters)
 
+	def nextBook
+		let current_index = books.indexOf(books.find(do |element| return element:bookid == settings:book))
+		if books[current_index + 1]
+			getText(settings:translation, books[current_index + 1]:bookid, 1)
+
+	def prevBook
+		let current_index = books.indexOf(books.find(do |element| return element:bookid == settings:book))
+		if books[current_index - 1]
+			getText(settings:translation, books[current_index - 1]:bookid, 1)
+
 	def onmousemove e
 		if !settings:lock_drawers && window:innerWidth > 680
 			if e.x < 32
@@ -947,7 +968,9 @@ export tag Bible
 			})
 			.then(do |response| response.json())
 			.then(do |data| @data.showNotification('saved'))
-			.catch(do |e| console.log(e))
+			.catch(do |e|
+				console.log(e)
+				@data.showNotification('error'))
 		elif @data.can_work_with_db
 			@data.saveBookmarksToStorageUntillOnline({
 				verses: choosenid,
@@ -1087,7 +1110,9 @@ export tag Bible
 			})
 			.then(do |response| response.json())
 			.then(do |data| undefined)
-			.catch(do |error| console.log(error))
+			.catch(do |error|
+				console.log(error)
+				@data.showNotification('error'))
 
 	def turnCollections
 		if addcollection
@@ -1218,10 +1243,14 @@ export tag Bible
 		else
 			compare_parallel_of_chapter = settings:chapter
 			compare_parallel_of_book = settings:book
-		clearSpace()
+		if show_compare
+			clearSpace()
+			show_compare = yes
+			what_to_show = 'show_compare'
+		else clearSpace()
 		loading = yes
 		if !window:navigator:onLine && @data.can_work_with_db && @data.downloaded_translations.indexOf(settings:translation) != -1
-			comparison_parallel = await @data.getParallelVersesFromStorage()
+			comparison_parallel = await @data.getParallelVersesFromStorage(compare_translations, choosen_for_comparison, compare_parallel_of_book, compare_parallel_of_chapter)
 			loading = no
 			show_compare = yes
 			what_to_show = 'show_compare'
@@ -1250,6 +1279,9 @@ export tag Bible
 					what_to_show = 'show_compare'
 					Imba.commit()
 				)
+			.catch(do |error|
+				log error
+				@data.showNotification('error'))
 
 	def addTranslation translation
 		if !compare_translations.find(do |element| return element == translation:short_name)
@@ -1293,7 +1325,7 @@ export tag Bible
 			setCookie('font-weight', settings:font:weight)
 
 	def boxShadow grade
-		settings:theme == 'light' ? "box-shadow: 0 0 {(grade + 300) / 4}px #0001;" : ''
+		settings:theme == 'light' ? "box-shadow: 0 0 {(grade + 300) / 5}px #0001;" : ''
 
 	def featherSearch feather, haystack
 		feather = feather.toLowerCase()
@@ -1603,7 +1635,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-05-14T17:13"> "2019-present"
+						"© ",	<time time:datetime="2020-05-20T17:13"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
