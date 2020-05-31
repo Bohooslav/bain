@@ -23,6 +23,11 @@
 				"info": "https://wikipedia.org/wiki/Revised_Standard_Version"
 			},
 			{
+				"short_name": "CJB",
+				"full_name": "The Complete Jewish Bible (1998)",
+				"info": "https://en.wikipedia.org/wiki/Messianic_Bible_translations#Complete_Jewish_Bible_(CJB)"
+			},
+			{
 				"short_name": "NASB",
 				"full_name": "New American Standard Bible (1995)",
 				"info": "https://wikipedia.org/wiki/New_American_Standard_Bible"
@@ -76,6 +81,11 @@
 				"short_name": "SYNOD",
 				"full_name": "Русский Синодальный Перевод",
 				"info": "https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BD%D0%BE%D0%B4%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4"
+			},
+			{
+				"short_name": "JNT",
+				"full_name": "Еврейский Новый Завет в переводе и комментариях Давида Стерна",
+				"info": "https://bohooslav.github.io/bolls_info/JNT/"
 			}
 		]
 	},

@@ -29,6 +29,7 @@ let settings = {
 	clear_copy: no,
 	verse_break: no,
 	lock_drawers: no,
+	verse_picker: no,
 	transitions: yes
 }
 let settingsp = {
@@ -61,6 +62,8 @@ let show_accents = no
 let show_help = no
 let show_support = no
 let show_compare = no
+let show_verse_picker = no
+let show_parallel_verse_picker = no
 let show_downloads = no
 let show_language_of = ''
 let what_to_show = 'search'
@@ -310,6 +313,7 @@ export tag Bible
 		settings:font:weight = parseInt(getCookie('font-weight')) || settings:font:weight
 		settings:font:line-height = parseFloat(getCookie('line-height')) || settings:font:line-height
 		settings:font:max-width = parseInt(getCookie('max-width')) || settings:font:max-width
+		settings:verse_picker = (getCookie('verse_picker') == 'true') || settings:verse_picker
 		settings:clear_copy = (getCookie('clear_copy') == 'true') || settings:clear_copy
 		settings:verse_break = (getCookie('verse_break') == 'true') || settings:verse_break
 		settings:lock_drawers = (getCookie('lock_drawers') == 'true') || settings:lock_drawers
@@ -319,6 +323,8 @@ export tag Bible
 		show_chapters_of = settings:book
 		switchTranslation(settings:translation, no)
 		getText(settings:translation, settings:book, settings:chapter)
+		if getCookie('parallel_display') == 'true'
+			toggleParallelMode("build")
 		if window:navigator:onLine
 			try
 				let data = await loadData("/user-logged/")
@@ -331,8 +337,6 @@ export tag Bible
 			catch error
 				console.error('Error: ', error)
 				@data.showNotification('error')
-		if getCookie('parallel_display') == 'true'
-			toggleParallelMode("build")
 		if getCookie('chronorder') == 'true'
 			toggleChronorder()
 		highlights = JSON.parse(getCookie("highlights")) || []
@@ -460,6 +464,7 @@ export tag Bible
 				else
 					@verses = await loadData(url)
 				loading = no
+				show_verse_picker = yes
 				Imba.commit
 			catch error
 				loading = no
@@ -512,6 +517,8 @@ export tag Bible
 					@parallel_verses = await @data.getChapterFromDB(translation, book, chapter, verse)
 				else
 					@parallel_verses = await loadData(url)
+				if !onpopstate && @verses
+					show_parallel_verse_picker = true
 				Imba.commit
 			catch error
 				console.error('Error: ', error)
@@ -557,7 +564,6 @@ export tag Bible
 		choosen_categories = []
 		if document.getElementsByTagName('main')[0]
 			document.getElementsByTagName('main')[0].focus()
-		Imba.commit
 
 	def turnHelpBox
 		if show_help
@@ -655,6 +661,7 @@ export tag Bible
 					for verse in @search_verses
 						if !@search:bookid_of_results.find(do |element| return element == verse:book)
 							@search:bookid_of_results.push verse:book
+					what_to_show = ''
 					closeSearch()
 					Imba.commit
 
@@ -1216,6 +1223,10 @@ export tag Bible
 		let html = document.querySelector('#html')
 		html:dataset:transitions = settings:transitions
 
+	def toggleVersePicker
+		settings:verse_picker = !settings:verse_picker
+		setCookie('verse_picker', settings:verse_picker)
+
 	def toggleClearCopy
 		settings:clear_copy = !settings:clear_copy
 		setCookie('clear_copy', settings:clear_copy)
@@ -1232,9 +1243,6 @@ export tag Bible
 		translations.find(do |translation| return translation:short_name == tr):full_name
 
 	def toggleCompare
-		if !@data.user
-			window:location = "/signup/"
-			return
 		let book, chapter
 		if choosen:length then choosen_for_comparison = choosen
 		if choosen_parallel == 'second'
@@ -1395,6 +1403,10 @@ export tag Bible
 			when 'pt' then "Portuguese"
 			when 'es' then "Español"
 			else "English"
+
+	def hideVersePicker
+		show_parallel_verse_picker = false
+		show_verse_picker = false
 
 	def render
 		<self>
@@ -1591,6 +1603,9 @@ export tag Bible
 						<button :click.prevent=(do @data.setLanguage('eng'))> "English"
 						<button :click.prevent=(do @data.setLanguage('pt'))> "Portuguese"
 						<button :click.prevent=(do @data.setLanguage('es'))> "Español"
+				<.nighttheme.parent_checkbox.flex :click.prevent.toggleVersePicker() .checkbox_turned=settings:verse_picker>
+					@data.lang:verse_picker
+					<p.checkbox> <span>
 				<.nighttheme.parent_checkbox.flex :click.prevent.toggleTransitions() .checkbox_turned=settings:transitions>
 					@data.lang:transitions
 					<p.checkbox> <span>
@@ -1604,7 +1619,7 @@ export tag Bible
 					<.nighttheme.parent_checkbox.flex :click.prevent.toggleLockDrawers() .checkbox_turned=settings:lock_drawers>
 						@data.lang:lock_drawers
 						<p.checkbox> <span>
-				<a.help :click.prevent.toDownloads(no)>
+				if window:navigator:onLine then <a.help :click.prevent.toDownloads(no)>
 					<svg:svg.helpsvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 						<svg:title> @data.lang:download
 						<svg:path d="M0 0h24v24H0z" fill="none">
@@ -1858,7 +1873,7 @@ export tag Bible
 								<svg:title> @data.lang:close
 								<svg:path fill-rule="evenodd" clip-rule="evenodd" d="M12 5L4 13L0 9L1.5 7.5L4 10L10.5 3.5L12 5Z">
 						<colorpicker .show-canvas=show_color_picker width="320" height="207" canvas:alt=@data.lang:canvastitle id="" tabindex="0">  @data.lang:canvastitle
-					<p> highlighted_title
+					<p> highlighted_title, ' ', choosen_parallel == "first" ? settings:translation : settingsp:translation
 					<ul.mark_grid>
 						for highlight in highlights.slice().reverse()
 							<li.color_mark css:background=highlight :click.prevent.changeHighlightColor(highlight)>
@@ -1903,11 +1918,11 @@ export tag Bible
 
 			<section.history.filters .show_history=show_history>
 				<.nighttheme.flex css:margin="0">
-					<svg:svg.close_search :click.prevent.turnHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
+					<svg:svg.close_search :click.prevent.turnHistory() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
 					<h1 css:margin="0 0 0 8px"> @data.lang:history
-					<svg:svg.close_search :click.prevent.clearHistory xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="padding: 0; margin: 0 12px 0 16px; width: 32px;" alt=@data.lang:delete css:margin-left="auto">
+					<svg:svg.close_search :click.prevent.clearHistory() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="padding: 0; margin: 0 12px 0 16px; width: 32px;" alt=@data.lang:delete css:margin-left="auto">
 						<svg:title> @data.lang:delete
 						<svg:path d="M15 16h4v2h-4v-2zm0-8h7v2h-7V8zm0 4h6v2h-6v-2zM3 20h10V8H3v12zM14 5h-3l-1-1H6L5 5H2v2h12V5z">
 				<article.historylist>
@@ -1935,3 +1950,18 @@ export tag Bible
 
 			if loading
 				<Load style="position: fixed; top: 50%; left: 50%;">
+
+			if settings:verse_picker
+				<section.verse_picker.filters .show=(show_verse_picker || show_parallel_verse_picker)>
+					<.flex>
+						<h1 style="margin: 0;"> @data.lang:choose_verse
+						<svg:svg.close_search :click.prevent.hideVersePicker() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
+							<svg:title> @data.lang:close
+							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
+					<.list_of_chapters.show_list_of_chapters style="margin: 0">
+						if show_verse_picker
+							for i in [0..@verses:length]
+								<a.chapter_number :tap.hideVersePicker() href="#{i + 1}"> i + 1
+						elif show_parallel_verse_picker
+							for j in [0..@parallel_verses:length]
+								<a.chapter_number :tap.hideVersePicker() href="#p{j + 1}"> j + 1

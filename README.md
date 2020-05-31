@@ -59,15 +59,12 @@ npm run watch
 ```
 
 ### Checklist
-
-- search
-- parallel
-- bookmarks
 - sw
-- mapofsite
+- sitemap
+- npm run build
 - collectstatic
 - deploy
 
 ```bash
-cd ~/bain && python3 manage.py collectstatic && gcloud app deploy
+cd ~/bain/bolls/static/bolls/ && npm run build && source ~/env/bin/activate && cd ~/bain && python manage.py collectstatic && cd ~/bain &&gcloud app deploy
 ```

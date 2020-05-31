@@ -10,7 +10,7 @@ from django.http import JsonResponse, HttpResponse
 from bolls.forms import SignUpForm
 from .models import Verses, Bookmarks, History
 from django.template import RequestContext
-
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
 	return render(request, 'bolls/index.html')
@@ -65,7 +65,7 @@ def search(request, translation, piece):
 		results_of_exec_search = Verses.objects.filter(
 			translation=translation, text__icontains=piece).order_by('book', 'chapter', 'verse')
 
-	if len(results_of_exec_search) < 1024:
+	if len(results_of_exec_search) < 256:
 		rank_threshold = 1 - math.exp(-0.001 * (len(piece) + 2) ** (2))
 
 		vector = SearchVector('text')
@@ -154,7 +154,7 @@ def getProfileBookmarks(request, range_from, range_to):
 	for bookmark in bookmarkslist:
 		bookmarks.append({
 			"verse": {
-				"verse_id": bookmark.verse.pk,
+				"pk": bookmark.verse.pk,
 				"translation": bookmark.verse.translation,
 				"book": bookmark.verse.book,
 				"chapter": bookmark.verse.chapter,
@@ -175,7 +175,7 @@ def getSearchedProfileBookmarks(request, query):
 	for bookmark in user.bookmarks_set.all().filter(note__icontains=query).order_by('-date', 'verse'):
 		bookmarks.append({
 			"verse": {
-				"verse_id": bookmark.verse.pk,
+				"pk": bookmark.verse.pk,
 				"translation": bookmark.verse.translation,
 				"book": bookmark.verse.book,
 				"chapter": bookmark.verse.chapter,
@@ -195,7 +195,7 @@ def getCategories(request):
 		dcount=Count('note')).order_by('-date')
 	return JsonResponse({"data": [b for b in all_objects]}, safe=False)
 
-
+@csrf_exempt
 def getParallelVerses(request):
 	received_json_data = json.loads(request.body)
 	chapter = received_json_data["chapter"]
@@ -218,7 +218,7 @@ def getParallelVerses(request):
 			if len(v):
 				for item in v:
 					verses.append({
-						"verse_id": item.pk,
+						"pk": item.pk,
 						"translation": item.translation,
 						"book": item.book,
 						"chapter": item.chapter,
