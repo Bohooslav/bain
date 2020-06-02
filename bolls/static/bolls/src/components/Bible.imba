@@ -1294,7 +1294,29 @@ export tag Bible
 	def addTranslation translation
 		if !compare_translations.find(do |element| return element == translation:short_name)
 			compare_translations.unshift(translation:short_name)
-			toggleCompare
+			window.fetch("/get-paralel-verses/", {
+				method: "POST",
+				cache: "no-cache",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					translations: JSON.stringify([translation:short_name]),
+					verses: JSON.stringify(choosen_for_comparison),
+					book: compare_parallel_of_book,
+					chapter: compare_parallel_of_chapter,
+				}),
+			})
+			.then(do |response| response.json())
+			.then(do |data|
+					comparison_parallel = data.concat(comparison_parallel)
+					loading = no
+					Imba.commit()
+				)
+			.catch(do |error|
+				log error
+				loading = no
+				@data.showNotification('error'))
 		else
 			compare_translations.splice(compare_translations.indexOf(compare_translations.find(do |element| return element == translation:short_name)), 1)
 			document.getElementById("compare_{translation:short_name}"):style:animation = "the-element-left-us 300ms ease forwards"
@@ -1696,12 +1718,12 @@ export tag Bible
 							<svg:line x1="0" y1="10" x2="20" y2="10">
 							<svg:line x1="10" y1="0" x2="10" y2="20">
 					<article.search_body tabindex="0">
-						<p.search_results_total> @data.lang:add_translations_msg
 						<.filters .show=show_translations_for_comparison>
 							if compare_translations:length == translations:length
 								<p style="padding:12px 8px"> @data.lang:nothing_else
 							for translation in translations when !compare_translations.find(do |element| return element == translation:short_name)
 									<a.book_in_list.book_in_filter dir="auto" :click.prevent.addTranslation(translation)> translation:short_name, ', ', translation:full_name
+						<p.search_results_total> @data.lang:add_translations_msg
 						<ul> if compare_translations:length
 							for tr, key in comparison_parallel
 								<compare-draggable-item[{tr: tr, key: key, lang: @data.lang, svg_paths: svg_paths}]>

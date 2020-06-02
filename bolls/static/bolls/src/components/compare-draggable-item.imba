@@ -4,6 +4,7 @@ tag compare-draggable-item
 	prop topchange default: 0
 	prop topinchange default: 0
 	prop nodesinchange default: []
+	prop scroll_on_genesis default: 0
 
 	def ontouchstart touch
 		genesis = Date.now
@@ -12,11 +13,17 @@ tag compare-draggable-item
 	def ontouchupdate touch
 		if (Date.now - genesis > 150 && touch.dr < 12 && touch:_event:target:className === "search_res_verse_header") || touch:_event:target:nodeName === "svg"
 			drag = yes
+			scroll_on_genesis = dom:parentNode:parentNode:scrollTop
 		if drag
+			if touch.y > dom:parentNode:parentNode:clientHeight + dom:parentNode:previousElementSibling:clientHeight
+				dom:parentNode:parentNode.scroll(0, dom:parentNode:parentNode:scrollTop + 64)
+			elif touch.y < dom:parentNode:offsetTop + dom:parentNode:previousElementSibling:clientHeight
+				dom:parentNode:parentNode.scroll(0, dom:parentNode:parentNode:scrollTop - 64)
+
 			flag 'dragging'
 			dom:parentNode:className = 'DRAGGING'
 			if dom:nextSibling
-				if touch.dy > (topchange + topinchange + dom:nextSibling:clientHeight)
+				if touch.dy > (topchange - (dom:parentNode:parentNode:scrollTop - scroll_on_genesis) + topinchange + dom:nextSibling:clientHeight)
 					let node_to_change = null
 					let startnode = dom:nextSibling
 					while !node_to_change && startnode
@@ -29,7 +36,8 @@ tag compare-draggable-item
 						topinchange -= node_to_change:clientHeight
 						node_to_change:style:transform = "translateY({dom:clientHeight + 20}px)"
 						node_to_change:style:transition-duration = 0
-						topchange += node_to_change:clientHeight + 20
+						topchange += node_to_change:clientHeight + 20 - (dom:parentNode:parentNode:scrollTop - scroll_on_genesis)
+						scroll_on_genesis = dom:parentNode:parentNode:scrollTop
 						dom:parentNode.insertBefore(node_to_change, dom)
 						css transform: "translateY({touch.dy - topchange}px)"
 						setTimeout(&, 15) do
@@ -39,7 +47,7 @@ tag compare-draggable-item
 							node_to_change:style:transition-duration = "300ms"
 							Imba.commit
 			if dom:previousSibling
-				if touch.dy < (topchange + topinchange - dom:previousSibling:clientHeight)
+				if touch.dy < (topchange - (dom:parentNode:parentNode:scrollTop - scroll_on_genesis) + topinchange - dom:previousSibling:clientHeight)
 					let node_to_change = null
 					let startnode = dom:previousSibling
 					while !node_to_change && startnode
@@ -51,7 +59,8 @@ tag compare-draggable-item
 					if node_to_change
 						topinchange += node_to_change:clientHeight
 						node_to_change:style:transform = "translateY(-{dom:clientHeight + 20}px)"
-						topchange -= node_to_change:clientHeight - 20
+						topchange -= node_to_change:clientHeight - 20 - (dom:parentNode:parentNode:scrollTop - scroll_on_genesis)
+						scroll_on_genesis = dom:parentNode:parentNode:scrollTop
 						dom:parentNode.insertBefore(node_to_change, dom:nextSibling)
 						css transform: "translateY(-{touch.dy - topchange}px)"
 						setTimeout(&, 15) do
@@ -60,7 +69,7 @@ tag compare-draggable-item
 							node_to_change:style:transform = ""
 							node_to_change:style:transition-duration = "300ms"
 							Imba.commit
-			css transform: "translateY({touch.dy - topchange}px)"
+			css transform: "translateY({touch.dy - topchange + (dom:parentNode:parentNode:scrollTop - scroll_on_genesis)}px)"
 
 	def ontouchend touch
 		clearVars

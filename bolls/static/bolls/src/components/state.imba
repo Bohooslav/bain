@@ -41,7 +41,7 @@ export class State
 					@language = 'ukr'
 					document:lastChild:lang = "uk"
 					if !window:translation
-						setCookie('translation', 'HOM')
+						setCookie('translation', 'UBIO')
 				when 'ru'
 					@language = 'ru'
 					document:lastChild:lang = "ru-RU"
