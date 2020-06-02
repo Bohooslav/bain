@@ -3,6 +3,8 @@
 <html lang="en">
 
 <head>
+	<script async rel="preconnect" src="https://www.googletagmanager.com/gtag/js?id=UA-162017974-1"></script>
+	<script>window.dataLayer = window.dataLayer || [];function gtag() {dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-162017974-1');</script>
 	<meta charset="UTF-8">
 	<title>Bolls Bible API</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'bolls/dist/api.css' %}">
@@ -103,6 +105,7 @@
 			<li> The <code>book</code> field should be a book of the verses.
 		</ul>
 		<p>The result of this request will be an array of translations where every translation is an array of requested verses, where every verse has <a href="#verse_fields">this fields</a></p>
+		<p>You can also use this API to fetch single verse or a few verses of a single translation. Just pass the translation code as an iten of arrey, chanter number, book code and array with verse / verses and you will get it.</p>
 
 		<footer>
 			<address>

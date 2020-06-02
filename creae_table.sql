@@ -13,6 +13,12 @@ SELECT * FROM bolls_verses where translation='LXX' ORDER BY BOOK, CHAPTER, VERSE
 
 UPDATE bolls_verses SET text = ('Dios, en el principio, creó los cielos y la tierra. ') where translation='NVI' and book=1  and chapter=1 and verse=1
 
+-----------
+UPDATE bolls_verses SET book = 66 where translation='HOM' and book=67;
+delete from bolls_verses where translation='HOM' and book = 72;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/repairedbooks.csv' DELIMITER '|' CSV HEADER;
+----------
+
 
 \copy auth_user(id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM '/home/b/data-1583933238173.csv' DELIMITER ',' CSV HEADER;
 
@@ -23,7 +29,7 @@ psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432  
 
 \copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/cjb.csv' DELIMITER '|' CSV HEADER;
 
-\copy (Select * From bolls_verses) To '/home/b/test.csv' With CSV DELIMITER '|';
+\copy (Select * From bolls_verses where translation='HOM') To '/home/b/test.csv' With CSV DELIMITER '|';
 
 
 -- Fix broken sequences

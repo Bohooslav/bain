@@ -1269,7 +1269,6 @@ export tag Bible
 				method: "POST",
 				cache: "no-cache",
 				headers: {
-					'X-CSRFToken': get_cookie('csrftoken'),
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
@@ -1289,6 +1288,7 @@ export tag Bible
 				)
 			.catch(do |error|
 				log error
+				loading = no
 				@data.showNotification('error'))
 
 	def addTranslation translation
@@ -1650,7 +1650,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-05-20T17:13"> "2019-present"
+						"© ",	<time time:datetime="2020-06-02T11:40"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>
@@ -1954,7 +1954,7 @@ export tag Bible
 			if settings:verse_picker
 				<section.verse_picker.filters .show=(show_verse_picker || show_parallel_verse_picker)>
 					<.flex>
-						<h1 style="margin: 0;"> @data.lang:choose_verse
+						<h1 style="margin: 0 auto;font-size: 1.3em;line-height: 1;"> @data.lang:choose_verse
 						<svg:svg.close_search :click.prevent.hideVersePicker() xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" tabindex="0" css:margin="0 8px">
 							<svg:title> @data.lang:close
 							<svg:path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z">
