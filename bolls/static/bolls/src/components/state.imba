@@ -1,9 +1,4 @@
 import "./languages.json" as languages
-# import './languages/english.json' as en_lang
-# import './languages/ukrainian.json' as uk_lang
-# import './languages/russian.json' as ru_lang
-# import './languages/portuguese.json' as pt_lang
-# import './languages/espanol.json' as es_lang
 import en_lang, uk_lang, ru_lang, pt_lang, es_lang from './langdata'
 
 let Dexie = require 'dexie'
@@ -25,6 +20,7 @@ export class State
 	prop notifications default: []
 	prop lastPushedNotificationWasAt
 	prop user
+	prop translations_current_state default: {}
 
 	def initialize
 		@can_work_with_db = yes
@@ -77,6 +73,11 @@ export class State
 					document:lastChild:lang = "en"
 					if !window:translation
 						setCookie('translation', 'CUV')
+				when 'pl'
+					@language = 'eng'
+					document:lastChild:lang = "en"
+					if !window:translation
+						setCookie('translation', 'BW')
 				else
 					@language = 'eng'
 					document:lastChild:lang = "en"
@@ -88,6 +89,8 @@ export class State
 		})
 		checkDownloadedTranslations()
 		checkSavedBookmarks()
+		setTimeout(&, 2048) do
+			checkTranslationsUpdates()
 
 	def get_cookie name
 		let cookieValue = null
@@ -125,6 +128,23 @@ export class State
 		)
 		@downloaded_translations = checked_translations.filter(do |item| return item != null)
 		setCookie('downloaded_translations', JSON.stringify(@downloaded_translations))
+
+	def checkTranslationsUpdates
+		let stored_translations_updates = JSON.parse(window:localStorage.getItem('stored_translations_updates'))
+
+		for translation in translations
+			if @downloaded_translations.indexOf(translation:short_name) > -1
+				translations_current_state[translation:short_name] = translation:updated
+		if stored_translations_updates
+			for translation in @downloaded_translations
+				if translations_current_state[translation] > stored_translations_updates[translation]
+					console.log("Need to be updated")
+					let werfvsd = await deleteTranslation(translation)
+					if werfvsd
+						downloadTranslation(translation)
+		else
+			stored_translations_updates = translations_current_state
+			window:localStorage.setItem('stored_translations_updates', JSON.stringify(translations_current_state))
 
 	def checkSavedBookmarks
 		@db.transaction('rw', @db:bookmarks, do
@@ -189,7 +209,7 @@ export class State
 		)
 
 	def downloadTranslation translation
-		if (!@downloaded_translations.find(do |element| return element == translation) && window:navigator:onLine)
+		if (@downloaded_translations.indexOf(translation) < 0 && window:navigator:onLine)
 			@downloading_of_this_translations.push(translation)
 			Imba.commit
 			let begtime = Date.now()
@@ -205,7 +225,10 @@ export class State
 				@db.transaction("rw", @db:verses, do
 					await @db:verses.bulkPut(array_of_verses)
 					@downloaded_translations.push(translation)
-					@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
+					setCookie('downloaded_translations', JSON.stringify(@downloaded_translations))
+					@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(translation), 1)
+					@translations_current_state[translation] = Date.now()
+					setCookie('stored_translations_updates', JSON.stringify(translations_current_state))
 					console.log("Translation is saved. Time: ", (Date.now() - begtime) / 1000, "s")
 					Imba.commit
 				).catch (do |e|
@@ -214,7 +237,7 @@ export class State
 				)
 
 	def handleDownloadingError translation
-		@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
+		@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(translation), 1)
 		showNotification('error')
 
 	def deleteTranslation translation
@@ -224,9 +247,12 @@ export class State
 		@db.transaction("rw", @db:verses, do
 			@db:verses.where({translation: translation}).delete().then(do |deleteCount|
 				console.log( "Deleted ", deleteCount, " objects. Time: ", (Date.now() - begtime) / 1000)
-				@downloaded_translations.splice(@downloaded_translations.indexOf(@downloaded_translations.find(do |element| return element === translation)), 1)
-				@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(@downloading_of_this_translations.find(do |element| return element == translation)), 1)
+				@downloaded_translations.splice(@downloaded_translations.indexOf(translation), 1)
+				@downloading_of_this_translations.splice(@downloading_of_this_translations.indexOf(translation), 1)
+				delete translations_current_state[translation]
+				setCookie('stored_translations_updates', JSON.stringify(translations_current_state))
 				Imba.commit
+				return 1
 			)
 		).catch(do |e|
 			console.log(e)
@@ -384,8 +410,7 @@ export class State
 		)
 
 	def copyToClipboard copyobj
-		let text = '«'
-		text += copyobj:text.join(' ').trim() + '»\n\n' + copyobj:title
+		let text = '«' + copyobj:text.join(' ').trim().replace(/<[^>]*>/gi, '') + '»\n\n' + copyobj:title
 		if getCookie('clear_copy') != 'true'
 			text += ' ' + copyobj:translation + ' ' + "https://bolls.life" + '/'+ copyobj:translation + '/' + copyobj:book + '/' + copyobj:chapter + '/' + copyobj:verse.sort(do |a, b| return a - b)[0]
 		copyTextToClipboard(text)

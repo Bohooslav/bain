@@ -470,7 +470,7 @@ export tag Bible
 				loading = no
 				console.error('Error: ', error)
 				@data.showNotification('error')
-			getBookmarks("/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/')
+			if @data.user then getBookmarks("/get-bookmarks/" + translation + '/' + book + '/' + chapter + '/')
 			if verse
 				foundVerse(verse, "#{verse}")
 		else clearSpace
@@ -1672,7 +1672,7 @@ export tag Bible
 						<a target="_blank" href="/api"> "API "
 						<a target="_blank" href="/static/privacy_policy.html"> "Privacy Policy"
 					<p>
-						"© ",	<time time:datetime="2020-06-02T11:40"> "2019-present"
+						"© ",	<time time:datetime="2020-06-04T20:42"> "2019-present"
 						" Павлишинець Богуслав"
 
 			<section.search_results .show_search_results=(search:search_div || show_help || show_compare || show_downloads || show_support)>

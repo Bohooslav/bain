@@ -8,11 +8,11 @@ INSERT into bolls_verses(translation, book, chapter, verse, text) values ('RV196
 SELECT * FROM bolls_verses ORDER BY BOOK, CHAPTER, VERSE
 
 SELECT translation, count(id) FROM bolls_verses GROUP BY translation
+SELECT book, count(chapter) FROM bolls_verses GROUP BY chapter;
 -- SELECT book_number, count(chapter) FROM verses where verse = 1 GROUP BY book_number;
 SELECT * FROM bolls_verses where translation='LXX' ORDER BY BOOK, CHAPTER, VERSE
 
 UPDATE bolls_verses SET text = ('Dios, en el principio, creó los cielos y la tierra. ') where translation='NVI' and book=1  and chapter=1 and verse=1
-
 -----------
 UPDATE bolls_verses SET book = 66 where translation='HOM' and book=67;
 delete from bolls_verses where translation='HOM' and book = 72;
@@ -25,11 +25,17 @@ delete from bolls_verses where translation='HOM' and book = 72;
 psql    --host=bollsdb.cekf5swxirfn.us-east-2.rds.amazonaws.com    --port=5432    --username=postgres    --password    --dbname=bain
 #8q^EMgAxWbmLGEp
 
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/BG_verses.csv' DELIMITER '|' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/BW_verses.csv' DELIMITER '|' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/lost_books(20,22).csv' DELIMITER '|' CSV HEADER;
+
 \copy bolls_bookmarks(id,color,note,user_id,verse_id,date) FROM '/home/b/Downloads/bolls_bookmarks.csv' DELIMITER ',' CSV HEADER;
 
-\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/Bibles/cjb.csv' DELIMITER '|' CSV HEADER;
+\copy bolls_verses(translation, book, chapter, verse, text) FROM '/home/b/test.csv' DELIMITER '|' CSV HEADER;
 
-\copy (Select * From bolls_verses where translation='HOM') To '/home/b/test.csv' With CSV DELIMITER '|';
+
+\copy (Select * From bolls_verses where translation='DNB') To '/home/b/Bibles/dnb.csv' With CSV DELIMITER '|';
+\copy (select calculate_translation_hashes()) To '/home/b/hashes.csv' With CSV DELIMITER '|';
 
 
 -- Fix broken sequences
