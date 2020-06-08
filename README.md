@@ -14,8 +14,6 @@ git clone https://github.com/Bohooslav/bain.git
 cd bain/
 ```
 
- at this point you can open VS Code with `code .` or open this folder in with any other text editor
-
 - set up local enviroment
 
 ```bash
@@ -29,23 +27,23 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-- run server
+- run server (I am using 0 host for better debugging. You are free to use whatever you want)
 
 ```bash
 python manage.py runserver 0.0.0.0:8000
 ```
 
 - and go to <http://127.0.0.1:8000/>
-- check if everything is correct and you do not see any error. You will not see any book, cuz to do that you should have installed PostreSQL and download the translations from the datababase => <https://us-east-2.console.aws.amazon.com/rds/home?region=us-east-2#database:id=bollsdb;is-cluster=false>. Firstly, using pgAdmin or cmd, create a database `bain`, than run migrations:
+- check if everything is correct and you do not see any error. You will not see any book, because to do that you should have installed PostreSQL and fill it with translations. Ask me to get it  <https:t.me/Boguslavv>. Using pgAdmin or cmd, create a database `bain`, than run migrations:
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
- and insert the downloaded translation there. If you do not wanna set up local database you can use remote database, but be careful, do not make any tests or mutations on the production database. It is strongly recommended to use local copy, and do all your testing on it.
+ and then insert the translation there.
 
-- the next step is to go to `./bolls/static/bolls/` to install imba dependencies
+- the next step is to go to `./bolls/static/bolls/` to install Imba dependencies
 
 ```bash
 cd bolls/static/bolls/
@@ -58,12 +56,15 @@ npm install
 npm run watch
 ```
 
-### Checklist
+After that you should be able to debug it.
+
+### Checklist before any deploy
 - sw
-- sitemap
 - npm run build
 - collectstatic
 - deploy
+
+I use the next command to make a deployment. For it, you need to have installed gcloud app and be logged in my account (haha). Do not use it. It will not be successful. It is for myself.
 
 ```bash
 cd ~/bain/bolls/static/bolls/ && npm run build && source ~/env/bin/activate && cd ~/bain && python manage.py collectstatic && cd ~/bain &&gcloud app deploy

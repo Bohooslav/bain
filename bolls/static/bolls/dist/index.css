@@ -418,7 +418,7 @@ html[data-transitions="true"] .animated-man:hover .helpsvg {
   height: 100vh;
 }
 
-nav input[type="search"] {
+nav input[type="text"] {
   margin: 16px;
   width: 268px;
 }

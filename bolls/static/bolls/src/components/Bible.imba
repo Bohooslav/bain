@@ -638,11 +638,11 @@ export tag Bible
 			let url
 			if settingsp:edited_version == settingsp:translation && settingsp:display
 				@search:translation = settingsp:edited_version
-				url = '/search/' + settingsp:edited_version + '/' + query
+				url = '/search/' + settingsp:edited_version + '/' + query + '/'
 				search:search_result_translation = settingsp:edited_version
 			else
 				@search:translation = settings:translation
-				url = '/search/' + settings:translation + '/' + query
+				url = '/search/' + settings:translation + '/' + query + '/'
 				search:search_result_translation = settings:translation
 			@search_verses = Object.create(null)
 			try
@@ -1486,7 +1486,7 @@ export tag Bible
 						if !filteredBooks('books'):length
 							<p.book_in_list style="white-space: pre;"> "(ಠ╭╮ಠ)    ¯\\_(ツ)_/¯   ノ( ゜-゜ノ)"
 					<.freespace>
-				<input[store:book_search].search type="search" placeholder=@data.lang:search input:aria-label=@data.lang:search>  @data.lang:search
+				<input[store:book_search].search type="text" placeholder=@data.lang:search input:aria-label=@data.lang:search>  @data.lang:search
 
 			<main.main tabindex="0" .parallel_text=settingsp:display style="font-family: {settings:font:family}; font-size: {settings:font:size}px; line-height: {settings:font:line-height}; font-weight: {settings:font:weight};">
 				<section .parallel=settingsp:display dir="auto" style="margin: auto; max-width: {settings:font:max-width}em;">
@@ -1549,7 +1549,7 @@ export tag Bible
 					<.accents .show_accents=show_accents>
 						for accent in accents when accent:name != settings:accent
 							<.accent :click.prevent.changeAccent(accent:name) style="background-color: {settings:theme == 'dark' ? accent:light : accent:dark};">
-				<input[search:search_input].search id='search' type='search' placeholder=@data.lang:search input:aria-label=@data.lang:search :keydown.enter.prevent.getSearchText> @data.lang:search
+				<input[search:search_input].search id='search' type='text' placeholder=@data.lang:search input:aria-label=@data.lang:search :keydown.enter.prevent.getSearchText> @data.lang:search
 				<.btnbox>
 					<svg:svg.cbtn :click.prevent.changeTheme("dark") style="padding: 8px;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
 						<svg:title> @data.lang:nighttheme
