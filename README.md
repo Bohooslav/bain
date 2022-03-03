@@ -1,7 +1,6 @@
 # bain
 
-# This repository moved to Bolls-Bible organisation
-### Here it is -> https://github.com/Bolls-Bible/bain/
+# This repository moved to Bolls-Bible organisation. Here it is -> https://github.com/Bolls-Bible/bain/
 
 ## Setting up the repo
 
